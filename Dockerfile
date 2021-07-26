@@ -13,6 +13,8 @@ COPY . /usr/src/nuxt-app/
 COPY .env.prod /usr/src/nuxt-app/.env
 RUN yarn install
 
+ENV GENERATE_SOURCEMAP=false
+
 # build necessary, even if no static files are needed,
 # since it builds the server as well
 RUN yarn run build 
