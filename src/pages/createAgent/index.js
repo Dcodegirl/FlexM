@@ -18,7 +18,7 @@ import styles from './index.module.scss';
 const CreateAgent = ({ history }) => {
     const { addToast } = useToasts();
     const [agentData, dispatch] = useReducer(agentDataReducer, initialState);
-    const [status, setStatus] = useState('account');
+    const [status, setStatus] = useState('personal');
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
