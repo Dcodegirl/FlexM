@@ -78,6 +78,9 @@ const AccountDetails = ({
         JSON.parse(window.localStorage.getItem('Registration-select'))
             .identity_types;
 
+    const banksOption = () =>
+        JSON.parse(window.localStorage.getItem('Registration-select')).banks;
+
     return (
         <div className={styles.container}>
             <form className={styles.form} onSubmit={handleProceed}>
@@ -166,10 +169,10 @@ const AccountDetails = ({
                         value={agentData.bank_id}
                     >
                         <option value=''>Select Bank</option>
-                        {banks?.map((bank, index) => {
+                        {banksOption().map((bank, index) => {
                             return (
                                 <option
-                                    value={bank.code}
+                                    value={bank.id}
                                     key={`${index}--${bank.name}`}
                                 >
                                     {bank.name}
