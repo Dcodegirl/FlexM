@@ -1,90 +1,113 @@
-import React, { useState, useReducer } from "react";
-import Axios from "axios";
-import { useToasts } from "react-toast-notifications";
-import { withRouter } from "react-router-dom";
+import React, { useState, useReducer, useEffect } from 'react';
+import Axios from 'axios';
+import { useToasts } from 'react-toast-notifications';
+import { withRouter } from 'react-router-dom';
 
-import agentDataReducer, { initialState } from "./agent-reducer";
-import { REGISTER_AGENT } from "../../utils/constants";
+import agentDataReducer, { initialState } from './agent-reducer';
+import { REGISTER_AGENT, REGISTRATION_SELECT } from '../../utils/constants';
 
-import PersonalDetails from "./PersonalDetails";
-import BusinessDetails from "./BusinessDetails";
+import PersonalDetails from './PersonalDetails';
+import BusinessDetails from './BusinessDetails';
 // import FileUploads from "./FileUploads";
-import AccountDetails from "./AccountDetails";
+import AccountDetails from './AccountDetails';
 
-import NavHome from "../../components/layout/HomeNavBar";
+import NavHome from '../../components/layout/HomeNavBar';
 
-import styles from "./index.module.scss";
+import styles from './index.module.scss';
 
 const CreateAgent = ({ history }) => {
-  const { addToast } = useToasts();
-  const [agentData, dispatch] = useReducer(agentDataReducer, initialState);
-  const [status, setStatus] = useState("personal");
-  const [loading, setLoading] = useState(false);
+    const { addToast } = useToasts();
+    const [agentData, dispatch] = useReducer(agentDataReducer, initialState);
+    const [status, setStatus] = useState('personal');
+    const [loading, setLoading] = useState(false);
 
-  const createAgent = (agentData) => {
-    setLoading(true);
+    useEffect(() => {
+        let isCancelled = false;
 
-    (async function create() {
-      const payload = agentData;
+        Axios.get(REGISTRATION_SELECT)
+            .then((res) => {
+                const states = res.data.data;
 
-      try {
-        const res = await Axios.post(REGISTER_AGENT, payload);
+                if (!isCancelled)
+                    localStorage.setItem(
+                        'Registration-select',
+                        JSON.stringify(states)
+                    );
+            })
+            .catch((e) => console.log(e));
 
-        if (res) {
-          setLoading(false);
+        return () => {
+            isCancelled = true;
+        };
+    }, []);
 
-          addToast("Registration successful, please login to continue", {
-            appearance: "success",
-            autoDismiss: true,
-          });
+    const createAgent = (agentData) => {
+        setLoading(true);
 
-          history.push("/login");
-        }
-      } catch (e) {
-        setLoading(false);
+        (async function create() {
+            const payload = agentData;
 
-        addToast("Registration failed", {
-          appearance: "error",
-          autoDismiss: true,
-        });
-      }
-    })();
-  };
+            try {
+                const res = await Axios.post(REGISTER_AGENT, payload);
 
-  return (
-    <div className={styles.register}>
-      <NavHome theme="dark" />
-      <div className={styles.createAgent}>
-        <div className={styles.create}>
-          <div className={styles.steps}>
-            <span
-              className={
-                status === "personal"
-                  ? `${styles.tab} ${styles.tabActive}`
-                  : `${styles.tab}`
-              }
-            >
-              Personal
-            </span>
-            <span
-              className={
-                status === "business"
-                  ? `${styles.tab} ${styles.tabActive}`
-                  : `${styles.tab}`
-              }
-            >
-              Business
-            </span>
-            <span
-              className={
-                status === "account"
-                  ? `${styles.tab} ${styles.tabActive}`
-                  : `${styles.tab}`
-              }
-            >
-              Account
-            </span>
-            {/* <span
+                if (res) {
+                    setLoading(false);
+
+                    addToast(
+                        'Registration successful, please login to continue',
+                        {
+                            appearance: 'success',
+                            autoDismiss: true,
+                        }
+                    );
+
+                    history.push('/login');
+                }
+            } catch (e) {
+                setLoading(false);
+
+                addToast('Registration failed', {
+                    appearance: 'error',
+                    autoDismiss: true,
+                });
+            }
+        })();
+    };
+
+    return (
+        <div className={styles.register}>
+            <NavHome theme='dark' />
+            <div className={styles.createAgent}>
+                <div className={styles.create}>
+                    <div className={styles.steps}>
+                        <span
+                            className={
+                                status === 'personal'
+                                    ? `${styles.tab} ${styles.tabActive}`
+                                    : `${styles.tab}`
+                            }
+                        >
+                            Personal
+                        </span>
+                        <span
+                            className={
+                                status === 'business'
+                                    ? `${styles.tab} ${styles.tabActive}`
+                                    : `${styles.tab}`
+                            }
+                        >
+                            Business
+                        </span>
+                        <span
+                            className={
+                                status === 'account'
+                                    ? `${styles.tab} ${styles.tabActive}`
+                                    : `${styles.tab}`
+                            }
+                        >
+                            Account
+                        </span>
+                        {/* <span
               className={
                 status === "file"
                   ? `${styles.tab} ${styles.tabActive}`
@@ -93,41 +116,41 @@ const CreateAgent = ({ history }) => {
             >
               Files
             </span> */}
-          </div>
-          <div className={styles.content}>
-            {
-              {
-                personal: (
-                  <PersonalDetails
-                    agentData={agentData}
-                    dispatch={dispatch}
-                    setStatus={setStatus}
-                  />
-                ),
-                business: (
-                  <BusinessDetails
-                    agentData={agentData}
-                    dispatch={dispatch}
-                    setStatus={setStatus}
-                  />
-                ),
-                account: (
-                  <AccountDetails
-                    agentData={agentData}
-                    dispatch={dispatch}
-                    setStatus={setStatus}
-                    createAgent={createAgent}
-                    loading={loading}
-                  />
-                ),
-                // file: <FileUploads />,
-              }[status]
-            }
-          </div>
+                    </div>
+                    <div className={styles.content}>
+                        {
+                            {
+                                personal: (
+                                    <PersonalDetails
+                                        agentData={agentData}
+                                        dispatch={dispatch}
+                                        setStatus={setStatus}
+                                    />
+                                ),
+                                business: (
+                                    <BusinessDetails
+                                        agentData={agentData}
+                                        dispatch={dispatch}
+                                        setStatus={setStatus}
+                                    />
+                                ),
+                                account: (
+                                    <AccountDetails
+                                        agentData={agentData}
+                                        dispatch={dispatch}
+                                        setStatus={setStatus}
+                                        createAgent={createAgent}
+                                        loading={loading}
+                                    />
+                                ),
+                                // file: <FileUploads />,
+                            }[status]
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 const CreateAgentWithRouter = withRouter(CreateAgent);
