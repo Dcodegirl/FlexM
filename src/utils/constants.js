@@ -307,3 +307,8 @@ export const LOAN_APPLICATION =
 
 //requery transactions
 export const REQUERY_TRANSACTION_STATUS = `${path}/transactions/verify`;
+
+
+//////////REGISTRATION SELECT////////////
+export const REGISTRATION_SELECT = `${path}/selects`;
+
