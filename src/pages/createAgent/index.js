@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useEffect } from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 import { useToasts } from 'react-toast-notifications';
 import { withRouter } from 'react-router-dom';
 
@@ -20,21 +20,28 @@ const CreateAgent = ({ history }) => {
     const [agentData, dispatch] = useReducer(agentDataReducer, initialState);
     const [status, setStatus] = useState('personal');
     const [loading, setLoading] = useState(false);
+    const [state, setState] = useState({});
 
     useEffect(() => {
         let isCancelled = false;
 
-        Axios.get(REGISTRATION_SELECT)
-            .then((res) => {
-                const states = res.data.data;
+        (async function fecthRegistrationSelects() {
+            try {
+                const res = await axios.get(REGISTRATION_SELECT);
+                const state = res.data.data;
 
                 if (!isCancelled)
                     localStorage.setItem(
                         'Registration-select',
-                        JSON.stringify(states)
+                        JSON.stringify(state)
                     );
-            })
-            .catch((e) => console.log(e));
+                setState(state);
+            } catch (e) {
+                console.log(e);
+            } finally {
+                setLoading(false);
+            }
+        })();
 
         return () => {
             isCancelled = true;
@@ -48,7 +55,7 @@ const CreateAgent = ({ history }) => {
             const payload = agentData;
 
             try {
-                const res = await Axios.post(REGISTER_AGENT, payload);
+                const res = await axios.post(REGISTER_AGENT, payload);
 
                 if (res) {
                     setLoading(false);
@@ -125,6 +132,7 @@ const CreateAgent = ({ history }) => {
                                         agentData={agentData}
                                         dispatch={dispatch}
                                         setStatus={setStatus}
+                                        state={state}
                                     />
                                 ),
                                 business: (
@@ -132,6 +140,7 @@ const CreateAgent = ({ history }) => {
                                         agentData={agentData}
                                         dispatch={dispatch}
                                         setStatus={setStatus}
+                                        state={state}
                                     />
                                 ),
                                 account: (
@@ -141,6 +150,7 @@ const CreateAgent = ({ history }) => {
                                         setStatus={setStatus}
                                         createAgent={createAgent}
                                         loading={loading}
+                                        state={state}
                                     />
                                 ),
                                 // file: <FileUploads />,
