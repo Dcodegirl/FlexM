@@ -4,7 +4,7 @@ import validateFormData from '../../validation/validateFormData';
 
 import styles from './PersonalDetails.module.scss';
 
-const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
+const PersonalDetails = ({ setStatus, agentData, dispatch, state = {} }) => {
     const [validationErrors, setValidationErrors] = useState({ errors: true });
 
     const handleOnChange = ({ target }) => {
@@ -50,9 +50,6 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
 
         setStatus('business');
     };
-
-    const genderOption = () =>
-        JSON.parse(window.localStorage.getItem('Registration-select')).gender;
 
     return (
         <div className={styles.container}>
@@ -137,9 +134,14 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
                         value={agentData.gender}
                     >
                         <option value=''>Select Gender</option>
-                        {genderOption().map(({ value, key }) => (
-                            <option value={key}>{value}</option>
-                        ))}
+                        {state.gender &&
+                            state.gender.map(({ key, value }) => {
+                                return (
+                                    <option value={key} key={key}>
+                                        {value}
+                                    </option>
+                                );
+                            })}
                     </select>
                     {validationErrors.gender && (
                         <p className={styles.errorText}>

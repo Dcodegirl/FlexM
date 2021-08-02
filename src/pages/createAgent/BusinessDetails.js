@@ -4,16 +4,15 @@ import validateFormData from '../../validation/validateFormData';
 
 import styles from './BusinessDetails.module.scss';
 
-const BusinessDetails = ({ setStatus, agentData, dispatch }) => {
+const BusinessDetails = ({ setStatus, agentData, dispatch, state = {} }) => {
     const [validationErrors, setValidationErrors] = useState({ errors: true });
 
     useEffect(() => {
-        let states = stateOption();
+        let states = state?.states;
         if (states && states.length > 0 && agentData.state_id) {
             const selectedState = states.find((state) => {
                 return state.id == agentData.state_id;
             });
-
             const generatedCode = Math.floor(
                 10000000 + Math.random() * 90000000
             );
@@ -21,7 +20,7 @@ const BusinessDetails = ({ setStatus, agentData, dispatch }) => {
             dispatch({
                 type: 'SET_AGENT_DATA',
                 payload: {
-                    agent_code: `CI/AGT/${selectedState.statecode}/${generatedCode}`,
+                    agent_code: `CI/AGT/${selectedState.id}/${generatedCode}`,
                 },
             });
         }
@@ -66,27 +65,15 @@ const BusinessDetails = ({ setStatus, agentData, dispatch }) => {
         setStatus('account');
     };
 
-    const stateOption = () =>
-        JSON.parse(window.localStorage.getItem('Registration-select')).states;
-
     const LGAOptions = () => {
-        let lgas = JSON.parse(
-            window.localStorage.getItem('Registration-select')
-        ).lgas;
-
-        let lgaOpt = lgas.filter(
-            (lga, id) => lga.state_id == agentData.state_id
-        );
-        return lgaOpt;
+        if (state.lgas !== undefined) {
+            let lgas = state.lgas;
+            let lgaOpt = lgas.filter(
+                (lga, id) => lga.state_id == agentData.state_id
+            );
+            return lgaOpt;
+        }
     };
-
-    const agentTypeOpt = () =>
-        JSON.parse(window.localStorage.getItem('Registration-select'))
-            .agent_types;
-
-    const businessTypeOpt = () =>
-        JSON.parse(window.localStorage.getItem('Registration-select'))
-            .business_types;
 
     return (
         <div className={styles.container}>
@@ -136,13 +123,17 @@ const BusinessDetails = ({ setStatus, agentData, dispatch }) => {
                         value={agentData.state_id}
                     >
                         <option value=''>Select State</option>
-                        {stateOption()?.map((state, index) => {
-                            return (
-                                <option value={state.id} key={`${state.id}`}>
-                                    {state.name}
-                                </option>
-                            );
-                        })}
+                        {state.states &&
+                            state.states.map((state, index) => {
+                                return (
+                                    <option
+                                        value={state.id}
+                                        key={`${state.id}`}
+                                    >
+                                        {state.name}
+                                    </option>
+                                );
+                            })}
                     </select>
                     {validationErrors.state_id && (
                         <p className={styles.errorText}>
@@ -165,7 +156,7 @@ const BusinessDetails = ({ setStatus, agentData, dispatch }) => {
                         value={agentData.local_government_id}
                     >
                         <option value=''>Select LGA</option>
-                        {LGAOptions().map((lga, index) => {
+                        {LGAOptions()?.map((lga, index) => {
                             return (
                                 <option value={lga.id} key={`${lga.id}`}>
                                     {lga.name}
@@ -190,11 +181,12 @@ const BusinessDetails = ({ setStatus, agentData, dispatch }) => {
                         value={agentData.business_type}
                     >
                         <option value=''>Select Business Type</option>
-                        {businessTypeOpt().map((bus, index) => (
-                            <option value={bus} key={index}>
-                                {bus}
-                            </option>
-                        ))}
+                        {state.business_types &&
+                            state.business_types.map((bus, index) => (
+                                <option value={bus} key={index}>
+                                    {bus}
+                                </option>
+                            ))}
                     </select>
                     {validationErrors.business_type && (
                         <p className={styles.errorText}>
@@ -213,11 +205,12 @@ const BusinessDetails = ({ setStatus, agentData, dispatch }) => {
                         value={agentData.agent_type}
                     >
                         <option value=''>Select type</option>
-                        {agentTypeOpt().map((agent, index) => (
-                            <option value={agent} key={index}>
-                                {agent}
-                            </option>
-                        ))}
+                        {state.agent_types &&
+                            state.agent_types.map((agent, index) => (
+                                <option value={agent} key={index}>
+                                    {agent}
+                                </option>
+                            ))}
                     </select>
                     {validationErrors.agent_type && (
                         <p className={styles.errorText}>
