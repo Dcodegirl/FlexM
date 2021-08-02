@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ThreeDots } from 'svg-loaders-react';
-import axios from 'axios';
 
 import validateFormData from '../../validation/validateFormData';
-import { FETCH_BANKS } from '../../utils/constants';
 
 import styles from './AccountDetails.module.scss';
 
@@ -13,28 +11,9 @@ const AccountDetails = ({
     dispatch,
     loading,
     createAgent,
+    state = {},
 }) => {
     const [validationErrors, setValidationErrors] = useState({ errors: true });
-    const [banks, setBanks] = useState(null);
-
-    useEffect(() => {
-        let isCancelled = false;
-
-        axios
-            .get(FETCH_BANKS)
-            .then((res) => {
-                const banks = res.data.data;
-
-                if (!isCancelled) setBanks(banks);
-            })
-            .catch((e) => {
-                // console.log(e);
-            });
-
-        return () => {
-            isCancelled = true;
-        };
-    }, []);
 
     const handleOnChange = ({ target }) => {
         setValidationErrors({ ...validationErrors, [target.name]: '' });
@@ -73,14 +52,6 @@ const AccountDetails = ({
 
         createAgent(agentData);
     };
-
-    const identityTypes = () =>
-        JSON.parse(window.localStorage.getItem('Registration-select'))
-            .identity_types;
-
-    const banksOption = () =>
-        JSON.parse(window.localStorage.getItem('Registration-select')).banks;
-
     return (
         <div className={styles.container}>
             <form className={styles.form} onSubmit={handleProceed}>
@@ -129,11 +100,12 @@ const AccountDetails = ({
                         value={agentData.identity_type}
                     >
                         <option value=''>Select type</option>
-                        {identityTypes().map((id, index) => (
-                            <option value={id} key={index}>
-                                {id}
-                            </option>
-                        ))}
+                        {state.identity_types &&
+                            state.identity_types.map((id, index) => (
+                                <option value={id} key={index}>
+                                    {id}
+                                </option>
+                            ))}
                     </select>
                     {validationErrors.identity_type && (
                         <p className={styles.errorText}>
@@ -169,16 +141,17 @@ const AccountDetails = ({
                         value={agentData.bank_id}
                     >
                         <option value=''>Select Bank</option>
-                        {banksOption().map((bank, index) => {
-                            return (
-                                <option
-                                    value={bank.id}
-                                    key={`${index}--${bank.name}`}
-                                >
-                                    {bank.name}
-                                </option>
-                            );
-                        })}
+                        {state.banks &&
+                            state.banks.map((bank, index) => {
+                                return (
+                                    <option
+                                        value={bank.id}
+                                        key={`${index}--${bank.name}`}
+                                    >
+                                        {bank.name}
+                                    </option>
+                                );
+                            })}
                     </select>
                     {validationErrors.bank_id && (
                         <p className={styles.errorText}>
