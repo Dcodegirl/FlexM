@@ -54,15 +54,20 @@ export const FundsTransfer = ({ changeCurrentPage }) => {
     const handleOnSubmit = () => {
         setLoading(true);
 
-        const { accountNumber, beneficiaryBankCode, amount, phone, otp } =
-            FundsTransferFormState;
+        const {
+            accountNumber,
+            beneficiaryBankCode,
+            amount,
+            phone,
+            transaction_pin,
+        } = FundsTransferFormState;
 
         const req = {
             account_number: accountNumber,
             bank: beneficiaryBankCode,
             amount: amount,
             phone: phone,
-            otp,
+            transaction_pin,
         };
 
         (async function disburseFunds() {
@@ -89,6 +94,10 @@ export const FundsTransfer = ({ changeCurrentPage }) => {
                     date: transactionDate,
                 });
                 setLoading(false);
+                addToast(message, {
+                    appearance: 'success',
+                    autoDismiss: true,
+                });
                 setComponentToRender('completed');
             } catch (err) {
                 if (err.response && err.response.status === 403) {

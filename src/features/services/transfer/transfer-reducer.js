@@ -7,7 +7,7 @@ export const initialFormState = {
     phone: '',
     narration: '',
     total: '',
-    otp: '',
+    transaction_pin: '',
 };
 
 const FundsTransferReducer = (state, { type, payload }) => {

@@ -24,10 +24,10 @@ export const FundsTransferSummary = (props) => {
 
     const bankImageUrl = generateBankImageUrl(state.beneficiaryBankCode);
 
-    const handleChange = (otp) => {
+    const handleChange = (transaction_pin) => {
         dispatch({
             type: 'UPDATE_FORM_STATE',
-            payload: { otp },
+            payload: { transaction_pin },
         });
     };
 
@@ -111,7 +111,7 @@ export const FundsTransferSummary = (props) => {
                 <div className={styles.formContainer}>
                     <div className={styles.inputGroup}>
                         <OtpInput
-                            value={state.otp}
+                            value={state.transaction_pin}
                             onChange={handleChange}
                             numInputs={4}
                             inputStyle={styles.input}
@@ -127,7 +127,7 @@ export const FundsTransferSummary = (props) => {
                     </div>
                 </div>
             </div>
-            <Submit disabled={!state.otp} onClick={handleOnSubmit}>
+            <Submit disabled={!state.transaction_pin} onClick={handleOnSubmit}>
                 {loading ? <ThreeDots fill='white' /> : 'Proceed'}
             </Submit>
         </div>
