@@ -82,14 +82,15 @@ export const FundsTransfer = ({ changeCurrentPage }) => {
                 const res = await axios.post(DISBURSE_FUNDS, req, options);
                 const reference = res.data?.data?.Data?.TxnId;
                 const status = res.data.status;
-                const message = res.data.message;
-                const date = new Date();
-                const transactionDate = getTransactionDate(date);
+                const message = res.data.data.Message;
+                const agentCode = res.data.data.agent_code;
+                const transactionDate = res.data.data.transaction_date;
 
                 setSuccessData({
                     message,
                     reference,
                     status,
+                    agentCode,
                     transactionCost: TRANSACTION_COST,
                     date: transactionDate,
                 });
