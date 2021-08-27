@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { useToasts } from 'react-toast-notifications';
 
+import { setWalletBalance } from '../../../actions/wallet';
 import FundsTransferReducer, { initialFormState } from './transfer-reducer';
 import { setCurrentPage } from '../../../actions/page';
-import { DISBURSE_FUNDS } from '../../../utils/constants';
+import { DISBURSE_FUNDS, GET_CURRENT_USER } from '../../../utils/constants';
 import FundsTransferForm from './FundsTransferForm';
 import FundsTransferCompleted from './FundsTransferCompleted';
 import FundsTransferSummary from './FundsTransferSummary';
@@ -100,6 +101,15 @@ export const FundsTransfer = ({ changeCurrentPage }) => {
                     autoDismiss: true,
                 });
                 setComponentToRender('completed');
+                (async function getUser() {
+                    try {
+                        const res = await axios.get(GET_CURRENT_USER);
+
+                        setWalletBalance('');
+                    } catch (error) {
+                        console.log(error);
+                    }
+                })();
             } catch (err) {
                 if (err.response && err.response.status === 403) {
                     setLoading(false);
@@ -176,6 +186,7 @@ export const FundsTransfer = ({ changeCurrentPage }) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         changeCurrentPage: (payload) => dispatch(setCurrentPage(payload)),
+        setWalletBalance: (payload) => dispatch(setWalletBalance(payload)),
     };
 };
 
