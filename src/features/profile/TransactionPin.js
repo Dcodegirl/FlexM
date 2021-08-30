@@ -5,22 +5,47 @@ import axios from 'axios';
 import { ThreeDots } from 'svg-loaders-react';
 import { connect } from 'react-redux';
 
-import { SET_PIN, CHANGE_PIN } from '../../utils/constants';
+import {
+    SET_PIN,
+    CHANGE_PIN,
+    VERIFY_CURRENTT_PIN,
+} from '../../utils/constants';
 import { setDisplayModal } from '../../actions/modal';
 
 import styles from './TransactionPin.module.scss';
 import { useToasts } from 'react-toast-notifications';
 
 const CurrentPin = ({ formState, setStatus, handleChange }) => {
+    const { addToast } = useToasts();
+
+    const onSubmitHandler = () => {
+        const { current_pin } = formState;
+        (async function verifycurrentPin() {
+            try {
+                const res = await axios.post(VERIFY_CURRENTT_PIN, {
+                    current_pin,
+                });
+                const status = res?.data.status;
+
+                if (
+                    status === 'Successful' &&
+                    formState.current_pin.length === 4
+                )
+                    setStatus('pin');
+            } catch (err) {
+                addToast(err.response && err.response.data.message, {
+                    appearance: 'error',
+                    autoDismiss: true,
+                });
+            }
+        })();
+    };
     return (
         <form
             className={styles.form}
             onSubmit={(e) => {
                 e.preventDefault();
-
-                if (formState.current_pin.length === 4) {
-                    setStatus('pin');
-                }
+                onSubmitHandler();
             }}
             autoComplete='off'
         >

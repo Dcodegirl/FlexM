@@ -286,6 +286,10 @@ export const SET_PIN = `${path}/agents/settings/pin`;
 
 //change transaction pin - POST
 export const CHANGE_PIN = `${path}/agents/settings/pin/change`;
+
+// verify current pin = POST
+export const VERIFY_CURRENTT_PIN = `${path}/agents/settings/pin/current/verify`;
+
 //////////LOAN////////////
 
 //loan history
