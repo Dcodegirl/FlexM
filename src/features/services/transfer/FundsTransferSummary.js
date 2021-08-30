@@ -17,6 +17,7 @@ export const FundsTransferSummary = (props) => {
         FundsTransferFormState: state,
         loading,
         dispatch,
+        hasSetPin,
         setComponentToRender,
         handleOnSubmit,
         transactionCost,
@@ -127,7 +128,7 @@ export const FundsTransferSummary = (props) => {
                     </div>
                 </div>
             </div>
-            <Submit onClick={handleOnSubmit}>
+            <Submit onClick={handleOnSubmit} disabled={!hasSetPin}>
                 {loading ? <ThreeDots fill='white' /> : 'Proceed'}
             </Submit>
         </div>

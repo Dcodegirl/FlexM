@@ -15,7 +15,7 @@ import FailedTransaction from '../../../components/common/FailedTransaction';
 
 import styles from './index.module.scss';
 
-export const FundsTransfer = ({ changeCurrentPage }) => {
+export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
     const TRANSACTION_COST = 0;
     let renderedComponent;
     const [componentToRender, setComponentToRender] = useState('form');
@@ -160,6 +160,7 @@ export const FundsTransfer = ({ changeCurrentPage }) => {
                     transactionCost={TRANSACTION_COST}
                     setComponentToRender={setComponentToRender}
                     FundsTransferFormState={FundsTransferFormState}
+                    hasSetPin={hasSetPin}
                 />
             );
             break;
@@ -184,6 +185,12 @@ export const FundsTransfer = ({ changeCurrentPage }) => {
     return <div className={styles.container}>{renderedComponent}</div>;
 };
 
+const mapStateToProps = (state) => {
+    return {
+        hasSetPin: state.auth.user.hasSetPin,
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         changeCurrentPage: (payload) => dispatch(setCurrentPage(payload)),
@@ -195,4 +202,4 @@ FundsTransfer.propTypes = {
     changeCurrentPage: PropTypes.func.isRequired,
 };
 
-export default connect(undefined, mapDispatchToProps)(FundsTransfer);
+export default connect(mapStateToProps, mapDispatchToProps)(FundsTransfer);
