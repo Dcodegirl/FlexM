@@ -105,7 +105,7 @@ export const FundsTransferSummary = (props) => {
                         &#8358;{formatToCurrency(state.total)}
                     </span>
                 </div>
-                {/* <p className={styles.otpText}>
+                <p className={styles.otpText}>
                     Enter your transaction pin to proceed
                 </p>
                 <div className={styles.formContainer}>
@@ -125,7 +125,7 @@ export const FundsTransferSummary = (props) => {
                             }
                         />
                     </div>
-                </div> */}
+                </div>
             </div>
             <Submit onClick={handleOnSubmit}>
                 {loading ? <ThreeDots fill='white' /> : 'Proceed'}
