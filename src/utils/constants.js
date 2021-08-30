@@ -1,14 +1,14 @@
 let path;
 
 if (
-  window.location.href.indexOf("localhost") >= 0 ||
-  window.location.href.indexOf("dev") >= 0
+    window.location.href.indexOf('localhost') >= 0 ||
+    window.location.href.indexOf('dev') >= 0
 ) {
-  //development server
-  path = "https://api.cico.ng/api";
+    //development server
+    path = 'https://api.cico.ng/api';
 } else {
-  //production server
-  path = "https://api.cico.ng/api";
+    //production server
+    path = 'https://api.cico.ng/api';
 }
 
 //////AUTH///////
@@ -281,34 +281,34 @@ export const GET_BETTING_PROVIDERS = `${path}/betting/providers`;
 //requery - GET
 export const REQUERY = `${path}/fusion/transactions/requery/CiCO_RKGWBF8NE4ST326`;
 
-//change transaction pin - POST
+//set transaction pin - POST
 export const SET_PIN = `${path}/agents/settings/pin`;
 
+//change transaction pin - POST
+export const CHANGE_PIN = `${path}/agents/settings/pin/change`;
 //////////LOAN////////////
 
 //loan history
 export const LOAN_HISTORY =
-  "https://loanserve.cicoserve.xyz/api/v1/loans/history";
+    'https://loanserve.cicoserve.xyz/api/v1/loans/history';
 
 //loan repayment history
 export const REPAYMENT_HISTORY =
-  "https://loanserve.cicoserve.xyz/api/v1/loans/repayments";
+    'https://loanserve.cicoserve.xyz/api/v1/loans/repayments';
 
 //agents info
-export const AGENTS_INFO = "https://loanserve.cicoserve.xyz/api/v1/info";
+export const AGENTS_INFO = 'https://loanserve.cicoserve.xyz/api/v1/info';
 
 //check loan eligibility
 export const CHECK_ELIGIBILITY =
-  "https://loanserve.cicoserve.xyz/api/v1/loans/eligibility";
+    'https://loanserve.cicoserve.xyz/api/v1/loans/eligibility';
 
 //application
 export const LOAN_APPLICATION =
-  "https://loanserve.cicoserve.xyz/api/v1/loans/apply";
+    'https://loanserve.cicoserve.xyz/api/v1/loans/apply';
 
 //requery transactions
 export const REQUERY_TRANSACTION_STATUS = `${path}/transactions/verify`;
 
-
 //////////REGISTRATION SELECT////////////
 export const REGISTRATION_SELECT = `${path}/selects`;
-

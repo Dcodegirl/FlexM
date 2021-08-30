@@ -20,8 +20,6 @@ export const Profile = ({ agentData, changeCurrentPage, displayModal }) => {
     const [loading, setLoading] = useState(false);
     const { addToast } = useToasts();
 
-    console.log(agentData);
-
     useEffect(() => {
         changeCurrentPage({
             heading: 'Profile',
