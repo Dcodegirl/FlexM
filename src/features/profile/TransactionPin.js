@@ -1,15 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import OtpInput from 'react-otp-input';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { ThreeDots } from 'svg-loaders-react';
 import { connect } from 'react-redux';
 
-import { SET_PIN } from '../../utils/constants';
+import { SET_PIN, CHANGE_PIN } from '../../utils/constants';
 import { setDisplayModal } from '../../actions/modal';
 
 import styles from './TransactionPin.module.scss';
 import { useToasts } from 'react-toast-notifications';
+
+const CurrentPin = ({ formState, setStatus, handleChange }) => {
+    return (
+        <form
+            className={styles.form}
+            onSubmit={(e) => {
+                e.preventDefault();
+
+                if (formState.current_pin.length === 4) {
+                    setStatus('pin');
+                }
+            }}
+            autoComplete='off'
+        >
+            <div className={styles.formBanner}></div>
+            <h3 className={styles.formHeading}>Transaction Pin</h3>
+            <p className={styles.formText}>
+                Enter your current transaction pin to proceed
+            </p>
+            <div className={styles.formContainer}>
+                <div className={styles.inputGroup}>
+                    <OtpInput
+                        value={formState.current_pin}
+                        onChange={handleChange}
+                        numInputs={4}
+                        inputStyle={styles.input}
+                        separator={
+                            <span
+                                style={{
+                                    display: 'inline-block',
+                                    width: '2rem',
+                                }}
+                            ></span>
+                        }
+                    />
+                </div>
+            </div>
+            <button type='submit' className={styles.button}>
+                Continue
+            </button>
+        </form>
+    );
+};
 
 const Pin = ({ formState, setStatus, handleChange }) => {
     return (
@@ -27,7 +70,7 @@ const Pin = ({ formState, setStatus, handleChange }) => {
             <div className={styles.formBanner}></div>
             <h3 className={styles.formHeading}>Transaction Pin</h3>
             <p className={styles.formText}>
-                Enter your transaction pin to proceed
+                Enter your new transaction pin to proceed
             </p>
             <div className={styles.formContainer}>
                 <div className={styles.inputGroup}>
@@ -70,7 +113,7 @@ const PinConfirmation = ({ formState, handleChange, loading, setPin }) => {
             <div className={styles.formBanner}></div>
             <h3 className={styles.formHeading}>Transaction Pin</h3>
             <p className={styles.formText}>
-                Enter your transaction pin to proceed
+                Confirm your transaction pin to proceed
             </p>
             <div className={styles.formContainer}>
                 <div className={styles.inputGroup}>
@@ -97,19 +140,27 @@ const PinConfirmation = ({ formState, handleChange, loading, setPin }) => {
     );
 };
 
-export const TransactionPin = ({ displayModal }) => {
+export const TransactionPin = ({ displayModal, agentData }) => {
     const [status, setStatus] = useState('pin');
     const [formState, setFormState] = useState({
         otp: '',
         otp_confirmation: '',
+        current_pin: '',
     });
     const [loading, setLoading] = useState(false);
     const { addToast } = useToasts();
+
+    useEffect(() => {
+        if (agentData.hasSetPin) setStatus('current');
+    }, []);
 
     const handleChange = (otp) => setFormState({ ...formState, otp });
 
     const handleConfirmationChange = (otp_confirmation) =>
         setFormState({ ...formState, otp_confirmation });
+
+    const handleCurrentChange = (current_pin) =>
+        setFormState({ ...formState, current_pin });
 
     const setPin = () => {
         (async function setPin() {
@@ -118,9 +169,13 @@ export const TransactionPin = ({ displayModal }) => {
             const payload = {
                 pin: formState.otp,
                 pin_confirmation: formState.otp_confirmation,
+                current_pin: formState.current_pin,
             };
             try {
-                const res = await axios.post(SET_PIN, payload);
+                const res = await axios.post(
+                    agentData.hasSetPin ? CHANGE_PIN : SET_PIN,
+                    payload
+                );
 
                 if (res) {
                     addToast('Pin set successfully', {
@@ -146,26 +201,50 @@ export const TransactionPin = ({ displayModal }) => {
 
     return (
         <>
-            {
-                {
-                    pin: (
-                        <Pin
-                            formState={formState}
-                            setStatus={setStatus}
-                            handleChange={handleChange}
-                        />
-                    ),
-                    confirm: (
-                        <PinConfirmation
-                            formState={formState}
-                            setStatus={setStatus}
-                            handleChange={handleConfirmationChange}
-                            setPin={setPin}
-                            loading={loading}
-                        />
-                    ),
-                }[status]
-            }
+            {agentData.hasSetPin
+                ? {
+                      current: (
+                          <CurrentPin
+                              formState={formState}
+                              setStatus={setStatus}
+                              handleChange={handleCurrentChange}
+                          />
+                      ),
+                      pin: (
+                          <Pin
+                              formState={formState}
+                              setStatus={setStatus}
+                              handleChange={handleChange}
+                          />
+                      ),
+                      confirm: (
+                          <PinConfirmation
+                              formState={formState}
+                              setStatus={setStatus}
+                              handleChange={handleConfirmationChange}
+                              setPin={setPin}
+                              loading={loading}
+                          />
+                      ),
+                  }[status]
+                : {
+                      pin: (
+                          <Pin
+                              formState={formState}
+                              setStatus={setStatus}
+                              handleChange={handleChange}
+                          />
+                      ),
+                      confirm: (
+                          <PinConfirmation
+                              formState={formState}
+                              setStatus={setStatus}
+                              handleChange={handleConfirmationChange}
+                              setPin={setPin}
+                              loading={loading}
+                          />
+                      ),
+                  }[status]}
         </>
     );
 };
@@ -176,10 +255,18 @@ TransactionPin.propTypes = {
     setComponentToRender: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = (state) => {
+    return {
+        agentData: {
+            hasSetPin: state.auth.user.hasSetPin,
+        },
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         displayModal: (payload) => dispatch(setDisplayModal(payload)),
     };
 };
 
-export default connect(undefined, mapDispatchToProps)(TransactionPin);
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionPin);
