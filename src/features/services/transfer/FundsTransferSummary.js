@@ -116,6 +116,7 @@ export const FundsTransferSummary = (props) => {
                             onChange={handleChange}
                             numInputs={4}
                             inputStyle={styles.input}
+                            isInputSecure={true}
                             separator={
                                 <span
                                     style={{
