@@ -13,7 +13,7 @@ import FailedTransaction from '../../../components/common/FailedTransaction';
 
 // import styles from "./BuyAirtime.module.scss";
 
-export const BuyAirtime = ({ service }) => {
+export const BuyAirtime = ({ service, hasSetPin }) => {
     let renderedComponent;
     const TRANSACTION_COST = 0;
     const [componentToRender, setComponentToRender] = useState('form');
@@ -70,16 +70,25 @@ export const BuyAirtime = ({ service }) => {
             .post(VEND_AIRTIME, payload)
             .then((res) => {
                 const successData = res.data.data;
+                const message = res.data.data.Message;
 
                 const date = new Date();
 
                 setLoading(false);
+                addToast(message, {
+                    appearance: 'success',
+                    autoDismiss: true,
+                });
                 setSuccessData({ ...successData, date: date.toDateString() });
                 setComponentToRender('success');
             })
             .catch((err) => {
                 if (err.response && err.response.status === 403) {
                     setLoading(false);
+                    addToast(err.response.data.message, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                    });
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 401) {
                     setLoading(false);
@@ -118,6 +127,8 @@ export const BuyAirtime = ({ service }) => {
                     loading={loading}
                     transactionCost={TRANSACTION_COST}
                     service={service}
+                    hasSetPin={hasSetPin}
+                    dispatch={dispatch}
                     setComponentToRender={setComponentToRender}
                 />
             );
@@ -148,6 +159,7 @@ export const BuyAirtime = ({ service }) => {
 const mapStateToProps = (state) => {
     return {
         service: state.modal.service,
+        hasSetPin: state.auth.user.hasSetPin,
     };
 };
 

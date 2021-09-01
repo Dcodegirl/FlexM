@@ -45,6 +45,18 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
             heading: 'Funds Transfer',
             search: false,
         });
+        return () => {
+            (async function getUser() {
+                try {
+                    const res = await axios.get(AGENT_DASHBOARD_DATA);
+
+                    const overviewData = res.data.data;
+                    setWalletBalance(overviewData.wallet.current_bal);
+                } catch (error) {
+                    console.log(error);
+                }
+            })();
+        };
     }, []);
 
     const getTransactionDate = (date) => {
@@ -100,16 +112,6 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
                     appearance: 'success',
                     autoDismiss: true,
                 });
-                (async function getUser() {
-                    try {
-                        const res = await axios.get(AGENT_DASHBOARD_DATA);
-
-                        const overviewData = res.data.data;
-                        setWalletBalance(overviewData.wallet.current_bal);
-                    } catch (error) {
-                        console.log(error);
-                    }
-                })();
                 setComponentToRender('completed');
             } catch (err) {
                 if (err.response && err.response.status === 403) {
