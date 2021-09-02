@@ -20,7 +20,6 @@ export const BuyDataSummary = (props) => {
         dispatch,
         hasSetPin,
         handleOnSubmit,
-        transactionCost,
         setComponentToRender,
         service,
     } = props;
