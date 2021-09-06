@@ -21,6 +21,16 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
     // const [requeryLoading, setRequeryLoading] = useState(false);
     // const [transactions, setTransactions] = useState([]);
 
+    function PrintDiv(id) {
+        var content = document.getElementById(id);
+        var pri = document.getElementById('ifmcontentstoprint').contentWindow;
+        pri.document.open();
+        pri.document.write(content.innerHTML);
+        pri.document.close();
+        pri.focus();
+        pri.print();
+    }
+
     useEffect(() => {
         const transactions = JSON.parse(sessionStorage.getItem('transactions'));
         const transactionItem = transactions.find((transaction) => {
@@ -70,85 +80,104 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
     // };
 
     return (
-        <div className={styles.section}>
-            <div className={styles.imageContainer}>
-                <img
-                    className={styles.headingImage}
-                    src={cico}
-                    alt='cico logo'
-                />
-                <p className={styles.headingText}>Transaction Details</p>
-            </div>
-            <div className={styles.contentContainer}>
-                <div className={styles.successContent}>
-                    <div className={styles.transactionDetails}>
-                        <div className={styles.details}>
-                            <span>Status:</span>
-                            <span>{transaction.status}</span>
-                        </div>
-                        <div className={styles.details}>
-                            <span>Reference:</span>
-                            <span>{transaction.reference}</span>
-                        </div>
-                        <div className={styles.details}>
-                            <span>Type:</span>
-                            <span>
-                                {transtype
-                                    ? transtype.name
-                                    : transaction.type === '12'
-                                    ? 'Commission'
-                                    : transaction.type === '0'
-                                    ? 'Reversal'
-                                    : transaction.type === '10'
-                                    ? 'Bet'
-                                    : transaction.type === '11'
-                                    ? 'Cashcall'
-                                    : 'Nil'}
-                            </span>
-                        </div>
-                        <div className={styles.details}>
-                            <span>Customer:</span>
-                            <span className={styles.customerInfo}>
-                                {transaction.customer_info}
-                            </span>
-                        </div>
-                        {transaction.type == '7' ? (
+        <>
+            <iframe
+                id='ifmcontentstoprint'
+                style={{
+                    height: '0px',
+                    width: '0px ',
+                    position: 'absolute',
+                    border: 'none',
+                }}
+                title='toPrint'
+            ></iframe>
+            <div className={styles.section} id='myDiv'>
+                <div className={styles.imageContainer}>
+                    <img
+                        className={styles.headingImage}
+                        src={cico}
+                        alt='cico logo'
+                    />
+                    <p className={styles.headingText}>Transaction Details</p>
+                </div>
+                <div className={styles.contentContainer}>
+                    <div className={styles.successContent}>
+                        <div className={styles.transactionDetails}>
                             <div className={styles.details}>
-                                <span>Session ID:</span>
-                                <span>{transaction.retrieval_reference}</span>
+                                <span>Status:</span>
+                                <span>{transaction.status}</span>
                             </div>
-                        ) : transaction.type == '1' ? (
                             <div className={styles.details}>
-                                <span>Token:</span>
-                                <span>{transaction.energy_token}</span>
+                                <span>Reference:</span>
+                                <span>{transaction.reference}</span>
                             </div>
-                        ) : undefined}
-                        <div className={styles.details}>
-                            <span>Date:</span>
-                            <span>{transaction.created_at}</span>
+                            <div className={styles.details}>
+                                <span>Type:</span>
+                                <span>
+                                    {transtype
+                                        ? transtype.name
+                                        : transaction.type === '12'
+                                        ? 'Commission'
+                                        : transaction.type === '0'
+                                        ? 'Reversal'
+                                        : transaction.type === '10'
+                                        ? 'Bet'
+                                        : transaction.type === '11'
+                                        ? 'Cashcall'
+                                        : 'Nil'}
+                                </span>
+                            </div>
+                            <div className={styles.details}>
+                                <span>Customer:</span>
+                                <span className={styles.customerInfo}>
+                                    {transaction.customer_info}
+                                </span>
+                            </div>
+                            {transaction.type == '7' ? (
+                                <div className={styles.details}>
+                                    <span>Session ID:</span>
+                                    <span>
+                                        {transaction.retrieval_reference}
+                                    </span>
+                                </div>
+                            ) : transaction.type == '1' ? (
+                                <div className={styles.details}>
+                                    <span>Token:</span>
+                                    <span>{transaction.energy_token}</span>
+                                </div>
+                            ) : undefined}
+                            <div className={styles.details}>
+                                <span>Date:</span>
+                                <span>{transaction.created_at}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div className={styles.transactionAmount}>
-                        <div className={styles.details}>
-                            <span>Amount:</span>
-                            <span>
-                                &#8358;
-                                {Number(transaction.amount)
-                                    .toFixed(2)
-                                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
-                            </span>
+                        <div className={styles.transactionAmount}>
+                            <div className={styles.details}>
+                                <span>Amount:</span>
+                                <span>
+                                    &#8358;
+                                    {Number(transaction.amount)
+                                        .toFixed(2)
+                                        .replace(
+                                            /(\d)(?=(\d{3})+(?!\d))/g,
+                                            '$1,'
+                                        )}
+                                </span>
+                            </div>
+                            <div className={styles.details}>
+                                <span>Total:</span>
+                                <span>
+                                    &#8358;
+                                    {Number(transaction.amount)
+                                        .toFixed(2)
+                                        .replace(
+                                            /(\d)(?=(\d{3})+(?!\d))/g,
+                                            '$1,'
+                                        )}
+                                </span>
+                            </div>
                         </div>
-                        <div className={styles.details}>
-                            <span>Total:</span>
-                            <span>
-                                &#8358;
-                                {Number(transaction.amount)
-                                    .toFixed(2)
-                                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
-                            </span>
-                        </div>
-                    </div>
-                    {/* {transaction.status === "pending" && (
+                        {/* {transaction.status === "pending" && (
             <div
               className={styles.requery}
               onClick={() => {
@@ -161,44 +190,45 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
               {requeryLoading && <ThreeDots fill="#3E215B" />}
             </div>
           )} */}
-                    <div className={styles.details}>
-                        <Link to='/' className={styles.linkHome}>
-                            Go Home
-                        </Link>
-                        <span
-                            onClick={() => window.print()}
-                            className={styles.print}
-                        >
-                            Print
-                        </span>
-                    </div>
-                    <div className={styles.message}>
-                        <a
-                            className={styles.messageText}
-                            href={`mailto:hello@cico.ng?subject=Transaction%20Details&body=ref:${transaction.reference}%20amount=${transaction.amount}%20date=${transaction.created_at}`}
-                        >
-                            <img
-                                className={styles.messageIcon}
-                                src={email}
-                                alt=''
-                            />
-                            <span>Email support </span>
-                        </a>
-                        <a
-                            className={styles.messageText}
-                            href={`https://wa.me/+2349080070040/?text=ref:${transaction.reference} amount=${transaction.amount} date=${transaction.created_at}`}
-                        >
-                            <img
-                                className={styles.messageIcon}
-                                src={whatsapp}
-                                alt=''
-                            />
-                            <span>Text support</span>
-                        </a>
+                        <div className={styles.details}>
+                            <Link to='/' className={styles.linkHome}>
+                                Go Home
+                            </Link>
+                            <span
+                                onClick={() => PrintDiv('myDiv')}
+                                className={styles.print}
+                            >
+                                Print
+                            </span>
+                        </div>
+                        <div className={styles.message}>
+                            <a
+                                className={styles.messageText}
+                                href={`mailto:hello@cico.ng?subject=Transaction%20Details&body=ref:${transaction.reference}%20amount=${transaction.amount}%20date=${transaction.created_at}`}
+                            >
+                                <img
+                                    className={styles.messageIcon}
+                                    src={email}
+                                    alt=''
+                                />
+                                <span>Email support </span>
+                            </a>
+                            <a
+                                className={styles.messageText}
+                                href={`https://wa.me/+2349080070040/?text=ref:${transaction.reference} amount=${transaction.amount} date=${transaction.created_at}`}
+                            >
+                                <img
+                                    className={styles.messageIcon}
+                                    src={whatsapp}
+                                    alt=''
+                                />
+                                <span>Text support</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

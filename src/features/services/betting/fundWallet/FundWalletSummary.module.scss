@@ -1,1 +1,17 @@
-@import "../../../../assets/styles/generic/summary.scss";
+@import '../../../../assets/styles/generic/summary.scss';
+@import '../../../profile/TransactionPin.module.scss';
+
+.otpText {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.4rem;
+    color: #22215b;
+    margin-top: 10px;
+
+    &::after {
+        content: '*';
+        color: red;
+        padding-inline: 2px;
+        font-size: '15px';
+    }
+}

@@ -31,7 +31,7 @@ const Input = ({
                 <label
                     className={`${styles.label} 
           ${display === 'flex' ? styles.block : styles.default}`}
-                    error={error}
+                    // error={error}
                     htmlFor={name}
                     label={label}
                 >
