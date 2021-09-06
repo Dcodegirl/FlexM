@@ -59,11 +59,6 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
         };
     }, []);
 
-    const getTransactionDate = (date) => {
-        const dateString = date.toString();
-        return dateString.slice(0, 24);
-    };
-
     const handleOnSubmit = () => {
         setLoading(true);
 
