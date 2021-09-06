@@ -70,7 +70,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
             .post(VEND_AIRTIME, payload)
             .then((res) => {
                 const successData = res.data.data;
-                const message = res.data.data.Message;
+                const message = res.data.data.message;
 
                 const date = new Date();
 
@@ -91,6 +91,13 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                     });
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 401) {
+                    setLoading(false);
+                    addToast(err.response.data.message, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                    });
+                    setComponentToRender('failed');
+                } else if (err.response && err.response.status === 400) {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',

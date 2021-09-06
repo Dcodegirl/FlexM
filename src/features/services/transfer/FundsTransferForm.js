@@ -106,15 +106,16 @@ export const FundsTransferForm = (props) => {
     const handleOnContinue = (e) => {
         e.preventDefault();
 
-        // const keys = Object.keys(state);
-        // const errors = validateFormData(state, keys);
+        const keys = Object.keys(state);
+        const errors = validateFormData(state, keys);
 
-        // setValidationErrors(errors);
+        setValidationErrors(errors);
 
-        // //want account validation error to only show on failed validation
-        // delete errors.accountName;
+        //want account validation error to only show on failed validation
+        delete errors.accountName;
+        delete errors.transaction_pin;
 
-        // if (Object.keys(errors).length > 0) return;
+        if (Object.keys(errors).length > 0) return;
 
         setComponentToRender('summary');
     };

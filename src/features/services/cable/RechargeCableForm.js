@@ -49,7 +49,7 @@ export const RechargeCableForm = (props) => {
                 return cycle.name === state.cycle;
             });
 
-            const amount = selectedCycle.amount;
+            const amount = selectedCycle && selectedCycle.amount;
 
             setFormState({
                 type: 'UPDATE_FORM_STATE',
@@ -145,7 +145,7 @@ export const RechargeCableForm = (props) => {
                 (plan) => plan.product_code === state.selectedPlanCode
             );
 
-            const amount = selectedPlan.amount;
+            const amount = selectedPlan && selectedPlan.amount;
 
             setFormState({
                 type: 'UPDATE_FORM_STATE',
@@ -224,7 +224,18 @@ export const RechargeCableForm = (props) => {
 
     const handleOnContinue = (e) => {
         e.preventDefault();
+        const { cycles, cycle, selectedPlanName, ...rest } = state;
 
+        const keys = Object.keys({ ...rest });
+        const errors = validateFormData(state, keys);
+
+        setValidationErrors(errors);
+
+        //restricting customer name error to failed validation
+        delete errors.customerName;
+        delete errors.transaction_pin;
+
+        if (Object.keys(errors).length > 0) return;
         setComponentToRender('summary');
     };
 

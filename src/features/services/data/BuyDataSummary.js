@@ -134,10 +134,4 @@ BuyDataSummary.propTypes = {
     transactionCost: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = (state) => {
-    return {
-        service: state.modal.service,
-    };
-};
-
-export default connect(mapStateToProps)(BuyDataSummary);
+export default BuyDataSummary;

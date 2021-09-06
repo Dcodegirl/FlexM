@@ -61,7 +61,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
             try {
                 const res = await axios.post(providerApi, payload);
                 const successData = res.data.data;
-                const message = res.data.data.Message;
+                const message = res.data.data.message;
                 const date = new Date();
                 const transactionDate = getTransactionDate(date);
 

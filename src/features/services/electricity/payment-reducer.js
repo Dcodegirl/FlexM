@@ -5,6 +5,7 @@ export const initialFormState = {
   paymentPlan: "",
   amount: "",
   phone: "",
+  transaction_pin:''
 };
 
 const ElecticityPaymentReducer = (formState, { type, payload }) => {

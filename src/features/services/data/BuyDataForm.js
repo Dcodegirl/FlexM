@@ -68,6 +68,14 @@ export const BuyDataForm = (props) => {
 
     const handleOnContinue = (e) => {
         e.preventDefault();
+        const keys = Object.keys(state);
+        const errors = validateFormData(state, keys);
+
+        setValidationErrors(errors);
+
+        delete errors.transaction_pin;
+
+        if (Object.keys(errors).length > 0) return;
 
         setComponentToRender('summary');
     };

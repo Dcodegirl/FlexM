@@ -54,7 +54,7 @@ export const BuyData = ({ service, hasSetPin }) => {
             .post(VEND_DATA, payload)
             .then((res) => {
                 const successData = res.data.data;
-                const message = res.data.data.Message;
+                const message = res.data.data.message;
 
                 const date = new Date();
 
@@ -68,6 +68,13 @@ export const BuyData = ({ service, hasSetPin }) => {
             })
             .catch((err) => {
                 if (err.response && err.response.status === 403) {
+                    setLoading(false);
+                    addToast(err.response.data.message, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                    });
+                    setComponentToRender('failed');
+                } else if (err.response && err.response.status === 400) {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
