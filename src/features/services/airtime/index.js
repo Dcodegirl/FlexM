@@ -10,6 +10,7 @@ import BuyAirtimeForm from './BuyAirtimeForm';
 import BuyAirtimeSummary from './BuyAirtimeSummary';
 import BuyAirtimeCompleted from './BuyAirtimeCompleted';
 import FailedTransaction from '../../../components/common/FailedTransaction';
+import { EventEmitter } from '../../../utils/event';
 
 // import styles from "./BuyAirtime.module.scss";
 
@@ -70,7 +71,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
             .post(VEND_AIRTIME, payload)
             .then((res) => {
                 const successData = res.data.data;
-                const message = res.data.data.message;
+                const message = res.data.message;
 
                 const date = new Date();
 
@@ -81,6 +82,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                 });
                 setSuccessData({ ...successData, date: date.toDateString() });
                 setComponentToRender('success');
+                EventEmitter.dispatch('refresh-wallet-balance', {});
             })
             .catch((err) => {
                 if (err.response && err.response.status === 403) {
