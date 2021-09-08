@@ -10,6 +10,7 @@ import BuyDataForm from './BuyDataForm';
 import BuyDataSummary from './BuyDataSummary';
 import BuyDataStatus from './BuyDataCompleted';
 import FailedTransaction from '../../../components/common/FailedTransaction';
+import { EventEmitter } from '../../../utils/event';
 
 // import styles from "./BuyData.module.scss";
 
@@ -54,7 +55,7 @@ export const BuyData = ({ service, hasSetPin }) => {
             .post(VEND_DATA, payload)
             .then((res) => {
                 const successData = res.data.data;
-                const message = res.data.data.message;
+                const message = res.data.message;
 
                 const date = new Date();
 
@@ -65,6 +66,7 @@ export const BuyData = ({ service, hasSetPin }) => {
                     autoDismiss: true,
                 });
                 setComponentToRender('success');
+                EventEmitter.dispatch('refresh-wallet-balance', {});
             })
             .catch((err) => {
                 if (err.response && err.response.status === 403) {
