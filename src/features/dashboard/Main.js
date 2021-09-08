@@ -18,6 +18,7 @@ import routes from '../../routes/routes';
 import Overlay from './modal/index';
 
 import styles from './Main.module.scss';
+import { EventEmitter } from '../../utils/event';
 
 export const Main = ({
     history,
@@ -48,12 +49,19 @@ export const Main = ({
 
         if (!isCancelled) {
             fetchOverviewData();
+            EventEmitter.subscribe('refresh-wallet-balance', () => {
+                fetchOverviewData();
+            });
         }
     }, []);
 
     const refreshOverviewData = () => {
         fetchOverviewData();
     };
+
+    // useEffect(() => {
+    //     EventEmitter.subscribe('refresh-wallet-balance', fetchOverviewData());
+    // }, []);
 
     return (
         <Suspense fallback={<div>this is loading the main page</div>}>

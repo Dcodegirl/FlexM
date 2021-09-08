@@ -12,6 +12,7 @@ import FundsTransferForm from './FundsTransferForm';
 import FundsTransferCompleted from './FundsTransferCompleted';
 import FundsTransferSummary from './FundsTransferSummary';
 import FailedTransaction from '../../../components/common/FailedTransaction';
+import { EventEmitter } from '../../../utils/event';
 
 import styles from './index.module.scss';
 
@@ -45,18 +46,6 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
             heading: 'Funds Transfer',
             search: false,
         });
-        return () => {
-            (async function getUser() {
-                try {
-                    const res = await axios.get(AGENT_DASHBOARD_DATA);
-
-                    const overviewData = res.data.data;
-                    setWalletBalance(overviewData.wallet.current_bal);
-                } catch (error) {
-                    console.log(error);
-                }
-            })();
-        };
     }, []);
 
     const handleOnSubmit = () => {
@@ -102,12 +91,14 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
                     transactionCost: TRANSACTION_COST,
                     date: transactionDate,
                 });
+
                 setLoading(false);
                 addToast(message, {
                     appearance: 'success',
                     autoDismiss: true,
                 });
                 setComponentToRender('completed');
+                EventEmitter.dispatch('refresh-wallet-balance', {});
             } catch (err) {
                 if (err.response && err.response.status === 403) {
                     setLoading(false);
