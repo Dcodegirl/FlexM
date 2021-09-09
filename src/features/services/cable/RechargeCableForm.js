@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { ThreeDots } from 'svg-loaders-react';
 
 import Form from '../../../components/common/Form';
 import FormGroup from '../../../components/common/FormGroup';
@@ -28,17 +29,11 @@ export const RechargeCableForm = (props) => {
     const [validationErrors, setValidationErrors] = useState({});
     const [plans, setPlans] = useState([]);
 
+    console.log(fetchPlansLoading);
+
     //effect fetches plans based on selected provider
     useEffect(() => {
-        let isCancelled;
-
-        if (!isCancelled) {
-            fetchDataPlans();
-        }
-
-        return () => {
-            isCancelled = true;
-        };
+        fetchDataPlans();
     }, [props.service]);
 
     useEffect(() => {
@@ -206,6 +201,7 @@ export const RechargeCableForm = (props) => {
 
             const plans = res.data.data.bouquets;
 
+            setFetchPlansLoading(false);
             setPlans(plans);
         } catch (e) {
             // console.log(e);
@@ -278,6 +274,7 @@ export const RechargeCableForm = (props) => {
                         );
                     })}
                 </Select>
+                {fetchPlansLoading && <ThreeDots fill='green' />}
             </FormGroup>
             {props.service === 'startimes' && (
                 <FormGroup>
