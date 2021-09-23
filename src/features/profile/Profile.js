@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { ThreeDots } from 'svg-loaders-react';
 import { useToasts } from 'react-toast-notifications';
 import { UPDATE_AGENT_PROFILE } from '../../utils/constants';
@@ -120,6 +121,20 @@ export const Profile = ({ agentData, changeCurrentPage, displayModal }) => {
                                 alt=''
                             />
                             <p className={styles.serviceText}>Category</p>
+                        </div>
+
+                        <div className={styles.service}>
+                            <Link
+                                to='/documents'
+                                className={styles.serviceLink}
+                            >
+                                <img
+                                    className={styles.serviceLogo}
+                                    src={category}
+                                    alt=''
+                                />
+                                <p className={styles.serviceText}>Documents</p>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -267,11 +282,11 @@ export const Profile = ({ agentData, changeCurrentPage, displayModal }) => {
                         <p className={styles.errorText}>Please Enter BVN</p>
                     )}
                 </div>
-                <div className={`${styles.submit} ${styles.formGroup}`}>
+                {/* <div className={`${styles.submit} ${styles.formGroup}`}>
                     <button className={styles.submit} disabled type='submit'>
                         {loading ? <ThreeDots /> : 'Submit'}
                     </button>
-                </div>
+                </div> */}
             </form>
         </div>
     );

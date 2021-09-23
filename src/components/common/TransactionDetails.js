@@ -5,12 +5,11 @@ import { Link } from 'react-router-dom';
 import cico from '../../assets/images/cico-logo-login.svg';
 import styles from './TransactionDetails.module.scss';
 import { setCurrentPage } from '../../actions/page';
-// import { ThreeDots } from "svg-loaders-react";
 
-// import {
-//   AGENT_TRANSACTION_HISTORY,
-//   REQUERY_TRANSACTION_STATUS,
-// } from "../../utils/constants";
+import jsPDF from 'jspdf';
+import pdfMake from 'pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import htmlToPdfmake from 'html-to-pdfmake';
 
 import email from '../../assets/images/email.svg';
 import whatsapp from '../../assets/images/whatsapp.svg';
@@ -18,18 +17,24 @@ import whatsapp from '../../assets/images/whatsapp.svg';
 export const TransactionDetails = ({ changeCurrentPage, match }) => {
     const [transaction, setTransaction] = useState({});
     const [transtype, setTranstype] = useState({});
-    // const [requeryLoading, setRequeryLoading] = useState(false);
-    // const [transactions, setTransactions] = useState([]);
 
-    function PrintDiv(id) {
-        var content = document.getElementById(id);
-        var pri = document.getElementById('ifmcontentstoprint').contentWindow;
-        pri.document.open();
-        pri.document.write(content.innerHTML);
-        pri.document.close();
-        pri.focus();
-        pri.print();
-    }
+    const printDocument = () => {
+        //const input = document.getElementById('divToPrint');
+
+        const doc = new jsPDF();
+
+        //get table html
+        const pdfTable = document.getElementById('myDiv');
+        //html to pdf format
+        var html = htmlToPdfmake(pdfTable.innerHTML);
+        console.log(html);
+
+        const documentDefinition = {
+            content: html,
+        };
+        pdfMake.vfs = pdfFonts.pdfMake.vfs;
+        pdfMake.createPdf(documentDefinition).open();
+    };
 
     useEffect(() => {
         const transactions = JSON.parse(sessionStorage.getItem('transactions'));
@@ -48,40 +53,9 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
         });
     });
 
-    // const getTransactionsLog = async () => {
-    //   try {
-    //     const res = await axios.get(AGENT_TRANSACTION_HISTORY);
-
-    //     const transactions = res.data.data.data;
-
-    //     sessionStorage.setItem("transactions", JSON.stringify(transactions));
-    //     setTransactions(transactions);
-    //   } catch (e) {
-    //     // console.log(e)
-    //   }
-    // };
-
-    // const handleRequeryTransactionStatus = async (id) => {
-    //   setRequeryLoading(true);
-
-    //   const payload = {
-    //     transaction_id: id,
-    //   };
-
-    //   try {
-    //     const res = await axios.post(REQUERY_TRANSACTION_STATUS, payload);
-
-    //     if (res) getTransactionsLog();
-    //   } catch (e) {
-    //     // console.log(e)
-    //   } finally {
-    //     setRequeryLoading(false);
-    //   }
-    // };
-
     return (
         <>
-            <iframe
+            {/* <iframe
                 id='ifmcontentstoprint'
                 style={{
                     height: '0px',
@@ -90,7 +64,7 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
                     border: 'none',
                 }}
                 title='toPrint'
-            ></iframe>
+            ></iframe> */}
             <div className={styles.section} id='myDiv'>
                 <div className={styles.imageContainer}>
                     <img
@@ -194,12 +168,7 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
                             <Link to='/' className={styles.linkHome}>
                                 Go Home
                             </Link>
-                            <span
-                                onClick={() => PrintDiv('myDiv')}
-                                className={styles.print}
-                            >
-                                Print
-                            </span>
+                            <span onClick={() => printDocument()}>Print</span>
                         </div>
                         <div className={styles.message}>
                             <a

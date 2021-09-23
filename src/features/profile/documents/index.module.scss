@@ -1,0 +1,90 @@
+@import '../../../assets/styles/config/breakpoints';
+@import '../../../assets/styles/config/mixins';
+
+.container {
+    // padding-top: 2rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    color: #707087;
+    font-size: 1.4rem;
+    text-align: left;
+    position: relative;
+}
+
+.documents {
+    margin-top: 3rem;
+    width: 100%;
+    color: #22215b;
+    padding: 2rem 0.5rem;
+    position: relative;
+
+    &Heading {
+        margin-bottom: 2rem;
+        font-size: 1.5rem;
+    }
+
+    &Uploaded {
+        margin-block-start: 2rem;
+        margin-block-end: 4rem;
+        padding-inline: 2rem;
+        padding-block: 1rem;
+        box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.25);
+
+        &Headings {
+            font-size: 1.2rem;
+        }
+
+        &Text {
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 2rem;
+            font-weight: 600;
+        }
+    }
+
+    &Upload {
+        margin-top: 2rem;
+        padding-inline: 2rem;
+        padding-block: 1rem;
+
+        &Headings {
+            font-size: 1.2rem;
+        }
+
+        .form {
+            width: 65%;
+            padding: 3rem 2.5rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 3rem;
+
+            @include respond-custom(1000px) {
+                width: 80%;
+            }
+
+            @include respond-custom(700px) {
+                width: 100%;
+            }
+
+            @include respond-custom(500px) {
+                grid-template-columns: none;
+                grid-gap: 2rem;
+                padding-top: 4rem;
+                padding-bottom: 1rem;
+                width: 100%;
+            }
+        }
+
+        .formGroup {
+            text-align: left;
+        }
+
+        .label {
+            margin-bottom: 2rem;
+            color: #3d3d3d;
+            font-size: 1.5rem;
+        }
+    }
+}
