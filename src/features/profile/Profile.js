@@ -282,11 +282,6 @@ export const Profile = ({ agentData, changeCurrentPage, displayModal }) => {
                         <p className={styles.errorText}>Please Enter BVN</p>
                     )}
                 </div>
-                {/* <div className={`${styles.submit} ${styles.formGroup}`}>
-                    <button className={styles.submit} disabled type='submit'>
-                        {loading ? <ThreeDots /> : 'Submit'}
-                    </button>
-                </div> */}
             </form>
         </div>
     );

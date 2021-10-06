@@ -1,7 +1,6 @@
 import AddUser from '../features/users/AddUser';
 import Users from '../features/users/index';
 import FundWallet from '../features/services/fundWallet/FundWallet';
-// import CashCall from "../features/services/cashcall/CashCall";
 import FundsTransfer from '../features/services/transfer/index';
 import BuyAirtime from '../features/services/airtime/index';
 import ElectricityPayment from '../features/services/electricity/index';
@@ -168,44 +167,6 @@ const routes = [
         component: Documents,
         exact: true,
     },
-    // {
-    //   path: "/cash-call",
-    //   exact: true,
-    //   component: CashCallPage,
-    // },
-    // {
-    //   path: "/cash-call/:id",
-    //   component: CashCall,
-    // },
-    // {
-    //   path: "/aggregator",
-    //   component: Aggregator,
-    //   // exact: true,
-    //   routes: [
-    //     {
-    //       path: "/aggregator",
-    //       exact: true,
-    //       component: AggregatorDashboard,
-    //     },
-    //     {
-    //       path: "/aggregator/dashboard",
-    //       exact: true,
-    //       component: AggregatorDashboard,
-    //     },
-    //     {
-    //       path: "/aggregator/agent-list",
-    //       component: AgentList,
-    //     },
-    //     {
-    //       path: "/aggregator/create-agent",
-    //       component: CreateAgent,
-    //     },
-    //     {
-    //       path: "/aggregator/commission-history",
-    //       component: CommissionHistory,
-    //     },
-    //   ],
-    // },
 ];
 
 export default routes;
