@@ -63,8 +63,6 @@ const Document = ({ agent_code }) => {
         })();
     };
 
-    console.lo('you');
-
     return (
         <div className={styles.container}>
             <div className={styles.documents}>
