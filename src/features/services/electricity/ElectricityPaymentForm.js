@@ -25,45 +25,12 @@ const ElectricityPaymentForm = (props) => {
         setState,
         setComponentToRender,
     } = props;
-    // const [energyVendors, setEnergyVendors] = useState([]);
-    // const [accountName, setAccountName] = useState("");
+
     const [validationErrors, setValidationErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
     const { addToast } = useToasts();
     let serviceImageUrl = generateServiceProviderImageUrl(props.service);
-
-    // useEffect(() => {
-    //   (async function fetchVendorsList() {
-    //     const res = await axios.get(GET_ENERGY_VENDORS);
-    //     const energyVendors = res.data.data;
-
-    //     setEnergyVendors(energyVendors);
-    //   })();
-    // }, []);
-
-    // useEffect(() => {
-    //   let isCancelled;
-
-    //   if (energyVendors) {
-    //     const selectedEnergyVendor = energyVendors.find((vendor) => {
-    //       return vendor.name === props.service.toUpperCase();
-    //     });
-
-    //     if (selectedEnergyVendor) {
-    //       const selectedVendorCode = selectedEnergyVendor.name.trim();
-
-    //       setState({
-    //         type: "UPDATE_FORM_STATE",
-    //         payload: { disco: selectedVendorCode },
-    //       });
-    //     }
-    //   }
-
-    //   return () => {
-    //     isCancelled = true;
-    //   };
-    // }, [energyVendors]);
 
     useEffect(() => {
         const { meterNo, paymentPlan, amount } = state;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
@@ -32,6 +32,8 @@ const Header = ({
     vfdAccountNumber,
 }) => {
     const [toggleUser, setToggleUser] = useState(false);
+    const wrapperRef = useRef(null);
+
     const { addToast } = useToasts();
     const agentClassificationLowercase = agentClassification.toLowerCase();
     const agentClassificationIcon =
@@ -66,6 +68,25 @@ const Header = ({
             });
         });
     };
+
+    function useClickOutside(ref) {
+        function handleClickOutside(event) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setToggleUser(false);
+            }
+        }
+
+        useEffect(() => {
+            // Bind the event listener
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => {
+                // Unbind the event listener on clean up
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+        }, []);
+    }
+
+    useClickOutside(wrapperRef);
 
     return (
         <header className={styles.header}>
@@ -103,7 +124,7 @@ const Header = ({
                         className={styles.agentCategory}
                     />
                     {toggleUser && (
-                        <div className={styles.userSubmenu}>
+                        <div className={styles.userSubmenu} ref={wrapperRef}>
                             <div className={styles.userSubmenuBio}>
                                 <img
                                     src={user}
