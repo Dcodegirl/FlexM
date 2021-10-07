@@ -1,0 +1,45 @@
+.bar {
+    height: 10px;
+    width: 100%;
+    display: block;
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    padding: 0;
+    margin-top: 5px;
+
+    .percent {
+        background-color: #999;
+        height: 100%;
+        display: block;
+        font-size: 0.65rem;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        border-radius: 30px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        padding: 0;
+        transition: width 1.5s ease;
+
+        &.red {
+            background-color: red;
+            border: 1px solid red;
+        }
+
+        &.orange {
+            background-color: orange;
+            border: 1px solid orange;
+        }
+
+        &.green {
+            background-color: #83bc23;
+            border: 1px solid #83bc23;
+        }
+
+        &.full {
+            border-top-right-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+    }
+}
