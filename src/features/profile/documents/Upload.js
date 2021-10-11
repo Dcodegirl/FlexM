@@ -30,7 +30,7 @@ class Uploader extends Component {
             case 'utility':
                 return setUtility({ ...data, type: 'utility bill' });
             case 'passport':
-                return setPassport({ ...data, type: 'passport photograph' });
+                return setPassport({ ...data, type: 'passport pix' });
             case 'id':
                 return setID({ ...data, type: 'id card' });
             case 'guarantor':
@@ -114,6 +114,7 @@ class Uploader extends Component {
 
     render() {
         const { responses, showStatus, error, preview } = this.state;
+
         return (
             <div className={styles.uploadContainer}>
                 <input
