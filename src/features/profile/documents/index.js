@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer, useCallback } from 'react';
 import axios from 'axios';
 import { useToasts } from 'react-toast-notifications';
 import { ThreeDots } from 'svg-loaders-react';
@@ -8,6 +8,8 @@ import styles from './index.module.scss';
 import Uploader from './Upload';
 import { SUBMIT_DOCUMENT, UPLOADED_DOCUMENT } from '../../../utils/constants';
 import moment from 'moment';
+import LoadingOverlay from 'react-loading-overlay';
+import UploadReducer, { initialState } from './upload-reducer.js';
 
 const Document = ({ agent_code }) => {
     const [utility, setUtility] = React.useState({});
@@ -19,7 +21,9 @@ const Document = ({ agent_code }) => {
         reason: false,
         reasonData: [],
     });
+    const [isOverlayActive, setOverlayActive] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [uploadState, dispatch] = useReducer(UploadReducer, initialState);
     const { addToast } = useToasts();
 
     const handleShowReason = (data) => {
@@ -30,24 +34,31 @@ const Document = ({ agent_code }) => {
             });
     };
 
-    const handleDisable = (type) => {
-        uploaded.forEach((data) => {
-            if (data.type.includes(type) && data.status === ' approved')
-                return true;
-        });
-
-        return false;
-    };
-
     useEffect(() => {
+        setOverlayActive(true);
         (async function getUploadedDocument() {
             try {
                 const res = await axios.get(UPLOADED_DOCUMENT, {
                     params: { agent_code },
                 });
                 setUploaded(res.data.data);
+                res.data.data.forEach((data) => {
+                    if (data.status === 'approved') {
+                        return dispatch({
+                            type: 'UPDATE_DETAILS',
+                            payload: {
+                                [data.type.split(' ').join('')]: true,
+                            },
+                        });
+                    }
+                });
+                setOverlayActive(false);
             } catch (e) {
-                console.log(e);
+                addToast('An error occured, kindly reload', {
+                    appearance: 'error',
+                    autoDismiss: true,
+                });
+                setOverlayActive(false);
             }
         })();
     }, []);
@@ -99,164 +110,182 @@ const Document = ({ agent_code }) => {
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.documents}>
-                <h3 className={styles.documentsHeading}>
-                    Documents Management
-                </h3>
-
-                <div className={styles.documentsUploaded}>
-                    <h5 className={styles.documentsUploadedHeadings}>
-                        Uploaded Documents
-                    </h5>
-                    {uploaded === {} ? (
-                        <p className={styles.documentsUploadedText}>
-                            No documents has been uploaded yet, Kindly proceed
-                            below to upload your documents
-                        </p>
-                    ) : (
-                        <div className={styles.uploadedDocument}>
-                            {uploaded &&
-                                uploaded.map((data, index) => (
-                                    <div className={styles.image} key={index}>
-                                        <img src={data.path} alt='' />
-                                        <span
-                                            onClick={() =>
-                                                handleShowReason(data)
-                                            }
-                                            className={`${
-                                                data.status === 'rejected'
-                                                    ? styles.red
-                                                        ? data.status ===
-                                                          'approved'
-                                                        : styles.green
-                                                    : styles.grey
-                                            }`}
+        <LoadingOverlay
+            active={isOverlayActive}
+            spinner
+            text={'fetching uploaded document'}
+        >
+            <div className={styles.container}>
+                <div className={styles.documents}>
+                    <h3 className={styles.documentsHeading}>
+                        Documents Management
+                    </h3>
+                    <div className={styles.documentsUploaded}>
+                        <h5 className={styles.documentsUploadedHeadings}>
+                            Uploaded Documents
+                        </h5>
+                        {uploaded === {} ? (
+                            <p className={styles.documentsUploadedText}>
+                                No documents has been uploaded yet, Kindly
+                                proceed below to upload your documents
+                            </p>
+                        ) : (
+                            <div className={styles.uploadedDocument}>
+                                {uploaded &&
+                                    uploaded.map((data, index) => (
+                                        <div
+                                            className={styles.image}
+                                            key={index}
                                         >
-                                            {data.status}
-                                            {data.status === 'rejected' &&
-                                                `(${data?.docs_reasons?.length()})`}
-                                        </span>
+                                            <img src={data.path} alt='' />
+                                            <span
+                                                onClick={() =>
+                                                    handleShowReason(data)
+                                                }
+                                                className={`${
+                                                    data.status === 'rejected'
+                                                        ? styles.red
+                                                        : data.status ===
+                                                          'approved'
+                                                        ? styles.green
+                                                        : styles.grey
+                                                }`}
+                                            >
+                                                {data.status}
+                                                {data.status === 'rejected' &&
+                                                    `(${data?.docs_reasons?.length})`}
+                                            </span>
 
-                                        {showReason.reason && (
-                                            <ul className={styles.reason}>
-                                                {showReason.data.id ===
-                                                    data.id &&
-                                                    showReason.data?.docs_reasons.map(
-                                                        (res, index) => (
-                                                            <li key={index}>
-                                                                <span
-                                                                    style={{
-                                                                        marginRight:
-                                                                            '10px',
-                                                                    }}
-                                                                >
-                                                                    {moment(
-                                                                        res.updated_at
-                                                                    ).fromNow()}{' '}
-                                                                    {'--'}
-                                                                </span>{' '}
-                                                                {res.reason}
-                                                            </li>
-                                                        )
-                                                    )}
-                                            </ul>
-                                        )}
-                                    </div>
-                                ))}
-                        </div>
-                    )}
-                </div>
+                                            {showReason.reason && (
+                                                <ul className={styles.reason}>
+                                                    {showReason.data.id ===
+                                                        data.id &&
+                                                        showReason.data?.docs_reasons.map(
+                                                            (res, index) => (
+                                                                <li key={index}>
+                                                                    <span
+                                                                        style={{
+                                                                            marginRight:
+                                                                                '10px',
+                                                                        }}
+                                                                    >
+                                                                        {moment(
+                                                                            res.updated_at
+                                                                        ).fromNow()}{' '}
+                                                                        {'--'}
+                                                                    </span>{' '}
+                                                                    {res.reason}
+                                                                </li>
+                                                            )
+                                                        )}
+                                                </ul>
+                                            )}
+                                        </div>
+                                    ))}
+                            </div>
+                        )}
+                    </div>
 
-                <div className={styles.documentsUpload}>
-                    <h5 className={styles.documentsUploadHeadings}>
-                        Upload Document
-                    </h5>
+                    <div className={styles.documentsUpload}>
+                        <h5 className={styles.documentsUploadHeadings}>
+                            Upload Document
+                        </h5>
 
-                    <form className={styles.form}>
-                        <div
-                            cclassName={`${
-                                handleDisable('utility bill')
-                                    ? styles.formGroupDisabled
-                                    : styles.formGroup
-                            }`}
-                        >
-                            <label className={styles.label} htmlFor='firstname'>
-                                Utility bill
-                                <span className={styles.fileFormat}>
-                                    (jpeg, jpg, png)
-                                </span>
-                            </label>
-                            <Uploader type='utility' setUtility={setUtility} />
-                        </div>
-                        <div
-                            className={`${
-                                handleDisable('passport pix')
-                                    ? styles.formGroupDisabled
-                                    : styles.formGroup
-                            }`}
-                        >
-                            <label className={styles.label} htmlFor='firstname'>
-                                Passport Photograph
-                                <span className={styles.fileFormat}>
-                                    (jpeg, jpg, png)
-                                </span>
-                            </label>
-                            <Uploader
-                                type='passport'
-                                setPassport={setPassport}
-                            />
-                        </div>
-                        <div
-                            className={`${
-                                handleDisable('id card')
-                                    ? styles.formGroupDisabled
-                                    : styles.formGroup
-                            }`}
-                        >
-                            <label className={styles.label} htmlFor='firstname'>
-                                ID Card
-                                <span className={styles.fileFormat}>
-                                    (jpeg, jpg, png)
-                                </span>
-                            </label>
-                            <Uploader
-                                type='id'
-                                setID={setID}
-                                handleDisable={handleDisable}
-                            />
-                        </div>
-                        <div
-                            className={`${
-                                handleDisable('guarantor form')
-                                    ? styles.formGroupDisabled
-                                    : styles.formGroup
-                            }`}
-                        >
-                            <label className={styles.label} htmlFor='firstname'>
-                                Guarantor's Form
-                                <span className={styles.fileFormat}>
-                                    (jpeg, jpg, png)
-                                </span>
-                            </label>
-                            <Uploader
-                                type='guarantor'
-                                setGuarantor={setGuarantor}
-                                handleDisable={handleDisable}
-                            />
-                        </div>
-                        <div
-                            className={`${styles.submit} ${styles.formGroup}`}
-                            onClick={handleSubmit}
-                        >
-                            <button className={styles.submit} type='submit'>
-                                {loading ? <ThreeDots /> : 'Submit'}
-                            </button>
-                        </div>
-                    </form>
+                        <form className={styles.form}>
+                            <div
+                                className={`${
+                                    uploadState.utilitybill
+                                        ? styles.formGroupDisabled
+                                        : styles.formGroup
+                                }`}
+                            >
+                                <label
+                                    className={styles.label}
+                                    htmlFor='firstname'
+                                >
+                                    Utility bill
+                                    <span className={styles.fileFormat}>
+                                        (jpeg, jpg, png)
+                                    </span>
+                                </label>
+                                <Uploader
+                                    type='utility'
+                                    setUtility={setUtility}
+                                />
+                            </div>
+                            <div
+                                className={`${
+                                    uploadState.passportpix
+                                        ? styles.formGroupDisabled
+                                        : styles.formGroup
+                                }`}
+                            >
+                                <label
+                                    className={styles.label}
+                                    htmlFor='firstname'
+                                >
+                                    Passport Photograph
+                                    <span className={styles.fileFormat}>
+                                        (jpeg, jpg, png)
+                                    </span>
+                                </label>
+                                <Uploader
+                                    type='passport'
+                                    setPassport={setPassport}
+                                />
+                            </div>
+                            <div
+                                className={`${
+                                    uploadState.idcard
+                                        ? styles.formGroupDisabled
+                                        : styles.formGroup
+                                }`}
+                            >
+                                <label
+                                    className={styles.label}
+                                    htmlFor='firstname'
+                                >
+                                    ID Card
+                                    <span className={styles.fileFormat}>
+                                        (jpeg, jpg, png)
+                                    </span>
+                                </label>
+                                <Uploader type='id' setID={setID} />
+                            </div>
+                            <div
+                                className={`${
+                                    uploadState.guarantorform
+                                        ? styles.formGroupDisabled
+                                        : styles.formGroup
+                                }`}
+                            >
+                                <label
+                                    className={styles.label}
+                                    htmlFor='firstname'
+                                >
+                                    Guarantor's Form
+                                    <span className={styles.fileFormat}>
+                                        (jpeg, jpg, png)
+                                    </span>
+                                </label>
+                                <Uploader
+                                    type='guarantor'
+                                    setGuarantor={setGuarantor}
+                                />
+                            </div>
+                            <div
+                                className={`${styles.submit} ${styles.formGroup}`}
+                                onClick={handleSubmit}
+                            >
+                                <button className={styles.submit} type='submit'>
+                                    {loading ? <ThreeDots /> : 'Submit'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </LoadingOverlay>
     );
 };
 
