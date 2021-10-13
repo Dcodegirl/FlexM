@@ -87,6 +87,15 @@ const Document = ({ agent_code, displayModal }) => {
                 documents: arr,
             };
 
+            if (payload.documents.length < 1) {
+                addToast('The documents field is required.', {
+                    appearance: 'error',
+                    autoDismiss: true,
+                });
+                setLoading(false);
+                return;
+            }
+
             try {
                 const res = await axios.post(SUBMIT_DOCUMENT, payload);
 
@@ -118,7 +127,7 @@ const Document = ({ agent_code, displayModal }) => {
                     });
                 } else if (err.response && err.response.status === 412) {
                     setLoading(false);
-                    addToast(err.response.statusText, {
+                    addToast(err.response.data.error[0], {
                         appearance: 'error',
                         autoDismiss: true,
                     });
