@@ -98,6 +98,7 @@
 
                     > li {
                         margin-bottom: 10px;
+                        width: max-content;
                     }
                 }
             }
@@ -182,5 +183,17 @@
                 margin-top: 3rem;
             }
         }
+    }
+}
+
+.showUploader {
+    width: 42rem;
+    height: max-content;
+    padding: 3rem 3rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    img {
+        width: 100%;
+        height: 100%;
     }
 }

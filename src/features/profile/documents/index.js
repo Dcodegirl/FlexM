@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useToasts } from 'react-toast-notifications';
 import { ThreeDots } from 'svg-loaders-react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import styles from './index.module.scss';
 import Uploader from './Upload';
@@ -10,8 +11,9 @@ import { SUBMIT_DOCUMENT, UPLOADED_DOCUMENT } from '../../../utils/constants';
 import moment from 'moment';
 import LoadingOverlay from 'react-loading-overlay';
 import UploadReducer, { initialState } from './upload-reducer.js';
+import { setDisplayModal } from '../../../actions/modal';
 
-const Document = ({ agent_code }) => {
+const Document = ({ agent_code, displayModal }) => {
     const [utility, setUtility] = React.useState({});
     const [passport, setPassport] = React.useState({});
     const [id, setID] = React.useState({});
@@ -66,10 +68,23 @@ const Document = ({ agent_code }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
+
         (async function disburseFunds() {
+            let arr = [];
+
+            if (!_.isEmpty(utility)) {
+                arr.push(utility);
+            } else if (!_.isEmpty(passport)) {
+                arr.push(passport);
+            } else if (!_.isEmpty(id)) {
+                arr.push(id);
+            } else if (!_.isEmpty(guarantor)) {
+                arr.push(guarantor);
+            }
+
             const payload = {
                 agent_code,
-                documents: [utility, passport, id, guarantor],
+                documents: arr,
             };
 
             try {
@@ -82,6 +97,7 @@ const Document = ({ agent_code }) => {
                 });
                 window.location.reload();
             } catch (err) {
+                console.log(err.response);
                 if (err.response && err.response.status === 403) {
                     setLoading(false);
                     addToast(err.response.statusText, {
@@ -95,6 +111,12 @@ const Document = ({ agent_code }) => {
                         autoDismiss: true,
                     });
                 } else if (err.response && err.response.status === 500) {
+                    setLoading(false);
+                    addToast(err.response.statusText, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                    });
+                } else if (err.response && err.response.status === 412) {
                     setLoading(false);
                     addToast(err.response.statusText, {
                         appearance: 'error',
@@ -137,7 +159,17 @@ const Document = ({ agent_code }) => {
                                             className={styles.image}
                                             key={index}
                                         >
-                                            <img src={data.path} alt='' />
+                                            <img
+                                                src={data.path}
+                                                alt=''
+                                                onClick={() =>
+                                                    displayModal({
+                                                        overlay: true,
+                                                        modal: 'showUpload',
+                                                        service: data.path,
+                                                    })
+                                                }
+                                            />
                                             <span
                                                 onClick={() =>
                                                     handleShowReason(data)
@@ -173,7 +205,7 @@ const Document = ({ agent_code }) => {
                                                                             res.updated_at
                                                                         ).fromNow()}{' '}
                                                                         {'--'}
-                                                                    </span>{' '}
+                                                                    </span>
                                                                     {res.reason}
                                                                 </li>
                                                             )
@@ -295,4 +327,10 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(Document);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        displayModal: (payload) => dispatch(setDisplayModal(payload)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Document);
