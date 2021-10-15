@@ -321,3 +321,5 @@ export const REGISTRATION_SELECT = `${path}/selects`;
 export const UPLOAD_DOCUMENT = `https://services.agents.cicoserve.com/api/upload/file`;
 
 export const SUBMIT_DOCUMENT = `https://services.agents.cicoserve.com/api/bulk/image/path`;
+
+export const UPLOADED_DOCUMENT = `https://services.agents.cicoserve.com/api/image/status`;
