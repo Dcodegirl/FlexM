@@ -12,6 +12,8 @@ import { setDisplayModal } from '../../actions/modal';
 import pin from '../../assets/icons/pin.svg';
 import lock from '../../assets/icons/lock.svg';
 import category from '../../assets/icons/category.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './Profile.module.scss';
 
@@ -128,10 +130,9 @@ export const Profile = ({ agentData, changeCurrentPage, displayModal }) => {
                                 to='/documents'
                                 className={styles.serviceLink}
                             >
-                                <img
-                                    className={styles.serviceLogo}
-                                    src={category}
-                                    alt=''
+                                <FontAwesomeIcon
+                                    icon={faFileUpload}
+                                    className={styles.docBtn}
                                 />
                                 <p className={styles.serviceText}>Documents</p>
                             </Link>
