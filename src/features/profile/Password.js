@@ -30,9 +30,10 @@ export const Password = ({ displayModal }) => {
     const handleOnSubmit = (e) => {
         e.preventDefault();
 
-        const { new_password, confirm_password } = formState;
+        const { new_password, confirm_password, password } = formState;
 
         const payload = {
+            password,
             new_password,
             confirm_password,
         };

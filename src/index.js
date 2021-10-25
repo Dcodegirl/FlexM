@@ -7,7 +7,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import setAuthToken from './utils/setAuthToken';
 import setAxiosDefaults from './utils/setAxiosDefaults';
 import configureStore from './store/configureStore';
-import { axiosInterceptor } from './utils/axiosInterceptor';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
@@ -17,7 +16,7 @@ const token = sessionStorage.getItem('token');
 
 setAuthToken(token);
 setAxiosDefaults();
-axiosInterceptor();
+
 const store = configureStore();
 
 ReactDOM.render(
