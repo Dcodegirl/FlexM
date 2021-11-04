@@ -28,16 +28,16 @@ export const startLoginUser = (payload) => (dispatch) => {
     return axios
         .post(LOGIN_API, payload)
         .then((res) => {
-            const user = res.data.data.user;
-            const token = res.data.data.token;
-            const walletBalance = res.data.data.wallet.current_bal;
-            const transactionSettings = res.data.data.settings;
-            const agentClassification = res.data.data.class;
-            const agent = res.data.data.data?.user?.agent
-                ? res.data.data?.user?.agent
-                : res.data.data.agent;
-            const proprietor = res.data.data.user.proprietor;
-            const hasSetPin = res.data.data.has_set_pin;
+            const user = res?.data?.data.user;
+            const token = res?.data?.data.token;
+            const walletBalance = res?.data?.data.wallet.current_bal;
+            const transactionSettings = res?.data?.data.settings;
+            const agentClassification = res?.data?.data.class;
+            const agent = res?.data?.data.data?.user?.agent
+                ? res?.data?.data?.user?.agent
+                : res?.data?.data.agent;
+            const proprietor = res?.data?.data.user.proprietor;
+            const hasSetPin = res?.data?.data.has_set_pin;
 
             const { id, username, phone, email, is_default } = user;
             const {
@@ -112,7 +112,7 @@ export const startLoginUser = (payload) => (dispatch) => {
                     type: 'SET_LOADING',
                     payload: {
                         loading: false,
-                        message: 'Username or Password Incorrect',
+                        message: err.response.data.message,
                     },
                 });
             } else {
