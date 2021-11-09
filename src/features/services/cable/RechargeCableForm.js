@@ -29,7 +29,7 @@ export const RechargeCableForm = (props) => {
     const [validationErrors, setValidationErrors] = useState({});
     const [plans, setPlans] = useState([]);
     const [bouquetCode, setBouquetCode] = useState('');
-    const [currentUser, setCurrentUser] = useState({});
+    const [currentPlan, setCurrentPlan] = useState({});
 
     //effect fetches plans based on selected provider
     useEffect(() => {
@@ -245,7 +245,7 @@ export const RechargeCableForm = (props) => {
         const UserPlan = plans.find(
             (plan) => plan.code === `DSTV|${bouquetCode}`
         );
-        setCurrentUser(UserPlan);
+        setCurrentPlan(UserPlan);
     }, [plans, bouquetCode]);
 
     return (
@@ -276,14 +276,14 @@ export const RechargeCableForm = (props) => {
                     loading={fetchPlansLoading}
                     error={validationErrors.selectedPlanCode}
                 >
-                    {bouquetCode === '' && currentUser === undefined ? (
+                    {bouquetCode === '' && currentPlan === undefined ? (
                         <option value=''>Select Plan</option>
                     ) : (
                         <option
-                            value={currentUser?.name}
-                            key={`${+1}--${currentUser?.name}`}
+                            value={currentPlan?.name}
+                            key={`${+1}--${currentPlan?.name}`}
                         >
-                            {currentUser?.name}
+                            {currentPlan?.name}
                         </option>
                     )}
                     {plans.map((plan, index) => {
