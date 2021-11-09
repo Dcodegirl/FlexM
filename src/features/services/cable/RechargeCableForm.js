@@ -28,8 +28,8 @@ export const RechargeCableForm = (props) => {
     const [fetchPlansLoading, setFetchPlansLoading] = useState(false);
     const [validationErrors, setValidationErrors] = useState({});
     const [plans, setPlans] = useState([]);
-
-    console.log(fetchPlansLoading);
+    const [bouquetCode, setBouquetCode] = useState('');
+    const [currentUser, setCurrentUser] = useState({});
 
     //effect fetches plans based on selected provider
     useEffect(() => {
@@ -94,6 +94,7 @@ export const RechargeCableForm = (props) => {
                 try {
                     const res = await axios.post(requestUrl, payload);
                     const customerName = res.data.data.name;
+                    const bouquetCode = res.data.data.bouquetCode;
 
                     if (!customerName) throw new Error();
 
@@ -102,6 +103,8 @@ export const RechargeCableForm = (props) => {
                             type: 'UPDATE_FORM_STATE',
                             payload: { customerName },
                         });
+
+                        setBouquetCode(bouquetCode);
 
                         setValidationErrors({
                             ...validationErrors,
@@ -238,6 +241,13 @@ export const RechargeCableForm = (props) => {
     //Dynamically render bank logo
     let providerImageUrl = generateServiceProviderImageUrl(props.service);
 
+    useEffect(() => {
+        const UserPlan = plans.find(
+            (plan) => plan.code === `DSTV|${bouquetCode}`
+        );
+        setCurrentUser(UserPlan);
+    }, [plans, bouquetCode]);
+
     return (
         <Form
             autoComplete='off'
@@ -246,13 +256,17 @@ export const RechargeCableForm = (props) => {
             handleOnSubmit={handleOnContinue}
             logo={providerImageUrl}
         >
-            {/* <div className={styles.imageContainer}>
-        <img
-          className={styles.image}
-          src={providerImageUrl}
-          alt="cable provider icon"
-        />
-      </div> */}
+            <FormGroup>
+                <Input
+                    name='smartCardNumber'
+                    label='Smart Card Number'
+                    placeholder='Enter smart card number'
+                    value={state.smartCardNumbe}
+                    type='text'
+                    handleOnChange={handleFormStateChange}
+                    error={validationErrors.smartCardNumber}
+                />
+            </FormGroup>
             <FormGroup>
                 <Select
                     name='selectedPlanCode'
@@ -262,7 +276,16 @@ export const RechargeCableForm = (props) => {
                     loading={fetchPlansLoading}
                     error={validationErrors.selectedPlanCode}
                 >
-                    <option value=''>Select Plan</option>
+                    {bouquetCode === '' && currentUser === undefined ? (
+                        <option value=''>Select Plan</option>
+                    ) : (
+                        <option
+                            value={currentUser?.name}
+                            key={`${+1}--${currentUser?.name}`}
+                        >
+                            {currentUser?.name}
+                        </option>
+                    )}
                     {plans.map((plan, index) => {
                         return (
                             <option
@@ -310,17 +333,7 @@ export const RechargeCableForm = (props) => {
                     disabled
                 />
             </FormGroup>
-            <FormGroup>
-                <Input
-                    name='smartCardNumber'
-                    label='Smart Card Number'
-                    placeholder='Enter smart card number'
-                    value={state.smartCardNumbe}
-                    type='text'
-                    handleOnChange={handleFormStateChange}
-                    error={validationErrors.smartCardNumber}
-                />
-            </FormGroup>
+
             <FormGroup>
                 <Input
                     name='customerName'
