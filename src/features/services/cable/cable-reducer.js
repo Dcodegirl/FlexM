@@ -11,7 +11,6 @@ export const initialFormState = {
 };
 
 const RechargeCableReducer = (state, { type, payload }) => {
-    console.log(payload);
     switch (type) {
         case 'UPDATE_FORM_STATE':
             return { ...state, ...payload };
