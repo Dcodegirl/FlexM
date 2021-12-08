@@ -15,7 +15,7 @@ export const authMiddleware = () => {
                 error.response.data &&
                 error.response.data.message
             ) {
-                alert(error.response.data.message, 1);
+                // alert(error.response.data.message, 1);
             } else if (error.response && error.response.data) {
             } else return Promise.reject(error);
         }
