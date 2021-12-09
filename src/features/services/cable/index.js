@@ -23,6 +23,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
     const [successData, setSuccessData] = useState(null);
     const [loading, setLoading] = useState(false);
     const { addToast } = useToasts();
+    const [failedErrorMessage, setFailedErrorMessage] = useState('');
 
     const getTransactionDate = (date) => {
         const dateString = date.toLocaleDateString();
@@ -74,10 +75,11 @@ export const RechargeCable = ({ service, hasSetPin }) => {
                 setComponentToRender('success');
             } catch (e) {
                 setLoading(false);
-                addToast(e.response.data.message, {
+                addToast(e.response.data.data[0], {
                     appearance: 'error',
                     autoDismiss: true,
                 });
+                setFailedErrorMessage(e.response.data.data[0] || undefined);
                 setComponentToRender('failed');
             }
         })();
@@ -120,7 +122,9 @@ export const RechargeCable = ({ service, hasSetPin }) => {
             );
             break;
         case 'failed':
-            renderedComponent = <FailedTransaction />;
+            renderedComponent = (
+                <FailedTransaction message={failedErrorMessage} />
+            );
             break;
         default:
             renderedComponent = null;
