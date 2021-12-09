@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import cico from '../../assets/images/cico-logo-login.svg';
 import styles from './TransactionDetails.module.scss';
 import { setCurrentPage } from '../../actions/page';
-
-import jsPDF from 'jspdf';
-import pdfMake from 'pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-import htmlToPdfmake from 'html-to-pdfmake';
+import html2pdf from 'html2pdf.js';
 
 import email from '../../assets/images/email.svg';
 import whatsapp from '../../assets/images/whatsapp.svg';
@@ -18,23 +13,7 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
     const [transaction, setTransaction] = useState({});
     const [transtype, setTranstype] = useState({});
 
-    const printDocument = () => {
-        //const input = document.getElementById('divToPrint');
-
-        const doc = new jsPDF();
-
-        //get table html
-        const pdfTable = document.getElementById('myDiv');
-        //html to pdf format
-        var html = htmlToPdfmake(pdfTable.innerHTML);
-        console.log(html);
-
-        const documentDefinition = {
-            content: html,
-        };
-        pdfMake.vfs = pdfFonts.pdfMake.vfs;
-        pdfMake.createPdf(documentDefinition).open();
-    };
+    const printDiv = document.getElementById('myDiv');
 
     useEffect(() => {
         const transactions = JSON.parse(sessionStorage.getItem('transactions'));
@@ -55,16 +34,6 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
 
     return (
         <>
-            {/* <iframe
-                id='ifmcontentstoprint'
-                style={{
-                    height: '0px',
-                    width: '0px ',
-                    position: 'absolute',
-                    border: 'none',
-                }}
-                title='toPrint'
-            ></iframe> */}
             <div className={styles.section} id='myDiv'>
                 <div className={styles.imageContainer}>
                     <img
@@ -151,24 +120,13 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
                                 </span>
                             </div>
                         </div>
-                        {/* {transaction.status === "pending" && (
-            <div
-              className={styles.requery}
-              onClick={() => {
-                handleRequeryTransactionStatus(transaction.reference);
-              }}
-            >
-              <span className={styles.requeryText}>
-                Requery transaction status
-              </span>
-              {requeryLoading && <ThreeDots fill="#3E215B" />}
-            </div>
-          )} */}
                         <div className={styles.details}>
                             <Link to='/' className={styles.linkHome}>
                                 Go Home
                             </Link>
-                            <span onClick={() => printDocument()}>Print</span>
+                            <span onClick={() => html2pdf(printDiv)}>
+                                Print
+                            </span>
                         </div>
                         <div className={styles.message}>
                             <a

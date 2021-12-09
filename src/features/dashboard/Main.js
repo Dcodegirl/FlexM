@@ -59,10 +59,6 @@ export const Main = ({
         fetchOverviewData();
     };
 
-    // useEffect(() => {
-    //     EventEmitter.subscribe('refresh-wallet-balance', fetchOverviewData());
-    // }, []);
-
     return (
         <Suspense fallback={<div>this is loading the main page</div>}>
             <main className={styles.main}>
