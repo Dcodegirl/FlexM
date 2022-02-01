@@ -17,7 +17,7 @@ import { EventEmitter } from '../../../utils/event';
 import styles from './index.module.scss';
 
 export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
-    const TRANSACTION_COST = 0;
+    const TRANSACTION_COST = 25;
     let renderedComponent;
     const [componentToRender, setComponentToRender] = useState('form');
     const [FundsTransferFormState, dispatch] = useReducer(
