@@ -97,16 +97,13 @@ const validateFormData = (formData, properties) => {
         text: `${property.replace("_", "")} too short`,
       };
     } else if (
-      property === "password" &&
+      property === "confirm_password" &&
       formData[property] &&
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(
-        formData[property]
-      )
+      formData[property] !== formData["new_password"]
     ) {
-      errors.password = {
+      errors[property] = {
         error: true,
-        text:
-          "Password too weak, use at least 8 characters, one uppercase, lowercase, number and special character",
+        text: `Passwords do not match`,
       };
     } else if (
       property === "password_confirmation" &&
