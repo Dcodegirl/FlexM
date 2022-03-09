@@ -11,6 +11,7 @@ import TransactionPin from '../profile/TransactionPin';
 import Password from '../../features/profile/Password';
 import BetslipModal from '../../features/services/betting/play/BetslipModal';
 import WalletTransfer from '../../features/services/walletTransfer/WalletTransfer';
+import CommissionTransfer from '../services/commissionmodal/CommissionTransfer';
 import FundBettingWallet from '../../features/services/betting/fundWallet/FundWallet';
 import CustomerStatus from '../../features/profile/CustomerStatus';
 import LoanApplication from '../../features/services/loan/AgentLoan';
@@ -46,6 +47,7 @@ const Modal = ({ overlay, modal, displayModal }) => {
                     addUsers: <AddUser />,
                     password: <Password />,
                     walletTransfer: <WalletTransfer />,
+                    CommissionTransfer:<CommissionTransfer/>,
                     fundBettingWallet: <FundBettingWallet />,
                     customerStatus: <CustomerStatus />,
                     loanApplication: <LoanApplication />,

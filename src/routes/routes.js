@@ -8,9 +8,11 @@ import BuyData from '../features/services/data/index';
 import RechargeCable from '../features/services/cable/index';
 import BuyInsurance from '../features/services/insurance/BuyInsurance';
 import WalletLog from '../features/logs/wallet/index';
+import CommissionLogs from '../features/logs/commissions/index';
 import TransactionLog from '../features/logs/transactions/TransactionLog';
 import Profile from '../features/profile/Profile';
 import WalletTransfer from '../features/services/walletTransfer/WalletTransfer';
+import CommissionTransfer from '../features/services/commissionmodal/CommissionTransfer';
 import BillPayment from '../pages/BillPayment';
 import AirtimeData from '../pages/AirtimeData';
 import LoanPage from '../pages/Loan';
@@ -93,6 +95,17 @@ const routes = [
         exact: true,
         component: WalletLog,
     },
+    {
+        path: '/commission',
+        exact: true,
+        component: CommissionLogs,
+    },  
+
+    {
+        path: '/commission/transfer',
+        exact: true,
+        component: CommissionTransfer,
+    },  
     // {
     //   path: "/activity-log",
     //   component: ActivityLog,

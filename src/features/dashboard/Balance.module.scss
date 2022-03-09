@@ -13,7 +13,12 @@
   font-family: "Poppins", monospace, arial, helvetica, sans-serif;
   border-radius: 1rem;
   justify-content: space-between;
-
+.balanceWrapper{
+  display: flex;
+}
+.balances{
+  margin-right:10rem;
+}
   @media print {
     display: none;
   }

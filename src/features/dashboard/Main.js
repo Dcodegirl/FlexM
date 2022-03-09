@@ -5,7 +5,9 @@ import axios from 'axios';
 
 import { setWalletBalance } from '../../actions/wallet';
 
+
 import { AGENT_DASHBOARD_DATA } from '../../utils/constants';
+
 
 import Balance from './Balance';
 import PrivateRoute from '../../utils/privateRoute';
@@ -28,7 +30,8 @@ export const Main = ({
 }) => {
     const [overviewData, setOverviewData] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const [commissionBalance, setCommissionBalance] =useState(0)
+    // const [total, setTotal] =useState(0)
     async function fetchOverviewData() {
         try {
             const res = await axios.get(AGENT_DASHBOARD_DATA);
@@ -37,6 +40,10 @@ export const Main = ({
 
             setOverviewData(overviewData);
             setWalletBalance(overviewData.wallet.current_bal);
+            // setCommissionBalance(0);
+            setCommissionBalance(overviewData.commission.current_commission)
+            console.log(setCommissionBalance)
+           
         } catch (e) {
             // console.log("an error occurred");
         } finally {
@@ -44,6 +51,22 @@ export const Main = ({
         }
     }
 
+    // async function fetchOverviewData() {
+    //     try {
+    //         const res = await axios.get(AGENT_DASHBOARD_DATA);
+
+    //         const overviewData = res.data.data;
+
+    //         setOverviewData(overviewData);
+    //         setCommissionBalance(overviewData.commission.current_commission);
+           
+    //     } catch (e) {
+    //         // console.log("an error occurred");
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }
+   
     useEffect(() => {
         let isCancelled;
 
@@ -52,13 +75,15 @@ export const Main = ({
             EventEmitter.subscribe('refresh-wallet-balance', () => {
                 fetchOverviewData();
             });
+           
+            
         }
     }, []);
 
     const refreshOverviewData = () => {
         fetchOverviewData();
     };
-
+    
     return (
         <Suspense fallback={<div>this is loading the main page</div>}>
             <main className={styles.main}>
@@ -77,7 +102,8 @@ export const Main = ({
                                 : styles.content
                         }
                     >
-                        <Balance refreshOverviewData={refreshOverviewData} />
+                        <Balance refreshOverviewData={refreshOverviewData} commissionBalance={commissionBalance}/>
+                       
                         <div className={styles.contentMain}>
                             <span
                                 className={styles.back}
@@ -121,6 +147,7 @@ export const Main = ({
 const mapDispatchToProps = (dispatch) => {
     return {
         setWalletBalance: (payload) => dispatch(setWalletBalance(payload)),
+       
     };
 };
 

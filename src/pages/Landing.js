@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { ThreeDots } from "svg-loaders-react";
 import { useToasts } from "react-toast-notifications";
-
+import whitecircle from "../assets/images/whitecircle.svg"
+import greencircle from "../assets/images/greencircle.svg"
+import mobilephone from "../assets/images/mobilephone.svg"
 import NavHome from "../components/layout/HomeNavBar";
 import { startLoginUser } from "../actions/auth";
 
@@ -70,6 +72,12 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
           <p className={styles.headingPrimary}>
             Simplifying Payments in Africa.
           </p>
+          {/* images */}
+          <div>
+            <img className={styles.whitecircle} src ={whitecircle} alt="whitecircle"/>
+            <img className={styles.greencircle} src ={greencircle} alt="greencircle"/>
+            <img className={styles.mobilephone} src ={mobilephone} alt="mobilephone"/>
+          </div>
         </div>
         <div className={styles.formSection}>
           <div className={styles.formContainer}>
