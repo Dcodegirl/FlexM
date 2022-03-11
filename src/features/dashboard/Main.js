@@ -2,13 +2,8 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
 import { setWalletBalance } from '../../actions/wallet';
-
-
 import { AGENT_DASHBOARD_DATA } from '../../utils/constants';
-
-
 import Balance from './Balance';
 import PrivateRoute from '../../utils/privateRoute';
 import Header from './Header';
@@ -31,7 +26,7 @@ export const Main = ({
     const [overviewData, setOverviewData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [commissionBalance, setCommissionBalance] =useState(0)
-    // const [total, setTotal] =useState(0)
+    
     async function fetchOverviewData() {
         try {
             const res = await axios.get(AGENT_DASHBOARD_DATA);
@@ -40,33 +35,18 @@ export const Main = ({
 
             setOverviewData(overviewData);
             setWalletBalance(overviewData.wallet.current_bal);
-            // setCommissionBalance(0);
+           
             setCommissionBalance(overviewData.commission.current_commission)
             console.log(setCommissionBalance)
            
         } catch (e) {
-            // console.log("an error occurred");
+            
         } finally {
             setLoading(false);
         }
     }
 
-    // async function fetchOverviewData() {
-    //     try {
-    //         const res = await axios.get(AGENT_DASHBOARD_DATA);
-
-    //         const overviewData = res.data.data;
-
-    //         setOverviewData(overviewData);
-    //         setCommissionBalance(overviewData.commission.current_commission);
-           
-    //     } catch (e) {
-    //         // console.log("an error occurred");
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }
-   
+  
     useEffect(() => {
         let isCancelled;
 

@@ -12,7 +12,7 @@ import CommissionLogs from '../features/logs/commissions/index';
 import TransactionLog from '../features/logs/transactions/TransactionLog';
 import Profile from '../features/profile/Profile';
 import WalletTransfer from '../features/services/walletTransfer/WalletTransfer';
-import CommissionTransfer from '../features/services/commissionmodal/CommissionTransfer';
+import CommissionTransfer from '../features/services/commissionTransfer/CommissionTransfer';
 import BillPayment from '../pages/BillPayment';
 import AirtimeData from '../pages/AirtimeData';
 import LoanPage from '../pages/Loan';

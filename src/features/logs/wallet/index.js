@@ -1,12 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-
 import { setCurrentPage } from "../../../actions/page";
 import { setDisplayModal } from "../../../actions/modal";
-
 import WalletLogs from "./WalletLog";
 import userGroup from "../../../assets/icons/users.svg";
-
 import styles from "./index.module.scss";
 
 export const Users = ({ changeCurrentPage, displayModal }) => {
