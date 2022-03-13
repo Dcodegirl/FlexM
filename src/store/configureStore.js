@@ -7,6 +7,7 @@ import errorReducer from '../reducers/error';
 import notificationReducer from '../reducers/notification';
 import modalReducer from '../reducers/modal';
 
+
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default () => {
@@ -15,6 +16,7 @@ export default () => {
             auth: authReducer,
             page: pageReducer,
             wallet: walletReducer,
+            
             error: errorReducer,
             notification: notificationReducer,
             modal: modalReducer,

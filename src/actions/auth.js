@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { LOGIN_API } from '../utils/constants';
 import setAuthToken from '../utils/setAuthToken';
-import setAxiosDefaults from '../utils/setAxiosDefaults';
+// import setAxiosDefaults from '../utils/setAxiosDefaults';
 import isEmpty from '../validation/isEmpty';
 import history from '../utils/history';
 import { setWalletBalance } from './wallet';
@@ -11,6 +11,7 @@ const loginUser = ({
     user,
     isAuthenticated,
     walletBalance,
+    commissionBalance,
     transactionSettings,
 }) => {
     return {
@@ -19,6 +20,7 @@ const loginUser = ({
             isAuthenticated,
             user,
             walletBalance,
+            commissionBalance,
             transactionSettings,
         },
     };
@@ -31,6 +33,7 @@ export const startLoginUser = (payload) => (dispatch) => {
             const user = res?.data?.data.user;
             const token = res?.data?.data.token;
             const walletBalance = res?.data?.data.wallet.current_bal;
+            const commissionBalance = res?.data?.data.commission.current_commission;
             const transactionSettings = res?.data?.data.settings;
             const agentClassification = res?.data?.data.class;
             const agent = res?.data?.data.data?.user?.agent

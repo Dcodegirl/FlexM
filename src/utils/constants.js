@@ -59,6 +59,9 @@ export const FETCH_LGAS = `${path}/parameters/cities`;
 ///////AGENT DASHBOARD DATA/////////
 export const AGENT_DASHBOARD_DATA = `${path}/agent/dashboard-data`;
 
+///////AGENT DASHBOARD DATA/////////
+export const COMMISSION_DASHBOARD_DATA = `${path}/agent/dashdashboard-data`;
+
 //////AGENT INFO///////
 
 //get agent transaction log
@@ -115,6 +118,32 @@ export const VALIDATE_AGENT = `${path}/agents/validate`;
 
 //agent fund wallet request
 export const FUND_WALLET_REQUEST = `${path}/fund-requests`;
+
+/////COMMISSION//////
+
+//get commission history - GET
+// export const GET_AGENT_COMMISSION_HISTORY = `${path}/agents/commission`;
+
+//get commission logs - GET
+export const ALL_COMMISSION_LOGS = `${path}/commission/all`;
+
+//post fund agent commission - POST
+export const FUND_AGENT_COMMISSION = `${path}/commission/admin`;
+
+///debit agent commission (admin) - PUT
+export const DEBIT_AGENT_COMMISSION = `${path}/commission/admin`;
+
+//search commission
+export const SEARCH_COMMISSION = `${path}/commission/search`;
+
+//agent commission transfer
+export const COMMISSION_TRANSFER = `${path}/commission/transfer`;
+
+//agent commission transfer
+// export const VALIDATE_AGENTS = `${path}/agents/validate`;
+
+//agent fund commission request
+// export const FUND_COMMISSION_REQUEST = `${path}/fund-requests`;
 
 /////TRANSACTIONS/////
 

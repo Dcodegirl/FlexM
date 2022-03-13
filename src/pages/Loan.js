@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
 import { setDisplayModal } from "../actions/modal";
-
 import { setCurrentPage } from "../actions/page";
-import consumerLoan from "../assets/icons/consumerIcon.svg";
+// import consumerLoan from "../assets/icons/consumerIcon.svg";
 import repaymentIcon from "../assets/icons/repaymentIcon.svg";
 import loanIcon from "../assets/icons/loanHistoryIcon.svg";
 import agentLoan from "../assets/icons/agentLoanIcon.svg";
