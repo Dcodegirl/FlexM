@@ -2,6 +2,7 @@ export const initialState = {
     amount: '',
     phone: '',
     transaction_pin: '',
+    operator:' ',
 };
 
 const AirtimePurchaseReducer = (state, { type, payload }) => {

@@ -88,7 +88,7 @@ export const BuyDataForm = (props) => {
             payload: { [target.name]: target.value },
         });
     };
-
+    state.operator=service
     return (
         <Form
             autoComplete='off'

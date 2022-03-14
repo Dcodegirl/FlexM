@@ -122,7 +122,7 @@ export const FUND_WALLET_REQUEST = `${path}/fund-requests`;
 /////COMMISSION//////
 
 //get commission history - GET
-// export const GET_AGENT_COMMISSION_HISTORY = `${path}/agents/commission`;
+export const GET_AGENT_COMMISSION_HISTORY = `${path}/agents/commission-histories`;
 
 //get commission logs - GET
 export const ALL_COMMISSION_LOGS = `${path}/commission/all`;

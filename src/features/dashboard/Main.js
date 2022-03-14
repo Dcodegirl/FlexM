@@ -37,7 +37,7 @@ export const Main = ({
             setWalletBalance(overviewData.wallet.current_bal);
            
             setCommissionBalance(overviewData.commission.current_commission)
-            console.log(setCommissionBalance)
+           
            
         } catch (e) {
             

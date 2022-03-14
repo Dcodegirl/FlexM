@@ -7,7 +7,7 @@ import plus from '../../../assets/images/plus.svg';
 import { connect } from 'react-redux';
 import { setCurrentPage } from '../../../actions/page';
 import formatToCurrency from '../../../utils/formatToCurrency';
-import { GET_AGENT_WALLET_HISTORY } from '../../../utils/constants';
+import { GET_AGENT_COMMISSION_HISTORY } from '../../../utils/constants';
 import styles from './CommissionLogs.module.scss';
 import arrowDown from '../../../assets/icons/arrowdown.svg';
 import arrowUp from '../../../assets/images/arrowUp.svg';
@@ -51,7 +51,7 @@ export const CommissionLogs = ({ changeCurrentPage }) => {
         if (transactionTypeFilter) params.type = transactionTypeFilter;
 
         axios
-            .get(`${GET_AGENT_WALLET_HISTORY}?page=${currentPage}`, { params })
+            .get(`${GET_AGENT_COMMISSION_HISTORY }?page=${currentPage}`, { params })
             .then((res) => {
                 const transactions = res.data.data.data;
                 const total = res.data.data.total;
