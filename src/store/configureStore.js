@@ -16,7 +16,6 @@ export default () => {
             auth: authReducer,
             page: pageReducer,
             wallet: walletReducer,
-            
             error: errorReducer,
             notification: notificationReducer,
             modal: modalReducer,

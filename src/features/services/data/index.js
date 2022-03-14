@@ -27,8 +27,9 @@ export const BuyData = ({ service, hasSetPin }) => {
     const { addToast } = useToasts();
 
     const handleOnSubmit = () => {
-        const { amount, phone, plan } = DataPurchaseFormState;
+        const { amount, phone, plan,operator } = DataPurchaseFormState;
         var newPhone = phone;
+        var operators =operator;
 
         setLoading(true);
 
@@ -43,12 +44,24 @@ export const BuyData = ({ service, hasSetPin }) => {
         if (phone.indexOf('0') === 0) {
             newPhone = phone.replace('0', '');
         }
-
+        if(operators === 'mtn'){
+            operators = 'MTN'
+        }
+        if(operators === 'airtel'){
+            operators = 'Airtel'
+        }
+        if(operators === 'glo'){
+            operators  = 'Globacom'
+        }
+        if(operators === '9mobile'){
+            operators= '9mobile'
+        }
         const payload = {
             productId: plan,
             amount,
             bank_code: '9001',
             recipient: `234${newPhone}`,
+            operator:`${operators}`
         };
 
         axios
