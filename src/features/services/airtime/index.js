@@ -44,8 +44,9 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
     }, [AirtimePurchaseFormState.network]);
 
     const handleOnSubmit = () => {
-        const { amount, phone } = AirtimePurchaseFormState;
+        const { amount, phone,operator } = AirtimePurchaseFormState;
         var newPhone = phone;
+        var operators = operator;
 
         setLoading(true);
 
@@ -60,15 +61,31 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
         if (phone.indexOf('0') === 0) {
             newPhone = phone.replace('0', '');
         }
-
+        if(operators === 'mtn'){
+            operators = 'MTN'
+        }
+        if(operators === 'airtel'){
+            operators = 'Airtel'
+        }
+        if(operators === 'glo'){
+            operators  = 'Globacom'
+        }
+        if(operators === '9mobile'){
+            operators= '9mobile'
+        }
+        
         const payload = {
             amount,
             bank_code: '9001',
             recipient: `234${newPhone}`,
+            operator:`${operators}`
         };
 
         axios
-            .post(VEND_AIRTIME, payload)
+            .post(VEND_AIRTIME, payload, {headers:{
+                'Content-Type': 'application/json',
+                'Accept':'application/json'
+            }})
             .then((res) => {
                 const successData = res.data.data;
                 const message = res.data.message;

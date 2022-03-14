@@ -1,20 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
-
 import flexShield from "../../assets/icons/bronze-badge.svg";
 import premiumShield from "../../assets/icons/silver-badge.svg";
 import vipShield from "../../assets/icons/gold-badge.svg";
-
 import formatToCurrency from "../../utils/formatToCurrency";
 import refresh from "../../assets/icons/refresh.svg";
-
 import styles from "./Balance.module.scss";
 
 const Balance = ({
   walletBalance,
+  commissionBalance,
   refreshOverviewData,
   agentClassification,
 }) => {
+
   const agentClassificationLowercase = agentClassification.toLowerCase();
   const agentClassificationIcon =
     agentClassificationLowercase === "premium"
@@ -34,8 +33,10 @@ const Balance = ({
   };
 
   return (
+    <>
     <div className={styles.balance}>
       <div className={styles.balanceWrapper}>
+      <div className={styles.balances}>
         <p className={styles.balanceHeading}>Wallet Balance:</p>
         <h3 className={styles.balanceText}>
           ₦{formatToCurrency(walletBalance)}
@@ -47,6 +48,21 @@ const Balance = ({
           />
         </h3>
       </div>
+      <div className={styles.balances}>
+        <p className={styles.balanceHeading}>Commission Balance:</p>
+        <h3 className={styles.balanceText}>
+          ₦{formatToCurrency(commissionBalance)}
+         
+          <img
+            className={styles.refresh}
+            src={refresh}
+            alt=""
+            onClick={handleOnClick}
+          />
+        </h3>
+      </div>
+      </div>
+     
       <div className={styles.agentCategory}>
         <img
           className={styles.agentCategoryImage}
@@ -55,13 +71,17 @@ const Balance = ({
         />
         <p className={styles.agentCategoryText}>{agentClassificationText}</p>
       </div>
+     
     </div>
+    
+   </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
     walletBalance: state.wallet.balance,
+   
     agentClassification: state.auth.user.agentClassification,
   };
 };

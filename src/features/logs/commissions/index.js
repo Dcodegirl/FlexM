@@ -1,9 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
+
 import { setCurrentPage } from "../../../actions/page";
 import { setDisplayModal } from "../../../actions/modal";
-import WalletLogs from "./WalletLog";
+
+import CommissionLogs from "./CommissionLogs";
 import userGroup from "../../../assets/icons/users.svg";
+
 import styles from "./index.module.scss";
 
 export const Users = ({ changeCurrentPage, displayModal }) => {
@@ -11,25 +14,25 @@ export const Users = ({ changeCurrentPage, displayModal }) => {
     <div className={styles.container}>
       <div className={styles.menu}>
         <div className={styles.card}>
-          <h3 className={styles.sectionHeading}>Wallet Logs</h3>
+          <h3 className={styles.sectionHeading}>Commission Logs</h3>
           <div className={styles.services}>
             <div
               className={styles.service}
               onClick={() => {
                 displayModal({
                   overlay: true,
-                  modal: "walletTransfer",
+                  modal: "commissionTransfer",
                   service: "",
                 });
               }}
             >
               <img className={styles.serviceLogo} src={userGroup} alt="" />
-              <p className={styles.serviceText}>Wallet Transfer</p>
+              <p className={styles.serviceText}>Commission Transfer</p>
             </div>
           </div>
         </div>
       </div>
-      <WalletLogs />
+      <CommissionLogs />
     </div>
   );
 };
