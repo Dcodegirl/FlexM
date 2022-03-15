@@ -65,7 +65,7 @@ export const BuyData = ({ service, hasSetPin }) => {
         };
 
         axios
-            .post(VEND_DATA, payload)
+            .post(VEND_DATA, payload,)
             .then((res) => {
                 const successData = res.data.data;
                 const message = res.data.message;
