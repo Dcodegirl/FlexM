@@ -82,10 +82,13 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
         };
 
         axios
-            .post(VEND_AIRTIME, payload, {headers:{
-                'Content-Type': 'application/json',
-                'Accept':'application/json'
-            }})
+            .post(VEND_AIRTIME, payload,
+               {
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept':'application/json'
+                    }
+                })
             .then((res) => {
                 const successData = res.data.data;
                 const message = res.data.message;

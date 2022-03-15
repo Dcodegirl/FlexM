@@ -116,7 +116,7 @@ export const CommissionLogs = ({ changeCurrentPage }) => {
                         <div className={styles.tableHeading}>
                             <span className={styles.sn}>S/N</span>
                             <span className={styles.date}>Date</span>
-                            <span className={styles.amount}>Amount</span>
+                            <span className={styles.amount}>Commission</span>
                             <span className={styles.prev}>Previous</span>
                             <span className={styles.current}>Balance</span>
                             <span className={styles.description}>
@@ -149,12 +149,12 @@ export const CommissionLogs = ({ changeCurrentPage }) => {
 
                                         <span className={styles.prev}>
                                             {formatToCurrency(
-                                                transaction.previous_bal
+                                                transaction.previous_commission
                                             )}
                                         </span>
                                         <span className={styles.current}>
                                             {formatToCurrency(
-                                                transaction.current_bal
+                                                transaction.current_commission
                                             )}
                                         </span>
                                         <span className={styles.description}>
