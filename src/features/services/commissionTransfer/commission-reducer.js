@@ -1,11 +1,10 @@
 export const initialState = {
     amount: "",
-   
   };
   
   const commissionReducer = (state, { type, payload }) => {
     switch (type) {
-      case "UPDATE_STATE":
+      case "UPDATE_FORM_STATE":
         return { ...state, ...payload };
       default:
         return state;

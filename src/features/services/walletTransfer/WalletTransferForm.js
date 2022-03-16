@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
 import { VALIDATE_AGENT } from "../../../utils/constants";
-
 import logo from "../../../assets/images/cico-logo.svg";
-
 import Form from "../../../components/common/Form";
 import FormGroup from "../../../components/common/FormGroup";
 import Input from "../../../components/common/Input";
@@ -22,10 +19,12 @@ export const WalletTransferForm = (props) => {
     if (state.wallet_id.length > 9) {
       setVerificationLoading(true);
       (async function validateAgent() {
-        const { wallet_id } = state;
+        const { wallet_id, agent_name, amount} = state;
 
         const req = {
           wallet_id,
+          agent_name,
+          amount
         };
 
         try {
@@ -115,7 +114,7 @@ export const WalletTransferForm = (props) => {
             name="amount"
             type="text"
             value={state.amount}
-            onChange={handleOnChange}
+            handleOnChange={handleOnChange}
           />
         </FormGroup>
         <Submit

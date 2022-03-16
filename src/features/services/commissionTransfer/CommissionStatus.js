@@ -1,8 +1,6 @@
 import React from "react";
-
 import formatToCurrency from "../../../utils/formatToCurrency";
 import logo from "../../../assets/icons/cico-logo-regular.svg";
-
 import styles from "./CommissionTransferStatus.module.scss";
 
 var Barcode = require("react-barcode");

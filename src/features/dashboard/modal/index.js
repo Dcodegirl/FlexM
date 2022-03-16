@@ -23,6 +23,7 @@ import toggle from '../../../assets/icons/closeModal.svg';
 import ShowUpload from '../../profile/documents/ShowUpload';
 
 import styles from './index.module.scss';
+import CommissionTransfer from '../../services/commissionTransfer/CommissionTransfer';
 
 const OverlayContainer = ({ overlay, modal, displayModal }) => {
     return (
@@ -51,6 +52,7 @@ const OverlayContainer = ({ overlay, modal, displayModal }) => {
                             addUsers: <AddUser />,
                             password: <Password />,
                             walletTransfer: <WalletTransfer />,
+                            commissionTransfer:<CommissionTransfer />,
                             fundBettingWallet: <FundBettingWallet />,
                             customerStatus: <CustomerStatus />,
                             loanApplication: <LoanApplication />,

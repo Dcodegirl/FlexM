@@ -1,75 +1,34 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-import { VALIDATE_AGENT } from "../../../utils/constants";
-
 import logo from "../../../assets/images/cico-logo.svg";
-
 import Form from "../../../components/common/Form";
 import FormGroup from "../../../components/common/FormGroup";
 import Input from "../../../components/common/Input";
 import Submit from "../../../components/common/Button";
+// import { takeRight } from "lodash";
 
 export const CommissionForm = (props) => {
   const { dispatch, state, setStatus } = props;
-  const [verificationLoading, setVerificationLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
-    let isCancelled = false;
+    
 
-    if (state.commission_id.length > 9) {
-      setVerificationLoading(true);
-      (async function validateAgent() {
-        const { commission_id } = state;
+        const { amount } = state;
 
         const req = {
-          commission_id,
+          amount
         };
-
-        try {
-          const res = await axios.post(VALIDATE_AGENT, req);
-
-          const agent_name = res.data.data.business_name;
-
-          setVerificationLoading(false);
-
-          if (!isCancelled) {
-            dispatch({
-              type: "UPDATE_STATE",
-              payload: { agent_name },
-            });
-          }
-        } catch (e) {
-          if (!isCancelled) {
-            dispatch({
-              type: "UPDATE_STATE",
-              payload: { agent_name: "" },
-            });
-          }
-          setError({
-            error: true,
-            text: "Agent validation failed",
-          });
-          setVerificationLoading(false);
-        }
-      })();
-    }
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [state.commission_id]);
-
+   
+  }, [state.amount]);
+  
   const handleOnProceed = (e) => {
     e.preventDefault();
     setStatus("summary");
   };
 
   const handleOnChange = ({ target }) => {
+  
     dispatch({
-      type: "UPDATE_STATE",
+      type: "UPDATE_FORM_STATE",
       payload: { [target.name]: target.value },
     });
   };
@@ -78,8 +37,8 @@ export const CommissionForm = (props) => {
     <div>
       <Form
         autoComplete="off"
-        title="Commission"
-        caption="Commission"
+        title="Commission Transfer"
+        caption="Make a transfer of your commission"
         handleOnSubmit={handleOnProceed}
         logo={logo}
       >
@@ -91,15 +50,14 @@ export const CommissionForm = (props) => {
             label="Amount"
             placeholder="Amount"
             name="amount"
-            type="text"
+            type="number"
             value={state.amount}
-            onChange={handleOnChange}
+            handleOnChange={handleOnChange}
           />
         </FormGroup>
         <Submit
           type="submit"
-          disabled={!state.amount || !state.wallet_id || !state.agent_name}
-        >
+          disabled={!state.amount}>
           Submit
         </Submit>
       </Form>
