@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useReducer } from "react";
 import axios from "axios";
-
 import commissionReducer, { initialState } from "./commission-reducer";
 import { COMMISSION_TRANSFER } from "../../../utils/constants";
 import CommissionForm from "./Commissionform";
 import CommissionTransferStatus from "./CommissionStatus";
 import CommissionTransferSummary from "./CommissionSummary";
 import FailedTransaction from "../../../components/common/FailedTransaction";
-
 import styles from "./CommissionTransfer.module.scss";
 
 export const CommissionTransfer = () => {
@@ -37,10 +35,9 @@ export const CommissionTransfer = () => {
   const handleCommissionTransfer = () => {
     setLoading(true);
 
-    const { amount, wallet_id } = transferDetails;
+    const { amount} = transferDetails;
 
     const req = {
-      wallet_id,
       amount,
     };
 
@@ -53,7 +50,7 @@ export const CommissionTransfer = () => {
           },
         };
 
-        const res = await axios.post(COMMISSION_TRANSFER, req, options);
+        const res = await axios.post(COMMISSION_TRANSFER, req,options,);
 
         const date = new Date();
         const transactionDate = getTransactionDate(date);

@@ -1,15 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-
 import { setCurrentPage } from "../../../actions/page";
 import { setDisplayModal } from "../../../actions/modal";
-
 import CommissionLogs from "./CommissionLogs";
 import userGroup from "../../../assets/icons/users.svg";
-
 import styles from "./index.module.scss";
 
-export const Users = ({ changeCurrentPage, displayModal }) => {
+export const Users= ({ changeCurrentPage, displayModal }) => {
   return (
     <div className={styles.container}>
       <div className={styles.menu}>
@@ -24,6 +21,7 @@ export const Users = ({ changeCurrentPage, displayModal }) => {
                   modal: "commissionTransfer",
                   service: "",
                 });
+               
               }}
             >
               <img className={styles.serviceLogo} src={userGroup} alt="" />

@@ -137,13 +137,9 @@ export const DEBIT_AGENT_COMMISSION = `${path}/commission/admin`;
 export const SEARCH_COMMISSION = `${path}/commission/search`;
 
 //agent commission transfer
-export const COMMISSION_TRANSFER = `${path}/commission/transfer`;
+export const COMMISSION_TRANSFER = `${path}/agents/commissions/withdraw`;
 
-//agent commission transfer
-// export const VALIDATE_AGENTS = `${path}/agents/validate`;
 
-//agent fund commission request
-// export const FUND_COMMISSION_REQUEST = `${path}/fund-requests`;
 
 /////TRANSACTIONS/////
 
