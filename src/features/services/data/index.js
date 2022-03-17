@@ -65,7 +65,12 @@ export const BuyData = ({ service, hasSetPin }) => {
         };
 
         axios
-            .post(VEND_DATA, payload)
+            .post(VEND_DATA, payload,{
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept':'application/json'
+                    }}
+                )
             .then((res) => {
                 const successData = res.data.data;
                 const message = res.data.message;

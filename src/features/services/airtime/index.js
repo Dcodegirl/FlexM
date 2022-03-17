@@ -2,7 +2,6 @@ import React, { useEffect, useState, useReducer } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
-
 import { setCurrentPage } from '../../../actions/page';
 import { VEND_AIRTIME } from '../../../utils/constants';
 import AirtimePurchaseReducer, { initialState } from './airtime-reducer';
@@ -32,6 +31,8 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
     ];
     const [selectedNetworkName, setSelectedNetworkName] = useState('');
     const { addToast } = useToasts();
+
+   
 
     useEffect(() => {
         if (AirtimePurchaseFormState.network) {
@@ -82,10 +83,13 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
         };
 
         axios
-            .post(VEND_AIRTIME, payload, {headers:{
-                'Content-Type': 'application/json',
-                'Accept':'application/json'
-            }})
+            .post(VEND_AIRTIME, payload,
+               {
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept':'application/json'
+                    }
+                })
             .then((res) => {
                 const successData = res.data.data;
                 const message = res.data.message;

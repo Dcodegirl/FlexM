@@ -1,23 +1,18 @@
 import React from "react";
 import { ThreeDots } from "svg-loaders-react";
-
 import formatToCurrency from "../../../utils/formatToCurrency";
 import Submit from "../../../components/common/Button";
-
 import logo from "../../../assets/images/cico-logo.svg";
-
 import back from "../../../assets/images/left-arrow.svg";
 import info from "../../../assets/images/tooltip-icon.svg";
-
 import styles from "./CommissionTransferSummary.module.scss";
-
 export const CommissionSummary = ({
   state,
   loading,
-  handleWalletTransfer,
+  handleCommissionTransfer,
   setStatus,
 }) => {
-  const { amount, wallet_id, agent_name } = state;
+  const { amount } = state;
 
   return (
     <div className={styles.container}>
@@ -42,14 +37,6 @@ export const CommissionSummary = ({
         </div>
       </div>
       <div className={styles.content}>
-        <div className={styles.contentItem}>
-          <span className={styles.contentHeading}>AccountWallet ID:</span>
-          <span className={styles.contentDetails}>{wallet_id}</span>
-        </div>
-        <div className={styles.contentItem}>
-          <span className={styles.contentHeading}>AccountAgent Name:</span>
-          <span className={styles.contentDetails}>{agent_name}</span>
-        </div>
         <div className={styles.contentItem}>
           <span className={styles.contentHeading}>AccountAmount:</span>
           <span className={styles.contentDetails}>
@@ -77,7 +64,7 @@ export const CommissionSummary = ({
         disabled={false}
         onClick={(e) => {
           e.preventDefault();
-          handleWalletTransfer();
+          handleCommissionTransfer();
         }}
       >
         {loading ? <ThreeDots fill="white" /> : "Proceed"}
