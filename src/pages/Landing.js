@@ -30,7 +30,7 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
         type: "SET_LOADING",
         payload: {
           loading: false,
-          message: undefined,
+          message: '',
         },
       });
     }

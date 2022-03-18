@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useReducer } from "react";
 import axios from "axios";
-
 import transferReducer, { initialState } from "./transfer-reducer";
 import { WALLET_TRANSFER } from "../../../utils/constants";
 import WalletTransferForm from "./WalletTransferForm";
@@ -46,23 +45,29 @@ export const WalletTransfer = () => {
 
     (async function transferFunds() {
       try {
-        const options = {
-          headers: {
-            lat: agentLocation?.latitude,
-            lng: agentLocation?.longitude,
-          },
-        };
+        // const options = {
+        //   headers: {
+        //     lat: agentLocation?.latitude,
+        //     lng: agentLocation?.longitude,
+        //   },
+        // };
 
-        const res = await axios.post(WALLET_TRANSFER, req, options);
-
+        const res = await axios.post(WALLET_TRANSFER, req);
+       if(!res.ok){
+         const msg =`There was an error ${res.status} ${res.statusText}`
+         throw new Error(msg)
+       }
+       console.log(res)
         const date = new Date();
         const transactionDate = getTransactionDate(date);
 
         setTransactionDate(transactionDate);
         setSuccessData(res.data.data);
         setStatus("status");
-      } catch (e) {
-        setStatus("failed");
+        
+      } catch (error) {
+        setStatus('failed');
+
       }
     })();
   };
