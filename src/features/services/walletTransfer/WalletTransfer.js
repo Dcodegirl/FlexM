@@ -45,13 +45,6 @@ export const WalletTransfer = () => {
 
     (async function transferFunds() {
       try {
-        // const options = {
-        //   headers: {
-        //     lat: agentLocation?.latitude,
-        //     lng: agentLocation?.longitude,
-        //   },
-        // };
-
         const res = await axios.post(WALLET_TRANSFER, req);
        if(!res.ok){
          const msg =`There was an error ${res.status} ${res.statusText}`

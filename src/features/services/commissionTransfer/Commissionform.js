@@ -8,10 +8,6 @@ import Submit from "../../../components/common/Button";
 
 export const CommissionForm = (props) => {
   const { dispatch, state, setStatus } = props;
-
-  // useEffect(() => {
-  //       const { amount } = state;
-  // }, [state.amount]);
   
   const handleOnProceed = (e) => {
     e.preventDefault();
