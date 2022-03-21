@@ -11,7 +11,7 @@ const BusinessDetails = ({ setStatus, agentData, dispatch, state = {} }) => {
         let states = state?.states;
         if (states && states.length > 0 && agentData.state_id) {
             const selectedState = states.find((state) => {
-                return state.id == agentData.state_id;
+                return state.id === agentData.state_id;
             });
             const generatedCode = Math.floor(
                 10000000 + Math.random() * 90000000

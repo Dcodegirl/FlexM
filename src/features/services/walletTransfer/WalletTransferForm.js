@@ -11,7 +11,7 @@ export const WalletTransferForm = (props) => {
   const { dispatch, state, setStatus } = props;
   const [verificationLoading, setVerificationLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [validationErrors, setValidationErrors] = useState({});
+ 
 
   useEffect(() => {
     let isCancelled = false;
