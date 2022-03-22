@@ -76,14 +76,14 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
                                     {transaction.customer_info}
                                 </span>
                             </div>
-                            {transaction.type == '7' ? (
+                            {transaction.type === '7' ? (
                                 <div className={styles.details}>
                                     <span>Session ID:</span>
                                     <span>
                                         {transaction.retrieval_reference}
                                     </span>
                                 </div>
-                            ) : transaction.type == '1' ? (
+                            ) : transaction.type === '1' ? (
                                 <div className={styles.details}>
                                     <span>Token:</span>
                                     <span>{transaction.energy_token}</span>

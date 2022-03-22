@@ -51,7 +51,6 @@ export const CommissionTransfer = () => {
         };
 
         const res = await axios.post(COMMISSION_TRANSFER, req,options,);
-
         const date = new Date();
         const transactionDate = getTransactionDate(date);
 

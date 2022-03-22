@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import logo from "../../../assets/images/cico-logo.svg";
 import Form from "../../../components/common/Form";
 import FormGroup from "../../../components/common/FormGroup";
@@ -8,17 +8,6 @@ import Submit from "../../../components/common/Button";
 
 export const CommissionForm = (props) => {
   const { dispatch, state, setStatus } = props;
-
-  useEffect(() => {
-    
-
-        const { amount } = state;
-
-        const req = {
-          amount
-        };
-   
-  }, [state.amount]);
   
   const handleOnProceed = (e) => {
     e.preventDefault();
