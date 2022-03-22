@@ -156,7 +156,7 @@ const BusinessDetails = ({ setStatus, agentData, dispatch, state = {} }) => {
                         value={agentData.local_government_id}
                     >
                         <option value=''>Select LGA</option>
-                        {LGAOptions().map((lga, index) => {
+                        {LGAOptions()?.map((lga, index) => {
                             return (
                                 <option value={lga.id} key={`${lga.id}`}>
                                     {lga.name}
