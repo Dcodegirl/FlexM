@@ -59,11 +59,12 @@ export const ForgotPassword = ({ history }) => {
                     setStatus('verification');
                 }
             } catch (e) {
-                const { message } = e.response.data;
+                const { message } = e.response.data.errors;
                 addToast(message, {
                     appearance: 'error',
                     autoDismiss: true,
                 });
+            
 
                 setLoading(false);
             }
@@ -95,7 +96,7 @@ export const ForgotPassword = ({ history }) => {
 
                     // if (res) history.push('/');
                 } catch (e) {
-                    const { message } = e.response.data;
+                    const { message } = e.res.data.message;
                     addToast(message, {
                         appearance: 'error',
                         autoDismiss: true,
