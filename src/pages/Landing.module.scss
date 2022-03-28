@@ -168,6 +168,7 @@
     height: 4rem;
     font-family: inherit;
     padding: 0 1rem;
+    position: relative;
     font-size: 1.6rem;
     background: rgba(204, 220, 255, 0.411);
 
@@ -226,7 +227,14 @@
         }
     }
 }
+.eye{
+    color: #22215b;
+    position: absolute;
+    top: 60%;
+    right: 1rem;
+    cursor: pointer;
 
+}
 .forgotPassword {
     text-align: right;
 }
