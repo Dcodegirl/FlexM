@@ -79,32 +79,6 @@ export const BillPayment = ({ changeCurrentPage, displayModal }) => {
                 displayModal({
                   overlay: true,
                   modal: "energy",
-                  service: "aedc",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={aedc} alt="" />
-              <p className={styles.serviceText}>Abuja</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "energy",
-                  service: "eedc",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={eedc} alt="" />
-              <p className={styles.serviceText}>Enugu</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "energy",
                   service: "kedco",
                 });
               }}
@@ -137,19 +111,6 @@ export const BillPayment = ({ changeCurrentPage, displayModal }) => {
             >
               <img className={styles.serviceLogo} src={phedc} alt="" />
               <p className={styles.serviceText}>PH</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "energy",
-                  service: "bedc",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={phedc} alt="" />
-              <p className={styles.serviceText}>Benin</p>
             </div>
           </div>
         </div>

@@ -20,9 +20,6 @@ import LoanHistory from '../features/services/loan/LoanHistory';
 import RepaymentHistory from '../features/services/loan/RepaymentHistory';
 import Overview from '../pages/Overview';
 import Contact from '../pages/Contact';
-import Betting from '../pages/Betting';
-import BettingProvider from '../features/services/betting/index';
-import PlaceBet from '../features/services/betting/play/Play';
 import TransactionDetails from '../components/common/TransactionDetails';
 import Documents from '../features/profile/documents';
 
@@ -159,21 +156,6 @@ const routes = [
     {
         path: '/loan/repayment-history',
         component: RepaymentHistory,
-    },
-    {
-        path: '/betting',
-        component: Betting,
-        exact: true,
-    },
-    {
-        path: '/betting/:provider',
-        component: BettingProvider,
-        exact: true,
-    },
-    {
-        path: '/betting/:provider/bet',
-        component: PlaceBet,
-        exact: true,
     },
     {
         path: '/documents',

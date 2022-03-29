@@ -9,7 +9,7 @@ import greencircle from "../assets/images/greencircle.svg"
 import mobilephone from "../assets/images/mobilephone.svg"
 import NavHome from "../components/layout/HomeNavBar";
 import { startLoginUser } from "../actions/auth";
-
+import { BsEyeSlashFill } from 'react-icons/bs';
 import styles from "./Landing.module.scss";
 
 export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
@@ -17,6 +17,7 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
     phone: "",
     password: "",
   });
+  const [passwordShown, setPasswordShown] = useState(false);
   const { addToast } = useToasts();
 
   useEffect(() => {
@@ -63,7 +64,9 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
   const handleOnChange = ({ target }) => {
     setFormState({ ...formState, [target.name]: target.value });
   };
-
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
+  };
   return (
     <div className={styles.wrapper}>
       <NavHome theme="white" />
@@ -103,11 +106,13 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
                 <input
                   name="password"
                   value={formState.password}
-                  type="password"
                   onChange={handleOnChange}
                   className={styles.input}
+                  type={passwordShown ? "text" : "password"}
                 />
+                 <BsEyeSlashFill className={styles.eye} onClick={togglePassword} size={20} />
               </div>
+           
               <div className={styles.formGroup}>
                 <p className={styles.forgotPassword}>
                   <Link
