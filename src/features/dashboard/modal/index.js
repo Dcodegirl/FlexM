@@ -14,9 +14,7 @@ import CableRecharge from '../../../features/services/cable/index';
 import AddUser from '../../../features/users/AddUser';
 import TransactionPin from '../../profile/TransactionPin';
 import Password from '../../../features/profile/Password';
-import BetslipModal from '../../../features/services/betting/play/BetslipModal';
 import WalletTransfer from '../../../features/services/walletTransfer/WalletTransfer';
-import FundBettingWallet from '../../../features/services/betting/fundWallet/FundWallet';
 import CustomerStatus from '../../../features/profile/CustomerStatus';
 import LoanApplication from '../../../features/services/loan/AgentLoan';
 import toggle from '../../../assets/icons/closeModal.svg';
@@ -53,10 +51,8 @@ const OverlayContainer = ({ overlay, modal, displayModal }) => {
                             password: <Password />,
                             walletTransfer: <WalletTransfer />,
                             commissionTransfer:<CommissionTransfer />,
-                            fundBettingWallet: <FundBettingWallet />,
                             customerStatus: <CustomerStatus />,
                             loanApplication: <LoanApplication />,
-                            printBetslip: <BetslipModal />,
                             showUpload: <ShowUpload />,
                         }[modal]
                     }

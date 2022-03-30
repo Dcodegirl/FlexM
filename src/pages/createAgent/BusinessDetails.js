@@ -20,7 +20,7 @@ const BusinessDetails = ({ setStatus, agentData, dispatch, state = {} }) => {
             dispatch({
                 type: 'SET_AGENT_DATA',
                 payload: {
-                    agent_code: `CI/AGT/${selectedState.id}/${generatedCode}`,
+                    agent_code: `CI/AGT/${selectedState}/${generatedCode}`,
                 },
             });
         }
