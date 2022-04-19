@@ -15,7 +15,7 @@ export const CommissionTransfer = () => {
   const [loading, setLoading] = useState(false);
   const [transactionDate, setTransactionDate] = useState(null);
   const [agentLocation, setAgentLocation] = useState(null);
-
+  const [isError, setIsError] =useState()
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
@@ -57,8 +57,10 @@ export const CommissionTransfer = () => {
         setTransactionDate(transactionDate);
         setSuccessData(res.data.data);
         setStatus("status");
-      } catch (e) {
+      } catch (error) {
         setStatus("failed");
+        setIsError(error.response.data.message)
+       
       }
     })();
   };
@@ -88,7 +90,7 @@ export const CommissionTransfer = () => {
               setStatus={setStatus}
             />
           ),
-          failed: <FailedTransaction />,
+          failed: <FailedTransaction message={isError}/>,
         }[status]
       }
     </div>
