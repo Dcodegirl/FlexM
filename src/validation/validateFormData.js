@@ -11,7 +11,8 @@ const validateFormData = (formData, properties) => {
         error: true,
         text: "Amount is invalid",
       };
-    } else if (
+    } 
+    else if (
       (property === "phone" ||
         property === "mobile" ||
         property === "business_phone") &&

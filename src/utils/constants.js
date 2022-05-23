@@ -10,7 +10,8 @@ if (
     //production server
     path = 'https://api.cico.ng/api';
 }
-
+////TRANSACTIONCOST////
+export const TRANSACTION_COST = `${path}/transaction-costs/Transfer/agents/{amount}`
 //////AUTH///////
 
 //login user - POST
@@ -165,13 +166,13 @@ export const ACTIVITY_LOGS = `${path}/logs`;
 export const GET_TELCOS = `${path}/airtime/telcos`;
 
 //get data plans - POST
-export const GET_DATA_PLANS = `${path}/fusion/topup/data/bundles`;
+export const GET_DATA_PLANS = `${path}/airtime-data/data/bundle`;
 
 //vend data - POST
-export const VEND_DATA = `${path}/fusion/topup/data`;
+export const VEND_DATA = `${path}/airtime-data/data/vend`;
 
 //vend airtime - POST
-export const VEND_AIRTIME = `${path}/fusion/topup/airtime`;
+export const VEND_AIRTIME = `${path}/airtime-data/airtime/vend`;
 
 /////CABLE TV//////////
 //Validate multichoice smart card number

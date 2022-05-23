@@ -11,7 +11,6 @@ import BuyDataSummary from './BuyDataSummary';
 import BuyDataStatus from './BuyDataCompleted';
 import FailedTransaction from '../../../components/common/FailedTransaction';
 import { EventEmitter } from '../../../utils/event';
-
 // import styles from "./BuyData.module.scss";
 
 export const BuyData = ({ service, hasSetPin }) => {
@@ -27,10 +26,11 @@ export const BuyData = ({ service, hasSetPin }) => {
     const { addToast } = useToasts();
 
     const handleOnSubmit = () => {
-        const { amount, phone, plan,operator } = DataPurchaseFormState;
+        const { amount, phone,operator, productId,transaction_pin} = DataPurchaseFormState;
         var newPhone = phone;
         var operators =operator;
-
+      
+        
         setLoading(true);
 
         if (phone.indexOf('+234') === 0) {
@@ -56,12 +56,14 @@ export const BuyData = ({ service, hasSetPin }) => {
         if(operators === '9mobile'){
             operators= '9mobile'
         }
+    
         const payload = {
-            productId: plan,
             amount,
-            bank_code: '9001',
+            productId,
+            transaction_pin,
             recipient: `234${newPhone}`,
             operator:`${operators}`
+          
         };
 
         axios

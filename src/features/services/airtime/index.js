@@ -45,7 +45,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
     }, [AirtimePurchaseFormState.network]);
 
     const handleOnSubmit = () => {
-        const { amount, phone,operator } = AirtimePurchaseFormState;
+        const { amount, phone,operator,transaction_pin } = AirtimePurchaseFormState;
         var newPhone = phone;
         var operators = operator;
 
@@ -77,7 +77,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
         
         const payload = {
             amount,
-            bank_code: '9001',
+            transaction_pin,
             recipient: `234${newPhone}`,
             operator:`${operators}`
         };
