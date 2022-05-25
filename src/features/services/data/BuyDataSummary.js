@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import OtpInput from 'react-otp-input';
 import { ThreeDots } from 'svg-loaders-react';
-
 import Submit from '../../../components/common/Button';
-
 import back from '../../../assets/images/left-arrow.svg';
 import info from '../../../assets/images/tooltip-icon.svg';
 import formatToCurrency from '../../../utils/formatToCurrency';

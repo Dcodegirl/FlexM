@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
-
 import Form from '../../../components/common/Form';
 import FormGroup from '../../../components/common/FormGroup';
 import Select from '../../../components/common/Select';
 import Input from '../../../components/common/Input';
 import Submit from '../../../components/common/Button';
-
 import generateNetworkImageUrl from './generateNetworkImageUrl';
 import { GET_DATA_PLANS } from '../../../utils/constants';
 import validateFormData from '../../../validation/validateFormData';
@@ -22,7 +20,7 @@ export const BuyDataForm = (props) => {
     } = props;
     const [validationErrors, setValidationErrors] = useState({});
     const [dataPlans, setDataPlans] = useState([]);
-
+    const [data,setData] = useState([])
     const networkImageUrl = generateNetworkImageUrl(service);
 
     useEffect(() => {
@@ -34,43 +32,42 @@ export const BuyDataForm = (props) => {
         };
 
         const telcoName = telcoList[`${service}`];
-
+        console.log(props)
         axios
-            .get(GET_DATA_PLANS)
-            .then((res) => {
-                const data = res.data.data;
-
-                const dataPlans = data.filter((data) => {
-                    return data.operator === telcoName;
-                });
-
-                setDataPlans(dataPlans);
+            .post(GET_DATA_PLANS, {"operator":telcoName})
+            .then((res) => {  
+                setDataPlans(res.data.data);
+                console.log(res.data.data)
             })
+            
             .catch((err) => {
-                // console.log(err);
+                
             });
     }, [service]);
 
     useEffect(() => {
-        if (state.plan) {
+       
+        if (state.productId) {
             const selectedPlan = dataPlans.filter((plan) => {
-                return plan.productId === state.plan;
+                return plan.productId === state.productId;
             })[0];
+          
 
-            const amount = selectedPlan.face_value;
+            const amount = selectedPlan.amount;
 
             setState({
                 type: 'UPDATE_FORM_STATE',
                 payload: { amount },
             });
         }
-    }, [state.plan]);
+        
+    }, [state.productId]);
 
     const handleOnContinue = (e) => {
         e.preventDefault();
         const keys = Object.keys(state);
         const errors = validateFormData(state, keys);
-
+        console.log(keys)
         setValidationErrors(errors);
 
         delete errors.transaction_pin;
@@ -110,9 +107,8 @@ export const BuyDataForm = (props) => {
             </FormGroup>
             <FormGroup>
                 <Select
-                    name='plan'
+                    name='productId'
                     label='Plan'
-                    value={state.plan}
                     handleOnChange={(e) => handleSetFormState(e)}
                     error={validationErrors.plan}
                 >
@@ -121,9 +117,9 @@ export const BuyDataForm = (props) => {
                         return (
                             <option
                                 value={plan.productId}
-                                key={`${index}--${plan.name}`}
+                                key={`${index}`}
                             >
-                                {plan.product_value} for {plan.validity}
+                                {plan.description}
                             </option>
                         );
                     })}

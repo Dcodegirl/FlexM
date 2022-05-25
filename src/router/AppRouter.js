@@ -1,11 +1,8 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
-
 import PublicRoute from '../router/PublicRoute';
 import PrivateRoute from '../router/PrivateRoute';
-
 import './AppRouter.scss';
-
 import Landing from '../pages/Landing';
 import ForgotPassword from '../pages/ForgotPassword';
 import Dashboard from '../features/dashboard/index';
