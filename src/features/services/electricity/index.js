@@ -10,6 +10,7 @@ import ElectricityPaymentSummary from './ElectricityPaymentSummary';
 import ElectricityPaymentCompleted from './ElectricityPaymentCompleted';
 import FailedTransaction from '../../../components/common/FailedTransaction';
 import ElecticityPaymentReducer, { initialFormState } from './payment-reducer';
+// import { pink } from '@material-ui/core/colors';
 
 export const ElectricityPayment = ({ service, hasSetPin }) => {
     const TRANSACTION_COST = 0;
@@ -36,7 +37,7 @@ export const ElectricityPayment = ({ service, hasSetPin }) => {
     }, []);
 
     const handleOnSubmit = () => {
-        const { meterNo, disco, paymentPlan, amount, phone } =
+        const { meterNo, paymentPlan, amount, phone, transaction_pin } =
             ElectricityPaymentFormState;
         setLoading(true);
 
@@ -46,6 +47,7 @@ export const ElectricityPayment = ({ service, hasSetPin }) => {
             type: paymentPlan,
             amount: parseInt(amount),
             phone: phone,
+            transaction_pin:transaction_pin,
         };
 
         (async function vendEnergy() {
