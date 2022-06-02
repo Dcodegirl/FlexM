@@ -2,7 +2,6 @@ import React, { useState, useEffect, useReducer } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { useToasts } from 'react-toast-notifications';
-
 import { VEND_ENERGY } from '../../../utils/constants';
 import { setCurrentPage } from '../../../actions/page';
 import ElectricityPaymentForm from './ElectricityPaymentForm';

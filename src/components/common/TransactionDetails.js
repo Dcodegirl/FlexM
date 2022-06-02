@@ -5,7 +5,6 @@ import cico from '../../assets/images/cico-logo-login.svg';
 import styles from './TransactionDetails.module.scss';
 import { setCurrentPage } from '../../actions/page';
 import html2pdf from 'html2pdf.js';
-
 import email from '../../assets/images/email.svg';
 import whatsapp from '../../assets/images/whatsapp.svg';
 
@@ -74,6 +73,12 @@ export const TransactionDetails = ({ changeCurrentPage, match }) => {
                                 <span>Customer:</span>
                                 <span className={styles.customerInfo}>
                                     {transaction.customer_info}
+                                </span>
+                            </div>
+                            <div className={styles.details}>
+                                <span>Address:</span>
+                                <span className={styles.customerInfo}>
+                                    {transaction.customer_address}
                                 </span>
                             </div>
                             {transaction.type === '7' ? (
