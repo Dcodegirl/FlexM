@@ -18,6 +18,7 @@ const Download = (props) => {
       "current balance": data.wallet_history.current_bal,
       amount: data.amount,
       customer: data.customer_info,
+      address: data.customer_address,
       reference: data.reference,
       type: data.transtype?.name,
     };
