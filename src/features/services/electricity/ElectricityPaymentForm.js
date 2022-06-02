@@ -2,21 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useToasts } from 'react-toast-notifications';
-
 import generateServiceProviderImageUrl from './generateServiceProviderImageUrl';
-
 import Form from '../../../components/common/Form';
 import FormGroup from '../../../components/common/FormGroup';
 import Select from '../../../components/common/Select';
 import Input from '../../../components/common/Input';
 import Submit from '../../../components/common/Button';
-
-import {
-    // GET_ENERGY_VENDORS,
-    VALIDATE_METER_NUMBER,
-} from '../../../utils/constants';
+import {VALIDATE_METER_NUMBER} from '../../../utils/constants';
 import validateFormData from '../../../validation/validateFormData';
-
 import styles from './ElectricityPaymentForm.module.scss';
 
 const ElectricityPaymentForm = (props) => {

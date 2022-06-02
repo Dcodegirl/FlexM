@@ -1,5 +1,4 @@
 import React from "react";
-
 import formatToCurrency from "../../../utils/formatToCurrency";
 import generateServiceProviderImageUrl from "./generateServiceProviderImageUrl";
 import styles from "./ElectricityPaymentCompleted.module.scss";
@@ -18,6 +17,7 @@ export const ElectricityPaymentCompleted = ({
     amount,
     energy_token,
     customer_info,
+    customer_address,
   } = successData;
 
   const { accountName } = ElectricityPaymentFormState;
@@ -54,10 +54,10 @@ export const ElectricityPaymentCompleted = ({
           <span className={styles.contentHeading}>Reference:</span>
           <span className={styles.contentDetails}>{reference}</span>
         </div>
-        {/* <div className={styles.contentItem}>
-          <span className={styles.contentHeading}>Date:</span>
-          <span className={styles.contentDetails}>{date}</span>
-        </div> */}
+        <div className={styles.contentItem}>
+          <span className={styles.contentHeading}>Address:</span>
+          <span className={styles.contentDetails}>{customer_address}</span>
+        </div>
         <div className={styles.contentItem}>
           <span className={styles.contentHeading}>Amount:</span>
           <span className={styles.contentDetails}>
