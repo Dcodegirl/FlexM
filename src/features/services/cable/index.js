@@ -2,7 +2,6 @@ import React, { useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
 import RechargeCableReducer, { initialFormState } from './cable-reducer';
 import { setCurrentPage } from '../../../actions/page';
 import { VEND_STARTIMES, VEND_MULTICHOICE } from '../../../utils/constants';
@@ -35,7 +34,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
 
         let providerApi;
         let payload;
-        const { smartCardNumber, amount, selectedPlanCode, cycle, phone } =
+        const { smartCardNumber, amount, selectedPlanCode, cycle, phone, transaction_pin } =
             RechargeCableFormState;
 
         if (service === 'dstv' || service === 'gotv') {
@@ -46,6 +45,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
                 phone,
                 code: selectedPlanCode,
                 type: service,
+                transaction_pin:transaction_pin,
             };
         } else if (service === 'startimes') {
             providerApi = VEND_STARTIMES;
@@ -55,6 +55,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
                 cycle,
                 amount: amount,
                 smartcard: smartCardNumber,
+                transaction_pin:transaction_pin,
             };
         }
 
