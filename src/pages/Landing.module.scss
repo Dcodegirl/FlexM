@@ -125,9 +125,23 @@
 }
 
 .formGroup {
+   
     width: 100%;
     position: relative;
 
+    &:not(:last-child) {
+        margin-bottom: 3rem;
+        @include respond(phone) {
+            margin-bottom: 2rem;
+        }
+    }
+}
+.formGroups{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
     &:not(:last-child) {
         margin-bottom: 3rem;
 

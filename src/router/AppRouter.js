@@ -8,6 +8,7 @@ import ForgotPassword from '../pages/ForgotPassword';
 import Dashboard from '../features/dashboard/index';
 import Register from '../pages/createAgent/index';
 import ErrorHandler from '../components/template/ErrorHandler';
+import ForgotTransactionPin from '../pages/ForgotTransactionPin';
 
 export const AppRouter = () => {
     return (
@@ -16,6 +17,10 @@ export const AppRouter = () => {
                 <PublicRoute
                     path='/forgot-password'
                     component={ForgotPassword}
+                />
+                 <PublicRoute
+                    path='/forgot-transaction-pin'
+                    component={ForgotTransactionPin}
                 />
                 <PublicRoute path='/login' component={Landing} exact />
                 <PublicRoute path='/register' component={Register} exact />

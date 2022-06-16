@@ -47,6 +47,15 @@ export const FORGOT_PASSWORD = `${path}/user/password`;
 //update user password - PATCH
 export const RESET_PASSWORD = `${path}/user/token`;
 
+//forgot transaction pin
+export const FORGOT_TRANSACTION_PIN = `${path}/transaction-pins/initiate`;
+
+//update user transaction pin- PATCH
+export const RESET_TRANSACTION_PIN = `${path}/transaction-pins/reset`;
+
+//Regenerate user transaction pin-POST
+export const REGENERATE_TRANSACTION_PIN = `${path}/transaction-pins/regenerate`;
+
 /////PARAMETERS//////////
 //Get list of banks - GET
 export const FETCH_BANKS = `${path}/parameters/banks`;
