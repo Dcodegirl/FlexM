@@ -113,7 +113,15 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
                  <BsEyeSlashFill className={styles.eye} onClick={togglePassword} size={20} />
               </div>
            
-              <div className={styles.formGroup}>
+              <div className={styles.formGroups}>
+              <p className={styles.forgotPassword}>
+                  <Link
+                    to="/forgot-transaction-pin"
+                    className={styles.forgotPasswordLink}
+                  >
+                    Forgot transaction pin?
+                  </Link>
+                </p>
                 <p className={styles.forgotPassword}>
                   <Link
                     to="/forgot-password"
