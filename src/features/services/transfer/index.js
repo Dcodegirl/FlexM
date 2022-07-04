@@ -7,7 +7,7 @@ import { useToasts } from 'react-toast-notifications';
 import { setWalletBalance } from '../../../actions/wallet';
 import FundsTransferReducer, { initialFormState } from './transfer-reducer';
 import { setCurrentPage } from '../../../actions/page';
-import { DISBURSE_FUNDS, AGENT_DASHBOARD_DATA } from '../../../utils/constants';
+import { DISBURSE_FUNDS} from '../../../utils/constants';
 import FundsTransferForm from './FundsTransferForm';
 import FundsTransferCompleted from './FundsTransferCompleted';
 import FundsTransferSummary from './FundsTransferSummary';
@@ -17,7 +17,7 @@ import { EventEmitter } from '../../../utils/event';
 import styles from './index.module.scss';
 
 export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
-    const TRANSACTION_COST = 0;
+    const TRANSACTION_COST = 25;
     let renderedComponent;
     const [componentToRender, setComponentToRender] = useState('form');
     const [FundsTransferFormState, dispatch] = useReducer(

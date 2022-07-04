@@ -42,6 +42,7 @@ export const BuyAirtimeForm = (props) => {
 
     //Dynamically render bank logo
     let networkImageUrl = generateServiceImageUrl(service);
+    state.operator=service
 
     return (
         <Form

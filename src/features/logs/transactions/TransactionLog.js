@@ -4,9 +4,7 @@ import { ThreeDots } from 'svg-loaders-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { DatePicker } from '@material-ui/pickers';
-
 // import { startOfYear } from "date-fns";
-
 import formatToCurrency from '../../../utils/formatToCurrency';
 import ExportToExcel from '../../../components/common/ExportToExcel';
 import styles from './TransactionLog.module.scss';
@@ -151,6 +149,7 @@ export const TransactionLog = ({
         { name: 'Customer', value: 'customer' },
         { name: 'Reference', value: 'reference' },
         { name: 'Type', value: 'type' },
+        {name:'Address',value:'address'},
     ];
 
     return (
@@ -237,6 +236,7 @@ export const TransactionLog = ({
                             <span className={styles.prev}>Previous</span>
                             <span className={styles.current}>Balance</span>
                             <span className={styles.customer}>Customer</span>
+                            <span className={styles.address}>Address</span>
                             <span className={styles.ref}>Reference</span>
                             <span className={styles.action}>Actions</span>
                         </div>
@@ -291,6 +291,9 @@ export const TransactionLog = ({
                                             </span>
                                             <span className={styles.customer}>
                                                 {transaction.customer_info}
+                                            </span>
+                                            <span className={styles.address}>
+                                                {transaction.customer_address}
                                             </span>
                                             <span className={styles.ref}>
                                                 {transaction.reference}
@@ -574,6 +577,28 @@ export const TransactionLog = ({
                                                         >
                                                             {
                                                                 transaction.reference
+                                                            }
+                                                        </span>
+                                                    </span>
+                                                    <span
+                                                        className={
+                                                            styles.mobileItem
+                                                        }
+                                                    >
+                                                        <span
+                                                            className={
+                                                                styles.mobileItemHeading
+                                                            }
+                                                        >
+                                                            Address
+                                                        </span>
+                                                        <span
+                                                            className={
+                                                                styles.mobileItemContent
+                                                            }
+                                                        >
+                                                            {
+                                                                transaction.customer_address
                                                             }
                                                         </span>
                                                     </span>

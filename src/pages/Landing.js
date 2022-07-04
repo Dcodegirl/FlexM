@@ -4,10 +4,12 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { ThreeDots } from "svg-loaders-react";
 import { useToasts } from "react-toast-notifications";
-
+import whitecircle from "../assets/images/whitecircle.svg"
+import greencircle from "../assets/images/greencircle.svg"
+import mobilephone from "../assets/images/mobilephone.svg"
 import NavHome from "../components/layout/HomeNavBar";
 import { startLoginUser } from "../actions/auth";
-
+import { BsEyeSlashFill } from 'react-icons/bs';
 import styles from "./Landing.module.scss";
 
 export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
@@ -15,6 +17,7 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
     phone: "",
     password: "",
   });
+  const [passwordShown, setPasswordShown] = useState(false);
   const { addToast } = useToasts();
 
   useEffect(() => {
@@ -28,7 +31,7 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
         type: "SET_LOADING",
         payload: {
           loading: false,
-          message: undefined,
+          message: '',
         },
       });
     }
@@ -51,7 +54,7 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
       type: "SET_LOADING",
       payload: {
         loading: true,
-        message: undefined,
+        message: '',
       },
     });
 
@@ -61,7 +64,9 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
   const handleOnChange = ({ target }) => {
     setFormState({ ...formState, [target.name]: target.value });
   };
-
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
+  };
   return (
     <div className={styles.wrapper}>
       <NavHome theme="white" />
@@ -70,6 +75,12 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
           <p className={styles.headingPrimary}>
             Simplifying Payments in Africa.
           </p>
+          {/* images */}
+          <div>
+            <img className={styles.whitecircle} src ={whitecircle} alt="whitecircle"/>
+            <img className={styles.greencircle} src ={greencircle} alt="greencircle"/>
+            <img className={styles.mobilephone} src ={mobilephone} alt="mobilephone"/>
+          </div>
         </div>
         <div className={styles.formSection}>
           <div className={styles.formContainer}>
@@ -95,12 +106,22 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
                 <input
                   name="password"
                   value={formState.password}
-                  type="password"
                   onChange={handleOnChange}
                   className={styles.input}
+                  type={passwordShown ? "text" : "password"}
                 />
+                 <BsEyeSlashFill className={styles.eye} onClick={togglePassword} size={20} />
               </div>
-              <div className={styles.formGroup}>
+           
+              <div className={styles.formGroups}>
+              <p className={styles.forgotPassword}>
+                  <Link
+                    to="/forgot-transaction-pin"
+                    className={styles.forgotPasswordLink}
+                  >
+                    Forgot transaction pin?
+                  </Link>
+                </p>
                 <p className={styles.forgotPassword}>
                   <Link
                     to="/forgot-password"

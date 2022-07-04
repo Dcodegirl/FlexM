@@ -11,7 +11,7 @@ const BusinessDetails = ({ setStatus, agentData, dispatch, state = {} }) => {
         let states = state?.states;
         if (states && states.length > 0 && agentData.state_id) {
             const selectedState = states.find((state) => {
-                return state.id == agentData.state_id;
+                return state.id === agentData.state_id;
             });
             const generatedCode = Math.floor(
                 10000000 + Math.random() * 90000000
@@ -20,7 +20,7 @@ const BusinessDetails = ({ setStatus, agentData, dispatch, state = {} }) => {
             dispatch({
                 type: 'SET_AGENT_DATA',
                 payload: {
-                    agent_code: `CI/AGT/${selectedState.id}/${generatedCode}`,
+                    agent_code: `CI/AGT/${selectedState}/${generatedCode}`,
                 },
             });
         }

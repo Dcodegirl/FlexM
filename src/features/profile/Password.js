@@ -4,14 +4,11 @@ import axios from 'axios';
 import { ThreeDots } from 'svg-loaders-react';
 import { useToasts } from 'react-toast-notifications';
 import { connect } from 'react-redux';
-
 import logo from '../../assets/images/cico-logo.svg';
-
 import Form from '../../components/common/Form';
 import FormGroup from '../../components/common/FormGroup';
 import Input from '../../components/common/Input';
 import Submit from '../../components/common/Button';
-
 import { UPDATE_USER_PASSWORD } from '../../utils/constants';
 import validateFormData from '../../validation/validateFormData';
 

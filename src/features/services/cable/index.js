@@ -2,7 +2,6 @@ import React, { useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
 import RechargeCableReducer, { initialFormState } from './cable-reducer';
 import { setCurrentPage } from '../../../actions/page';
 import { VEND_STARTIMES, VEND_MULTICHOICE } from '../../../utils/constants';
@@ -23,6 +22,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
     const [successData, setSuccessData] = useState(null);
     const [loading, setLoading] = useState(false);
     const { addToast } = useToasts();
+    const [failedErrorMessage, setFailedErrorMessage] = useState('');
 
     const getTransactionDate = (date) => {
         const dateString = date.toLocaleDateString();
@@ -34,7 +34,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
 
         let providerApi;
         let payload;
-        const { smartCardNumber, amount, selectedPlanCode, cycle, phone } =
+        const { smartCardNumber, amount, selectedPlanCode, cycle, phone, transaction_pin } =
             RechargeCableFormState;
 
         if (service === 'dstv' || service === 'gotv') {
@@ -45,6 +45,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
                 phone,
                 code: selectedPlanCode,
                 type: service,
+                transaction_pin:transaction_pin,
             };
         } else if (service === 'startimes') {
             providerApi = VEND_STARTIMES;
@@ -54,6 +55,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
                 cycle,
                 amount: amount,
                 smartcard: smartCardNumber,
+                transaction_pin:transaction_pin,
             };
         }
 
@@ -74,10 +76,11 @@ export const RechargeCable = ({ service, hasSetPin }) => {
                 setComponentToRender('success');
             } catch (e) {
                 setLoading(false);
-                addToast(e.response.data.message, {
+                addToast(e.response.data.data[0], {
                     appearance: 'error',
                     autoDismiss: true,
                 });
+                setFailedErrorMessage(e.response.data.data[0] || undefined);
                 setComponentToRender('failed');
             }
         })();
@@ -120,7 +123,9 @@ export const RechargeCable = ({ service, hasSetPin }) => {
             );
             break;
         case 'failed':
-            renderedComponent = <FailedTransaction />;
+            renderedComponent = (
+                <FailedTransaction message={failedErrorMessage} />
+            );
             break;
         default:
             renderedComponent = null;

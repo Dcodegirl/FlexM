@@ -28,8 +28,8 @@ export const RechargeCableForm = (props) => {
     const [fetchPlansLoading, setFetchPlansLoading] = useState(false);
     const [validationErrors, setValidationErrors] = useState({});
     const [plans, setPlans] = useState([]);
-    const [bouquetCode, setBouquetCode] = useState('');
-    const [currentPlan, setCurrentPlan] = useState({});
+
+    console.log(fetchPlansLoading);
 
     //effect fetches plans based on selected provider
     useEffect(() => {
@@ -94,7 +94,6 @@ export const RechargeCableForm = (props) => {
                 try {
                     const res = await axios.post(requestUrl, payload);
                     const customerName = res.data.data.name;
-                    const bouquetCode = res.data.data.bouquetCode;
 
                     if (!customerName) throw new Error();
 
@@ -103,8 +102,6 @@ export const RechargeCableForm = (props) => {
                             type: 'UPDATE_FORM_STATE',
                             payload: { customerName },
                         });
-
-                        setBouquetCode(bouquetCode);
 
                         setValidationErrors({
                             ...validationErrors,
@@ -140,7 +137,7 @@ export const RechargeCableForm = (props) => {
             !isCancelled
         ) {
             const selectedPlan = plans.find(
-                (plan) => plan.product_code === state.selectedPlanCode
+                (plan) => plan.code === state.selectedPlanCode
             );
 
             const amount = selectedPlan && selectedPlan.amount;
@@ -241,13 +238,6 @@ export const RechargeCableForm = (props) => {
     //Dynamically render bank logo
     let providerImageUrl = generateServiceProviderImageUrl(props.service);
 
-    useEffect(() => {
-        const UserPlan = plans.find(
-            (plan) => plan.code === `DSTV|${bouquetCode}`
-        );
-        setCurrentPlan(UserPlan);
-    }, [plans, bouquetCode]);
-
     return (
         <Form
             autoComplete='off'
@@ -256,17 +246,13 @@ export const RechargeCableForm = (props) => {
             handleOnSubmit={handleOnContinue}
             logo={providerImageUrl}
         >
-            <FormGroup>
-                <Input
-                    name='smartCardNumber'
-                    label='Smart Card Number'
-                    placeholder='Enter smart card number'
-                    value={state.smartCardNumbe}
-                    type='text'
-                    handleOnChange={handleFormStateChange}
-                    error={validationErrors.smartCardNumber}
-                />
-            </FormGroup>
+            {/* <div className={styles.imageContainer}>
+        <img
+          className={styles.image}
+          src={providerImageUrl}
+          alt="cable provider icon"
+        />
+      </div> */}
             <FormGroup>
                 <Select
                     name='selectedPlanCode'
@@ -276,20 +262,11 @@ export const RechargeCableForm = (props) => {
                     loading={fetchPlansLoading}
                     error={validationErrors.selectedPlanCode}
                 >
-                    {bouquetCode === '' && currentPlan === undefined ? (
-                        <option value=''>Select Plan</option>
-                    ) : (
-                        <option
-                            value={currentPlan?.name}
-                            key={`${+1}--${currentPlan?.name}`}
-                        >
-                            {currentPlan?.name}
-                        </option>
-                    )}
+                    <option value=''>Select Plan</option>
                     {plans.map((plan, index) => {
                         return (
                             <option
-                                value={plan.product_code || plan.name}
+                                value={plan.code || plan.name}
                                 key={`${index}--${plan.name}`}
                             >
                                 {plan.name}
@@ -326,14 +303,24 @@ export const RechargeCableForm = (props) => {
                 <Input
                     name='amount'
                     label='Amount'
-                    placeholder='Enter amount'
+                    placeholder='Plan amount'
                     type='text'
                     value={state.amount}
                     error={validationErrors.amount}
                     disabled
                 />
             </FormGroup>
-
+            <FormGroup>
+                <Input
+                    name='smartCardNumber'
+                    label='Smart Card Number'
+                    placeholder='Enter smart card number'
+                    value={state.smartCardNumbe}
+                    type='text'
+                    handleOnChange={handleFormStateChange}
+                    error={validationErrors.smartCardNumber}
+                />
+            </FormGroup>
             <FormGroup>
                 <Input
                     name='customerName'

@@ -1,7 +1,5 @@
 import React from "react";
-
 // import logo from "../../assets/images/cico-logo.svg";
-
 import styles from "./Form.module.scss";
 
 const Form = ({

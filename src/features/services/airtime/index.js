@@ -2,7 +2,6 @@ import React, { useEffect, useState, useReducer } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
-
 import { setCurrentPage } from '../../../actions/page';
 import { VEND_AIRTIME } from '../../../utils/constants';
 import AirtimePurchaseReducer, { initialState } from './airtime-reducer';
@@ -33,6 +32,8 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
     const [selectedNetworkName, setSelectedNetworkName] = useState('');
     const { addToast } = useToasts();
 
+   
+
     useEffect(() => {
         if (AirtimePurchaseFormState.network) {
             const selectedNetwork = networkList.find((telco) => {
@@ -44,8 +45,9 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
     }, [AirtimePurchaseFormState.network]);
 
     const handleOnSubmit = () => {
-        const { amount, phone } = AirtimePurchaseFormState;
+        const { amount, phone,operator,transaction_pin } = AirtimePurchaseFormState;
         var newPhone = phone;
+        var operators = operator;
 
         setLoading(true);
 
@@ -60,15 +62,34 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
         if (phone.indexOf('0') === 0) {
             newPhone = phone.replace('0', '');
         }
-
+        if(operators === 'mtn'){
+            operators = 'MTN'
+        }
+        if(operators === 'airtel'){
+            operators = 'Airtel'
+        }
+        if(operators === 'glo'){
+            operators  = 'Globacom'
+        }
+        if(operators === '9mobile'){
+            operators= '9mobile'
+        }
+        
         const payload = {
             amount,
-            bank_code: '9001',
+            transaction_pin,
             recipient: `234${newPhone}`,
+            operator:`${operators}`
         };
 
         axios
-            .post(VEND_AIRTIME, payload)
+            .post(VEND_AIRTIME, payload,
+               {
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept':'application/json'
+                    }
+                })
             .then((res) => {
                 const successData = res.data.data;
                 const message = res.data.message;

@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { Link } from "react-router-dom";
 
 import menu from "../../assets/images/dots.svg";
-import arrowDown from "../../assets/icons/arrowdown.svg";
-import arrowUp from "../../assets/images/arrowUp.svg";
-import houseTag from "../../assets/images/houseTag.svg";
 import { ThreeDots } from "svg-loaders-react";
 
 import refresh from "../../assets/images/refresh.svg";

@@ -1,25 +1,12 @@
 import React from "react";
-
-import formatToCurrency from "../../../../utils/formatToCurrency";
-import generateProviderImageUrl from "../generateProviderImageUrl";
-
-import styles from "./FundWalletCompleted.module.scss";
+import formatToCurrency from "../../../utils/formatToCurrency";
+import logo from "../../../assets/icons/cico-logo-regular.svg";
+import styles from "./CommissionTransferStatus.module.scss";
 
 var Barcode = require("react-barcode");
 
-export const FundsTransferCompleted = (props) => {
-  // const { accountId } = props.FundWalletFormState;
-  const { successData, transactionCost, setComponentToRender, service } = props;
-  const {
-    amount,
-    status,
-    customer_info,
-    reference,
-    created_at,
-    id,
-  } = successData;
-
-  const logo = generateProviderImageUrl(service);
+export const CommissionTransferStatus = ({ successData, date, setStatus }) => {
+  const { customer_info, mode, status, amount, reference } = successData;
 
   return (
     <div className={styles.container}>
@@ -36,37 +23,33 @@ export const FundsTransferCompleted = (props) => {
           <span className={styles.contentDetails}>{customer_info}</span>
         </div>
         <div className={styles.contentItem}>
-          <span className={styles.contentHeading}>Status:</span>
-          <span className={styles.contentDetails}>{status}</span>
-        </div>
-        <div className={styles.contentItem}>
-          <span className={styles.contentHeading}>Date:</span>
-          <span className={styles.contentDetails}>{created_at}</span>
-        </div>
-        <div className={styles.contentItem}>
-          <span className={styles.contentHeading}>Transaction ID:</span>
-          <span className={styles.contentDetails}>{id}</span>
-        </div>
-        <div className={styles.contentItem}>
-          <span className={styles.contentHeading}>Reference:</span>
+          <span className={styles.contentHeading}>Transaction Reference:</span>
           <span className={styles.contentDetails}>{reference}</span>
         </div>
         <div className={styles.contentItem}>
           <span className={styles.contentHeading}>Type:</span>
-          <span className={styles.contentDetails}>Wallet funding</span>
+          <span className={styles.contentDetails}>{mode}</span>
         </div>
         <div className={styles.contentItem}>
-          <span className={styles.contentHeading}>Amount:</span>
-          <span className={styles.contentDetails}>
-            &#8358;{formatToCurrency(amount)}
-          </span>
+          <span className={styles.contentHeading}>Status</span>
+          <span className={styles.contentDetails}>{status}</span>
         </div>
         <div className={styles.contentItem}>
-          <span className={styles.contentHeading}>Convenience Fee:</span>
-          <span className={styles.contentDetails}>
-            &#8358;{formatToCurrency(transactionCost)}
-          </span>
+          <span className={styles.contentHeading}>Date:</span>
+          <span className={styles.contentDetails}>{date}</span>
         </div>
+      </div>
+      <div className={styles.contentItem}>
+        <span className={styles.contentHeading}>Amount:</span>
+        <span className={styles.contentDetails}>
+          {formatToCurrency(amount)}
+        </span>
+      </div>
+      <div className={styles.contentItem}>
+        <span className={styles.contentHeading}>Convenience Fee:</span>
+        <span className={styles.contentDetails}>
+          &#8358;{formatToCurrency(0)}
+        </span>
       </div>
       <div className={styles.total}>
         <span className={styles.totalHeading}>Total:</span>
@@ -91,7 +74,7 @@ export const FundsTransferCompleted = (props) => {
           Print
         </div>
         <button
-          onClick={() => setComponentToRender("form")}
+          onClick={() => setStatus("form")}
           className={`${styles.buttonAction} ${styles.buttonRestart}`}
         >
           New Payment
@@ -101,4 +84,4 @@ export const FundsTransferCompleted = (props) => {
   );
 };
 
-export default FundsTransferCompleted;
+export default CommissionTransferStatus;

@@ -22,7 +22,6 @@ export const ElectricityPaymentSummary = (props) => {
         hasSetPin,
     } = props;
     const {
-        disco,
         meterNo,
         accountName,
         paymentPlan,

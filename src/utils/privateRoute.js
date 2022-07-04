@@ -12,7 +12,7 @@ export const PrivateRoute = ({
 }) => {
   return (
     <>
-      {isDefaultPassword == 0 ? (
+      {isDefaultPassword === 0 ? (
         <Route
           {...rest}
           render={({ match }) => (

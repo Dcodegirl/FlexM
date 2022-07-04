@@ -299,25 +299,6 @@ export const Overview = ({
                     </div>
                 </Link>
                 <Link
-                    to='/betting'
-                    className={`${styles.card} ${styles.cardBetting}`}
-                >
-                    <div className={styles.container}>
-                        <div
-                            className={`${styles.cardImageContainer} ${styles.cardImageContainerBetting}`}
-                        >
-                            <img
-                                src={betting}
-                                className={styles.image}
-                                alt='card icon'
-                            />
-                        </div>
-                        <p className={`${styles.text} ${styles.textBetting}`}>
-                            Betting
-                        </p>
-                    </div>
-                </Link>
-                <Link
                     to='/loan'
                     className={`${styles.card} ${styles.cardCash}`}
                 >

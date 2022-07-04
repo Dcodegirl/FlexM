@@ -1,26 +1,32 @@
-import React from 'react';
+import React, {useEffect,useState} from 'react';
 import PropTypes from 'prop-types';
 import OtpInput from 'react-otp-input';
 import { ThreeDots } from 'svg-loaders-react';
-
+import axios from 'axios';
 import Submit from '../../../components/common/Button';
-
+import { TRANSACTION_COST } from '../../../utils/constants';
 import back from '../../../assets/images/left-arrow.svg';
 import info from '../../../assets/images/tooltip-icon.svg';
 import generateBankImageUrl from './generateBankImageUrl';
 import formatToCurrency from '../../../utils/formatToCurrency';
 
 import styles from './FundsTransferSummary.module.scss';
+import Axios from 'axios';
 
 export const FundsTransferSummary = (props) => {
+    const [transactionCost, setTransactionCost] = useState([]);
+    const [transactionTypeFilter, setTransactionTypeFilter] = useState('');
+    const [TransactionCostChange,setTransactionCostChange] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [currentTransactionCost, setCurrentTransactionCost] = useState("");
     const {
         FundsTransferFormState: state,
-        loading,
+        // loading,
         dispatch,
         hasSetPin,
         setComponentToRender,
         handleOnSubmit,
-        transactionCost,
+        // transactionCost,
     } = props;
 
     const bankImageUrl = generateBankImageUrl(state.beneficiaryBankCode);
@@ -32,6 +38,34 @@ export const FundsTransferSummary = (props) => {
         });
     };
 
+    useEffect(()=>{
+        let isCancelled = false;
+        setTransactionCostChange(true);
+         const params ={};
+         if (transactionTypeFilter) params.type = transactionTypeFilter;
+
+        axios
+        .get(`${TRANSACTION_COST}`)
+        .then((res)=>{
+            const transactionCost = res.data.data.cost;
+            console.log(res.data.data.cost)
+       
+        if(!isCancelled){
+            setTransactionCost(transactionCost);
+            setLoading(false);
+        }
+    })
+        .catch((err)=>{
+            if(!isCancelled) {
+                setTransactionCostChange(false);
+                setLoading(false); 
+                setTransactionCost([]) 
+            }
+        });
+        return () => {
+            isCancelled = false;
+        };
+    }, [currentTransactionCost])
     return (
         <div className={styles.container}>
             <div

@@ -1,22 +1,20 @@
 import axios from 'axios';
 
+import { startLogout } from '../actions/auth';
+import store from '../store/configureStore';
+import history from '../utils/history';
+
+const { dispatch } = store();
+
 export const authMiddleware = () => {
-    axios.interceptors.response.use(
+    return axios.interceptors.response.use(
         (response) => {
             return response;
         },
         (error) => {
-            console.log(error.response);
-
             if (error.response && error.response.status === 401) {
-                window.location = '/login';
-            } else if (
-                error.response &&
-                error.response.data &&
-                error.response.data.message
-            ) {
-                alert(error.response.data.message, 1);
-            } else if (error.response && error.response.data) {
+                dispatch(startLogout());
+                history.push('/login');
             } else return Promise.reject(error);
         }
     );

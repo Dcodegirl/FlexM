@@ -161,7 +161,10 @@
     .ref {
       flex: 0 0 18%;
     }
-
+    .address{
+      flex: 0 0 21%;
+      text-align: center;
+    }
     .customer {
       flex: 0 0 21%;
       text-align: center;
@@ -653,9 +656,11 @@
   }
 
   .customer {
-    flex: 0 0 25%;
+    flex: 0 0 20%;
   }
-
+.address{
+  flex:0 0 10%;
+}
   .ref {
     flex: 0 0 15%;
   }

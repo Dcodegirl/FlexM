@@ -8,9 +8,11 @@ import BuyData from '../features/services/data/index';
 import RechargeCable from '../features/services/cable/index';
 import BuyInsurance from '../features/services/insurance/BuyInsurance';
 import WalletLog from '../features/logs/wallet/index';
+import CommissionLogs from '../features/logs/commissions/index';
 import TransactionLog from '../features/logs/transactions/TransactionLog';
 import Profile from '../features/profile/Profile';
 import WalletTransfer from '../features/services/walletTransfer/WalletTransfer';
+import CommissionTransfer from '../features/services/commissionTransfer/CommissionTransfer';
 import BillPayment from '../pages/BillPayment';
 import AirtimeData from '../pages/AirtimeData';
 import LoanPage from '../pages/Loan';
@@ -18,9 +20,6 @@ import LoanHistory from '../features/services/loan/LoanHistory';
 import RepaymentHistory from '../features/services/loan/RepaymentHistory';
 import Overview from '../pages/Overview';
 import Contact from '../pages/Contact';
-import Betting from '../pages/Betting';
-import BettingProvider from '../features/services/betting/index';
-import PlaceBet from '../features/services/betting/play/Play';
 import TransactionDetails from '../components/common/TransactionDetails';
 import Documents from '../features/profile/documents';
 
@@ -93,6 +92,17 @@ const routes = [
         exact: true,
         component: WalletLog,
     },
+    {
+        path: '/commission',
+        exact: true,
+        component: CommissionLogs,
+    },  
+
+    {
+        path: '/commission/transfer',
+        exact: true,
+        component: CommissionTransfer,
+    },  
     // {
     //   path: "/activity-log",
     //   component: ActivityLog,
@@ -146,21 +156,6 @@ const routes = [
     {
         path: '/loan/repayment-history',
         component: RepaymentHistory,
-    },
-    {
-        path: '/betting',
-        component: Betting,
-        exact: true,
-    },
-    {
-        path: '/betting/:provider',
-        component: BettingProvider,
-        exact: true,
-    },
-    {
-        path: '/betting/:provider/bet',
-        component: PlaceBet,
-        exact: true,
     },
     {
         path: '/documents',

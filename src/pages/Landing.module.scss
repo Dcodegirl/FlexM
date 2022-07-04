@@ -6,7 +6,9 @@
     min-height: 100vh;
     overflow: hidden;
     color: #fff;
-    background-color: #062863;
+    background-color:#173C68
+    ;
+    position: relative;
     background-position: bottom 12rem right 14rem, bottom 8rem right 8.5rem,
         bottom 14rem right 7rem, bottom 4rem right 13rem, bottom 0rem right 0rem,
         bottom 9rem left 11rem, bottom 2rem left 13rem, bottom 0rem left 0rem;
@@ -123,9 +125,23 @@
 }
 
 .formGroup {
+   
     width: 100%;
     position: relative;
 
+    &:not(:last-child) {
+        margin-bottom: 3rem;
+        @include respond(phone) {
+            margin-bottom: 2rem;
+        }
+    }
+}
+.formGroups{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
     &:not(:last-child) {
         margin-bottom: 3rem;
 
@@ -166,6 +182,7 @@
     height: 4rem;
     font-family: inherit;
     padding: 0 1rem;
+    position: relative;
     font-size: 1.6rem;
     background: rgba(204, 220, 255, 0.411);
 
@@ -224,7 +241,14 @@
         }
     }
 }
+.eye{
+    color: #22215b;
+    position: absolute;
+    top: 60%;
+    right: 1rem;
+    cursor: pointer;
 
+}
 .forgotPassword {
     text-align: right;
 }
@@ -244,7 +268,8 @@
     font-size: 1.6rem;
     width: 21.5rem;
     font-family: 'Avenir', sans-serif;
-    background: lighten(#062863, 5%);
+    background: lighten(#173C68
+    , 5%);
     box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     margin: 0 auto;
@@ -276,4 +301,22 @@
     margin-left: 1rem;
     display: inline-block;
     color: #00b378;
+}
+.whitecircle{
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    z-index: 1;
+}
+.greencircle{
+    position: absolute;
+    left: 80px;
+    bottom: 10px;
+    z-index: 2;
+}
+.mobilephone{
+    position: absolute;
+    left: 30px;
+    bottom: 90px;
+    z-index: 3;
 }

@@ -10,7 +10,8 @@ if (
     //production server
     path = 'https://api.cico.ng/api';
 }
-
+////TRANSACTIONCOST////
+export const TRANSACTION_COST = `${path}/transaction-costs/Transfer/agents/{amount}`
 //////AUTH///////
 
 //login user - POST
@@ -46,6 +47,15 @@ export const FORGOT_PASSWORD = `${path}/user/password`;
 //update user password - PATCH
 export const RESET_PASSWORD = `${path}/user/token`;
 
+//forgot transaction pin
+export const FORGOT_TRANSACTION_PIN = `${path}/transaction-pins/initiate`;
+
+//update user transaction pin- PATCH
+export const RESET_TRANSACTION_PIN = `${path}/transaction-pins/reset`;
+
+//Regenerate user transaction pin-POST
+export const REGENERATE_TRANSACTION_PIN = `${path}/transaction-pins/regenerate`;
+
 /////PARAMETERS//////////
 //Get list of banks - GET
 export const FETCH_BANKS = `${path}/parameters/banks`;
@@ -58,6 +68,9 @@ export const FETCH_LGAS = `${path}/parameters/cities`;
 
 ///////AGENT DASHBOARD DATA/////////
 export const AGENT_DASHBOARD_DATA = `${path}/agent/dashboard-data`;
+
+///////AGENT DASHBOARD DATA/////////
+export const COMMISSION_DASHBOARD_DATA = `${path}/agent/dashdashboard-data`;
 
 //////AGENT INFO///////
 
@@ -116,6 +129,28 @@ export const VALIDATE_AGENT = `${path}/agents/validate`;
 //agent fund wallet request
 export const FUND_WALLET_REQUEST = `${path}/fund-requests`;
 
+/////COMMISSION//////
+
+//get commission history - GET
+export const GET_AGENT_COMMISSION_HISTORY = `${path}/agents/commission-histories`;
+
+//get commission logs - GET
+export const ALL_COMMISSION_LOGS = `${path}/commission/all`;
+
+//post fund agent commission - POST
+export const FUND_AGENT_COMMISSION = `${path}/commission/admin`;
+
+///debit agent commission (admin) - PUT
+export const DEBIT_AGENT_COMMISSION = `${path}/commission/admin`;
+
+//search commission
+export const SEARCH_COMMISSION = `${path}/commission/search`;
+
+//agent commission transfer
+export const COMMISSION_TRANSFER = `${path}/agents/commissions/withdraw`;
+
+
+
 /////TRANSACTIONS/////
 
 //get agent transaction history - GET
@@ -140,13 +175,13 @@ export const ACTIVITY_LOGS = `${path}/logs`;
 export const GET_TELCOS = `${path}/airtime/telcos`;
 
 //get data plans - POST
-export const GET_DATA_PLANS = `${path}/fusion/topup/data/bundles`;
+export const GET_DATA_PLANS = `${path}/airtime-data/data/bundle`;
 
 //vend data - POST
-export const VEND_DATA = `${path}/fusion/topup/data`;
+export const VEND_DATA = `${path}/airtime-data/data/vend`;
 
 //vend airtime - POST
-export const VEND_AIRTIME = `${path}/fusion/topup/airtime`;
+export const VEND_AIRTIME = `${path}/airtime-data/airtime/vend`;
 
 /////CABLE TV//////////
 //Validate multichoice smart card number
