@@ -29,7 +29,7 @@ export const RechargeCableForm = (props) => {
     const [validationErrors, setValidationErrors] = useState({});
     const [plans, setPlans] = useState([]);
 
-    console.log(fetchPlansLoading);
+   
 
     //effect fetches plans based on selected provider
     useEffect(() => {
@@ -204,7 +204,7 @@ export const RechargeCableForm = (props) => {
             setFetchPlansLoading(false);
             setPlans(plans);
         } catch (e) {
-            // console.log(e);
+           
         } finally {
             setFetchPlansLoading(false);
         }

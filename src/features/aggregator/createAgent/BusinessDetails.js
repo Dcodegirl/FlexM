@@ -43,7 +43,7 @@ const BusinessDetails = ({
         })
       )
       .catch((e) => {
-        // console.log(e)
+ 
       });
 
     return () => {

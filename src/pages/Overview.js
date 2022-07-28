@@ -137,7 +137,6 @@ export const Overview = ({
                     tooltips: {
                         callbacks: {
                             label: function (tooltipItem, data) {
-                                console.log(tooltipItem);
                                 return `₦${tooltipItem.yLabel
                                     .toString()
                                     .replace(

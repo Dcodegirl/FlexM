@@ -46,6 +46,7 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
             heading: 'Funds Transfer',
             search: false,
         });
+
     }, []);
 
     const handleOnSubmit = () => {
@@ -79,10 +80,9 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
                 const res = await axios.post(DISBURSE_FUNDS, req, options);
                 const reference = res.data?.data?.Data?.TxnId;
                 const status = res.data.status;
-                const message = res.data.data.Message;
+                const message = res.data.Message;
                 const agentCode = res.data.data.agent_code;
                 const transactionDate = res.data.data.transaction_date;
-
                 setSuccessData({
                     message,
                     reference,
@@ -100,29 +100,36 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
                 setComponentToRender('completed');
                 EventEmitter.dispatch('refresh-wallet-balance', {});
             } catch (err) {
-                if (err.response && err.response.status === 403) {
+                if (err.response && err.response.status === 401) {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
                         autoDismiss: true,
                     });
-                    setFailedErrorMessage(err.response?.message || undefined);
+                    setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
-                } else if (err.response && err.response.status === 401) {
+                } else if (err.response && err.response.status === 403) {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
                         autoDismiss: true,
                     });
                     setComponentToRender('failed');
-                } else {
+                    setFailedErrorMessage(err.response.data.message || undefined);
+                }
+                 else {
                     setTimeout(() => {
                         setLoading(false);
+                        console.log(err.response.data.message)
+                        addToast(err.response.data.message, {
+                            appearance: 'error',
+                            autoDismiss: true,
+                        });
                         setFailedErrorMessage(
-                            err.response?.message || undefined
+                            err.response.data.message || undefined
                         );
                         setComponentToRender('failed');
-                    }, 7000);
+                    }, 3000);
                 }
             }
         })();

@@ -106,7 +106,6 @@ const Document = ({ agent_code, displayModal }) => {
                 });
                 window.location.reload();
             } catch (err) {
-                console.log(err.response);
                 if (err.response && err.response.status === 403) {
                     setLoading(false);
                     addToast(err.response.statusText, {

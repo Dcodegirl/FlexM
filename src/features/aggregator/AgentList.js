@@ -21,7 +21,7 @@ const AgentList = () => {
           setAgentListData(agentListData);
         }
       } catch (e) {
-        // console.log(e.response);
+       
       }
     })();
   }, []);

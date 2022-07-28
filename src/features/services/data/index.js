@@ -24,6 +24,7 @@ export const BuyData = ({ service, hasSetPin }) => {
     const [successData, setSuccessData] = useState(null);
     const [loading, setLoading] = useState(false);
     const { addToast } = useToasts();
+    const [failedErrorMessage, setFailedErrorMessage] = useState('');
 
     const handleOnSubmit = () => {
         const { amount, phone,operator, productId,transaction_pin} = DataPurchaseFormState;
@@ -95,6 +96,7 @@ export const BuyData = ({ service, hasSetPin }) => {
                         appearance: 'error',
                         autoDismiss: true,
                     });
+                    setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 400) {
                     setLoading(false);
@@ -102,12 +104,22 @@ export const BuyData = ({ service, hasSetPin }) => {
                         appearance: 'error',
                         autoDismiss: true,
                     });
+                    setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
-                } else {
+                } else if (err.response && err.response.status === 401) {
+                    setLoading(false);
+                    addToast(err.response.data.message, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                    });
+                    setFailedErrorMessage(err.response.data.message || undefined);
+                    setComponentToRender('failed');
+                }else {
                     setTimeout(() => {
                         setLoading(false);
                         setComponentToRender('failed');
-                    }, 7000);
+                        setFailedErrorMessage(err.response.data.message || undefined);
+                    }, 3000);
                 }
             });
     };
@@ -148,7 +160,7 @@ export const BuyData = ({ service, hasSetPin }) => {
             );
             break;
         case 'failed':
-            renderedComponent = <FailedTransaction />;
+            renderedComponent = <FailedTransaction  message={failedErrorMessage}/>;
             break;
         default:
             renderedComponent = null;

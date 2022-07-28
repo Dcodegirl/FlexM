@@ -48,7 +48,6 @@ export const FundsTransferSummary = (props) => {
         .get(`${TRANSACTION_COST}`)
         .then((res)=>{
             const transactionCost = res.data.data.cost;
-            console.log(res.data.data.cost)
        
         if(!isCancelled){
             setTransactionCost(transactionCost);
