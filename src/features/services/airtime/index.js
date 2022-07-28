@@ -31,6 +31,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
     ];
     const [selectedNetworkName, setSelectedNetworkName] = useState('');
     const { addToast } = useToasts();
+    const [failedErrorMessage, setFailedErrorMessage] = useState('');
 
    
 
@@ -112,6 +113,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                         appearance: 'error',
                         autoDismiss: true,
                     });
+                    setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 401) {
                     setLoading(false);
@@ -119,6 +121,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                         appearance: 'error',
                         autoDismiss: true,
                     });
+                    setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 400) {
                     setLoading(false);
@@ -126,10 +129,12 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                         appearance: 'error',
                         autoDismiss: true,
                     });
+                    setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 } else {
                     setTimeout(() => {
                         setLoading(false);
+                        setFailedErrorMessage(err.response.data.message || undefined);
                         setComponentToRender('failed');
                     }, 7000);
                 }
@@ -176,7 +181,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
             );
             break;
         case 'failed':
-            renderedComponent = <FailedTransaction />;
+            renderedComponent = <FailedTransaction message={failedErrorMessage}/>;
             break;
         default:
             renderedComponent = null;
