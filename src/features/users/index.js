@@ -69,7 +69,6 @@ export const Users = ({ changeCurrentPage, displayModal, modalIsUpdated }) => {
 
                                 setUsers(users);
                             } catch (e) {
-                                // console.log(e);
                             } finally {
                                 setLoading(false);
                             }

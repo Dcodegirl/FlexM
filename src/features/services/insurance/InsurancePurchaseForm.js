@@ -44,8 +44,6 @@ const InsurancePurchaseForm = (props) => {
 
           let hasError = true;
 
-          console.log(errors);
-
           //Validation checks if input field is empty
           for (let error in errors) {
             if (errors.hasOwnProperty(error)) {

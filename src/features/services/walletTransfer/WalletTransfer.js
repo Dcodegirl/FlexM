@@ -6,7 +6,7 @@ import WalletTransferForm from "./WalletTransferForm";
 import WalletTransferStatus from "./WalletTransferStatus";
 import WalletTransferSummary from "./WalletTransferSummary";
 import FailedTransaction from "../../../components/common/FailedTransaction";
-
+import { useToasts } from 'react-toast-notifications';
 import styles from "./WalletTransfer.module.scss";
 
 export const WalletTransfer = () => {
@@ -16,6 +16,8 @@ export const WalletTransfer = () => {
   const [loading, setLoading] = useState(false);
   const [transactionDate, setTransactionDate] = useState(null);
   const [agentLocation, setAgentLocation] = useState(null);
+  const [failedErrorMessage, setFailedErrorMessage] = useState('');
+  const { addToast } = useToasts();
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -46,11 +48,12 @@ export const WalletTransfer = () => {
     (async function transferFunds() {
       try {
         const res = await axios.post(WALLET_TRANSFER, req);
-       if(!res.ok){
-         const msg =`There was an error ${res.status} ${res.statusText}`
-         throw new Error(msg)
-       }
-       console.log(res)
+        const message = res.data.message;
+        addToast(message, {
+          appearance: 'success',
+          autoDismiss: true,
+      });
+     
         const date = new Date();
         const transactionDate = getTransactionDate(date);
 
@@ -59,9 +62,37 @@ export const WalletTransfer = () => {
         setStatus("status");
         
       } catch (error) {
-        setStatus('failed');
-
-      }
+        if (error.response && error.response.data.status_code === 429) {
+          setLoading(false);
+          addToast(error.response.data.message, {
+              appearance: 'error',
+              autoDismiss: true,
+          });
+          setFailedErrorMessage(error.response.data.message || undefined);
+      } else if (error.response && error.response.status === 403) {
+          setLoading(false);
+          addToast(error.response.data.message, {
+              appearance: 'error',
+              autoDismiss: true,
+          });
+          setFailedErrorMessage(error.response.data.message || undefined);
+      }else if (error.response && error.response.status === 401) {
+        setLoading(false);
+        addToast(error.response.data.message, {
+            appearance: 'error',
+            autoDismiss: true,
+        });
+        setFailedErrorMessage(error.response.data.message || undefined);
+    }else{
+        setTimeout(()=>{
+          setStatus('failed');
+          addToast(error.response.data.message, {
+            appearance: 'error',
+            autoDismiss: true,
+        });
+        setFailedErrorMessage(error.response.data.message || undefined);
+        },3000);
+      }}
     })();
   };
 
@@ -90,7 +121,7 @@ export const WalletTransfer = () => {
               setStatus={setStatus}
             />
           ),
-          failed: <FailedTransaction />,
+          failed: <FailedTransaction message={failedErrorMessage} />
         }[status]
       }
     </div>

@@ -76,11 +76,11 @@ export const RechargeCable = ({ service, hasSetPin }) => {
                 setComponentToRender('success');
             } catch (e) {
                 setLoading(false);
-                addToast(e.response.data.data[0], {
+                addToast(e.response.data.data, {
                     appearance: 'error',
                     autoDismiss: true,
                 });
-                setFailedErrorMessage(e.response.data.data[0] || undefined);
+                setFailedErrorMessage(e.response.data.message || undefined);
                 setComponentToRender('failed');
             }
         })();

@@ -15,7 +15,7 @@ export const authMiddleware = () => {
             if (error.response && error.response.status === 401) {
                 dispatch(startLogout());
                 history.push('/login');
-            } else return Promise.reject(error);
+            } return Promise.reject(error);
         }
     );
 };
