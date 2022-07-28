@@ -57,7 +57,6 @@ const ElectricityPaymentForm = (props) => {
                         payload: { accountName: customerName },
                     });
                 } catch (err) {
-                    console.log(err.response);
 
                     if (err.response && err.response.status === 400) {
                         setLoading(false);

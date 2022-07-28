@@ -32,12 +32,11 @@ export const BuyDataForm = (props) => {
         };
 
         const telcoName = telcoList[`${service}`];
-        console.log(props)
         axios
             .post(GET_DATA_PLANS, {"operator":telcoName})
             .then((res) => {  
                 setDataPlans(res.data.data);
-                console.log(res.data.data)
+
             })
             
             .catch((err) => {

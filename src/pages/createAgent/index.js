@@ -21,6 +21,7 @@ const CreateAgent = ({ history }) => {
     const [status, setStatus] = useState('personal');
     const [loading, setLoading] = useState(false);
     const [state, setState] = useState({});
+ 
 
     useEffect(() => {
         let isCancelled = false;
@@ -37,7 +38,7 @@ const CreateAgent = ({ history }) => {
                     );
                 setState(state);
             } catch (e) {
-                console.log(e);
+                console.log(e)
             } finally {
                 setLoading(false);
             }
@@ -56,12 +57,14 @@ const CreateAgent = ({ history }) => {
 
             try {
                 const res = await axios.post(REGISTER_AGENT, payload);
-
+                const message = res.data.message;
+                
                 if (res) {
+                    
                     setLoading(false);
-
+                 
                     addToast(
-                        'Registration successful, please login to continue',
+                        message,
                         {
                             appearance: 'success',
                             autoDismiss: true,
@@ -71,9 +74,9 @@ const CreateAgent = ({ history }) => {
                     history.push('/login');
                 }
             } catch (e) {
+                
                 setLoading(false);
-
-                addToast('Registration failed', {
+                addToast(e.response.data.data, {
                     appearance: 'error',
                     autoDismiss: true,
                 });
