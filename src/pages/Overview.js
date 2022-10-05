@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Chart from 'chart.js';
 import { ThreeDots } from 'svg-loaders-react';
-
 import { setDisplayModal } from '../actions/modal';
-
 import { setCurrentPage } from '../actions/page';
 import bills from '../assets/icons/dashboard-bill.svg';
 import transfer from '../assets/icons/dashboard-transaction.svg';
