@@ -57,12 +57,18 @@ export const ForgotTransactionPin = ({ history }) => {
                     setStatus('verification');
                 }
             } catch (e) {
+                if (!e.response) {
+                    addToast("Please Check Internet Connection", {
+                        appearance: 'error',
+                        autoDismiss: true,
+                    });
+                  }else{
                 const { message } = e.response.data.errors;
                 addToast(message, {
                     appearance: 'error',
                     autoDismiss: true,
                 });
-            
+                  }
 
                 setLoading(false);
             }
@@ -89,9 +95,9 @@ export const ForgotTransactionPin = ({ history }) => {
                         setStatus('verification');
                     }
                    
-                    // if (res) history.push('/');
+                   
                 } catch (e) {
-                    const { message } = e.res.data.errors;
+                    const { message } = e.response.data.errors;
                     addToast(message, {
                         appearance: 'error',
                         autoDismiss: true,
@@ -125,10 +131,8 @@ export const ForgotTransactionPin = ({ history }) => {
                         });
                         setLoading(false);
                     }
-
-                    // if (res) history.push('/');
                 } catch (e) {
-                    const { message } = e.res.data.message;
+                    const { message } = e.response.data;
                     addToast(message, {
                         appearance: 'error',
                         autoDismiss: true,

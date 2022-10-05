@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
-
 import { startLogout } from '../../actions/auth';
 import { createNotification } from '../../actions/notification';
 import notification from '../../assets/images/notification-svgrepo-com (1).svg';

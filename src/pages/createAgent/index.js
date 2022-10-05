@@ -2,13 +2,10 @@ import React, { useState, useReducer, useEffect } from 'react';
 import axios from 'axios';
 import { useToasts } from 'react-toast-notifications';
 import { withRouter } from 'react-router-dom';
-
 import agentDataReducer, { initialState } from './agent-reducer';
 import { REGISTER_AGENT, REGISTRATION_SELECT } from '../../utils/constants';
-
 import PersonalDetails from './PersonalDetails';
 import BusinessDetails from './BusinessDetails';
-// import FileUploads from "./FileUploads";
 import AccountDetails from './AccountDetails';
 
 import NavHome from '../../components/layout/HomeNavBar';
