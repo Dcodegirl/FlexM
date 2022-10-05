@@ -3,15 +3,10 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { ThreeDots } from "svg-loaders-react";
-
 import { GET_BETTING_PROVIDERS } from "../utils/constants";
-
 import { setDisplayModal } from "../actions/modal";
-
 import { setCurrentPage } from "../actions/page";
-// import betway from "../assets/icons/Betway Logo.svg";
 import bet9ja from "../assets/icons/Bet9ja Logo.svg";
-// import sportybet from "../assets/icons/SportyBet Logo.svg";
 import nairabet from "../assets/icons/Nairabet Logo.svg";
 import cloudbet from "../assets/icons/cloudbet.jpg";
 import betting from "../assets/images/football.svg";
@@ -21,8 +16,6 @@ import styles from "./Betting.module.scss";
 export const Betting = ({ changeCurrentPage, displayModal }) => {
   const [loading, setLoading] = useState(true);
   const [bettingProviders, setBettingProviders] = useState([]);
-  // const strings = window.location.href.split("/");
-  // const service = strings[4];
 
   useEffect(() => {
     let isCancelled;
