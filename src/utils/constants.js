@@ -60,6 +60,9 @@ export const REGENERATE_TRANSACTION_PIN = `${path}/transaction-pins/regenerate`;
 //Get list of banks - GET
 export const FETCH_BANKS = `${path}/parameters/banks`;
 
+//Get list of bank - GET
+export const FETCH_BANK = `${path}/bank-operations/banks`;
+
 //Get list of states - GET
 export const FETCH_STATES = `${path}/parameters/states`;
 
