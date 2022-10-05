@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-
+import Axios from 'axios';
 import Form from '../../../components/common/Form';
 import FormGroup from '../../../components/common/FormGroup';
 import Input from '../../../components/common/Input';
 import Select from '../../../components/common/Select';
 import Submit from '../../../components/common/Button';
 
-import { VERIFY_ACCOUNT } from '../../../utils/constants';
+import { VERIFY_ACCOUNT, FETCH_BANK } from '../../../utils/constants';
 import generateBankImageUrl from './generateBankImageUrl';
 import validateFormData from '../../../validation/validateFormData';
 import banksList from '../../../utils/listOfBanks';
@@ -16,6 +15,7 @@ import banksList from '../../../utils/listOfBanks';
 import styles from './FundsTransferForm.module.scss';
 
 export const FundsTransferForm = (props) => {
+   
     const {
         FundsTransferFormState: state,
         dispatch,
@@ -25,6 +25,7 @@ export const FundsTransferForm = (props) => {
     const [accountValidationLoading, setAccountValidationLoading] =
         useState(false);
     const [validationErrors, setValidationErrors] = useState({});
+    const [banks, setBanks]=useState([]);
 
     useEffect(() => {
         const { accountNumber, beneficiaryBankCode } = state;
@@ -40,7 +41,7 @@ export const FundsTransferForm = (props) => {
 
             (async function verifyAccount() {
                 try {
-                    const res = await axios.post(VERIFY_ACCOUNT, payload);
+                    const res = await Axios.post(VERIFY_ACCOUNT, payload);
 
                     const accountName = res.data.data.Data.name;
 
@@ -86,7 +87,26 @@ export const FundsTransferForm = (props) => {
             });
         }
     }, [state.amount]);
+    //Update bank type
+    useEffect(() => {
+        let isCancelled = false;
 
+        (async function getBankList() {
+          try {
+            const res = await Axios.get(FETCH_BANK);
+            
+            const banks = res.data.data;
+            console.log(banks)
+    
+            if (!isCancelled) {
+              setBanks(banks);
+            }
+          } catch (e) {
+            // console.log(e.response);
+          }
+        })();
+      }, []);
+      
     //update bank name on bank code change
     useEffect(() => {
         if (state.beneficiaryBankCode) {
@@ -157,16 +177,13 @@ export const FundsTransferForm = (props) => {
                     handleOnChange={handleFormStateChange}
                 >
                     <option value=''>Select Bank</option>
-                    {banksList.map((bank, index) => {
+                    {banks.map((bank, index) => {
                         return (
-                            <option
-                                value={bank.code}
-                                key={`${index}--${bank.name}`}
-                            >
-                                {bank.name}
-                            </option>
-                        );
-                    })}
+                        <option key={index}>{bank.name}</option>
+                        )
+                    })
+                           
+                    }
                 </Select>
             </FormGroup>
             <FormGroup>
