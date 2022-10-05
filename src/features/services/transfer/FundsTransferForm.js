@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Axios from 'axios';
+import axios from 'axios';
 import Form from '../../../components/common/Form';
 import FormGroup from '../../../components/common/FormGroup';
 import Input from '../../../components/common/Input';
@@ -41,7 +41,7 @@ export const FundsTransferForm = (props) => {
 
             (async function verifyAccount() {
                 try {
-                    const res = await Axios.post(VERIFY_ACCOUNT, payload);
+                    const res = await axios.post(VERIFY_ACCOUNT, payload);
 
                     const accountName = res.data.data.Data.name;
 
@@ -93,16 +93,15 @@ export const FundsTransferForm = (props) => {
 
         (async function getBankList() {
           try {
-            const res = await Axios.get(FETCH_BANK);
+            const res = await axios.get(FETCH_BANK);
             
             const banks = res.data.data;
-            console.log(banks)
-    
+          
+            
             if (!isCancelled) {
               setBanks(banks);
             }
           } catch (e) {
-            // console.log(e.response);
           }
         })();
       }, []);
@@ -110,15 +109,13 @@ export const FundsTransferForm = (props) => {
     //update bank name on bank code change
     useEffect(() => {
         if (state.beneficiaryBankCode) {
-            const selectedBank = banksList.find((bank) => {
+            let selectedBank = banks.find((bank) => {
                 return bank.code == state.beneficiaryBankCode;
             });
 
-            const bankName = selectedBank.name;
-
             dispatch({
                 type: 'UPDATE_FORM_STATE',
-                payload: { beneficiaryBankName: bankName },
+                payload: { beneficiaryBankName: selectedBank.name },
             });
         }
     }, [state.beneficiaryBankCode]);
@@ -148,7 +145,7 @@ export const FundsTransferForm = (props) => {
         });
     };
 
-    //Dynamically render bank logo
+   
     let bankImageUrl = generateBankImageUrl(state.beneficiaryBankCode);
 
     return (
@@ -179,7 +176,7 @@ export const FundsTransferForm = (props) => {
                     <option value=''>Select Bank</option>
                     {banks.map((bank, index) => {
                         return (
-                        <option key={index}>{bank.name}</option>
+                        <option key={index} value={bank.code}>{bank.name}</option>
                         )
                     })
                            
