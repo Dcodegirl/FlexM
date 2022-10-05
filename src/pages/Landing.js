@@ -86,7 +86,6 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
           <div className={styles.formContainer}>
             <form className={styles.form} onSubmit={handleOnSubmit}>
               <div className={styles.formGroup}>
-                {/* <img className={styles.inputIcon} src={phoneIcon} alt="" /> */}
                 <label htmlFor="phone" className={styles.label}>
                   Phone number
                 </label>
@@ -99,7 +98,6 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
                 />
               </div>
               <div className={styles.formGroup}>
-                {/* <img className={styles.inputIcon} src={lock} alt="" /> */}
                 <label htmlFor="password" className={styles.label}>
                   Password
                 </label>
