@@ -9,9 +9,6 @@ import PrivateRoute from '../../utils/privateRoute';
 import Header from './Header';
 import Profile from '../profile/Profile';
 import routes from '../../routes/routes';
-
-// import back from "../../assets/icons/back.svg";
-
 import Overlay from './modal/index';
 
 import styles from './Main.module.scss';

@@ -4,8 +4,7 @@
 
 .header {
   width: calc(100vw - 19rem);
-  text-align: left;
-  // background-color: $content-background-color;
+  text-align: left;;
   background-color: #f4f7fa;
   z-index: 5;
   height: 7rem;
@@ -19,17 +18,16 @@
   }
 
   @include respond(tab) {
-    // background-color: #fff;
+   
   }
 
   @include respond(phone-large) {
     width: 100vw;
-    // background-color: #fff;
+    
   }
 }
 
 .container {
-  // position: fixed;
   top: 0;
   width: 100%;
   flex: 1;

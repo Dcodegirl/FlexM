@@ -9,7 +9,6 @@ import { setDisplayModal } from '../actions/modal';
 import { setCurrentPage } from '../actions/page';
 import bills from '../assets/icons/dashboard-bill.svg';
 import transfer from '../assets/icons/dashboard-transaction.svg';
-import betting from '../assets/icons/dashboard-betting.svg';
 import loan from '../assets/icons/dashboard-call.svg';
 import airtime from '../assets/icons/dashboard-phone.svg';
 import formatToCurrency from '../utils/formatToCurrency';
@@ -62,7 +61,6 @@ export const Overview = ({
     ];
     const [transactionVolumeDataToDisplay, setTransactionVolumeDateToDisplay] =
         useState('month');
-    // const [transactionVolumeData, setTransactionVolumeData] = useState(null);
     const transactionVolumeDataMonthly = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const transactionVolumeDataDaily = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const barChartData = {

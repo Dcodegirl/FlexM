@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { setDisplayModal } from "../actions/modal";
 import { setCurrentPage } from "../actions/page";
-// import consumerLoan from "../assets/icons/consumerIcon.svg";
 import repaymentIcon from "../assets/icons/repaymentIcon.svg";
 import loanIcon from "../assets/icons/loanHistoryIcon.svg";
 import agentLoan from "../assets/icons/agentLoanIcon.svg";
@@ -41,23 +40,6 @@ export const Loan = ({ changeCurrentPage, displayModal }) => {
               </span>
               <p className={styles.serviceText}>Agent Loan</p>
             </div>
-            {/* <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "dataRecharge",
-                  service: "airtel",
-                });
-              }}
-            >
-              <span
-                className={`${styles.serviceLogoContainer} ${styles.serviceLogoContainerConsumer}`}
-              >
-                <img className={styles.serviceLogo} src={consumerLoan} alt="" />
-              </span>
-              <p className={styles.serviceText}>Consumer Loan</p>
-            </div> */}
             <Link to="loan/history" className={styles.service}>
               <span
                 className={`${styles.serviceLogoContainer} ${styles.serviceLogoContainerHistory}`}
