@@ -65,7 +65,7 @@ export const ForgotPassword = ({ history }) => {
                         autoDismiss: true,
                     });
                   }else{
-                const { message } = e.response.data.errors;
+                const { message } = e.response.data;
                 addToast(message, {
                     appearance: 'error',
                     autoDismiss: true,
