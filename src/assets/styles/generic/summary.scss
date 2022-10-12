@@ -2,7 +2,9 @@
 @import "../config/mixins";
 
 .container {
-  width: 45rem;
+  width: max-content;
+  width: -moz-max-content;    /* Firefox/Gecko */
+  width: -webkit-max-content; /* Chrome */
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
@@ -10,6 +12,14 @@
   border-radius: 1rem;
   padding: 4rem 3rem;
   font-size: 1.4rem;
+
+  @include respond(phone-large) {
+    width: 95%;
+  }
+
+  @include respond(phone) {
+    width: 99%;
+  }
 }
 
 .back {
