@@ -80,7 +80,7 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
                 const res = await axios.post(DISBURSE_FUNDS, req, options);
                 const reference = res.data?.data?.Data?.TxnId;
                 const status = res.data.status;
-                const message = res.data.Message;
+                const message = res.data.data.Message;
                 const agentCode = res.data.data.agent_code;
                 const transactionDate = res.data.data.transaction_date;
                 setSuccessData({
@@ -100,6 +100,14 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
                 setComponentToRender('completed');
                 EventEmitter.dispatch('refresh-wallet-balance', {});
             } catch (err) {
+                console.log(err)
+                if(err.response === undefined){
+                    addToast("Unable to process your request", {
+                        appearance: 'error',
+                        autoDismiss: true,
+                    }); 
+                    return
+                }
                 if (err.response && err.response.status === 401) {
                     setLoading(false);
                     addToast(err.response.data.message, {
@@ -120,7 +128,7 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
                  else {
                     setTimeout(() => {
                         setLoading(false);
-                        console.log(err.response.data.message)
+                       
                         addToast(err.response.data.message, {
                             appearance: 'error',
                             autoDismiss: true,
