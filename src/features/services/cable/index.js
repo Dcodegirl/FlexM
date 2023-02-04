@@ -45,16 +45,18 @@ export const RechargeCable = ({ service, hasSetPin }) => {
                 phone,
                 code: selectedPlanCode,
                 type: service,
+                validity: cycle,
                 transaction_pin:transaction_pin,
             };
         } else if (service === 'startimes') {
             providerApi = VEND_STARTIMES;
             payload = {
+                smartcard: smartCardNumber,
+                amount,
                 phone,
                 code: selectedPlanCode,
-                cycle,
-                amount: amount,
-                smartcard: smartCardNumber,
+                type: service,
+                validity: cycle,
                 transaction_pin:transaction_pin,
             };
         }

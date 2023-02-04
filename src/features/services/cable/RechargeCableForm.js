@@ -38,14 +38,12 @@ export const RechargeCableForm = (props) => {
 
     useEffect(() => {
         let isCancelled;
-
+        
         if (!isCancelled && state.cycle) {
             const selectedCycle = state.cycles.find((cycle) => {
-                return cycle.name === state.cycle;
+                return cycle.monthsPaidFor == state.cycle;
             });
-
-            const amount = selectedCycle && selectedCycle.amount;
-
+            const amount = selectedCycle && selectedCycle.price;
             setFormState({
                 type: 'UPDATE_FORM_STATE',
                 payload: { amount },
@@ -130,44 +128,17 @@ export const RechargeCableForm = (props) => {
 
     useEffect(() => {
         let isCancelled;
-
+        state.cycle = ""
+        state.amount = ""
         if (
             state.selectedPlanCode &&
-            (props.service === 'dstv' || props.service === 'gotv') &&
             !isCancelled
         ) {
             const selectedPlan = plans.find(
                 (plan) => plan.code === state.selectedPlanCode
             );
 
-            const amount = selectedPlan && selectedPlan.amount;
-
-            setFormState({
-                type: 'UPDATE_FORM_STATE',
-                payload: { amount },
-            });
-        }
-
-        if (
-            state.selectedPlanCode &&
-            props.service === 'startimes' &&
-            !isCancelled
-        ) {
-            const selectedPlan = plans.find(
-                (plan) => plan.name === state.selectedPlanCode
-            );
-
-            let cycles = [];
-
-            for (var key in selectedPlan.cycles) {
-                if (selectedPlan.cycles.hasOwnProperty(key)) {
-                    cycles.push({
-                        name: key,
-                        amount: selectedPlan.cycles[key],
-                    });
-                }
-            }
-
+            let cycles = selectedPlan.availablePricingOptions;
             setFormState({
                 type: 'UPDATE_FORM_STATE',
                 payload: { cycles },
@@ -186,8 +157,8 @@ export const RechargeCableForm = (props) => {
 
         if (props.service === 'startimes') {
             payload = {
-                type: 'default',
-                service: 'startimes',
+                type: 'startimes',
+                service: 'default',
             };
         } else if (props.service === 'dstv' || props.service === 'gotv') {
             payload = {
@@ -199,7 +170,7 @@ export const RechargeCableForm = (props) => {
         try {
             const res = await axios.post(GET_CABLE_PLANS, payload);
 
-            const plans = res.data.data.bouquets;
+            const plans = res.data.data;
 
             setFetchPlansLoading(false);
             setPlans(plans);
@@ -276,29 +247,27 @@ export const RechargeCableForm = (props) => {
                 </Select>
                 {fetchPlansLoading && <ThreeDots fill='green' />}
             </FormGroup>
-            {props.service === 'startimes' && (
-                <FormGroup>
-                    <Select
-                        name='cycle'
-                        value={state.cycle}
-                        label='Plan duration'
-                        handleOnChange={handleFormStateChange}
-                        error={validationErrors.cycle}
-                    >
-                        <option value=''>Select Duration</option>
-                        {state.cycles.map((plan, index) => {
-                            return (
-                                <option
-                                    value={plan.name}
-                                    key={`${index}--${plan.amount}`}
-                                >
-                                    {plan.name}
-                                </option>
-                            );
-                        })}
-                    </Select>
-                </FormGroup>
-            )}
+            <FormGroup>
+                <Select
+                    name='cycle'
+                    value={state.cycle}
+                    label='Pricing Option'
+                    handleOnChange={handleFormStateChange}
+                    error={validationErrors.cycle}
+                >
+                    <option value=''>Select Option</option>
+                    {state.cycles.map((plan, index) => {
+                        return (
+                            <option
+                                value={plan.monthsPaidFor}
+                                key={`${index}--${plan.monthsPaidFor}`}
+                            >
+                                {plan.monthsPaidFor}
+                            </option>
+                        );
+                    })}
+                </Select>
+            </FormGroup>
             <FormGroup>
                 <Input
                     name='amount'
