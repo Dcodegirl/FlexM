@@ -4,6 +4,7 @@ import { ToastProvider } from 'react-toast-notifications';
 import history from './utils/history';
 
 import AppRouter from './router/AppRouter';
+import { GlobalProvider } from './custom-hooks/Context';
 
 const App = () => {
     useEffect(() => {
@@ -29,9 +30,11 @@ const App = () => {
 
     return (
         <ToastProvider>
-            <Router history={history}>
-                <AppRouter />
-            </Router>
+             <GlobalProvider> {/* Wrap your entire app with GlobalProvider */}
+                <Router history={history}>
+                    <AppRouter />
+                </Router>
+            </GlobalProvider>
         </ToastProvider>
     );
 };
