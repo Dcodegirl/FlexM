@@ -59,8 +59,8 @@ function Document() {
 
     return (
         <>
-            <div className='m-8'>
-                <div className="p-16 bg-bg-green border-[#00BD7A40] rounded-3xl border">
+            <div className='md:m-8 my-8 overflow-hidden'>
+                <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
                     <div className="text-deep-green font-bold text-center">
                         <p className='text-2xl'>Biodata</p>
                         <p className="text-gray-700 text-xl font-thin w-[360px]">Be sure to enter your legal name as it appears on your government-issued ID</p>
@@ -76,7 +76,7 @@ function Document() {
                                         onChange={handlefirstnameChange}
                                         required
                                         placeholder='Type First Name'
-                                        className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                                        className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                                     />
                                 </div>
                                 <div className=' w-full'>
@@ -87,7 +87,7 @@ function Document() {
                                         onChange={handlelastnameChange}
                                         required
                                         placeholder='Type Last Name'
-                                        className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
+                                        className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
                                     />
                                 </div>
                             </div>
@@ -99,14 +99,14 @@ function Document() {
                                     onChange={handleaddressnameChange}
                                     required
                                     placeholder='Type Address'
-                                    className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
+                                    className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
                                 />
                             </div>
                             <div className="flex gap-5">
                                 <div className=' w-full'>
                                     <p className='text-gray-700 text-sm mb-2'>Country</p>
                                     <select
-                                        className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                                        className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                                         value={selectedDocument}
                                         onChange={handleCountryChange}
                                     >
@@ -116,7 +116,7 @@ function Document() {
                                 <div className=' w-full'>
                                     <p className='text-gray-700 text-sm mb-2'>State</p>
                                     <select
-                                        className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                                        className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                                         value={selectedDocument}
                                         onChange={handleStateChange}
                                     >
@@ -129,7 +129,7 @@ function Document() {
                                 <p className='text-sm'>Guarantor Form</p>
                                 <p className="text-gray-700 text-sm font-thin w-[360px]">Download and Upload a signed copy of this form in your profile</p>
                             </div>
-                            <div className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-6 flex items-center justify-between'>
+                            <div className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-6 flex items-center justify-between'>
                                 <div className='flex gap-2'>
                                     <img
                                         src={downloadsvg} // Provide the actual path to your SVG upload icon
@@ -159,7 +159,7 @@ function Document() {
                                 <p className="text-gray-700 text-sm font-thin w[360px]">Download and Upload a signed copy of this form in your profile</p>
                             </div>
                             <select
-                                className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                                className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                                 value={selectedDocument}
                                 onChange={handleDocumentChange}
                             >

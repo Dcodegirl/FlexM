@@ -46,12 +46,12 @@ function Contact() {
   return (
     <>
       <div className='md:m-8 my-8 overflow-hidden'>
-        <div className="p-16 md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
+        <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
           <div className="text-deep-green font-bold text-center">
             <p className='text-2xl'>Contact Information</p>
             <p className="text-gray-500 text-xl font-thin w[360px]">Enter your contact details to get started</p>
           </div>
-          <div className='md:w-[350px] w-full mt-6'>
+          <div className='w-[350px] mt-6'>
             <form>
               <p className='text-gray-700 text-sm mb-2'>Phone Number</p>
               <input

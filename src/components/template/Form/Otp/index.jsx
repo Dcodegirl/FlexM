@@ -64,7 +64,7 @@ function Contact() {
     return (
         <>
             <div className='md:m-8 my-8 overflow-hidden'>
-                <div className="p-16 bg-bg-green border-[#00BD7A40] rounded-3xl border">
+                <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
                     <div className="text-deep-green font-bold text-center">
                         <p className='text-2xl'>Verify your otp</p>
                         <p className="text-gray-500 text-xl font-thin w-[360px]">we sent OTP to the number attached to your otp +2347065436765</p>
@@ -85,7 +85,7 @@ function Contact() {
                                     required
                                     id={`otp-input-${index}`}
                                     tabIndex={index + 1}
-                                    className='border border-[#D0D5DD] bg-bg-green h-16 w-14 text-center m-2 rounded-lg p-4'
+                                    className='border md:bg-bg-green bg-white border-[#D0D5DD] h-16 w-14 text-center m-2 rounded-lg p-4'
                                 />
                             ))}
                         </form>

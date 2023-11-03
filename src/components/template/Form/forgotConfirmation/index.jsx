@@ -19,8 +19,8 @@ function ForgotConfirmation() {
 
     return (
         <>
-            <div className='m-8 overflow-hidden hidden md:block '>
-                <div className="p-16 bg-bg-green border-[#00BD7A40] rounded-3xl border">
+            <div className='m-8 overflow-hidden'>
+                <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
                     <div className='w-[350px] mt-6'>
                         <div className='flex justify-center items-center'>
                             <div className="flex flex-col text-center">

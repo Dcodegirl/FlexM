@@ -10,11 +10,11 @@ function Guarantor() {
 
     return (
         <>
-            <div className='m-8'>
-                <div className="p-16 bg-bg-green border-[#00BD7A40] rounded-3xl border">
+            <div className='md:m-8 my-8 overflow-hidden'>
+                <div className="md:p-16 py-16 px-8 md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
                     <div className="text-deep-green font-bold text-center">
                         <p className='text-2xl'>Enter your BVN</p>
-                        <p className="text-gray-700 text-xl font-thin w[360px]">Enter your 11 Digit BVN</p>
+                        <p className="text-gray-700 text-xl font-thin w-[360px]">Enter your 11 Digit BVN</p>
                     </div>
                     <div className='w-[350px] mt-6'>
                         <form>
@@ -25,7 +25,7 @@ function Guarantor() {
                                 onChange={(e) => setBvn(e.target.value)}
                                 required
                                 placeholder='Enter BVN'
-                                className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                                className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                             />
                             <div className='bg-[#CDFEEE] rounded-lg h-14 w-full mb-6 p-6 flex items-center justify-between'>
                                 <div className='flex gap-2 items-center'>
@@ -46,7 +46,7 @@ function Guarantor() {
                                 onChange={(e) => setDob(e.target.value)}
                                 required
                                 placeholder='00/00/0000'
-                                className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                                className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                             />
                         </form>
                     </div>

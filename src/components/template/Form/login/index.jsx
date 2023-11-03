@@ -41,8 +41,8 @@ function Login() {
 
   return (
     <>
-      <div className='m-8 overflow-hidden sm:hidden md:block lg:block'>
-        <div className="p-16 bg-bg-green border-[#00BD7A40] rounded-3xl border">
+      <div className='md:m-8 my-8 overflow-hidden'>
+        <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
           <div className="text-deep-green font-bold text-center">
             <p className='text-2xl'>Enter your Contact Detail</p>
             <p className="text-gray-500 text-xl font-thin w[360px]">Enter your contact details to sign in.</p>
@@ -56,7 +56,7 @@ function Login() {
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 required
                 placeholder='Enter your phone Number'
-                className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
               />
               <div className="relative">
                 <p className='text-gray-700 text-sm mb-2'>Password</p>
@@ -66,7 +66,7 @@ function Login() {
                   onChange={handlePasswordChange}
                   required
                   placeholder='**********'
-                  className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                  className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                 />
                 <FontAwesomeIcon
                   icon={showPassword ? faEye : faEyeSlash}
