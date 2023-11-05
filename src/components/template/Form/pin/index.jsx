@@ -1,10 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 
-function Contact() {
-    const [timeLeft, setTimeLeft] = useState(600);
-    const [phoneNumber, setPhoneNumber] = useState("");
+function Pin() {
     const [otp, setotp] = useState(["", "", "", "", "", ""]);
-    const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
 
     const handleotpChange = (index, value) => {
         if (value >= 0 && value <= 9) {
@@ -90,10 +87,8 @@ function Contact() {
                             ))}
                         </form>
                     </div>
-                    <div className="text-[#00BD7A] mt-4">
-                        <div className=' text-right  -ml-8'>
-                            {formatTime(timeLeft)}
-                        </div>
+                    <div className="text-[#00BD7A] mt-4 text-right w-[350px] ">
+                        {formatTime(timeLeft)}
                     </div>
                     <div className="flex justify-center">
                     <p>I didn't get the code? {resendButtonDisabled ? 'Resend OTP' : <a href="#"><span className="text-[#00BD7A]">Resend OTP</span></a>}</p>
@@ -105,4 +100,4 @@ function Contact() {
     )
 }
 
-export default Contact
+export default Pin
