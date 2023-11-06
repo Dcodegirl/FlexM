@@ -6,7 +6,7 @@ const ForgotWord = () => {
 
 
     return (
-        <div className="h-screen p-16">
+        <div className="h-screen p-16 bg-[#Fafffd] bg-bg-pattern bg-cover bg-no-repeat">
             <div>
                 <NavHome theme='dark' signUpContent="Forgot Password"/>
             </div>

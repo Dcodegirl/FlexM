@@ -14,6 +14,9 @@ module.exports = {
         'bg-green': '#EAF8F8',
         'cico-green': '#00BD7A'
       },
+      backgroundImage: {
+        'bg-pattern': "url('https://ik.imagekit.io/jumzeey/Pattern_dMgXzGdMK.svg?updatedAt=1699268313022')"
+      }
     },
   },
   plugins: [],
