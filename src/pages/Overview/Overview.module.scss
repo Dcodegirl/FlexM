@@ -1,8 +1,7 @@
-@import "../assets/styles/config/mixins";
-@import "../assets/styles/config/breakpoints";
+@import "../../assets/styles/config/mixins";
+@import "../../assets/styles/config/breakpoints";
 
 .container {
-  padding: 3rem 0;
   z-index: 2;
 
   @include respond(tab) {

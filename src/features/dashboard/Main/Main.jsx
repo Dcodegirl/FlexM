@@ -2,22 +2,20 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { setWalletBalance } from '../../actions/wallet';
-import { AGENT_DASHBOARD_DATA } from '../../utils/constants';
-import Balance from './Balance';
-import PrivateRoute from '../../utils/privateRoute';
-import Header from './Header';
-import Profile from '../profile/Profile';
-import routes from '../../routes/routes';
-import Overlay from './modal/index';
+import { setWalletBalance } from '../../../actions/wallet';
+import { AGENT_DASHBOARD_DATA } from '../../../utils/constants';
+import PrivateRoute from '../../../utils/privateRoute';
+import Header from '../Header';
+import Profile from '../../profile/Profile';
+import routes from '../../../routes/routes';
+import Overlay from '../modal/index';
 
 import styles from './Main.module.scss';
-import { EventEmitter } from '../../utils/event';
+import { EventEmitter } from '../../../utils/event';
 
 export const Main = ({
     history,
     isDefaultPassword,
-    setWalletBalance,
     overlay,
 }) => {
     const [overviewData, setOverviewData] = useState(null);
@@ -57,9 +55,7 @@ export const Main = ({
         }
     }, []);
 
-    const refreshOverviewData = () => {
-        fetchOverviewData();
-    };
+    
     
     return (
         <Suspense fallback={<div>this is loading the main page</div>}>
@@ -79,7 +75,7 @@ export const Main = ({
                                 : styles.content
                         }
                     >
-                        <Balance refreshOverviewData={refreshOverviewData} commissionBalance={commissionBalance}/>
+                       
                        
                         <div className={styles.contentMain}>
                             <span

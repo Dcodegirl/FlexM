@@ -2,20 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
-import { startLogout } from '../../actions/auth';
-import { createNotification } from '../../actions/notification';
-import notification from '../../assets/images/notification-svgrepo-com (1).svg';
-import user from '../../assets/images/user.svg';
-import arrowdown from '../../assets/icons/arrowdown.svg';
-import right from '../../assets/icons/arrowright.svg';
-import lock from '../../assets/icons/lock.svg';
-import users from '../../assets/icons/users.svg';
-import bioUser from '../../assets/icons/bio-user.svg';
-import exit from '../../assets/icons/exit.svg';
-import pinLock from '../../assets/icons/pin.svg';
-import flexShield from '../../assets/icons/bronze-badge.svg';
-import premiumShield from '../../assets/icons/silver-badge.svg';
-import vipShield from '../../assets/icons/gold-badge.svg';
+import { startLogout } from '../../../actions/auth';
+import { createNotification } from '../../../actions/notification';
+import imagebg from '../../../assets/icons/Ellipse 179.png';
+import notification from '../../../assets/icons/bell 1.svg';
+import user from '../../../assets/images/user.svg';
+import searchIcon from '../../../assets/icons/mdi_search.svg';
+import arrowdown from '../../../assets/icons/mdi_.svg';
+import right from '../../../assets/icons/arrowright.svg';
+import lock from '../../../assets/icons/lock.svg';
+import users from '../../../assets/icons/users.svg';
+import bioUser from '../../../assets/icons/bio-user.svg';
+import exit from '../../../assets/icons/exit.svg';
+import pinLock from '../../../assets/icons/pin.svg';
+import flexShield from '../../../assets/icons/bronze-badge.svg';
+import premiumShield from '../../../assets/icons/silver-badge.svg';
+import vipShield from '../../../assets/icons/gold-badge.svg';
 
 import styles from './Header.module.scss';
 
@@ -39,8 +41,8 @@ const Header = ({
         agentClassificationLowercase === 'premium'
             ? premiumShield
             : agentClassificationLowercase === 'vip'
-            ? vipShield
-            : flexShield;
+                ? vipShield
+                : flexShield;
 
     useEffect(() => {
         let isCancelled;
@@ -88,9 +90,12 @@ const Header = ({
     useClickOutside(wrapperRef);
 
     return (
-        <header className={styles.header}>
-            <div className={styles.container}>
-                <div className={styles.agentName}>{name}</div>
+        <header className={'styles.header flex justify-end bg-white h-full '}>
+            <div className={`styles.container flex justify-between h-full items-center gap-3 w-[450px]  px-12`}>
+                <div className="relative">
+                    <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400" />
+                    <input type="text" placeholder="Search transactions" className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2" />
+                </div>
                 <div
                     className={styles.notification}
                     onClick={handleToggleNotifications}
@@ -101,14 +106,16 @@ const Header = ({
                     </span>
                 </div>
                 <div className={styles.profile}>
+                    <img src={imagebg} alt="" className='relative w-[30px] h-[30px]' />
                     <img
-                        className={styles.profileImage}
+                        className={`styles.profileImage w-[20px] h-[20px] absolute ml-2`}
                         src={user}
                         alt='User silhoutte'
                         onClick={() => {
                             setToggleUser(!toggleUser);
                         }}
                     />
+                    <div className={`styles.agentName w-full text-[12px] text-icon-purple uppercase`}>{name}</div>
                     <img
                         src={arrowdown}
                         className={styles.profileToggle}
@@ -117,11 +124,11 @@ const Header = ({
                         }}
                         alt=''
                     />
-                    <img
+                    {/* <img
                         src={agentClassificationIcon}
                         alt=''
                         className={styles.agentCategory}
-                    />
+                    /> */}
                     {toggleUser && (
                         <div className={styles.userSubmenu} ref={wrapperRef}>
                             <div className={styles.userSubmenuBio}>

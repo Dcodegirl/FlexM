@@ -1,6 +1,6 @@
-@import "../../assets/styles/config/breakpoints";
-@import "../../assets/styles/config/mixins";
-@import "../../assets/styles/config/variables";
+@import "../../../assets/styles/config/breakpoints";
+@import "../../../assets/styles/config/mixins";
+@import "../../../assets/styles/config/variables";
 
 .balance {
   height: 15rem;
@@ -64,9 +64,6 @@
     -webkit-animation: rotate 3s ease-in;
     animation: rotate 0.5s ease-in;
   }
-}
-
-.agentCategory {
 }
 
 .agentCategoryImage {

@@ -18,7 +18,7 @@ import AirtimeData from '../pages/AirtimeData';
 import LoanPage from '../pages/Loan';
 import LoanHistory from '../features/services/loan/LoanHistory';
 import RepaymentHistory from '../features/services/loan/RepaymentHistory';
-import Overview from '../pages/Overview';
+import Overview from '../pages/Overview/Overview';
 import Contact from '../pages/Contact';
 import TransactionDetails from '../components/common/TransactionDetails';
 import Documents from '../features/profile/documents';

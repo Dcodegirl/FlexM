@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Sidebar from './Sidebar';
 import { setDisplayModal } from '../../actions/modal';
-import Main from './Main';
+import Main from './Main/Main';
 import { useToasts } from 'react-toast-notifications';
 
 import styles from './index.module.scss';

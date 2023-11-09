@@ -1,6 +1,6 @@
-@import "../../assets/styles/config/breakpoints";
-@import "../../assets/styles/config/mixins";
-@import "../../assets/styles/config/variables";
+@import "../../../assets/styles/config/breakpoints";
+@import "../../../assets/styles/config/mixins";
+@import "../../../assets/styles/config/variables";
 
 .main {
   flex: 1;
@@ -18,11 +18,7 @@
     flex: 1;
     min-height: calc(100vh - 7rem);
     background-color: $content-background-color;
-    padding: 3rem 7rem;
-    background: #fff;
-    border-top-left-radius: 1.5rem;
-    padding: 2rem 3rem;
-    box-shadow: -4px 4px 12px rgba(10, 46, 101, 0.05);
+    background: #fafafa;
     max-width: 100%;
     overflow: hidden;
 
