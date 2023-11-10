@@ -17,7 +17,9 @@ module.exports = {
         'light-deep-green': '#136739',
         'light-orange': '#FEF8F0',
         'airtime': '#FBEAE9',
-        'loan': '#EBFFE9'
+        'loan': '#EBFFE9',
+        'failed' : '#FF1919',
+        'text-orange': '#FF9212'
       },
       backgroundImage: {
         'bg-pattern': "url('https://ik.imagekit.io/jumzeey/Pattern_dMgXzGdMK.svg?updatedAt=1699268313022')",

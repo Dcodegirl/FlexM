@@ -204,15 +204,6 @@ export const WalletLog = ({ changeCurrentPage }) => {
                     <span className={styles.active} disabled>
                         {currentPage}
                     </span>
-                    {/* {
-          pageNumbers.map((page, index) => {
-            return <span key={`${index}--key`}onClick={() => {
-              setCurrentPage(page);
-              setPageChangeLoading(true);
-            }} 
-            className={currentPage === page ? styles.active : styles.normal}>{page}</span>
-          })
-        }  */}
                     <span
                         onClick={() => {
                             if (currentPage > firstPage) {

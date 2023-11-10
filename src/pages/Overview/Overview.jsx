@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import BarChart from '../../features/dashboard/BarChart';
 import PieChart from '../../features/dashboard/PieChart';
-import Trans from '../../features/dashboard/TransactionHome';
+import Trans from '../../features/dashboard/TransactionHistory';
 import Balance from '../../features/dashboard/Balance/Balance';
 import QuickAction from '../../features/dashboard/QuickAction';
 import axios from 'axios';

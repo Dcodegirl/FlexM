@@ -70,45 +70,6 @@ const Balance = ({
 
   return (
     <>
-    {/* <div className={styles.balance}>
-      <div className={styles.balanceWrapper}>
-      <div className={styles.balances}>
-        <p className={styles.balanceHeading}>Wallet Balance:</p>
-        <h3 className={styles.balanceText}>
-          ₦{formatToCurrency(walletBalance)}
-          <img
-            className={styles.refresh}
-            src={refresh}
-            alt=""
-            onClick={handleOnClick}
-          />
-        </h3>
-      </div>
-      <div className={styles.balances}>
-        <p className={styles.balanceHeading}>Commission Balance:</p>
-        <h3 className={styles.balanceText}>
-          ₦{formatToCurrency(commissionBalance)}
-         
-          <img
-            className={styles.refresh}
-            src={refresh}
-            alt=""
-            onClick={handleOnClick}
-          />
-        </h3>
-      </div>
-      </div>
-     
-      <div className={styles.agentCategory}>
-        <img
-          className={styles.agentCategoryImage}
-          src={agentClassificationIcon}
-          alt=""
-        />
-        <p className={styles.agentCategoryText}>{agentClassificationText}</p>
-      </div>
-     
-    </div> */}
     <div className="bg-white p-8 rounded-md mt-8">
       <div>
         <p className="text-deep-green font-medium my-4 text-3xl">Your Balance</p>
