@@ -18,7 +18,7 @@ const BarChart = ({ }) => {
             <div className="bg-white p-8 rounded-md mt-8">
                 <div className='flex gap-16 mb-24'>
                     <div>
-                        <p className="text-deep-green font-medium my-4 text-3xl">Revenue</p>
+                        <p className="text-deep-green font-medium my-4 text-3xl">Transactions</p>
                     </div>
                     {/* Add a bar or any other UI element for period selection */}
                     <div className="flex">

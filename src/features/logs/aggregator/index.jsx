@@ -4,13 +4,13 @@ import { setCurrentPage } from "../../../actions/page";
 import { setDisplayModal } from "../../../actions/modal";
 import WalletInfo from "../../dashboard/WalletInfo";
 import WalletBreakDown from "../../dashboard/WalleBreakdown";
-import CommissionLogs from "./CommissionLogs";
+import CommissionLogs from "../commissions/CommissionLogs";
 import userGroup from "../../../assets/icons/users.svg";
-import styles from "./index.module.scss";
+
 
 export const Users= ({ changeCurrentPage, displayModal }) => {
   const walletInfoProps = {
-    title: "Commision's Wallet Balance",
+    title: "Aggregator's Wallet Balance",
     amount: "NGN 20,000,000",
   };
   return (

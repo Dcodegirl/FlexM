@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import minus from '../../../assets/images/minus.svg';
 import plus from '../../../assets/images/plus.svg';
 import { connect } from 'react-redux';
+import { TransactionData, Transactions } from '../../dashboard/data/transactionData';
 import { setCurrentPage } from '../../../actions/page';
 import formatToCurrency from '../../../utils/formatToCurrency';
 import { GET_AGENT_COMMISSION_HISTORY } from '../../../utils/constants';
@@ -14,7 +15,8 @@ import arrowUp from '../../../assets/images/arrowUp.svg';
 import menu from '../../../assets/images/dots.svg';
 
 export const CommissionLogs = ({ changeCurrentPage }) => {
-    const [transactions, setTransactions] = useState([]);
+    // const [transactions, setTransactions] = useState([]);
+    const transactions = Transactions();
     const [loading, setLoading] = useState(true);
     // const [total, setTotal] = useState(null);
     // const [perPage, setPerPage] = useState(null);
@@ -70,14 +72,14 @@ export const CommissionLogs = ({ changeCurrentPage }) => {
                 if (!isCancelled) {
                     setLastPage(lastPage);
 
-                    setTransactions(transactions);
+                    // setTransactions(transactions);
                     setLoading(false);
                     setPageChangeLoading(false);
                 }
             })
             .catch((err) => {
                 if (!isCancelled) {
-                    setTransactions([]);
+                    // setTransactions([]);
                     setLoading(false);
                     setPageChangeLoading(false);
                 }
@@ -107,23 +109,53 @@ export const CommissionLogs = ({ changeCurrentPage }) => {
     };
 
     return (
-        <div className={styles.container}>
-            {transactions.length > 0 && !loading ? (
+        <div className="bg-white p-8 rounded-md mt-8">
+
+            <div>
+                <p className="text-deep-green font-medium my-4 text-3xl">Recent Transactions</p>
+
+                <div>
+                    <div className="grid grid-cols-6 grid-rows-1 p-8 font-medium text-xl bg-[#F1F1F1]">
+                        <span>Previous Balance </span>
+                        <span>Amount</span>
+                        <span>Description </span>
+                        <span>Current Balance </span>
+                        <span>Transaction Type </span>
+                        <span>
+                            Date
+                        </span>
+                    </div>
+                    <div>
+                    {transactions.map((transaction, index) => (
+                            <div key={index} className={`grid grid-cols-6 grid-rows-1 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
+                                <div className="text-wrapper-5">{transaction.PreviousBalance}</div>
+                                <div className="text-wrapper-6">{transaction.Amount}</div>
+                                <div className="text-wrapper-6 w-64">{transaction.Description}</div>
+                                <div className="text-wrapper-6">{transaction.CurrentBalance}</div>
+                                <div className="text-wrapper-6">{transaction.TransactionType}</div>
+                                <div className="text-wrapper-9">{transaction.date}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+
+
+            {/* {transactions.length > 0 && !loading ? (
                 <div className={styles.transactions}>
                     <h3 className={styles.transactionsHeading}>Logs</h3>
 
                     <div className={styles.table}>
                         <div className={styles.tableHeading}>
-                            <span className={styles.sn}>S/N</span>
-                            <span className={styles.date}>Date</span>
-                            <span className={styles.amount}>Commission</span>
-                            <span className={styles.prev}>Previous</span>
-                            <span className={styles.current}>Balance</span>
+                            <span className={styles.sn}>Previous Balance </span>
+                            <span className={styles.date}>Amount</span>
+                            <span className={styles.amount}>Description </span>
+                            <span className={styles.prev}>Current Balance </span>
+                            <span className={styles.current}>Transaction Type </span>
                             <span className={styles.description}>
-                                Description
+                                Date
                             </span>
-                            <span className={styles.type}>Type</span>
-                            <span className={styles.mode}>Mode</span>
                         </div>
                         <div className={styles.tableBody}>
                             {transactions.map((transaction, index) => {
@@ -149,12 +181,12 @@ export const CommissionLogs = ({ changeCurrentPage }) => {
 
                                         <span className={styles.prev}>
                                             {formatToCurrency(
-                                                transaction.previous_commission
+                                                transaction.previous_bal
                                             )}
                                         </span>
                                         <span className={styles.current}>
                                             {formatToCurrency(
-                                                transaction.current_commission
+                                                transaction.current_bal
                                             )}
                                         </span>
                                         <span className={styles.description}>
@@ -204,15 +236,6 @@ export const CommissionLogs = ({ changeCurrentPage }) => {
                     <span className={styles.active} disabled>
                         {currentPage}
                     </span>
-                    {/* {
-          pageNumbers.map((page, index) => {
-            return <span key={`${index}--key`}onClick={() => {
-              setCurrentPage(page);
-              setPageChangeLoading(true);
-            }} 
-            className={currentPage === page ? styles.active : styles.normal}>{page}</span>
-          })
-        }  */}
                     <span
                         onClick={() => {
                             if (currentPage > firstPage) {
@@ -240,7 +263,7 @@ export const CommissionLogs = ({ changeCurrentPage }) => {
                         Last Page
                     </span>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };

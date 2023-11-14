@@ -9,9 +9,13 @@ import userGroup from "../../../assets/icons/users.svg";
 
 
 export const Users = ({}) => {
+  const walletInfoProps = {
+    title: "Main Wallet Balance",
+    amount: "NGN 20,000,000",
+  };
   return (
     <div className=''>
-      <WalletInfo/>
+      <WalletInfo walletInfoProp={walletInfoProps}/>
       <WalletBreakDown/>
       <WalletLogs />
     </div>

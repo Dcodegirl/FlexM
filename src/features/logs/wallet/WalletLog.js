@@ -8,14 +8,17 @@ import { connect } from 'react-redux';
 import { setCurrentPage } from '../../../actions/page';
 import formatToCurrency from '../../../utils/formatToCurrency';
 import { GET_AGENT_WALLET_HISTORY } from '../../../utils/constants';
-import styles from './WalletLog.module.scss';
+import { TransactionData, Transactions } from '../../dashboard/data/transactionData';
+// import styles from './WalletLog.module.scss';
 import arrowDown from '../../../assets/icons/arrowdown.svg';
 import arrowUp from '../../../assets/images/arrowUp.svg';
 import menu from '../../../assets/images/dots.svg';
 
 export const WalletLog = ({ changeCurrentPage }) => {
-    const [transactions, setTransactions] = useState([]);
+    
+    // const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
+    const transactions = Transactions();
     // const [total, setTotal] = useState(null);
     // const [perPage, setPerPage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -70,14 +73,14 @@ export const WalletLog = ({ changeCurrentPage }) => {
                 if (!isCancelled) {
                     setLastPage(lastPage);
 
-                    setTransactions(transactions);
+                    // setTransactions(transactions);
                     setLoading(false);
                     setPageChangeLoading(false);
                 }
             })
             .catch((err) => {
                 if (!isCancelled) {
-                    setTransactions([]);
+                    // setTransactions([]);
                     setLoading(false);
                     setPageChangeLoading(false);
                 }
@@ -107,23 +110,53 @@ export const WalletLog = ({ changeCurrentPage }) => {
     };
 
     return (
-        <div className={styles.container}>
-            {transactions.length > 0 && !loading ? (
+        <div className="bg-white p-8 rounded-md mt-8">
+
+            <div>
+                <p className="text-deep-green font-medium my-4 text-3xl">Recent Transactions</p>
+
+                <div>
+                    <div className="grid grid-cols-6 grid-rows-1 p-8 font-medium text-xl bg-[#F1F1F1]">
+                        <span>Previous Balance </span>
+                        <span>Amount</span>
+                        <span>Description </span>
+                        <span>Current Balance </span>
+                        <span>Transaction Type </span>
+                        <span>
+                            Date
+                        </span>
+                    </div>
+                    <div>
+                    {transactions.map((transaction, index) => (
+                            <div key={index} className={`grid grid-cols-6 grid-rows-1 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
+                                <div className="text-wrapper-5">{transaction.PreviousBalance}</div>
+                                <div className="text-wrapper-6">{transaction.Amount}</div>
+                                <div className="text-wrapper-6 w-64">{transaction.Description}</div>
+                                <div className="text-wrapper-6">{transaction.CurrentBalance}</div>
+                                <div className="text-wrapper-6">{transaction.TransactionType}</div>
+                                <div className="text-wrapper-9">{transaction.date}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+
+
+            {/* {transactions.length > 0 && !loading ? (
                 <div className={styles.transactions}>
                     <h3 className={styles.transactionsHeading}>Logs</h3>
 
                     <div className={styles.table}>
                         <div className={styles.tableHeading}>
-                            <span className={styles.sn}>S/N</span>
-                            <span className={styles.date}>Date</span>
-                            <span className={styles.amount}>Amount</span>
-                            <span className={styles.prev}>Previous</span>
-                            <span className={styles.current}>Balance</span>
+                            <span className={styles.sn}>Previous Balance </span>
+                            <span className={styles.date}>Amount</span>
+                            <span className={styles.amount}>Description </span>
+                            <span className={styles.prev}>Current Balance </span>
+                            <span className={styles.current}>Transaction Type </span>
                             <span className={styles.description}>
-                                Description
+                                Date
                             </span>
-                            <span className={styles.type}>Type</span>
-                            <span className={styles.mode}>Mode</span>
                         </div>
                         <div className={styles.tableBody}>
                             {transactions.map((transaction, index) => {
@@ -231,7 +264,7 @@ export const WalletLog = ({ changeCurrentPage }) => {
                         Last Page
                     </span>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import TransactionData from '../data/transactionData';
+import { TransactionData, Transactions } from '../data/transactionData';
 // import "./style.css";
 
 const Trans = ({ }) => {
@@ -43,25 +43,27 @@ const Trans = ({ }) => {
                             <p>Date</p>
                         </div>
                         {transactions.map((transaction, index) => (
-    <div key={index} className={`grid grid-cols-5 grid-rows-1 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
-        <div className="text-wrapper-5">{transaction.agentCode}</div>
-        <div className="text-wrapper-6">{transaction.description}</div>
-        <p style={{ color: 
-            transaction.status === 'Successful' ? '#00B378' :
-            transaction.status === 'Failed' ? '#FF1919' :
-            '#FF9212'
-        }}>
-            <span className="span">N</span>
-            <span className="text-wrapper-7">{transaction.amount}</span>
-        </p>
-        <div style={{ color: 
-            transaction.status === 'Successful' ? '#00B378' :
-            transaction.status === 'Failed' ? '#FF1919' :
-            '#FF9212'
-        }}>{transaction.status}</div>
-        <div className="text-wrapper-9">{transaction.date}</div>
-    </div>
-))}
+                            <div key={index} className={`grid grid-cols-5 grid-rows-1 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
+                                <div className="text-wrapper-5">{transaction.agentCode}</div>
+                                <div className="text-wrapper-6">{transaction.description}</div>
+                                <p style={{
+                                    color:
+                                        transaction.status === 'Successful' ? '#00B378' :
+                                            transaction.status === 'Failed' ? '#FF1919' :
+                                                '#FF9212'
+                                }}>
+                                    <span className="span">N</span>
+                                    <span className="text-wrapper-7">{transaction.amount}</span>
+                                </p>
+                                <div style={{
+                                    color:
+                                        transaction.status === 'Successful' ? '#00B378' :
+                                            transaction.status === 'Failed' ? '#FF1919' :
+                                                '#FF9212'
+                                }}>{transaction.status}</div>
+                                <div className="text-wrapper-9">{transaction.date}</div>
+                            </div>
+                        ))}
 
                     </div>
                 </div>

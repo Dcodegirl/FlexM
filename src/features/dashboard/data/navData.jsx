@@ -17,8 +17,8 @@ export const navigationItems = [
     text: 'My Wallet', icon: walletIcon, hasSubMenu: true,
     items: [
       { to: '/wallet', text: 'Main Wallet' },
-      { to: '/transactions/outgoing', text: 'Aggregator Wallet' },
-      { to: '/transactions/outgoing', text: 'Commission Wallet' },
+      { to: '/aggregator', text: 'Aggregator Wallet' },
+      { to: '/commission', text: 'Commission Wallet' },
     ],
   },
   { to: '/transactions', text: 'Performance', icon: transactionIcon },
@@ -26,9 +26,9 @@ export const navigationItems = [
     text: 'Agent Management', icon: commisionIcon, hasSubMenu: true,
     items: [
       { to: '/create-agent', text: 'Create Agent' },
-      { to: '/transactions/outgoing', text: 'View Agent' },
-      { to: '/transactions/outgoing', text: 'Agent Performance' },
-      { to: '/transactions/outgoing', text: 'Agent Transaction' },
+      { to: '/transactions/outgoing', text: "View Agents" },
+      { to: '/transactions/outgoing', text: "Agent's Performance" },
+      { to: '/transactions/outgoing', text: "Agent's Transaction" },
     ],
   },
   { to: '/users', text: 'Users', icon: usersIcon, condition: 'sub' },
