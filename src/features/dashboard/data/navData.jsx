@@ -26,7 +26,7 @@ export const navigationItems = [
     text: 'Agent Management', icon: commisionIcon, hasSubMenu: true,
     items: [
       { to: '/create-agent', text: 'Create Agent' },
-      { to: '/transactions/outgoing', text: "View Agents" },
+      { to: '/view-agents', text: "View Agents" },
       { to: '/transactions/outgoing', text: "Agent's Performance" },
       { to: '/transactions/outgoing', text: "Agent's Transaction" },
     ],

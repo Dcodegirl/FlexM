@@ -107,7 +107,7 @@ function Document() {
                                     <p className='text-gray-700 text-sm mb-2'>Country</p>
                                     <select
                                         className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
-                                        value={selectedDocument}
+                                        value={selectedCountry}
                                         onChange={handleCountryChange}
                                     >
                                         <option value="">Choose Country</option>
@@ -117,7 +117,7 @@ function Document() {
                                     <p className='text-gray-700 text-sm mb-2'>State</p>
                                     <select
                                         className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
-                                        value={selectedDocument}
+                                        value={selectedState}
                                         onChange={handleStateChange}
                                     >
                                         <option value="">Choose state</option>

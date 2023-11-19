@@ -32,4 +32,22 @@ export const Transactions = () => {
 
   return transactions;
 };
+export const AgentTransactionData = () => {
+  // Fetch or provide your transaction data here
+  const agentTansaction = [
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    { agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
+    // Add more data as needed
+  ];
 
+  return agentTansaction;
+};

@@ -16,7 +16,7 @@ const WalletBreakDown = ({}) => {
   return (
     <>
     <div className="mt-8">
-      <div className="flex justify-between w-full">
+      <div className="flex justify-evenly w-full">
         <div className="bg-white rounded-md w-[250px] px-4 py-8">
           <div className="flex justify-between items-center">
             <div className="flex flex-col gap-3">
@@ -56,7 +56,7 @@ const WalletBreakDown = ({}) => {
             <p className="text-xl"><span className="text-progress-green">29.30%</span> from yesterday</p>
           </div>
         </div>
-        <div className="bg-white rounded-md w-[250px] p-4">
+        {/* <div className="bg-white rounded-md w-[250px] p-4">
           <div className="flex justify-between items-center">
             <div className="flex flex-col gap-3">
               <p>Active Agent</p>
@@ -68,7 +68,7 @@ const WalletBreakDown = ({}) => {
             <img src={growth} alt="" />
             <p className="text-xl"><span className="text-progress-green">29.30%</span> from yesterday</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
    </>

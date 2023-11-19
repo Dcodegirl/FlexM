@@ -3,8 +3,9 @@
 @import "../../../assets//styles//config/variables";
 
 .header {
-  text-align: left;
-  background-color: #ffffff;
+  width: calc(100vw - 19rem);
+  text-align: left;;
+  background-color: #f4f7fa;
   z-index: 5;
   height: 7rem;
 
@@ -29,8 +30,9 @@
 .container {
   top: 0;
   width: 100%;
+  flex: 1;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 0 3rem;
   align-items: center;
   padding: 0 5rem;
@@ -73,7 +75,7 @@
     width: 1rem;
     height: 1rem;
     display: inline-block;
-    background-color: #FF9212;
+    background-color: red;
     position: absolute;
     top: -0.5rem;
     right: 0rem;
@@ -151,11 +153,12 @@
 }
 
 .profile {
+  flex: 0 0 5%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  margin-left: 3%;
 
   .profileImage {
     margin-right: 0.5rem;
@@ -206,10 +209,9 @@
     top: 7rem;
     right: 4rem;
     width: 27rem;
-    height: 48rem;
+    height: 55rem;
     background: #ffffff;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-    z-index: 10px;
     border-radius: 10px;
     text-align: center;
     font-size: 1.4rem;
@@ -217,7 +219,7 @@
     @include respond(phone-large) {
       right: 1.5rem;
       width: 25rem;
-      height: 43rem;
+      height: 50rem;
       font-size: 1.3rem;
       box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
     }

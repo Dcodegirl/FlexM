@@ -31,6 +31,8 @@ const Header = ({
     logout,
     agentClassification,
     vfdAccountNumber,
+    virtualAccountNumber,
+    virtualAccountBank
 }) => {
     const [toggleUser, setToggleUser] = useState(false);
     const wrapperRef = useRef(null);
@@ -149,7 +151,10 @@ const Header = ({
                                     Wallet ID: {walletId}
                                 </span>
                                 <span className={styles.userSubmenuBioWallet}>
-                                    VFD Account No: {vfdAccountNumber}
+                                    Account No: {virtualAccountNumber}
+                                </span>
+                                <span className={styles.userSubmenuBioWallet}>
+                                    Bank Name : {virtualAccountBank}
                                 </span>
                             </div>
                             <div className={styles.userSubmenuMain}>
@@ -244,15 +249,19 @@ const Header = ({
     );
 };
 
-const mapStateToProps = (state) => ({
-    currentPage: state.page,
-    isDefaultPassword: state.auth.user.is_default,
-    notifications: state.notification.notifications,
-    walletId: state.auth.user.walletNo,
-    name: `${state.auth.user.firstName} ${state.auth.user.lastName}`,
-    agentClassification: state.auth.user.agentClassification,
-    vfdAccountNumber: state.auth.user.vfd_account_number,
-});
+const mapStateToProps = (state) => {
+    return{
+        currentPage: state.page,
+        isDefaultPassword: state.auth.user.is_default,
+        notifications: state.notification.notifications,
+        walletId: state.auth.user.walletNo,
+        name: `${state.auth.user.firstName} ${state.auth.user.lastName}`,
+        agentClassification: state.auth.user.agentClassification,
+        vfdAccountNumber: state.auth.user.vfd_account_number,
+        virtualAccountNumber: state.auth.user.virtualAccountNumber,
+        virtualAccountBank: state.auth.user.virtualAccountBank,
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
