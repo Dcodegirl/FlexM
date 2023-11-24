@@ -11,6 +11,7 @@ import WalletLog from '../features/logs/wallet/index';
 import CommissionLogs from '../features/logs/commissions/index';
 import AggregatorLogs from '../features/logs/aggregator/index';
 import viewAgents from '../pages/viewAgents'
+import ViewSingleAgent from '../pages/viewSingleAgent';
 import CreateAgent from '../features/aggregator/createAgent';
 import TransactionLog from '../features/logs/transactions/TransactionLog';
 import Profile from '../features/profile/Profile';
@@ -82,6 +83,10 @@ const routes = [
     {
         path: '/view-agents',
         component: viewAgents,
+    },
+    {
+        path: '/agent/view',
+        component: ViewSingleAgent,
     },
     {
         path: '/wallet',

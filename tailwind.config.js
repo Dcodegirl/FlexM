@@ -19,7 +19,8 @@ module.exports = {
         'airtime': '#FBEAE9',
         'loan': '#EBFFE9',
         'failed' : '#FF1919',
-        'text-orange': '#FF9212'
+        'text-orange': '#FF9212',
+        'btn-purple': '#173C68'
       },
       backgroundImage: {
         'bg-pattern': "url('https://ik.imagekit.io/jumzeey/Pattern_dMgXzGdMK.svg?updatedAt=1699268313022')",

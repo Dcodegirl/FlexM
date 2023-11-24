@@ -1,0 +1,110 @@
+import React, { useState, useReducer, useEffect } from "react";
+import person from '../../assets/icons/personWhite.svg'
+import { NavLink } from 'react-router-dom/cjs/react-router-dom';
+import searchIcon from '../../assets/icons/mdi_search.svg';
+import { SingleAgentTransactionData } from "../../features/dashboard/data/transactionData";
+import { useLocation } from 'react-router-dom';
+
+
+
+const ViewSingleAgent = () => {
+    const transactions = SingleAgentTransactionData();
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+
+    const agentCode = queryParams.get('agentCode') || 'Default Agent Code';
+    const name = queryParams.get('name') || 'Default Name';
+    const phoneNumber = queryParams.get('phoneNumber') || 'Default Phone Number';
+
+    return (
+        <>
+            <div className="bg-white p-8 rounded-md mt-8 flex justify-between items-center mb-8">
+                <div className="flex flex-col text-[#111023] gap-3">
+                    <p className="text-3xl font-extrabold">{name}</p>
+                    <div>
+                        <p className="font-medium">{agentCode} </p>
+                        <p className="font-medium">{phoneNumber}</p>
+                    </div>
+                </div>
+                <NavLink to='/create-agent'>
+                    <div className="bg-btn-purple px-6 py-3 flex gap-3 items-center justify-center text-white cursor-pointer">
+                        <img src={person} alt="" />
+                        <p className="font-medium text-[14px]">Create Agent</p>
+                    </div>
+                </NavLink>
+            </div>
+            <div className="bg-white p-8 rounded-md mt-8">
+                <div className="mb-8 flex justify-between text-[#494343]">
+                    <div className="">
+                        <p className="font-medium text-[16px]">Agent Transaction</p>
+                    </div>
+                    <div className="flex gap-3 items-center">
+                        <div>
+                            <p>Sort by</p>
+                        </div>
+                        <div className="">
+                            <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
+                                <option value="Agent Code">Transaction type</option>
+                            </select>
+                        </div>
+                        <div>
+                            <p>Start Date</p>
+                        </div>
+                        <div className="">
+                            <input
+                                className="bg-[#F1F1F1] rounded py-1 px-2"
+                                type="date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                placeholder="Select Start Date"
+                            />
+                        </div>
+                        <div>
+                            <p>End Date</p>
+                        </div>
+                        {/* Date input for end date */}
+                        <div className="">
+                            <input
+                               className="bg-[#F1F1F1] rounded py-1 px-2"
+                                type="date"
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                placeholder="Select End Date"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="box">
+                    <div className="">
+                        <div className="grid grid-cols-5  p-8 font-medium text-xl bg-[#F1F1F1]">
+                            <p>Transaction ref</p>
+                            <p>Transaction ID</p>
+                            <p>Transaction type</p>
+                            <p>Status</p>
+                            <p>Date created</p>
+                        </div>
+                        {transactions.map((transaction, index) => (
+                            <div key={index} className={`grid grid-cols-5  p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
+                                <div className="text-wrapper-5">{transaction.TransactionRef}</div>
+                                <div className="text-wrapper-6">{transaction.TransactionID}</div>
+                                <div className="text-wrapper-6">{transaction.TransactionType}</div>
+                                <div className="text-wrapper-6" style={{
+                                    color:
+                                        transaction.Status === 'Successful' ? '#00B378' :
+                                            transaction.Status === 'Failed' ? '#FF1919' :
+                                                '#FF9212'
+                                }}>{transaction.Status}</div>
+                                <div className="text-wrapper-6">{transaction.date}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+        </>
+    );
+};
+
+export default ViewSingleAgent;

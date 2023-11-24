@@ -4,22 +4,46 @@ import searchIcon from '../../assets/icons/mdi_search.svg';
 import { AgentTransactionData } from "../../features/dashboard/data/transactionData";
 import more from '../../assets/icons/moreDot.svg'
 import AgentDetailsModal from "../../features/dashboard/modal/AgentDetailsModal";
+import AssignTerminalModal from "../../features/dashboard/modal/AssignTerminalModal";
+import ConfirmTerminalModal from "../../features/dashboard/modal/ConfirmTerminalModal";
 
 
 
 const ViewAgent = () => {
     const transactions = AgentTransactionData();
-    const [selectedAgent, setSelectedAgent] = useState(null);
+    const [selectedTransactionId, setSelectedTransactionId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAssignTerminalModalOpen, setIsAssignTerminalModalOpen] = useState(false);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
-    const handleMoreClick = (agent) => {
-        setSelectedAgent(agent);
+    const handleMoreClick = (transactionId) => {
+
+        setSelectedTransactionId(transactionId);
         setIsModalOpen(true);
     };
 
     const closeModal = () => {
-        setSelectedAgent(null);
+        setSelectedTransactionId(null);
         setIsModalOpen(false);
+        setIsAssignTerminalModalOpen(false);
+    };
+    const handleConfirm = () => {
+        // Handle confirmation logic here
+        // ...
+
+        // Close the confirmation modal
+        setIsConfirmationModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        // Handle cancellation logic here
+        // ...
+
+        // Close the confirmation modal
+        setIsConfirmationModalOpen(false);
+    };
+    const handleAssignTerminalClick = () => {
+        setIsAssignTerminalModalOpen(true);
     };
 
     useEffect(() => {
@@ -38,9 +62,15 @@ const ViewAgent = () => {
         };
     }, []); // Ensure that closeModal is accessible within this scope
 
+    const selectedTransaction = transactions.find(transaction => transaction.id === selectedTransactionId);
+    // Use react-router-dom to navigate to the ViewSingleAgent page
 
     return (
         <>
+            {/* Render AssignTerminalModal if isAssignTerminalModalOpen is true */}
+            {isAssignTerminalModalOpen && (
+                <AssignTerminalModal isOpen={isAssignTerminalModalOpen} onClose={() => setIsAssignTerminalModalOpen(false)} onAssignConfirmClick={() => setIsConfirmationModalOpen(true)} />
+            )}
             <div className="bg-white p-8 rounded-md mt-8 flex gap-10 items-center mb-8">
                 <div>
                     <img src={person} alt="" />
@@ -93,16 +123,27 @@ const ViewAgent = () => {
                                 <div className="text-wrapper-6">{transaction.address}</div>
                                 <div className="text-wrapper-6">{transaction.localGovt}</div>
                                 <div className="text-wrapper-6">{transaction.state}</div>
-                                <div className="text-wrapper-6 cursor-pointer" onClick={handleMoreClick}><img src={more} alt="" /></div>
+                                <div className="flex gap-3 relative">
+                                    <div className="text-wrapper-6 cursor-pointer" onClick={() => handleMoreClick(transaction.id)}><img src={more} alt="" /></div>
+                                    <div className="absolute right-6 -top-8 md:right-2">
+                                        {(isModalOpen && (selectedTransactionId == transaction.id)) && (
+                                            <AgentDetailsModal agentDetails={selectedTransaction} onClose={closeModal} onAssignTerminalClick={handleAssignTerminalClick} />
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         ))}
 
                     </div>
                 </div>
             </div>
-            {isModalOpen && selectedAgent && (
-                <AgentDetailsModal agentDetails={selectedAgent} onClose={closeModal} />
-            )}
+            {/* Confirmation Modal */}
+            <ConfirmTerminalModal
+                isOpen={isConfirmationModalOpen}
+                onConfirm={handleConfirm}
+                onCancel={handleCancel}
+            />
+
         </>
     );
 };
