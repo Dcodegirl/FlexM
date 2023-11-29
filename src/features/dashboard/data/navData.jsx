@@ -27,11 +27,11 @@ export const navigationItems = [
     items: [
       { to: '/create-agent', text: 'Create Agent' },
       { to: '/view-agents', text: "View Agents" },
-      { to: '/transactions/outgoing', text: "Agent's Performance" },
-      { to: '/transactions/outgoing', text: "Agent's Transaction" },
+      { to: '/agents-performance', text: "Agent's Performance" },
+      // { to: '/agents-transaction', text: "Agent's Transaction" },
     ],
   },
-  { to: '/users', text: 'Users', icon: usersIcon, condition: 'sub' },
-  { to: '/report', text: 'Report', icon: reportIcon },
-  { to: '/contact-us', text: 'Settings', icon: settingIcon },
+  { to: '/users', text: 'Users', icon: usersIcon},
+  { to: '/settings', text: 'Settings', icon: settingIcon },
+  { to: '/support', text: 'Support', icon: supportIcon },
 ];

@@ -18,9 +18,11 @@ module.exports = {
         'light-orange': '#FEF8F0',
         'airtime': '#FBEAE9',
         'loan': '#EBFFE9',
-        'failed' : '#FF1919',
+        'failed': '#FF1919',
         'text-orange': '#FF9212',
-        'btn-purple': '#173C68'
+        'btn-purple': '#173C68',
+        'color1': '#1F1474',
+        'color2': '#800D8E',
       },
       backgroundImage: {
         'bg-pattern': "url('https://ik.imagekit.io/jumzeey/Pattern_dMgXzGdMK.svg?updatedAt=1699268313022')",
@@ -34,9 +36,17 @@ module.exports = {
           stroke: '#3e215b',
         },
       },
+      linearGradientColors: {
+        bgGradient: {
+          0: 'rgba(31, 20, 116, 1)',
+          100: 'rgba(128, 13, 142, 1)',
+        },
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-gradients'),
+  ],
 }
 
 

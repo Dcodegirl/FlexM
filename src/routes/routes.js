@@ -13,8 +13,10 @@ import AggregatorLogs from '../features/logs/aggregator/index';
 import viewAgents from '../pages/viewAgents'
 import ViewSingleAgent from '../pages/viewSingleAgent';
 import CreateAgent from '../features/aggregator/createAgent';
+import AgentPerfomance from '../pages/agentPerformance';
 import TransactionLog from '../features/logs/transactions/TransactionLog';
 import Profile from '../features/profile/Profile';
+import Support from '../pages/support';
 import WalletTransfer from '../features/services/walletTransfer/WalletTransfer';
 import CommissionTransfer from '../features/services/commissionTransfer/CommissionTransfer';
 import BillPayment from '../pages/BillPayment';
@@ -79,6 +81,14 @@ const routes = [
     {
         path: '/create-agent',
         component: CreateAgent,
+    },
+    {
+        path: '/support',
+        component: Support,
+    },
+    {
+        path: '/agents-performance',
+        component: AgentPerfomance,
     },
     {
         path: '/view-agents',

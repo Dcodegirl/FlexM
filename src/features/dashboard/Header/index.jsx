@@ -97,6 +97,7 @@ const Header = ({
     useClickOutside(wrapperRef);
 
     return (
+
         <header className={'styles.header flex md:justify-end bg-white h-full justify-between'}>
             <div className={`styles.container flex justify-between h-full items-center md:gap-3 w-[450px]  md:px-12 px-3`}>
                 <div className="relative md:block hidden">
@@ -122,6 +123,7 @@ const Header = ({
                             setToggleUser(!toggleUser);
                         }}
                     />
+
                     <div className={`styles.agentName w-full text-[12px] text-icon-purple uppercase md:block hidden`}>{name}</div>
                     <img
                         src={arrowdown}
@@ -131,11 +133,6 @@ const Header = ({
                         }}
                         alt=''
                     />
-                    {/* <img
-                        src={agentClassificationIcon}
-                        alt=''
-                        className={styles.agentCategory}
-                    /> */}
                     {toggleUser && (
                         <div className={styles.userSubmenu} ref={wrapperRef}>
                             <div className={styles.userSubmenuBio}>
