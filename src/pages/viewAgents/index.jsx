@@ -81,32 +81,46 @@ const ViewAgent = () => {
                 </div>
             </div>
             <div className="bg-white p-8 rounded-md mt-8">
-                <div className="mb-8 flex justify-between text-[#494343]">
-                    <div className="">
+                <div className="mb-8 flex md:flex-row flex-col md:justify-between text-[#494343] ">
+                    <div className="flex md:block justify-between">
                         <p className="font-medium text-[16px]">Agent Details</p>
-                    </div>
-                    <div className="flex gap-3 items-center">
-                        <div className="relative">
+                        <div className="relative md:hidden block">
                             <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400" />
                             <input type="text" placeholder="Search transactions" className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2" />
                         </div>
-                        <div>
-                            <p>Sort by</p>
+                    </div>
+                    <div className="flex md:flex-row flex-col gap-3 items-center">
+                        <div className="relative md:block hidden">
+                            <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400" />
+                            <input type="text" placeholder="Search transactions" className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2" />
                         </div>
-                        <div className="">
+                        <div className="flex gap-3 justify-between items-center mt-3 md:mt-0">
+                            <p>Sort by</p>
+                            <div className=" md:hidden block ">
                             <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
                                 <option value="Agent Code">Agent Code</option>
                             </select>
                         </div>
-                        <div className="">
+                        <div className="md:hidden block">
+                            <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
+                                <option value="Agent Code">Business Name</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div className=" md:block hidden">
+                            <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
+                                <option value="Agent Code">Agent Code</option>
+                            </select>
+                        </div>
+                        <div className="md:block hidden">
                             <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
                                 <option value="Agent Code">Business Name</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div className="box">
-                    <div className="">
+                <div className="box overflow-x-auto md:overflow-x-hidden">
+                    <div className="md:w-full w-[1000px]">
                         <div className="grid grid-cols-7 grid-rows-1 p-8 font-medium text-xl bg-[#F1F1F1]">
                             <p>Agent Code</p>
                             <p>Name</p>
@@ -117,7 +131,7 @@ const ViewAgent = () => {
                         </div>
                         {transactions.map((transaction, index) => (
                             <div key={index} className={`grid grid-cols-7 grid-rows-1 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
-                                <div className="text-wrapper-5">{transaction.agentCode}</div>
+                                <div className="text-wrapper-6">{transaction.agentCode}</div>
                                 <div className="text-wrapper-6">{transaction.name}</div>
                                 <div className="text-wrapper-6">{transaction.phoneNumber}</div>
                                 <div className="text-wrapper-6">{transaction.address}</div>

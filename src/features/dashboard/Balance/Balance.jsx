@@ -70,12 +70,12 @@ const Balance = ({
 
   return (
     <>
-    <div className="bg-white p-8 rounded-md mt-8">
+    <div className="bg-white p-8 rounded-md mt-8 overflow-x-auto md:overflow-x-hidden">
       <div>
         <p className="text-deep-green font-medium my-4 text-3xl">Your Balance</p>
       </div>
-      <div className="mt-4 flex gap-5 w-full">
-        <div className="p-4 bg-bg-card1 bg-cover bg-no-repeat justify-between flex flex-col gap-10 w-full h-[170px] rounded-3xl">
+      <div className="mt-4 flex gap-5 md:w-full w-[1000px] ">
+        <div className="p-4 bg-bg-card1 bg-cover bg-no-repeat justify-between flex flex-col gap-10 md:w-full w-[600px] h-[170px] rounded-3xl ">
           <div className="flex justify-between relative">
             <p className="text-[#F5FFFD] font-extrabold text-2xl">Wallet Balance</p>
             <FontAwesomeIcon
@@ -93,7 +93,7 @@ const Balance = ({
             </div>
           </div>
         </div>
-        <div className="p-4 bg-bg-card2 bg-cover bg-no-repeat justify-between flex flex-col gap-10 w-full h-[170px] rounded-3xl">
+        <div className="p-4 bg-bg-card2 bg-cover bg-no-repeat justify-between flex flex-col gap-10 md:w-full w-[650px] h-[170px] rounded-3xl">
           <div className="flex justify-between relative">
             <p className="text-[#F5FFFD] font-extrabold text-2xl">Commission Balance</p>
             <FontAwesomeIcon
@@ -111,7 +111,7 @@ const Balance = ({
             </div>
           </div>
         </div>
-        <div className="p-4 bg-bg-card3 bg-cover bg-no-repeat justify-between flex flex-col gap-10 w-full h-[170px] rounded-3xl">
+        <div className="p-4 bg-bg-card3 bg-cover bg-no-repeat justify-between flex flex-col gap-10 md:w-full w-[650px] h-[170px] rounded-3xl">
           <div className="flex justify-between relative">
             <p className="text-[#F5FFFD] font-extrabold text-2xl">Aggregator Balance</p>
             <FontAwesomeIcon
