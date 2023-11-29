@@ -246,7 +246,7 @@ const Header = ({
                         </div>
                     )}
                 </div>
-                <div className='md:hidden block flex gap-9'>
+                <div className='md:hidden flex gap-9'>
                     <div className='flex gap-3' >
                     <div>
                         <img src={profile} alt="user pic" className='w-[20px]'/>
