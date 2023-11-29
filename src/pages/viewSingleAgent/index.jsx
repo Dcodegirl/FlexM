@@ -36,20 +36,28 @@ const ViewSingleAgent = () => {
                 </NavLink>
             </div>
             <div className="bg-white p-8 rounded-md mt-8">
-                <div className="mb-8 flex justify-between text-[#494343]">
+                <div className="mb-8 flex justify-between text-[#494343] md:flex-row flex-col">
                     <div className="">
                         <p className="font-medium text-[16px]">Agent Transaction</p>
                     </div>
-                    <div className="flex gap-3 items-center">
-                        <div>
+                    <div className="flex md:flex-row flex-col gap-3 items-center">
+                        <div className="flex gap-3 items-center">
                             <p>Sort by</p>
-                        </div>
-                        <div className="">
+                            
+                        <div className="md:hidden block">
                             <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
                                 <option value="Agent Code">Transaction type</option>
                             </select>
                         </div>
-                        <div>
+                        </div>
+                        <div className="md:block hidden">
+                            <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
+                                <option value="Agent Code">Transaction type</option>
+                            </select>
+                        </div>
+                        <div className="flex md:hidden justify-between items-center flex-row">
+                            <div className="flex gap-3 items-center">
+                         <div>
                             <p>Start Date</p>
                         </div>
                         <div className="">
@@ -61,7 +69,9 @@ const ViewSingleAgent = () => {
                                 placeholder="Select Start Date"
                             />
                         </div>
-                        <div>
+                        </div>
+                            <div className="flex gap-3 items-center">
+                            <div>
                             <p>End Date</p>
                         </div>
                         {/* Date input for end date */}
@@ -74,10 +84,37 @@ const ViewSingleAgent = () => {
                                 placeholder="Select End Date"
                             />
                         </div>
+                            </div>
+                        </div>
+                        <div className="md:block hidden">
+                            <p>Start Date</p>
+                        </div>
+                        <div className="md:block hidden">
+                            <input
+                                className="bg-[#F1F1F1] rounded py-1 px-2"
+                                type="date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                placeholder="Select Start Date"
+                            />
+                        </div>
+                        <div className="md:block hidden">
+                            <p>End Date</p>
+                        </div>
+                        {/* Date input for end date */}
+                        <div className="md:block hidden">
+                            <input
+                               className="bg-[#F1F1F1] rounded py-1 px-2"
+                                type="date"
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                placeholder="Select End Date"
+                            />
+                        </div>
                     </div>
                 </div>
-                <div className="box">
-                    <div className="">
+                <div className="box overflow-x-auto md:overflow-x-hidden">
+                    <div className="w-[1100px] md:w-full">
                         <div className="grid grid-cols-5  p-8 font-medium text-xl bg-[#F1F1F1]">
                             <p>Transaction ref</p>
                             <p>Transaction ID</p>
