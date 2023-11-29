@@ -79,7 +79,7 @@ export const Main = ({
                        
                         <div className={styles.contentMain}>
                             <span
-                                className={`styles.back md:block hidden`}
+                                className={`styles.back md:block hidden md:mt-12 w-24 bg-[#EAF2FA] text-xl cursor-pointer border rounded-lg p-3 mb-4`}
                                 onClick={() => {
                                     history.goBack();
                                 }}
