@@ -112,7 +112,7 @@ export const WalletLog = ({ changeCurrentPage }) => {
     return (
         <div className="bg-white p-8 rounded-md mt-8 overflow-x-auto md:overflow-x-hidden">
 
-            <div className='md:w-full w-[800px]'>
+            <div className='md:w-full w-[1100px]'>
                 <p className="text-deep-green font-medium my-4 text-3xl">Recent Transactions</p>
 
                 <div>

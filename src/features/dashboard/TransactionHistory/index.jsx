@@ -34,7 +34,7 @@ const Trans = ({ }) => {
                     </div>
                 </div>
                 <div className="box  overflow-x-auto md:overflow-x-hidden">
-                    <div className="md:w-full w-[800px]">
+                    <div className="md:w-full w-[1000px]">
                         <div className="grid grid-cols-5 grid-rows-1 p-8 font-medium text-xl bg-[#F1F1F1]">
                             <p>Agent Code</p>
                             <p>Description</p>
