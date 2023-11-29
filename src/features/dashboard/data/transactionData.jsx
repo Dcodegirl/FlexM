@@ -71,3 +71,23 @@ export const SingleAgentTransactionData = () => {
 
   return agentTansaction;
 };
+
+export const AgentPerformanceData = () => {
+  // Fetch or provide your transaction data here
+  const agentTansaction = [
+    { id:1 , agentCode: 'CI/AGT/LA/94659262', BusinessName: 'Jummzyy Venture', CashCount : 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00},
+    { id: 2, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'Kaleb Enterprises', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
+    { id: 3, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'Solo Squard', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
+    { id: 4, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'Welllness  HQ', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
+    { id: 5, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'GDM Consult', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00},
+    { id: 6, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'DAggregate', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
+    { id: 7, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'EIC', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
+    { id: 8, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'StartUp Lagos', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
+    { id: 9, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'DPrmix', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
+    { id: 10, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'Hazon Tech', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
+    { id: 11, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'VIGA Enterprises', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
+    // Add more data as needed
+  ];
+
+  return agentTansaction;
+};

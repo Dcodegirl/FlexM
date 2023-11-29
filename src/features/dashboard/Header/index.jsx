@@ -92,8 +92,8 @@ const Header = ({
     useClickOutside(wrapperRef);
 
     return (
-        <header className={'styles.header flex justify-end bg-white h-full '}>
-            <div className={`styles.container flex justify-between h-full items-center gap-3 w-[450px]  px-12`}>
+        <header className='flex justify-end bg-white h-full '>
+            <div className='flex  h-full items-center gap-3 w-[550px] px-12'>
                 <div className="relative">
                     <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400" />
                     <input type="text" placeholder="Search transactions" className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2" />
@@ -117,7 +117,7 @@ const Header = ({
                             setToggleUser(!toggleUser);
                         }}
                     />
-                    <div className={`styles.agentName w-full text-[12px] text-icon-purple uppercase`}>{name}</div>
+                    <div className={`w-full text-[12px] text-icon-purple uppercase`}>{name}</div>
                     <img
                         src={arrowdown}
                         className={styles.profileToggle}
@@ -126,11 +126,6 @@ const Header = ({
                         }}
                         alt=''
                     />
-                    {/* <img
-                        src={agentClassificationIcon}
-                        alt=''
-                        className={styles.agentCategory}
-                    /> */}
                     {toggleUser && (
                         <div className={styles.userSubmenu} ref={wrapperRef}>
                             <div className={styles.userSubmenuBio}>
