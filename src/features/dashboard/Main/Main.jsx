@@ -79,7 +79,7 @@ export const Main = ({
                        
                         <div className={styles.contentMain}>
                             <span
-                                className={styles.back}
+                                className={`styles.back md:block hidden`}
                                 onClick={() => {
                                     history.goBack();
                                 }}

@@ -18,6 +18,11 @@ import pinLock from '../../../assets/icons/pin.svg';
 import flexShield from '../../../assets/icons/bronze-badge.svg';
 import premiumShield from '../../../assets/icons/silver-badge.svg';
 import vipShield from '../../../assets/icons/gold-badge.svg';
+import mark from '../../../assets/icons/aggregator.svg';
+import sun from '../../../assets/icons/sun.svg';
+import Ellipse from '../../../assets/icons/Ellipse.svg';
+import profile from '../../../assets/images/profileImage.png';
+
 
 import styles from './Header.module.scss';
 
@@ -92,9 +97,9 @@ const Header = ({
     useClickOutside(wrapperRef);
 
     return (
-        <header className={'styles.header flex justify-end bg-white h-full '}>
-            <div className={`styles.container flex justify-between h-full items-center gap-3 w-[450px]  px-12`}>
-                <div className="relative">
+        <header className={'styles.header flex md:justify-end bg-white h-full justify-between'}>
+            <div className={`styles.container flex justify-between h-full items-center md:gap-3 w-[450px]  md:px-12 px-3`}>
+                <div className="relative md:block hidden">
                     <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400" />
                     <input type="text" placeholder="Search transactions" className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2" />
                 </div>
@@ -102,22 +107,22 @@ const Header = ({
                     className={styles.notification}
                     onClick={handleToggleNotifications}
                 >
-                    <img src={notification} alt='notification bell' />
-                    <span className={styles.active}>
+                    <img src={notification} alt='notification bell' className='md:block hidden'/>
+                    <span className={`styles.active md:block hidden`}>
                         {notifications.length}
                     </span>
                 </div>
                 <div className={styles.profile}>
-                    <img src={imagebg} alt="" className='relative w-[30px] h-[30px]' />
+                    <img src={imagebg} alt="" className='relative w-[30px] h-[30px] md:block hidden' />
                     <img
-                        className={`styles.profileImage w-[20px] h-[20px] absolute ml-2`}
+                        className={`styles.profileImage w-[20px] h-[20px] absolute ml-2 md:block hidden`}
                         src={user}
                         alt='User silhoutte'
                         onClick={() => {
                             setToggleUser(!toggleUser);
                         }}
                     />
-                    <div className={`styles.agentName w-full text-[12px] text-icon-purple uppercase`}>{name}</div>
+                    <div className={`styles.agentName w-full text-[12px] text-icon-purple uppercase md:block hidden`}>{name}</div>
                     <img
                         src={arrowdown}
                         className={styles.profileToggle}
@@ -243,6 +248,35 @@ const Header = ({
                             </div>
                         </div>
                     )}
+                </div>
+                <div className='md:hidden block flex gap-9'>
+                    <div className='flex gap-3' >
+                    <div>
+                        <img src={profile} alt="user pic" className='w-[20px]'/>
+                    </div>
+                    <div className=''>
+                        <div className='flex gap-2'><div><h1 className='text-[12px] font-bold'>Hi, Mark!    </h1></div></div>
+                        <div className='flex items-center'>
+              <img src={sun} alt="star" className='w-[10px]'/>
+              <div>
+                <span className='text-[#748274]'>Tuesday, October 27</span>
+
+                </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div className=''>
+                    <img
+                        src={arrowdown}
+                        className={styles.profileToggle}
+                        onClick={() => {
+                            setToggleUser(!toggleUser);
+                        }}
+                        alt=''
+                        style={{width: '30px'}}
+                    />
+                    </div>
+                    
                 </div>
             </div>
         </header>

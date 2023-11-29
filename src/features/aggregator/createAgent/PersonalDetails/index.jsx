@@ -44,8 +44,8 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
   return (
     <div>
       <form >
-        <div className="grid grid-cols-1 grid-rows-4">
-          <div className="flex gap-5 w-full">
+        <div className="md:grid md:grid-cols-1 md:grid-rows-4 flex flex-col">
+          <div className="flex md:gap-5 w-full md:flex-row flex-col">
             <div className=''>
               <p className='text-gray-700 text-xl mb-2 font-medium'>Legal First Name</p>
               <input
@@ -54,7 +54,7 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
                 onChange={handlefirstnameChange}
                 required
                 placeholder='Type First Name'
-                className='bg-white border-[#D0D5DD] border rounded-lg h-20 w-[500px] mb-6 p-4'
+                className='bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[500px] w-full mb-6 p-4'
               />
             </div>
             <div className=''>
@@ -65,16 +65,16 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
                 onChange={handlelastnameChange}
                 required
                 placeholder='Type Last Name'
-                className='bg-white border-[#D0D5DD] border rounded-lg h-20  w-[500px] mb-6 p-4'
+                className='bg-white border-[#D0D5DD] border rounded-lg h-20  md:w-[500px] w-full mb-6 p-4'
               />
             </div>
           </div>
-          <div className="flex gap-5 w-full">
-            <div className="flex gap-3">
+          <div className="flex md:gap-5 w-full md:flex-row flex-col">
+            <div className="flex md:gap-3 md:flex-row flex-col">
               <div className=' w-full'>
                 <p className='text-gray-700 text-xl mb-2 font-medium'>Country</p>
                 <select
-                  className=' bg-white border-[#D0D5DD] border rounded-lg h-20 w-[244px] mb-6 p-4'
+                  className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
                   value={selectedCountry}
                   onChange={handleCountryChange}
                 >
@@ -84,7 +84,7 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
               <div className=' w-full'>
                 <p className='text-gray-700 text-xl mb-2 font-medium'>State</p>
                 <select
-                  className=' bg-white border-[#D0D5DD] border rounded-lg h-20 w-[244px] mb-6 p-4'
+                  className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
                   value={selectedState}
                   onChange={handleStateChange}
                 >
@@ -100,11 +100,11 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
                 onChange={handleaddressnameChange}
                 required
                 placeholder='Type Address'
-                className='bg-white border-[#D0D5DD] border rounded-lg h-20 w-[500px] mb-6 p-4'
+                className='bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[500px] w-full mb-6 p-4'
               />
             </div>
           </div>
-          <div className="flex gap-5 w-full">
+          <div className="flex md:flex-row flex-col gap-5 w-full">
             <div className=''>
               <p className='text-gray-700 text-xl mb-2 font-medium'>Email</p>
               <input
@@ -113,7 +113,7 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
                 onChange={handleEmailChange}
                 required
                 placeholder='Type Email'
-                className='bg-white border-[#D0D5DD] border rounded-lg h-20 w-[500px] mb-6 p-4'
+                className='bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[500px] w-full mb-6 p-4'
               />
             </div>
             <div className=''>
@@ -124,7 +124,7 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
                 onChange={handlePhoneNumber}
                 required
                 placeholder='Type Last Name'
-                className='bg-white border-[#D0D5DD] border rounded-lg h-20  w-[500px] mb-6 p-4'
+                className='bg-white border-[#D0D5DD] border rounded-lg h-20  md:w-[500px] w-full mb-6 p-4'
               />
             </div>
           </div>
@@ -136,14 +136,14 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
               onChange={(e) => setDob(e.target.value)}
               required
               placeholder='00/00/0000'
-              className='bg-white border-[#D0D5DD] border rounded-lg h-20  w-[500px] mb-6 p-4'
+              className='bg-white border-[#D0D5DD] border rounded-lg h-20  md:w-[500px] w-full mb-6 p-4'
             />
           </div>
         </div>
       </form>
       <div className='flex justify-center mt-2'>
         <button
-          className="bg-cico-green  border rounded-lg h-20 w-[450px] text-white mx-auto "
+          className="bg-cico-green  border rounded-lg h-20 md:w-[450px] w-full text-white mx-auto "
         >
           Submit
         </button>
