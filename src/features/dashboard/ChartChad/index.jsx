@@ -1,6 +1,5 @@
 import React from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
 const data = [
     {
         name: 'January',
@@ -85,8 +84,8 @@ const ChartChad = ({}) =>{
                 data={data}
                 margin={{
                     top: 5,
-                    right: 30,
-                    left: 20,
+                    right: 10,
+                    left: 10,
                     bottom: 5
                 }}
             >

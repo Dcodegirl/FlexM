@@ -15,9 +15,9 @@ const WalletBreakDown = ({}) => {
 
   return (
     <>
-    <div className="mt-8">
-      <div className="flex justify-evenly w-full">
-        <div className="bg-white rounded-md w-[250px] px-4 py-8">
+    <div className="mt-8 overflow-x-auto md:overflow-x-hidden">
+      <div className="flex justify-evenly md:w-full w-[800px]">
+        <div className="bg-white rounded-md md:w-[250px] px-4 py-8">
           <div className="flex justify-between items-center">
             <div className="flex flex-col gap-3">
               <p>Current Balance </p>
@@ -30,7 +30,7 @@ const WalletBreakDown = ({}) => {
             <p className="text-xl"><span className="text-progress-green">29.30%</span> from yesterday</p>
           </div>
         </div>
-        <div className="bg-white rounded-md w-[250px] p-4">
+        <div className="bg-white rounded-md md:w-[250px] p-4">
           <div className="flex justify-between items-center">
             <div className="flex flex-col gap-3">
               <p>Total Withdrawal</p>
@@ -43,7 +43,7 @@ const WalletBreakDown = ({}) => {
             <p className="text-xl"><span className="text-failed">29.30%</span> from yesterday</p>
           </div>
         </div>
-        <div className="bg-white rounded-md w-[250px] p-4">
+        <div className="bg-white rounded-md md:w-[250px] p-4">
           <div className="flex justify-between items-center">
             <div className="flex flex-col gap-3">
               <p>Total Deposit</p>

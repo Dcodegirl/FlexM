@@ -35,7 +35,7 @@ export const Sidebar = ({ agentType }) => {
 
     return (
         <>
-            <div className='w-96'>
+            <div className='md:w-96 '>
                 <div
                     className={styles.toggle}
                     onClick={() => {
