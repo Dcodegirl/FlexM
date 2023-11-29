@@ -120,7 +120,7 @@ const ViewAgent = () => {
                     </div>
                 </div>
                 <div className="box overflow-x-auto md:overflow-x-hidden">
-                    <div className="md:w-full w-[1000px]">
+                    <div className="md:w-full w-[1200px]">
                         <div className="grid grid-cols-7 grid-rows-1 p-8 font-medium text-xl bg-[#F1F1F1]">
                             <p>Agent Code</p>
                             <p>Name</p>
