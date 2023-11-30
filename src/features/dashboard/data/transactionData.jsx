@@ -17,17 +17,17 @@ export const TransactionData = () => {
 export const Transactions = () => {
   // Fetch or provide your transaction data here
   const transactions = [
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },    
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },    
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    { PreviousBalance : '₦24,000.45', Amount: '₦5000', Description : 'Commission on transaction with ref: CICO', CurrentBalance : '₦19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },    // Add more data as needed
+    {id:1, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Successful', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
+    {id:2, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Successful', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },    
+    {id:3, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Failed', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },    
+    {id:4, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Pending', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
+    {id:5, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Failed', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
+    {id:6, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Successful', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
+    {id:7, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Pending', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
+    {id:8, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Pending', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
+    {id:9, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Failed', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
+    {id:10, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Pending', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
+    {id:11, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Failed', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },    // Add more data as needed
   ];
 
   return transactions;

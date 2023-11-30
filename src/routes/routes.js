@@ -14,7 +14,7 @@ import viewAgents from '../pages/viewAgents'
 import ViewSingleAgent from '../pages/viewSingleAgent';
 import CreateAgent from '../features/aggregator/createAgent';
 import AgentPerfomance from '../pages/agentPerformance';
-import TransactionLog from '../features/logs/transactions/TransactionLog';
+import TransactionLog from '../features/logs/transactions';
 import Profile from '../features/profile/Profile';
 import Support from '../pages/support';
 import WalletTransfer from '../features/services/walletTransfer/WalletTransfer';
