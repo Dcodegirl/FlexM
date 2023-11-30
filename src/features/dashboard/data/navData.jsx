@@ -21,7 +21,7 @@ export const navigationItems = [
       { to: '/commission', text: 'Commission Wallet' },
     ],
   },
-  { to: '/transactions', text: 'Performance', icon: transactionIcon },
+  { to: '/transactions', text: 'Transactions', icon: transactionIcon },
   {
     text: 'Agent Management', icon: commisionIcon, hasSubMenu: true,
     items: [

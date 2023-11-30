@@ -66,7 +66,7 @@ const Support = () => {
                                 <div className=' w-full'>
                                     <p className='text-gray-700 text-xl mb-2 font-medium'>Issued Type</p>
                                     <select
-                                        className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                                        className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px]  w-96 mb-6 p-4'
                                         value={selectedIssue}
                                         onChange={handleIssuedChange}
                                     >
@@ -76,7 +76,7 @@ const Support = () => {
                                 <div className=' w-full'>
                                     <p className='text-gray-700 text-xl mb-2 font-medium'>Sub-Type</p>
                                     <select
-                                        className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                                        className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px]  w-96 mb-6 p-4'
                                         value={selectedSub}
                                         onChange={handleSubChange}
                                     >
@@ -91,7 +91,7 @@ const Support = () => {
                                         onChange={handleSubjectChange}
                                         required
                                         placeholder='Type subject'
-                                        className='bg-white border-[#D0D5DD] border rounded-lg h-20  md:w-[244px] w-full mb-6 p-4'
+                                        className='bg-white border-[#D0D5DD] border rounded-lg h-20  md:w-[244px]  w-96 mb-6 p-4'
                                     />
                                 </div>
                                 <div className=''>
@@ -101,13 +101,13 @@ const Support = () => {
                                         onChange={handleSubjectChange}
                                         required
                                         placeholder='Type subject'
-                                        className='bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4 resize-none'
+                                        className='bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px]  w-96 mb-6 p-4 resize-none'
                                     />
                                 </div>
                                 <div className=' w-full'>
                                     <p className='text-gray-700 text-xl mb-2 font-medium'>Priority Level</p>
                                     <select
-                                        className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                                        className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-96 mb-6 p-4'
                                         value={priority}
                                         onChange={handlePriorityChange}
                                     >
