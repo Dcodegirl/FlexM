@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import logoWhite from "../../assets/icons/cico-logo-white.svg";
-import logoMain from "../../assets/images/cico-logo-login.svg";
+import logoWhite from "../../assets/images/flexbycico.svg";
+import logoMain from "../../assets/images/flexbycico.svg";
 
 import styles from "./HomeNavBar.module.scss";
 import { DeviceHdd } from "react-bootstrap-icons";
@@ -16,7 +16,7 @@ const HomeNavBar = ({ theme, signUpContent }) => {
         >
           <div className="flex justify-center items-center">
             <img
-              className="w-32"
+              className="w-72"
               src={theme === "white" ? logoWhite : logoMain}
               alt=""
             />

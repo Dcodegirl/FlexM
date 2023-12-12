@@ -9,9 +9,9 @@ module.exports = {
         'deep-green': '#003321',
         'progress-green': '#00B378',
         'progress-light': '#BEFEE9',
-        'global-gray': '#848D9F',
+        'global-gray': '#C9BEF6',
         'dark-gray': '#D1D6D4',
-        'bg-green': '#EAF8F8',
+        'bg-green': '#F5F5FF',
         'cico-green': '#00BD7A',
         'icon-purple': '#3e215b',
         'light-deep-green': '#136739',
@@ -23,9 +23,10 @@ module.exports = {
         'btn-purple': '#173C68',
         'color1': '#1F1474',
         'color2': '#800D8E',
+        'border-primary': '#B640EE1F'
       },
       backgroundImage: {
-        'bg-pattern': "url('https://ik.imagekit.io/jumzeey/Pattern_dMgXzGdMK.svg?updatedAt=1699268313022')",
+        'bg-pattern': "url('https://ik.imagekit.io/jumzeey/pattern%20blue_UXHEh5VMB.svg?updatedAt=1701854252935')",
         'bg-card1': "url('https://ik.imagekit.io/jumzeey/Group%201000006799_t01qa_xGX.svg?updatedAt=1699369458572')",
         'bg-card2': "url('https://ik.imagekit.io/jumzeey/Group%201000006800%20(1)_g9psrqnYD.svg?updatedAt=1699369458435')",
         'bg-card3': "url('https://ik.imagekit.io/jumzeey/Group%201000006801_r5D5OJDAv.svg?updatedAt=1699369501876')",

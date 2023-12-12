@@ -1,28 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import axios from '../../../../utils/axiosInstance'; // Import Axios
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-function Contact() {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [OtpVerification, setOtpVerification] = useState("");
-  const [username, setUsername] = useState('');
+const Contact = ({ nextStep }) => {
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
-
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
+  const [email, setEmail] = useState('');
+  const [businessType, setBusinessType] = useState('Agent');
+  const [gender, setGender] = useState('Male');
+  const [businessName, setBusinessName] = useState('');
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleBnameChange = (event) => {
+    setBusinessName(event.target.value);
+  };
+  const handleBtypeChange = (event) => {
+    setBusinessType(event.target.value);
+  };
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
+  };
+
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
   };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -31,33 +45,95 @@ function Contact() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Check if the passwords match
     if (password === confirmPassword) {
-      // Passwords match, you can proceed with form submission or other actions
-      console.log('Username:', username);
-      console.log('Password:', password);
+      try {
+
+        // Create the payload variable and update it with form data
+        const payload = {
+          phone: phoneNumber,
+          password,
+          password_confirmation: confirmPassword,
+          email,
+          business_name: businessName,
+          gender,
+          business_type: businessType,
+        };
+        // Call the API with Axios
+        const response = await axios.post('/onboarding/contactInfo', payload);
+
+        // Handle the response as needed
+        const responseData = response.data;
+        console.log('API Response:', responseData);
+
+
+        nextStep();
+      } catch (error) {
+        console.error('API Error:', error);
+        // Handle API errors
+      }
     } else {
       // Passwords don't match, display an error or handle it as needed
       setPasswordMatch(false);
     }
   };
+  const nextClick = () => {
+    nextStep();
+  }
+
   return (
     <>
       <div className='md:m-8 my-8 overflow-hidden'>
-        <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
-          <div className="text-deep-green font-bold text-center">
+        <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-border-primary bg-white border-white rounded-3xl border">
+          <div className="text-color1 font-bold text-center">
             <p className='text-2xl'>Contact Information</p>
             <p className="text-gray-500 text-xl font-thin w[360px]">Enter your contact details to get started</p>
           </div>
           <div className='w-[350px] mt-6'>
-            <form>
+            <form onSubmit={handleSubmit}>
               <p className='text-gray-700 text-sm mb-2'>Phone Number</p>
               <input
                 type="tel"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                required
+                placeholder='Enter your phone Number'
+                className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+              />
+              <p className='text-gray-700 text-sm mb-2'>Business Name</p>
+              <input
+                type="text"
+                value={businessName}
+                onChange={(e) => setBusinessName(e.target.value)}
+                required
+                placeholder='Enter your Business Name'
+                className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+              />
+              <p className='text-gray-700 text-sm mb-2'>Select Business Type:</p>
+              <select
+                className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                value={businessType}
+                onChange={handleBtypeChange}
+              >
+                <option value="">Agent</option>
+                <option value="drivers-license">Individual</option>
+              </select>
+              <p className='text-gray-700 text-sm mb-2'>Gender:</p>
+              <select
+                className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                value={gender}
+                onChange={handleGenderChange}
+              >
+                <option value="">Male</option>
+                <option value="drivers-license">Female</option>
+              </select>
+              <p className='text-gray-700 text-sm mb-2'>Email</p>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder='Enter your phone Number'
                 className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
@@ -97,13 +173,18 @@ function Contact() {
                   <p className="text-red-500 text-sm mt-1">Passwords do not match.</p>
                 )}
               </div>
+              <button
+                type="submit"
+                className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 w-full text-white mx-auto"
+              >
+                Next
+              </button>
             </form>
           </div>
         </div>
       </div>
     </>
+  );
+};
 
-  )
-}
-
-export default Contact
+export default Contact;

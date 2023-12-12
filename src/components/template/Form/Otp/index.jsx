@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
+import axios from '../../../../utils/axiosInstance';
+import { useGlobalContext } from '../../../../custom-hooks/Context';
 
-function Contact() {
+function Contact({ nextStep }) {
     const [timeLeft, setTimeLeft] = useState(600);
-    const [phoneNumber, setPhoneNumber] = useState("");
     const [otp, setotp] = useState(["", "", "", "", "", ""]);
     const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
+    const { setUserId } = useGlobalContext();
 
     const handleotpChange = (index, value) => {
         if (value >= 0 && value <= 9) {
@@ -51,12 +53,29 @@ function Contact() {
             document.getElementById(`otp-input-${index - 1}`).focus();
         }
     };
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         if (isotpComplete) {
-            const enteredotp = otp.join("");
-            // You can now handle otp validation or form submission as needed
-            console.log("Entered otp:", enteredotp);
+            try {
+                const enteredotp = otp.join("");
+                const payload = {
+                    code: enteredotp
+                }
+                // You can now handle otp validation or form submission as needed
+                // Call the API with Axios
+                const response = await axios.post('/onboarding/confirm', payload);
+
+                // Handle the response as needed
+                const responseData = response.data;
+                // Save the id to the global context using setUserId
+                setUserId(responseData.data.id);
+
+
+                nextStep();
+            } catch (error) {
+                console.error('API Error:', error);
+                // Handle API errors
+            }
         } else {
             alert("Please enter all 6 otp digits.");
         }
@@ -64,7 +83,7 @@ function Contact() {
     return (
         <>
             <div className='md:m-8 my-8 overflow-hidden'>
-                <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
+                <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-border-primary bg-white border-white rounded-3xl border">
                     <div className="text-deep-green font-bold text-center">
                         <p className='text-2xl'>Verify your otp</p>
                         <p className="text-gray-500 text-xl font-thin w-[360px]">we sent OTP to the number attached to your otp +2347065436765</p>
@@ -90,14 +109,29 @@ function Contact() {
                             ))}
                         </form>
                     </div>
-                    <div className="text-[#00BD7A] mt-4">
-                        <div className=' text-right  -ml-8'>
+                    <div className=" mt-4">
+                        <div className=' text-right text-color1  -ml-8'>
                             {formatTime(timeLeft)}
                         </div>
                     </div>
                     <div className="flex justify-center">
-                    <p>I didn't get the code? {resendButtonDisabled ? 'Resend OTP' : <a href="#"><span className="text-[#00BD7A]">Resend OTP</span></a>}</p>
-                </div>
+                        <p>I didn't get the code? {resendButtonDisabled ? 'Resend OTP' : <a href="#"><span className="text-color1 font-medium">Resend OTP</span></a>}</p>
+                    </div>
+                    <div className="flex p-2">
+                        <button
+                            // onClick={prevStep}
+                            className="bg-global-gray border rounded-lg h-14 w-[30%] text-deep-green mx-auto"
+                        >
+                            <i className="fa-solid fa-left-long md:px-4 px-2"></i>Previous
+                        </button>
+                        <button
+                            onClick={handleSubmit}
+                            className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto"
+                        >
+                            Next
+                        </button>
+
+                    </div>
                 </div>
             </div>
         </>

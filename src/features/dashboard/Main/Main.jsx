@@ -1,82 +1,37 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { setWalletBalance } from '../../../actions/wallet';
-import { AGENT_DASHBOARD_DATA } from '../../../utils/constants';
-import PrivateRoute from '../../../utils/privateRoute';
-import Header from '../Header';
 import Profile from '../../profile/Profile';
 import routes from '../../../routes/routes';
 import Overlay from '../modal/index';
+import Header from '../Header';
 
 import styles from './Main.module.scss';
-import { EventEmitter } from '../../../utils/event';
 
-export const Main = ({
-    history,
-    isDefaultPassword,
-    overlay,
-}) => {
+export const Main = ({ history }) => {
     const [overviewData, setOverviewData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [commissionBalance, setCommissionBalance] =useState(0)
-    
-    async function fetchOverviewData() {
-        try {
-            const res = await axios.get(AGENT_DASHBOARD_DATA);
+    const [commissionBalance, setCommissionBalance] = useState(0);
+    const [overlay, setOverlay] = useState(false);
 
-            const overviewData = res.data.data;
+    // Simulating static data instead of API call
+    const staticOverviewData = {
+        wallet: { current_bal: 1000 }, // Replace with your desired static values
+        commission: { current_commission: 500 }, // Replace with your desired static values
+    };
 
-            setOverviewData(overviewData);
-            setWalletBalance(overviewData.wallet.current_bal);
-           
-            setCommissionBalance(overviewData.commission.current_commission)
-           
-           
-        } catch (e) {
-            
-        } finally {
-            setLoading(false);
-        }
-    }
-
-  
     useEffect(() => {
-        let isCancelled;
-
-        if (!isCancelled) {
-            fetchOverviewData();
-            EventEmitter.subscribe('refresh-wallet-balance', () => {
-                fetchOverviewData();
-            });
-           
-            
-        }
+        // Simulating data fetching
+        setOverviewData(staticOverviewData);
+        setCommissionBalance(staticOverviewData.commission.current_commission);
+        setLoading(false);
     }, []);
 
-    
-    
     return (
-        <Suspense fallback={<div>this is loading the main page</div>}>
+        <Suspense fallback={<div>This is loading the main page</div>}>
             <main className={styles.main}>
-                <Header />
-                <section
-                    className={
-                        overlay
-                            ? `${styles.contentContainer} ${styles.maxHeight}`
-                            : styles.contentContainer
-                    }
-                >
-                    <div
-                        className={
-                            overlay
-                                ? `${styles.content} ${styles.maxHeight}`
-                                : styles.content
-                        }
-                    >
-                       
-                       
+            <Header />
+                <section className={styles.contentContainer}>
+                    <div className={styles.content}>
                         <div className={styles.contentMain}>
                             <span
                                 className={`styles.back md:block hidden md:mt-12 w-24 bg-[#EAF2FA] text-xl cursor-pointer border rounded-lg p-3 mb-4`}
@@ -88,25 +43,14 @@ export const Main = ({
                             </span>
                             <Switch>
                                 <Route path='/profile' component={Profile} />
-                                {routes.map((route, index) => {
-                                    return (
-                                        //This route shows the correct component if password is not default
-                                        //else redirect to Profile route
-                                        <PrivateRoute
-                                            history={history}
-                                            key={index}
-                                            routes={route.routes}
-                                            overviewData={overviewData}
-                                            path={route.path}
-                                            exact={route.exact}
-                                            component={route.component}
-                                            isDefaultPassword={
-                                                isDefaultPassword
-                                            }
-                                            loading={loading}
-                                        />
-                                    );
-                                })}
+                                {routes.map((route, index) => (
+                                    <Route
+                                        key={index}
+                                        path={route.path}
+                                        exact={route.exact}
+                                        component={route.component}
+                                    />
+                                ))}
                             </Switch>
                         </div>
                         {overlay && <Overlay />}
@@ -117,16 +61,4 @@ export const Main = ({
     );
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setWalletBalance: (payload) => dispatch(setWalletBalance(payload)),
-       
-    };
-};
-
-const mapStateToProps = (state) => ({
-    isDefaultPassword: state.auth.user.is_default,
-    overlay: state.modal.overlay,
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
+export default withRouter(Main);

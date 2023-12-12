@@ -30,7 +30,7 @@ export const AppRouter = () => {
                     path='/forgot-transaction-pin'
                     component={ForgotTransactionPin}
                 />
-                <PublicRoute path='/login' component={Landing} exact />
+                <PublicRoute path='/login' component={signIn} exact />
                 <PublicRoute path='/register' component={Register} exact />
                 <PublicRoute path='/signup' component={SignUp} exact />
                 <PublicRoute path='/signin' component={signIn} exact />

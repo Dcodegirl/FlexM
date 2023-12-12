@@ -1,7 +1,7 @@
 input[type="file"]::file-selector-button {
-    background-color: #00BD7A;
+    background-color: #ECE9FC;
     border: none;
-    color: white;
+    color: #06092D;
     width: 81px;
     height: 28px;
     padding: 8px, 16px, 8px, 16px;

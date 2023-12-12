@@ -1,12 +1,40 @@
 import React, { useState } from 'react'
 import svg from '../../../../assets/images/Upload.svg'
-import downloadsvg from '../../../../assets/images/download.svg'
+import { useGlobalContext } from '../../../../custom-hooks/Context';
+import axios from '../../../../utils/axiosInstance';
 import warning from '../../../../assets/images/warning.svg'
 
-function Guarantor() {
+function BvnVerifi({ nextStep }) {
     const [selectedDocument, setSelectedDocument] = useState('');
     const [bvn, setBvn] = useState('');
     const [dob, setDob] = useState('');
+    const { userId, setUserId } = useGlobalContext();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+
+            const payload = {
+                user_id: userId,
+                bvn: bvn,
+                date_of_birth: dob,
+            };
+
+            // Make the Axios request
+            const response = await axios.post('/onboarding/validation', payload);
+
+            // Handle the response as needed
+            const responseData = response.data;
+            console.log('API Response:', responseData);
+
+
+            // Move to the next step in your component logic
+            nextStep();
+        } catch (error) {
+            console.error('API Error:', error);
+            // Handle API errors
+        }
+    };
 
     return (
         <>
@@ -50,6 +78,21 @@ function Guarantor() {
                             />
                         </form>
                     </div>
+                    <div className="flex p-2">
+                        <button
+                            // onClick={prevStep}
+                            className="bg-global-gray border rounded-lg h-14 w-[30%] text-deep-green mx-auto"
+                        >
+                            <i className="fa-solid fa-left-long md:px-4 px-2"></i>Previous
+                        </button>
+                        <button
+                            onClick={handleSubmit}
+                            className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto"
+                        >
+                            Next
+                        </button>
+
+                    </div>
                 </div>
             </div>
         </>
@@ -57,4 +100,4 @@ function Guarantor() {
     )
 }
 
-export default Guarantor
+export default BvnVerifi
