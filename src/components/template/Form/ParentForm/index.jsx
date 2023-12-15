@@ -8,20 +8,8 @@ import Verification from '../BvnVerification';
 const MultiStepForm = () => {
   const [step, setStep] = useState(1);
   const [tabIndex, setTabIndex] = useState(1);
-  const [formData, setFormData] = useState({
-    step1Data: '',
-    step2Data: '',
-    step3Data: '',
-    step4Data: '',
-    step5Data: '',
-  });
 
-  const formTitles = ['Contact', 'Biodata', 'BVN'];
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const formTitles = ['Contact', 'BVN', 'Biodata'];
 
   const nextStep = () => {
     setStep(step + 1);
@@ -44,19 +32,25 @@ const MultiStepForm = () => {
 
   switch (step) {
     case 1:
-      currentStepComponent = <Contact />;
+      currentStepComponent = (
+        <Contact  nextStep={nextStep} />
+      );
       break;
     case 2:
-      currentStepComponent = <Otp />;
+      currentStepComponent = <Otp  nextStep={nextStep} />;
       break;
     case 3:
-      currentStepComponent = <Biodata />;
+      currentStepComponent = (
+        <Verification nextStep={nextStep} />
+      );
       break;
     case 4:
-      currentStepComponent = <Verification />;
+      currentStepComponent = <Bvn nextStep={nextStep} />;
       break;
     case 5:
-      currentStepComponent = <Bvn />;
+      currentStepComponent = (
+        <Biodata nextStep={nextStep} />
+      );
       break;
     default:
       currentStepComponent = null;
@@ -73,10 +67,10 @@ const MultiStepForm = () => {
                 <div
                   key={index}
                   className={`${index < tabIndex - 1
-                      ? 'bg-progress-green h-2'
+                      ? 'bg-color1 h-2'
                       : index === tabIndex - 1
-                        ? 'bg-progress-green h-2'
-                        : 'bg-progress-light h-2'
+                        ? 'bg-color1 h-2'
+                        : 'bg-global-gray h-2'
                     } rounded-lg transition-all ease-in-out duration-300`}
                 >
                   <div
@@ -99,11 +93,11 @@ const MultiStepForm = () => {
       <div className="flex justify-center">
         <div className="flex flex-col">
           {currentStepComponent}
-          <div className="flex p-2">
+          {/* <div className="flex p-2">
             {!isFirstStep && (
               <button
                 onClick={prevStep}
-                className="bg-dark-gray border rounded-lg h-14 w-[30%] text-deep-green mx-auto"
+                className="bg-global-gray border rounded-lg h-14 w-[30%] text-deep-green mx-auto"
               >
                 <i className="fa-solid fa-left-long md:px-4 px-2"></i>Previous
               </button>
@@ -112,20 +106,20 @@ const MultiStepForm = () => {
             {!isLastStep ? (
             <button
               onClick={nextStep}
-              className="bg-cico-green rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto"
+              className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto"
             >
               Next
             </button>
             ) : (
               <button
                  // Add your submit handler function
-                className="bg-cico-green border-deep-green border rounded-lg h-14 w-[60%]  text-white mx-auto"
+                className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2  rounded-lg h-14 w-[60%]  text-white mx-auto"
               >
                 Submit
               </button>
             )}
 
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

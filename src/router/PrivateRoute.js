@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { setDisplayModal } from '../actions/modal';
 import { authMiddleware } from '../utils/authMiddleware';
+import {userDetails} from  '../reducers/auth'
 
 export const PrivateRoute = ({
     isAuthenticated,
@@ -26,7 +27,7 @@ export const PrivateRoute = ({
                 isAuthenticated ? (
                     <Component {...props} />
                 ) : (
-                    <Redirect to='/login' />
+                <Redirect to='/login' />
                 )
             }
         />

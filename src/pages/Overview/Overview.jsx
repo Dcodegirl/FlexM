@@ -29,29 +29,12 @@ export const Overview = ({
 
     
     
-    async function fetchOverviewData() {
-        try {
-            const res = await axios.get(AGENT_DASHBOARD_DATA);
-
-            const overviewData = res.data.data;
-            setWalletBalance(overviewData.wallet.current_bal);
-            setCommissionBalance(overviewData.commission.current_commission)
-           
-           
-        } catch (e) {
-            
-        } finally {
-            setLoading(false);
-        }
-    };
-    const refreshOverviewData = () => {
-        fetchOverviewData();
-    };
+    
 
     return (
         <div className={styles.container}>
             <UserInfo/>
-             <Balance refreshOverviewData={refreshOverviewData} commissionBalance={commissionBalance}/>
+             <Balance/>
             <QuickAction displayModal={displayModal}/>
             <div className="flex md:gap-10 md:flex-row flex-col">
             <BarChart/>

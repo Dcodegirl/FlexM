@@ -6,7 +6,7 @@ import { startLogout } from '../../../actions/auth';
 import { createNotification } from '../../../actions/notification';
 import imagebg from '../../../assets/icons/Ellipse 179.png';
 import notification from '../../../assets/icons/bell 1.svg';
-import user from '../../../assets/images/user.svg';
+import pic from '../../../assets/images/user.svg';
 import searchIcon from '../../../assets/icons/mdi_search.svg';
 import arrowdown from '../../../assets/icons/mdi_.svg';
 import right from '../../../assets/icons/arrowright.svg';
@@ -31,26 +31,22 @@ const Header = ({
     isDefaultPassword,
     notifications,
     createNotification,
-    name,
-    walletId,
+    // name,
+    // walletId,
     logout,
-    agentClassification,
-    vfdAccountNumber,
-    virtualAccountNumber,
-    virtualAccountBank
+    // virtualAccountNumber,
+    // virtualAccountBank,
+    user
 }) => {
+    console.log('Current user state:', user);
     const [toggleUser, setToggleUser] = useState(false);
+    const name = user ? `${user.first_name} ${user.last_name}` : 'User';
+    const walletId = user ? user.walletNo : 'N/A';
+    const virtualAccountNumber = user ? user.vfd_account_number : 'N/A';
+    const virtualAccountBank = user ? user.vfd_account_number : 'N/A';
     const wrapperRef = useRef(null);
-
     const { addToast } = useToasts();
-    const agentClassificationLowercase = agentClassification.toLowerCase();
-    const agentClassificationIcon =
-        agentClassificationLowercase === 'premium'
-            ? premiumShield
-            : agentClassificationLowercase === 'vip'
-                ? vipShield
-                : flexShield;
-
+   
     useEffect(() => {
         let isCancelled;
 
@@ -98,199 +94,206 @@ const Header = ({
 
     return (
 
-        <header className={'styles.header flex md:justify-end bg-white h-full justify-between'}>
-            <div className={`styles.container flex justify-between h-full items-center md:gap-3 w-[450px]  md:px-12 px-3`}>
+        <header className={`flex md:justify-end bg-white h-full justify-between`}>
+            <div className={` flex justify-between h-full items-center md:gap-3 w-[450px]  md:px-12 px-3`}>
+                {/* serchbar */}
                 <div className="relative md:block hidden">
                     <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400" />
                     <input type="text" placeholder="Search transactions" className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2" />
                 </div>
-                <div
-                    className={styles.notification}
-                    onClick={handleToggleNotifications}
-                >
-                    <img src={notification} alt='notification bell' className='md:block hidden'/>
-                    <span className={`styles.active md:block hidden`}>
-                        {notifications.length}
-                    </span>
-                </div>
-                <div className={styles.profile}>
-                    <img src={imagebg} alt="" className='relative w-[30px] h-[30px] md:block hidden' />
-                    <img
-                        className={`styles.profileImage w-[20px] h-[20px] absolute ml-2 md:block hidden`}
-                        src={user}
-                        alt='User silhoutte'
-                        onClick={() => {
-                            setToggleUser(!toggleUser);
-                        }}
-                    />
-
-                    <div className={`styles.agentName w-full text-[12px] text-icon-purple uppercase md:block hidden`}>{name}</div>
-                    <img
-                        src={arrowdown}
-                        className={styles.profileToggle}
-                        onClick={() => {
-                            setToggleUser(!toggleUser);
-                        }}
-                        alt=''
-                    />
-                    {toggleUser && (
-                        <div className={styles.userSubmenu} ref={wrapperRef}>
-                            <div className={styles.userSubmenuBio}>
+                <div className='flex items-center gap-10'>
+                    <div className={styles.notification} onClick={handleToggleNotifications}>
+                        <img src={notification} alt='notification bell' className='md:block hidden' />
+                        <span className={` ${styles.active} md:block hidden`}>
+                            {notifications.length}
+                        </span>
+                    </div>
+                    <div className=''>
+                        <div className="flex gap-2 items-center">
+                            <div className='md:block hidden'>
+                                <img src={imagebg} alt="" className='relative w-[40px] h-[40px]' />
                                 <img
-                                    src={user}
-                                    alt='user avatar'
-                                    className={styles.userSubmenuBioAvatar}
-                                />
-                                <span className={styles.userSubmenuBioService}>
-                                    {name}
-                                    <img
-                                        className={styles.userSubmenuBioBadge}
-                                        src={agentClassificationIcon}
-                                        alt=''
-                                    />
-                                </span>
-                                <span className={styles.userSubmenuBioWallet}>
-                                    Wallet ID: {walletId}
-                                </span>
-                                <span className={styles.userSubmenuBioWallet}>
-                                    Account No: {virtualAccountNumber}
-                                </span>
-                                <span className={styles.userSubmenuBioWallet}>
-                                    Bank Name : {virtualAccountBank}
-                                </span>
-                            </div>
-                            <div className={styles.userSubmenuMain}>
-                                <Link
-                                    to='/profile'
-                                    className={styles.userSubmenuMainItem}
-                                >
-                                    <img
-                                        className={styles.icon}
-                                        src={pinLock}
-                                        alt=''
-                                    />
-                                    <span>Update transaction pin</span>
-                                    <img
-                                        className={styles.arrow}
-                                        src={right}
-                                        alt=''
-                                    />
-                                </Link>
-                                <Link
-                                    to='/profile'
-                                    className={styles.userSubmenuMainItem}
-                                >
-                                    <img
-                                        className={styles.icon}
-                                        src={bioUser}
-                                        alt=''
-                                    />
-                                    <span>Edit Profile</span>
-                                    <img
-                                        className={styles.arrow}
-                                        src={right}
-                                        alt=''
-                                    />
-                                </Link>
-                                <Link
-                                    to='users'
-                                    className={styles.userSubmenuMainItem}
-                                >
-                                    <img
-                                        className={styles.icon}
-                                        src={users}
-                                        alt=''
-                                    />
-                                    <span>Users</span>
-                                    <img
-                                        className={styles.arrow}
-                                        src={right}
-                                        alt=''
-                                    />
-                                </Link>
-                                <Link
-                                    to='Profile'
-                                    className={styles.userSubmenuMainItem}
-                                >
-                                    <img
-                                        className={styles.icon}
-                                        src={lock}
-                                        alt=''
-                                    />
-                                    <span>Change Password</span>
-                                    <img
-                                        className={styles.arrow}
-                                        src={right}
-                                        alt=''
-                                    />
-                                </Link>
-                                <div
-                                    className={`${styles.userSubmenuMainItem} ${styles.logout}`}
-                                    aria-label='button'
+                                    className='w-[30px] h-[30px] top-8 absolute ml-2'
+                                    src={pic}
+                                    alt='User silhoutte'
                                     onClick={() => {
-                                        logout();
+                                        setToggleUser(!toggleUser);
                                     }}
-                                >
+                                />
+                            </div>
+
+                            <div className='flex'>
+                                <div className='w-36 pl-6 text-[12px] text-icon-purple uppercase md:block hidden'>{name}</div>
+                                <img src={arrowdown} className={`${styles.profileToggle}`}
+                                    onClick={() => {
+                                        setToggleUser(!toggleUser);
+                                    }}
+                                    alt=''
+                                />
+                            </div>
+                        </div>
+                        {/* dropdown toggle */}
+                        {toggleUser && (
+                            <div className={`top-28 right-16 w-72 h-[300px] bg-white shadow-md rounded-lg text-center text-lg absolute z-10`} ref={wrapperRef}>
+                                <div className='h-1/2 bg-purple-800 p-8 text-white rounded-tl-lg rounded-tr-lg'>
                                     <img
-                                        className={styles.icon}
-                                        src={exit}
-                                        alt=''
+                                        src={pic}
+                                        alt='user avatar'
+                                        className='block mx-auto w-10 rounded-full'
                                     />
-                                    <span
-                                        className={`${styles.submenuItemText} ${styles.logoutText}`}
-                                    >
-                                        Logout
+                                    {/* <span className='my-4 flex items-center justify-center'>
+                                        {name}
+                                        <img
+                                            className='inline-block w-16 h-16 ml-4'
+                                            src={agentClassificationIcon}
+                                            alt=''
+                                        />
+                                    </span> */}
+                                    <span className='block w-70 bg-white rounded-md p-2 mx-auto my-2 text-purple-800 text-base'>
+                                        Wallet ID: {walletId}
                                     </span>
+                                    <span className='block w-70 bg-white rounded-md p-2 mx-auto my-2 text-purple-800 text-base'>
+                                        Account No: {virtualAccountNumber}
+                                    </span>
+                                    <span className='block w-70 bg-white rounded-md p-2 mx-auto my-2 text-purple-800 text-base'>
+                                        Bank Name : {virtualAccountBank}
+                                    </span>
+                                </div>
+                                <div className='p-5'>
+                                    <Link
+                                        to='/profile'
+                                        className='flex items-center relative  text-no-underline text-purple-800 text-lg'
+                                    >
+                                        <img
+                                            className="w-6 h-6 mr-4 rounded-full"
+                                            src={pinLock}
+                                            alt=''
+                                        />
+                                        <span>Update transaction pin</span>
+                                        <img
+                                            className="w-4 h-4 absolute top-1/2 right-1 transform -translate-y-1/2"
+                                            src={right}
+                                            alt=''
+                                        />
+                                    </Link>
+                                    <Link
+                                        to='/profile'
+                                        className="flex items-center relative  no-underline text-purple-800 text-lg"
+                                    >
+                                        <img
+                                            className="w-6 h-6 mr-4 rounded-full"
+                                            src={bioUser}
+                                            alt=''
+                                        />
+                                        <span>Edit Profile</span>
+                                        <img
+                                            className="w-4 h-4 absolute top-1/2 right-1 transform -translate-y-1/2"
+                                            src={right}
+                                            alt=''
+                                        />
+                                    </Link>
+                                    <Link
+                                        to='users'
+                                        className="flex items-center relative  no-underline text-purple-800 text-lg"
+                                    >
+                                        <img
+                                            className="w-6 h-6 mr-4 rounded-full"
+                                            src={users}
+                                            alt=''
+                                        />
+                                        <span>Users</span>
+                                        <img
+                                            className="w-4 h-4 absolute top-1/2 right-1 transform -translate-y-1/2"
+                                            src={right}
+                                            alt=''
+                                        />
+                                    </Link>
+                                    <Link
+                                        to='Profile'
+                                        className="flex items-center relative  no-underline text-purple-800 text-lg"
+                                    >
+                                        <img
+                                            className="w-6 h-6 mr-4 rounded-full"
+                                            src={lock}
+                                            alt=''
+                                        />
+                                        <span>Change Password</span>
+                                        <img
+                                            className="w-4 h-4 absolute top-1/2 right-1 transform -translate-y-1/2"
+                                            src={right}
+                                            alt=''
+                                        />
+                                    </Link>
+                                    <div
+                                        className="flex items-center relative  no-underline text-purple-800 text-lg cursor-pointer"
+                                        aria-label='button'
+                                        onClick={() => {
+                                            logout();
+                                        }}
+                                    >
+                                        <img
+                                            className="w-6 h-6 mr-4 rounded-full"
+                                            src={exit}
+                                            alt=''
+                                        />
+                                        <span
+                                            className=''
+                                        >
+                                            Logout
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    {/* welcome */}
+                    <div className='md:hidden flex gap-9'>
+                        <div className='flex gap-3' >
+                            <div>
+                                <img src={profile} alt="user pic" className='w-[20px]' />
+                            </div>
+                            <div className=''>
+                                <div className='flex gap-2'><div><h1 className='text-[12px] font-bold'>Hi, Mark!    </h1></div></div>
+                                <div className='flex items-center'>
+                                    <img src={sun} alt="star" className='w-[10px]' />
+                                    <div>
+                                        <span className='text-[#748274]'>Tuesday, October 27</span>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    )}
-                </div>
-                <div className='md:hidden flex gap-9'>
-                    <div className='flex gap-3' >
-                    <div>
-                        <img src={profile} alt="user pic" className='w-[20px]'/>
-                    </div>
-                    <div className=''>
-                        <div className='flex gap-2'><div><h1 className='text-[12px] font-bold'>Hi, Mark!    </h1></div></div>
-                        <div className='flex items-center'>
-              <img src={sun} alt="star" className='w-[10px]'/>
-              <div>
-                <span className='text-[#748274]'>Tuesday, October 27</span>
+                        <div className=''>
+                            <img
+                                src={arrowdown}
+                                className="w-4 cursor-pointer"
+                                onClick={() => {
+                                    setToggleUser(!toggleUser);
+                                }}
+                                alt=''
+                                style={{ width: '30px' }}
+                            />
+                        </div>
 
-                </div>
-                        </div>
-                        </div>
                     </div>
-                    <div className=''>
-                    <img
-                        src={arrowdown}
-                        className={styles.profileToggle}
-                        onClick={() => {
-                            setToggleUser(!toggleUser);
-                        }}
-                        alt=''
-                        style={{width: '30px'}}
-                    />
-                    </div>
-                    
                 </div>
+
             </div>
         </header>
     );
 };
 
 const mapStateToProps = (state) => {
-    return{
-        currentPage: state.page,
-        isDefaultPassword: state.auth.user.is_default,
-        notifications: state.notification.notifications,
-        walletId: state.auth.user.walletNo,
-        name: `${state.auth.user.firstName} ${state.auth.user.lastName}`,
-        agentClassification: state.auth.user.agentClassification,
-        vfdAccountNumber: state.auth.user.vfd_account_number,
-        virtualAccountNumber: state.auth.user.virtualAccountNumber,
-        virtualAccountBank: state.auth.user.virtualAccountBank,
+    return {
+        currentPage: state?.page,
+        isDefaultPassword: state?.auth.user.verified,
+        notifications: state?.notification.notifications,
+        walletId: state?.auth?.user?.walletNo,
+        name: `${state?.auth?.user?.first_name} ${state?.auth?.user?.last_name}`,
+        agentClassification: state?.auth.user.agentClassification,
+        vfdAccountNumber: state?.auth?.user?.vfd_account_number,
+        virtualAccountNumber: state?.auth?.user?.account_number,
+        virtualAccountBank: state?.bank?.name,
     };
 };
 

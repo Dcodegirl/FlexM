@@ -9,8 +9,8 @@ import { useLocation } from 'react-router-dom';
 
 const ViewSingleAgent = () => {
     const transactions = SingleAgentTransactionData();
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 

@@ -24,7 +24,7 @@ const loginUser = ({
             walletBalance,
             commissionBalance,
             transactionSettings,
-            virtualAccountNumber, // Include virtualAccountNumber in the payload
+            virtualAccountNumber,
             virtualAccountBank,
         },
     };
@@ -75,7 +75,7 @@ export const startLoginUser = (payload) => (dispatch) => {
                 agent_code,
             } = agent;
 
-            if (!isEmpty(user)) {
+            if (!isEmpty(token)) {
                 const authDetails = {
                     isAuthenticated: true,
                     user: {
