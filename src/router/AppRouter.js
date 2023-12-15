@@ -17,6 +17,9 @@ import Pin from '../pages/Pin';
 import ForgotConfirm from '../pages/forgotConfirmation';
 import ErrorHandler from '../components/template/ErrorHandler';
 import ForgotTransactionPin from '../pages/ForgotTransactionPin';
+import Settings from '../pages/settings';
+
+
 
 export const AppRouter = () => {
     return (
@@ -41,6 +44,8 @@ export const AppRouter = () => {
                 <PublicRoute path='/forgotConfirmation' component={ForgotConfirm} exact />
                 <PublicRoute path='/otpVerification' component={signInOtp} exact />
                 <PrivateRoute path='/' component={Dashboard} />
+                <PrivateRoute path='/settings' component={Settings} exact/>
+
             </Switch>
         </ErrorHandler>
     );
