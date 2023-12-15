@@ -31,19 +31,16 @@ const Header = ({
     isDefaultPassword,
     notifications,
     createNotification,
-    // name,
-    // walletId,
     logout,
-    // virtualAccountNumber,
-    // virtualAccountBank,
-    user
+    user,
+    bank
 }) => {
     console.log('Current user state:', user);
     const [toggleUser, setToggleUser] = useState(false);
     const name = user ? `${user.first_name} ${user.last_name}` : 'User';
     const walletId = user ? user.walletNo : 'N/A';
-    const virtualAccountNumber = user ? user.vfd_account_number : 'N/A';
-    const virtualAccountBank = user ? user.vfd_account_number : 'N/A';
+    const virtualAccountNumber = user ? user.account_number : 'N/A';
+    const virtualAccountBank = bank ? bank.name : 'N/A';
     const wrapperRef = useRef(null);
     const { addToast } = useToasts();
    
@@ -286,6 +283,8 @@ const Header = ({
 const mapStateToProps = (state) => {
     return {
         currentPage: state?.page,
+        user : state.auth.user,
+        bank: state.auth.bank,
         isDefaultPassword: state?.auth.user.verified,
         notifications: state?.notification.notifications,
         walletId: state?.auth?.user?.walletNo,

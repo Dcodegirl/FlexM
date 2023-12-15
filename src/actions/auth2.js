@@ -44,7 +44,9 @@ export const startLoginUser = (payload, history) => async (dispatch) => {
             },
             bank:{
                 ...data.data.bank_info
-            }
+            },
+            has_pin: data.data.has_pin,
+
     
         };
         dispatch(loginUser(authDetails));
