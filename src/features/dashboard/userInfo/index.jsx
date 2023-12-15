@@ -11,7 +11,7 @@ const UserInfo = () => {
 
   return (
     <div className="flex flex-col gap-7">
-      <div className='flex justify-between w-full md:flex hidden'>
+      <div className='justify-between w-full md:flex hidden'>
         <div className='flex gap-2 items-center'>
           <div>
             <img src={profile} alt="" className='w-20 rounded-full' />
