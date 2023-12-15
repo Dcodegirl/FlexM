@@ -30,7 +30,7 @@ const BarChart = ({ }) => {
                     </div>
 
                     {/* Add a bar or any other UI element for period selection */}
-                    <div className="flex items-center justify-center gap-3">
+                    <div className="flex items-center justify-center gap-3 md:hidden">
                         <p>Sort By: </p>
                         <select onChange={handlePeriodSelect} className="border rounded bg-[#F1F1F1] py-1.5 px-3">
                             <option value="Daily">Daily</option>
