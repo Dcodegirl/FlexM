@@ -41,7 +41,7 @@ const BarChart = ({ }) => {
                     </div>
             
                     {/* Add a bar or any other UI element for period selection */}
-                    <div className="flex md:flex hidden">
+                    <div className="md:flex hidden">
                         {periods.map((period) => (
                             <div
                                 key={period}
