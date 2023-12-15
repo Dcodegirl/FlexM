@@ -3,14 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useHistory } from 'react-router-dom';
 import axios from '../../../../utils/axiosInstance';
+import { useToasts } from 'react-toast-notifications';
 
 function Login() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [acceptRemember, setAcceptRemember] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const history = useHistory(); // Use the useNavigate hook for navigation
+  const history = useHistory();
+  const { addToast } = useToasts();
 
   const handleAcceptRemChange = () => {
     setAcceptRemember(!acceptRemember);
@@ -25,8 +28,10 @@ function Login() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     try {
+      setLoading(true);
+
       const apiUrl = '/users/signin';
 
       const requestBody = {
@@ -37,16 +42,31 @@ function Login() {
         type: 'agent',
       };
 
-      // Make the API request
       const response = await axios.post(apiUrl, requestBody);
       console.log('logged in successfully and otp sent:', response.data);
-      // Check the API response and perform necessary actions
 
-      // Assuming the API request is successful, navigate to otpVerification
+      addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success' });
       history.push('/otpVerification');
     } catch (error) {
-      // Handle API request error here
-      console.error('API request error:', error);
+      console.error('API Error:', error);
+
+      if (error.response) {
+        const { status, data } = error.response;
+
+        if (data && data.errors) {
+          Object.values(data.errors).flat().forEach(errorMessage => {
+            addToast(`Server error: ${status} - ${errorMessage}`, { appearance: 'error' });
+          });
+        } else {
+          addToast(`Server error: ${status} - An unexpected error occurred.`, { appearance: 'error' });
+        }
+      } else if (error.request) {
+        addToast('No response from the server. Please try again.', { appearance: 'error' });
+      } else {
+        addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -104,11 +124,12 @@ function Login() {
               </div>
               <div className='flex justify-center mt-4'>
                 <button
-                type='button'
+                  type='button'
                   onClick={handleSubmit}
-                  className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2  border rounded-lg h-14 w-full text-white mx-auto"
+                  className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2  border rounded-lg h-14 w-full text-white mx-auto ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={loading}
                 >
-                  Next
+                  {loading ? 'Loading...' : 'Next'}
                 </button>
               </div>
               <div className="flex justify-center mt-4">

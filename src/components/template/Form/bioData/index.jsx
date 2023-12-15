@@ -4,12 +4,14 @@ import ngn from '../../../../assets/images/nigeria.svg'
 import downloadsvg from '../../../../assets/images/download.svg'
 import { useGlobalContext } from '../../../../custom-hooks/Context'
 import axios from '../../../../utils/axiosInstance'
+import { useToasts } from 'react-toast-notifications';
 import "./style.css";
 import SuccessModal from '../../../layout/Modal/successModal'
 
 function Document({ nextStep }) {
     const { setFirstname, setLastname, setAddress, firstname, lastname, address, country, setCountryId,
         state, userId } = useGlobalContext();
+    const { addToast } = useToasts();
     const [selectedCountry, setSelectedCountry] = useState('');
     const [selectedState, setSelectedState] = useState('');
     const [selectedDocument, setSelectedDocument] = useState('');
@@ -17,6 +19,7 @@ function Document({ nextStep }) {
     const [utilityImage, setUtilityImage] = useState(null);
     const [file, setFile] = useState(null);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [loading, setLoading] = useState(false);
     const { successModalOpen, setSuccessModalOpen } = useGlobalContext();
 
     const handleDocumentChange = (event) => {
@@ -82,7 +85,7 @@ function Document({ nextStep }) {
             }
         }
     };
-    
+
     const handlefirstnameChange = (event) => {
         setFirstname(event.target.value);
     };
@@ -115,9 +118,10 @@ function Document({ nextStep }) {
         console.log('country id = ', country)
     }, [])
 
-   
+
     const handleSubmit = async () => {
         try {
+            setLoading(true);
             const postData = {
                 first_name: firstname,
                 last_name: lastname,
@@ -140,6 +144,7 @@ function Document({ nextStep }) {
             setSuccessModalOpen(true);
         } catch (error) {
             console.error('Error submitting BioData:', error);
+            addToast('Error submitting BioData. Please try again.', { appearance: 'error' });
         }
     };
 
@@ -375,14 +380,18 @@ function Document({ nextStep }) {
                             </div>
                         </form>
                     </div>
-                    <div className="flex p-2">
+                    <div className='flex p-2'>
                         <button
                             onClick={handleSubmit}
-                            className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto"
+                            className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative`}
                         >
-                            Submit
+                            {loading && (
+                                <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+                                    <div className='loader'></div>
+                                </div>
+                            )}
+                            {loading ? 'Loading...' : 'Submit'}
                         </button>
-
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { connect } from "react-redux";
 import flexShield from "../../../assets/icons/bronze-badge.svg";
 import premiumShield from "../../../assets/icons/silver-badge.svg";
@@ -7,14 +7,15 @@ import formatToCurrency from "../../../utils/formatToCurrency";
 import refresh from "../../../assets/icons/refresh.svg";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import axios from "../../../utils/axiosInstance";
 // import styles from "./Balance.module.scss";
 
 
 const Balance = ({}) => {
   const [showWallet, setShowWallet] = useState(false);
-  const [aggregatorBalance, setAggregatorBalance] = useState(0.00);
-  const [walletBalance, setWalletBalance] = useState(2300.00);
-  const [commissionBalance, setCommissionBalance] = useState(2300.00);
+  const [aggregatorBalance, setAggregatorBalance] = useState('');
+  const [walletBalance, setWalletBalance] = useState('');
+  const [commissionBalance, setCommissionBalance] = useState('');
   const [showCommission, setShowCommission] = useState(false);
   const [showAggregator, setShowAggregator] = useState(false);
 
@@ -30,6 +31,31 @@ const Balance = ({}) => {
     setShowAggregator(!showAggregator);
   };
 
+  useEffect(() => {
+    // Fetch wallet balance
+    const fetchWalletBalance = async () => {
+      try {
+        const response = await axios.get("/main/balance");
+        setWalletBalance(response.data.data);
+      } catch (error) {
+        console.error("Error fetching wallet balance:", error);
+      }
+    };
+
+    // Fetch commission balance
+    const fetchCommissionBalance = async () => {
+      try {
+        const response = await axios.get("/commission/balance");
+        setCommissionBalance(response.data.data);
+      } catch (error) {
+        console.error("Error fetching commission balance:", error);
+      }
+    };
+
+    // Call the functions to fetch balances
+    fetchWalletBalance();
+    fetchCommissionBalance();
+  }, []); 
  
  
   const balanceContent = showWallet ? (
