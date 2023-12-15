@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useHistory } from 'react-router-dom';
+import axios from '../../../../utils/axiosInstance';
 
 function Login() {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -23,12 +24,22 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
-  const handleNextClick = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault(); 
     try {
-      // Make your API request here using axios
-      // Example:
-      // const response = await axios.post('your-api-endpoint', { phoneNumber, password });
+      const apiUrl = '/users/signin';
 
+      const requestBody = {
+        user: {
+          password: password,
+          phone: phoneNumber,
+        },
+        type: 'agent',
+      };
+
+      // Make the API request
+      const response = await axios.post(apiUrl, requestBody);
+      console.log('logged in successfully and otp sent:', response.data);
       // Check the API response and perform necessary actions
 
       // Assuming the API request is successful, navigate to otpVerification
@@ -42,7 +53,7 @@ function Login() {
   return (
     <>
       <div className='md:m-8 my-8 overflow-hidden'>
-        <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
+        <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-border-primary bg-white border-white rounded-3xl border">
           <div className="text-deep-green font-bold text-center">
             <p className='text-2xl'>Enter your Contact Detail</p>
             <p className="text-gray-500 text-xl font-thin w[360px]">Enter your contact details to sign in.</p>
@@ -86,21 +97,22 @@ function Login() {
                   </label>
                 </div>
                 <div className='flex justify-center'>
-                  <NavLink to="/forgotPassword" className='text-[#00BD7A] text-xl font-xl'>
+                  <NavLink to="/forgotPassword" className='text-color1 text-xl font-xl'>
                     Forgot Password?
                   </NavLink>
                 </div>
               </div>
               <div className='flex justify-center mt-4'>
                 <button
-                  onClick={handleNextClick}
-                  className="bg-cico-green  border rounded-lg h-14 w-full text-white mx-auto"
+                type='button'
+                  onClick={handleSubmit}
+                  className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2  border rounded-lg h-14 w-full text-white mx-auto"
                 >
                   Next
                 </button>
               </div>
               <div className="flex justify-center mt-4">
-                <p>Don’t have an account?<NavLink to='/signup'><span className="text-[#00BD7A]"> Sign up</span></NavLink></p>
+                <p>Don’t have an account?<NavLink to='/signup'><span className="text-color1"> Sign up</span></NavLink></p>
               </div>
             </form>
           </div>

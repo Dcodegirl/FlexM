@@ -1,10 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react'
+import axios from '../../../../utils/axiosInstance';
+import { NavLink, useHistory } from 'react-router-dom';
+// import { userDetails } from '../../../../reducers/auth';
+import { startLoginUser } from "../../../../actions/auth2";
+import { useDispatch } from 'react-redux';
 
 function Contact() {
     const [timeLeft, setTimeLeft] = useState(600);
     const [phoneNumber, setPhoneNumber] = useState("");
     const [otp, setotp] = useState(["", "", "", "", "", ""]);
     const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
+    const history = useHistory();
+    const dispatch = useDispatch();
 
     const handleotpChange = (index, value) => {
         if (value >= 0 && value <= 9) {
@@ -19,6 +26,12 @@ function Contact() {
             }
         }
     };
+    // useEffect(() => {
+    //     if(userDetails){
+    //         history.push('/dashboard')
+    //     }
+    //   }, [userDetails]);
+
     useEffect(() => {
         if (timeLeft > 0) {
             const timer = setTimeout(() => {
@@ -51,16 +64,32 @@ function Contact() {
             document.getElementById(`otp-input-${index - 1}`).focus();
         }
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (isotpComplete) {
             const enteredotp = otp.join("");
-            // You can now handle otp validation or form submission as needed
-            console.log("Entered otp:", enteredotp);
+
+            try {
+               
+
+                const payload = {
+                    otp: enteredotp,
+                };
+
+                // Make the API request
+                // const response = await axios.post(apiUrl, requestBody);
+                // console.log('OTP verification success:', response.data.token);
+                // history.push('/dashboard');
+                dispatch(startLoginUser(payload, history))
+            } catch (error) {
+                // Handle API request error here
+                console.error('OTP verification error:', error);
+            }
         } else {
-            alert("Please enter all 6 otp digits.");
+            alert("Please enter all 6 OTP digits.");
         }
     };
+
     return (
         <>
             <div className='md:m-8 my-8 overflow-hidden'>
@@ -85,24 +114,25 @@ function Contact() {
                                     required
                                     id={`otp-input-${index}`}
                                     tabIndex={index + 1}
-                                    className='border md:bg-bg-green bg-white border-[#D0D5DD] h-16 w-14 text-center m-2 rounded-lg p-4'
+                                    className='border md:bg-bg-green bg-white border-border-primary h-16 w-14 text-center m-2 rounded-lg p-4'
                                 />
                             ))}
                         </form>
                     </div>
-                    <div className="text-[#00BD7A] mt-4 text-right w-[350px] ">
+                    <div className="text-color1 mt-4 text-right w-[350px] ">
                         {formatTime(timeLeft)}
                     </div>
                     <div className="flex justify-center">
-                    <p>I didn't get the code? {resendButtonDisabled ? 'Resend OTP' : <a href="#"><span className="text-[#00BD7A]">Resend OTP</span></a>}</p>
-                </div>
-                <div className='flex justify-center mt-2'>
-              <button
-              className="bg-cico-green  border rounded-lg h-14 w-full text-white mx-auto "
-            >
-              Next
-            </button>
-              </div>
+                        <p>I didn't get the code? {resendButtonDisabled ? 'Resend OTP' : <a href="#"><span className="text-color1">Resend OTP</span></a>}</p>
+                    </div>
+                    <div className='flex justify-center mt-2'>
+                        <button
+                            className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2  border rounded-lg h-14 w-full text-white mx-auto "
+                            onClick={handleSubmit}
+                        >
+                            Submit
+                        </button>
+                    </div>
                 </div>
             </div>
         </>

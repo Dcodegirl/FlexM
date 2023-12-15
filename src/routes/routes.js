@@ -14,7 +14,7 @@ import viewAgents from '../pages/viewAgents'
 import ViewSingleAgent from '../pages/viewSingleAgent';
 import CreateAgent from '../features/aggregator/createAgent';
 import AgentPerfomance from '../pages/agentPerformance';
-import TransactionLog from '../features/logs/transactions/TransactionLog';
+import TransactionLog from '../features/logs/transactions';
 import Profile from '../features/profile/Profile';
 import Support from '../pages/support';
 import WalletTransfer from '../features/services/walletTransfer/WalletTransfer';
@@ -28,6 +28,8 @@ import Overview from '../pages/Overview/Overview';
 import Contact from '../pages/Contact';
 import TransactionDetails from '../components/common/TransactionDetails';
 import Documents from '../features/profile/documents';
+import Settings from '../pages/settings';
+
 
 const routes = [
     {
@@ -134,6 +136,12 @@ const routes = [
         exact: true,
         component: CommissionTransfer,
     },  
+    
+    {
+        path: '/settings',
+        exact: true,
+        component: Settings,
+    },
     // {
     //   path: "/activity-log",
     //   component: ActivityLog,

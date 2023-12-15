@@ -1,18 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import svg from '../../../../assets/images/Upload.svg'
 import ngn from '../../../../assets/images/nigeria.svg'
 import downloadsvg from '../../../../assets/images/download.svg'
+import { useGlobalContext } from '../../../../custom-hooks/Context'
+import axios from '../../../../utils/axiosInstance'
 import "./style.css";
+import SuccessModal from '../../../layout/Modal/successModal'
 
-function Document() {
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [address, setAddress] = useState('');
-    const [selectedState, setSelectedState] = useState('');
+function Document({ nextStep }) {
+    const { setFirstname, setLastname, setAddress, firstname, lastname, address, country, setCountryId,
+        state, userId } = useGlobalContext();
     const [selectedCountry, setSelectedCountry] = useState('');
+    const [selectedState, setSelectedState] = useState('');
     const [selectedDocument, setSelectedDocument] = useState('');
+    const [documentImage, setDocumentImage] = useState(null);
+    const [utilityImage, setUtilityImage] = useState(null);
     const [file, setFile] = useState(null);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const { successModalOpen, setSuccessModalOpen } = useGlobalContext();
 
     const handleDocumentChange = (event) => {
         setSelectedDocument(event.target.value);
@@ -23,10 +28,61 @@ function Document() {
     const handleCountryChange = (event) => {
         setSelectedCountry(event.target.value);
     };
-    const handleFileChange = (event) => {
-        const selectedFile = event.target.files[0];
-        setFile(selectedFile);
+    const convertDocToBase64Document = (file) => {
+        if (file) {
+            try {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setDocumentImage(reader.result);
+                };
+                reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('Error encoding document image:', error);
+            }
+        }
     };
+
+    const convertUtilityToBase64Utility = (file) => {
+        if (file) {
+            try {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setUtilityImage(reader.result);
+                };
+                reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('Error encoding utility image:', error);
+            }
+        }
+    };
+    const handleFileChange = async (event) => {
+        const selectedFile = event.target.files[0];
+
+        if (selectedFile) {
+            try {
+                convertDocToBase64Document(selectedFile);
+                console.log('document image = ', selectedFile)
+            } catch (error) {
+                console.error('Error encoding image:', error);
+            }
+        }
+    };
+
+    // ... (your existing functions)
+
+    const handleUtilityFileChange = async (event) => {
+        const selectedFile = event.target.files[0];
+
+        if (selectedFile) {
+            try {
+                convertUtilityToBase64Utility(selectedFile);
+                console.log('utility image = ', selectedFile)
+            } catch (error) {
+                console.error('Error encoding utility image:', error);
+            }
+        }
+    };
+    
     const handlefirstnameChange = (event) => {
         setFirstname(event.target.value);
     };
@@ -54,13 +110,43 @@ function Document() {
             }
         }, 1000);
     };
+    useEffect(() => {
+        console.log('state id = ', state);
+        console.log('country id = ', country)
+    }, [])
 
+   
+    const handleSubmit = async () => {
+        try {
+            const postData = {
+                first_name: firstname,
+                last_name: lastname,
+                user_id: userId, // Replace with your logic to get the user ID
+                business_address: address,
+                country_id: country,
+                state_id: state,
+                document: {
+                    type: selectedDocument,
+                    image: documentImage,
+                },
+                utility: {
+                    image: utilityImage,
+                },
+            };
 
+            const response = await axios.post('/onboarding/bioData', postData);
+
+            console.log('BioData submitted successfully:', response.data);
+            setSuccessModalOpen(true);
+        } catch (error) {
+            console.error('Error submitting BioData:', error);
+        }
+    };
 
     return (
         <>
             <div className='md:m-8 my-8 overflow-hidden'>
-                <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
+                <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-border-primary bg-white border-white rounded-3xl border">
                     <div className="text-deep-green font-bold text-center">
                         <p className='text-2xl'>Biodata</p>
                         <p className="text-gray-700 text-xl font-thin w-[360px]">Be sure to enter your legal name as it appears on your government-issued ID</p>
@@ -75,6 +161,7 @@ function Document() {
                                         value={firstname}
                                         onChange={handlefirstnameChange}
                                         required
+                                        readOnly
                                         placeholder='Type First Name'
                                         className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                                     />
@@ -86,6 +173,7 @@ function Document() {
                                         value={lastname}
                                         onChange={handlelastnameChange}
                                         required
+                                        readOnly
                                         placeholder='Type Last Name'
                                         className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
                                     />
@@ -98,6 +186,7 @@ function Document() {
                                     value={address}
                                     onChange={handleaddressnameChange}
                                     required
+                                    readOnly
                                     placeholder='Type Address'
                                     className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
                                 />
@@ -110,8 +199,12 @@ function Document() {
                                         value={selectedCountry}
                                         onChange={handleCountryChange}
                                     >
-                                        <option value="">Choose Country</option>
+                                        <option value="" disabled hidden>
+                                            {country ? country : 'Select Country'}
+                                        </option>
+                                        {/* Add other country options if needed */}
                                     </select>
+
                                 </div>
                                 <div className=' w-full'>
                                     <p className='text-gray-700 text-sm mb-2'>State</p>
@@ -120,7 +213,10 @@ function Document() {
                                         value={selectedState}
                                         onChange={handleStateChange}
                                     >
-                                        <option value="">Choose state</option>
+                                        <option value="" disabled hidden>
+                                            {state ? state : 'Select State'}
+                                        </option>
+                                        {/* Add other state options if needed */}
                                     </select>
                                 </div>
                             </div>
@@ -145,7 +241,7 @@ function Document() {
                                 <div className='mb-2'>
                                     <button
                                         type="button"
-                                        className="bg-[#BEFEE9] py-2 px-4 mt-2 rounded-md text-deep-green"
+                                        className="bg-[#ECE9FC] py-2 px-4 mt-2 rounded-md text-deep-green"
                                         onClick={downloadForm}
                                     >
                                         Download
@@ -153,7 +249,7 @@ function Document() {
                                 </div>
                             </div>
 
-                            
+
                             <div className="text-deep-green font-bold text-left gap-2 mb-2">
                                 <p className='text-sm'>Means of ID</p>
                                 <p className="text-gray-700 text-sm font-thin w[360px]">Download and Upload a signed copy of this form in your profile</p>
@@ -196,7 +292,7 @@ function Document() {
 
                                 </div>
                             </div>
-                            {file && uploadProgress === 0 && (
+                            {/* {documentImage && uploadProgress === 0 && (
                                 <button
                                     type="button"
                                     className="bg-progress-green text-white p-2 mt-2 rounded-md"
@@ -221,7 +317,7 @@ function Document() {
                                         </div>
                                     </div>
                                 </div>
-                            )}
+                            )} */}
                             <div className='mt-6'>
                                 <p className='text-gray-700 text-sm mb-2'>Utilities Bill</p>
                                 <div className="relative">
@@ -243,14 +339,14 @@ function Document() {
                                                 <input
                                                     type="file"
                                                     accept=".pdf, .jpg, .png"
-                                                    onChange={handleFileChange}
+                                                    onChange={handleUtilityFileChange}
                                                 />
                                             </div>
                                         </div>
 
                                     </div>
                                 </div>
-                                {file && uploadProgress === 0 && (
+                                {/* {utilityImage && uploadProgress === 0 && (
                                     <button
                                         type="button"
                                         className="bg-progress-green text-white p-2 mt-2 rounded-md "
@@ -275,12 +371,22 @@ function Document() {
                                             </div>
                                         </div>
                                     </div>
-                                )}
+                                )} */}
                             </div>
                         </form>
                     </div>
+                    <div className="flex p-2">
+                        <button
+                            onClick={handleSubmit}
+                            className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto"
+                        >
+                            Submit
+                        </button>
+
+                    </div>
                 </div>
             </div>
+            {successModalOpen && <SuccessModal />}
         </>
 
     )

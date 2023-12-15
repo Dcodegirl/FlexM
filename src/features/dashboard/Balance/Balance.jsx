@@ -10,14 +10,11 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 // import styles from "./Balance.module.scss";
 
 
-const Balance = ({
-  walletBalance,
-  commissionBalance,
-  refreshOverviewData,
-  agentClassification,
-}) => {
+const Balance = ({}) => {
   const [showWallet, setShowWallet] = useState(false);
   const [aggregatorBalance, setAggregatorBalance] = useState(0.00);
+  const [walletBalance, setWalletBalance] = useState(2300.00);
+  const [commissionBalance, setCommissionBalance] = useState(2300.00);
   const [showCommission, setShowCommission] = useState(false);
   const [showAggregator, setShowAggregator] = useState(false);
 
@@ -33,37 +30,22 @@ const Balance = ({
     setShowAggregator(!showAggregator);
   };
 
-  const agentClassificationLowercase = agentClassification.toLowerCase();
-  const agentClassificationIcon =
-    agentClassificationLowercase === "premium"
-      ? premiumShield
-      : agentClassificationLowercase === "vip"
-      ? vipShield
-      : flexShield;
-  const agentClassificationText =
-    agentClassificationLowercase === "premium"
-      ? "Premium Agent"
-      : agentClassificationLowercase === "vip"
-      ? "VIP Agent"
-      : "Flex Agent";
-
-  const handleOnClick = () => {
-    refreshOverviewData();
-  };
+ 
+ 
   const balanceContent = showWallet ? (
-    <p>₦{formatToCurrency(walletBalance)}</p>
+    <span>₦{formatToCurrency(walletBalance)}</span>
   ) : (
-    <p>*********</p>
+    <span>*********</span>
   );
   const commissionContent = showCommission ? (
-    <p>₦{formatToCurrency(commissionBalance)}</p>
+    <span>₦{formatToCurrency(commissionBalance)}</span>
   ) : (
-    <p>*********</p>
+    <span>*********</span>
   );
   const aggregatorContent = showAggregator ? (
-    <p>₦{formatToCurrency(aggregatorBalance)}</p>
+    <span>₦{formatToCurrency(aggregatorBalance)}</span>
   ) : (
-    <p>*********</p>
+    <span>*********</span>
   );
 
   
@@ -135,12 +117,12 @@ const Balance = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    walletBalance: state.wallet.balance,
+// const mapStateToProps = (state) => {
+//   return {
+//     walletBalance: state.wallet.balance,
    
-    agentClassification: state.auth.user.agentClassification,
-  };
-};
+//     agentClassification: state.auth.user.agentClassification,
+//   };
+// };
 
-export default connect(mapStateToProps)(Balance);
+export default Balance;

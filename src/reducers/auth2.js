@@ -2,15 +2,12 @@ let initialState;
 
 const loginDetails = JSON.parse(sessionStorage.getItem("user"));
 
-
 if (loginDetails) {
   initialState = loginDetails;
 } else {
   initialState = {
     isAuthenticated: false,
     user: {},
-    walletBalance: 0,
-    transactionSettings: {},
   };
 }
 

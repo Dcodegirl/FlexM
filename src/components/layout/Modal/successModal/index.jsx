@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useHistory } from "react-router-dom";
-import success from '../../../../assets/images/success.svg';
+import success from '../../../../assets/images/succesmodal.svg';
 
 function SuccessModal() {
   const history = useHistory();
@@ -8,7 +8,7 @@ function SuccessModal() {
   const handleProceedBtn = async () => {
     try {
       // Assuming the API request is successful, navigate to otpVerification
-      history.push('/dashboard');
+      history.push('/signin');
     } catch (error) {
       // Handle API request error here
       console.error('API request error:', error);
@@ -17,7 +17,7 @@ function SuccessModal() {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
-      <div className="bg-white md:p-16 py-16 px-8 md:bg-bg-green md:border-[#00BD7A40] rounded-3xl border">
+      <div className="bg-white md:p-16 py-16 px-8 md:bg-bg-green md:border-border-primary rounded-3xl border">
         <div className="w-[350px] mt-6">
           <div className="flex flex-col text-center">
             <div className="mx-auto mb-6">
@@ -30,8 +30,8 @@ function SuccessModal() {
               <p>Congratulations, Your Profile has been created</p>
             </div>
             <div className=" mt-8">
-              <NavLink to="/dashboard">
-                <button className="bg-cico-green border rounded-lg h-14 w-full text-white">
+              <NavLink to="/login'">
+                <button className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 w-full text-white">
                   Proceed
                 </button>
               </NavLink>
