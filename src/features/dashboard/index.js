@@ -25,7 +25,7 @@ const Dashboard = ({ overlay, displayModal, hasSetPin }) => {
     useEffect(() => {
         if (!hasSetPin) {
             addToast(
-                'You currently dont have transaction pin yet, Kindly navigate to profile settings to set one',
+                'You currently dont have transaction pin yet, Kindly navigate to  settings to set one',
                 {
                     appearance: 'warning',
                     autoDismiss: false,
@@ -45,7 +45,7 @@ const Dashboard = ({ overlay, displayModal, hasSetPin }) => {
 const mapStateToProps = (state) => {
     return {
         overlay: state.modal.overlay,
-        hasSetPin: state.auth.user.hasSetPin,
+        hasSetPin: state.auth.has_pin,
     };
 };
 
