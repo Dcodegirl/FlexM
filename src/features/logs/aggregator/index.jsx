@@ -1,32 +1,61 @@
-import React from "react";
-import { connect } from "react-redux";
-import { setCurrentPage } from "../../../actions/page";
-import { setDisplayModal } from "../../../actions/modal";
+import React, { useEffect, useState } from "react";
+import axios from "../../../utils/axiosInstance";
 import WalletInfo from "../../dashboard/WalletInfo";
 import WalletBreakDown from "../../dashboard/WalleBreakdown";
-import CommissionLogs from "../commissions/CommissionLogs";
-import userGroup from "../../../assets/icons/users.svg";
+import WalletLogs from "../wallet/WalletLog";
 
+const Users = () => {
+  const [totalBalance, setTotalBalance] = useState(0);
+  const [currentBalance, setCurrentBalance] = useState({ amount: 0, growth_rate: 0 });
+  const [totalCashout, setTotalCashout] = useState({ amount: 0, growth_rate: 0 });
+  const [totalDeposit, setTotalDeposit] = useState({ amount: 0, growth_rate: 0 });
+  const [transactions, setTransactions] = useState([]);
 
-export const Users= ({ changeCurrentPage, displayModal }) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseTotalBalance = await axios.get('/main/balance');
+        setTotalBalance(responseTotalBalance.data.data);
+
+        const responseCurrentBalance = await axios.get('/main/current');
+        setCurrentBalance(responseCurrentBalance.data.data);
+
+        const responseTotalCashout = await axios.get('/main/withdrawal');
+        setTotalCashout(responseTotalCashout.data.data);
+
+        const responseTotalDeposit = await axios.get('/main/deposit');
+        setTotalDeposit(responseTotalDeposit.data.data);
+      
+      const responseTransactions = await axios.get('/main/transactions');
+        setTransactions(responseTransactions.data.data.list);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const walletInfoProps = {
     title: "Aggregator's Wallet Balance",
-    amount: "NGN 20,000,000",
+    amount: `NGN ${totalBalance.toLocaleString()}`,
   };
+
   return (
     <div className=''>
-      <WalletInfo walletInfoProp={walletInfoProps}/>
-      <WalletBreakDown/>
-      <CommissionLogs />
+      <WalletInfo walletInfoProp={walletInfoProps} />
+      <WalletBreakDown
+        walletBalance={totalBalance}
+        currentBalance={currentBalance.amount}
+        totalCashout={totalCashout.amount}
+        totalDeposit={totalDeposit.amount}
+        currentGrowthRate={currentBalance.growth_rate}
+        totalCashoutGrowthRate={totalCashout.growth_rate}
+        totalDepositGrowthRate={totalDeposit.growth_rate}
+      />
+      <WalletLogs transactions={transactions} />
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    changeCurrentPage: (payload) => dispatch(setCurrentPage(payload)),
-    displayModal: (payload) => dispatch(setDisplayModal(payload)),
-  };
-};
-
-export default connect(undefined, mapDispatchToProps)(Users);
+export default Users;
