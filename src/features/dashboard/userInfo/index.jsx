@@ -83,7 +83,7 @@ const UserInfo = () => {
           </div>
 
           <div>
-            <div className='cursor-pointer flex items-center'>
+          <div className='cursor-pointer flex items-center'>
               <p className='text-[#FFAC33] text-2xl font-medium'>Proceed</p>
               <img src={arrowright} alt="" />
             </div>
