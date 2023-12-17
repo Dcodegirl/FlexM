@@ -4,20 +4,14 @@ import ChartChad from '../ChartChad';
 
 const BarChart = ({ }) => {
 
-    const periods = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+    const periods = ['Weekly', 'Monthly', 'Yearly'];
     const [selectedPeriod, setSelectedPeriod] = useState('Monthly');
-    
+
     const handlePeriodSelect = (e) => {
-        // Handle the period change logic here
-        // You can fetch data for the selected period or perform any other actions
-        console.log(`Selected Period: ${e.target.value}`);
         setSelectedPeriod(e.target.value);
     };
 
     const handlePeriodChange = (period) => {
-        // Handle the period change logic here
-        // You can fetch data for the selected period or perform any other actions
-        console.log(`Selected Period: ${period}`);
         setSelectedPeriod(period);
     };
     return (
@@ -33,13 +27,15 @@ const BarChart = ({ }) => {
                     <div className="flex items-center justify-center gap-3 md:hidden">
                         <p>Sort By: </p>
                         <select onChange={handlePeriodSelect} className="border rounded bg-[#F1F1F1] py-1.5 px-3">
-                            <option value="Daily">Daily</option>
-                            <option value="Weekly">Weekly</option>
-                            <option value="Monthly">Monthly</option>
-                            <option value="Yearly">Yearly</option>
+                            {periods.map((periodOption) => (
+                                <option key={periodOption} value={periodOption.toLowerCase()}>
+                                    {periodOption}
+                                </option>
+                            ))}
                         </select>
                     </div>
-            
+
+
                     {/* Add a bar or any other UI element for period selection */}
                     <div className="md:flex hidden">
                         {periods.map((period) => (
@@ -54,7 +50,7 @@ const BarChart = ({ }) => {
                         ))}
                     </div>
                 </div>
-                <ChartChad />
+                <ChartChad period={selectedPeriod.toLowerCase()} />
             </div>
         </>
     );
