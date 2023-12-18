@@ -54,7 +54,6 @@ export const startLoginUser = (payload, history) => async (dispatch) => {
       // Use history.replace instead of history.push to replace the current entry
       history.replace('/overview');
       window.location.reload();
-      console.log(authDetails)
 
     }
 
