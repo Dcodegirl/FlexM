@@ -32,34 +32,36 @@ export const startLoginUser = (payload, history) => async (dispatch) => {
     const token = data.data.token;
     sessionStorage.setItem('token', token);
     // console.log(token)
-    
+
 
     // Extract necessary data from the response
-    if(token){
-        sessionStorage.setItem('isAuthenticated', true);
-        const authDetails = {
-            isAuthenticated: true,
-            user:{
-                ...data.data.user_info
-            },
-            bank:{
-                ...data.data.bank_info
-            },
-            has_pin: data.data.has_pin,
+    if (token) {
+      sessionStorage.setItem('isAuthenticated', true);
+      const authDetails = {
+        isAuthenticated: true,
+        user: {
+          ...data.data.user_info
+        },
+        bank: {
+          ...data.data.bank_info
+        },
+        has_pin: data.data.has_pin,
 
-    
-        };
-        dispatch(loginUser(authDetails));
-        sessionStorage.setItem('user', JSON.stringify(authDetails));
-        history.push('/overview')
-        console.log(authDetails)
+
+      };
+      dispatch(loginUser(authDetails));
+      sessionStorage.setItem('user', JSON.stringify(authDetails));
+      // Use history.replace instead of history.push to replace the current entry
+      history.replace('/overview');
+      window.location.reload();
+      console.log(authDetails)
 
     }
-    
+
 
 
     // Dispatch action to update the store with code
-    
+
   } catch (error) {
     // Handle login error
     console.error('Login error:', error);
