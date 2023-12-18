@@ -35,7 +35,7 @@ const WalletBreakDown = ({
             <div className="flex justify-between items-center">
               <div className="flex flex-col gap-3">
                 <p>Total Cashout</p>
-                <p className="font-extrabold text-xl">{`₦${totalCashout.toFixed(2)}`}</p>
+                <p className="font-extrabold text-xl">{`₦${typeof totalCashout === 'number' ? totalCashout.toFixed(2) : totalCashout}`}</p>
               </div>
               <img src={withdrawal} alt="" />
             </div>
@@ -48,7 +48,7 @@ const WalletBreakDown = ({
             <div className="flex justify-between items-center">
               <div className="flex flex-col gap-3">
                 <p>Total Funds Transfer</p>
-                <p className="font-extrabold text-xl">{`₦${totalDeposit.toFixed(2)}`}</p>
+                <p className="font-extrabold text-xl">{`₦${typeof totalDeposit === 'number' ? totalDeposit.toFixed(2) : totalDeposit}`}</p>
               </div>
               <img src={deposit} alt="" />
             </div>

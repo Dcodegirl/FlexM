@@ -35,20 +35,22 @@ const Users = () => {
 
     fetchData();
   }, []);
-
+  const formatAmount = (amount) => {
+    return amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
   const walletInfoProps = {
     title: 'Main Wallet Balance',
-    amount: `NGN ${totalBalance.toLocaleString()}`,
+    amount: `NGN ${formatAmount(totalBalance)}`,
   };
 
   return (
     <div className=''>
       <WalletInfo walletInfoProp={walletInfoProps} />
       <WalletBreakDown
-        walletBalance={totalBalance}
-        currentBalance={currentBalance.amount}
-        totalCashout={totalCashout.amount}
-        totalDeposit={totalDeposit.amount}
+        walletBalance={formatAmount(totalBalance)}
+        currentBalance={formatAmount(currentBalance.amount)}
+        totalCashout={formatAmount(totalCashout.amount)}
+        totalDeposit={formatAmount(totalDeposit.amount)}
         currentGrowthRate={currentBalance.growth_rate}
         totalCashoutGrowthRate={totalCashout.growth_rate}
         totalDepositGrowthRate={totalDeposit.growth_rate}
