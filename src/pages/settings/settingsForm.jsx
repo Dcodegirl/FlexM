@@ -1,31 +1,109 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faDownload, faUpload } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-import svg from '../../assets/images/Upload.svg'
-import downloadsvg from '../../assets/images/downloading.svg';
-import profileAvatar from '../../assets/images/avatarImg.svg'
-
+import React, { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEye,
+  faEyeSlash,
+  faDownload,
+  faUpload,
+} from "@fortawesome/free-solid-svg-icons";
+import axios from "../../utils/axiosInstance";
+import svg from "../../assets/images/Upload.svg";
+import downloadsvg from "../../assets/images/downloading.svg";
+import profileAvatar from "../../assets/images/avatarImg.svg";
 
 const Settings = () => {
   const [step, setStep] = useState(1);
   const [tabIndex, setTabIndex] = useState(1);
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [payload, setPayload] = useState({
+    email: "",
+    password: {
+      old_password: "",
+      new_password: "",
+      confirm_password: "",
+    },
+    image: "",
+  });
+  const [docUploadPayload, setDocUploadPayload] = useState({
+    business_address: "",
+    document: {
+        type: "",
+        image: ""
+    },
+    utility: {
+        image: ""
+    },
+    "guarantor": {
+        file: ""
+    }
+  })
+  const [userData, setUserData] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedState, setSelectedState] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedState, setSelectedState] = useState("");
   const [selectedFiles, setSelectedFiles] = useState(null);
-  const [selectedDocument, setSelectedDocument] = useState('');
-    const [documentImage, setDocumentImage] = useState(null);
-    const [utilityImage, setUtilityImage] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(null);
-    const fileInputRef = useRef(null);
+  const [selectedDocument, setSelectedDocument] = useState("");
+  const [documentImage, setDocumentImage] = useState(null);
+  const [utilityImage, setUtilityImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const fileInputRef = useRef(null);
   const [uploadProgress, setUploadProgress] = useState(0);
 
- 
+  const CONTACT_DETAILS = "/agent/contact";
+
+  const handleUserBioData =async()=>{
+    const bio = {
+      ...docUploadPayload,
+    utility: {
+      image: utilityImage, 
+  },
+    }
+    try {
+      let data = await axios.put('/agent/bio-data', bio)
+      console.log(data)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    // Make API call to fetch user information
+    axios
+      .get("/agent/userinfo")
+      .then((response) => {
+        setUserData(response.data.data.agent);
+        setPayload({
+          ...payload,
+          email: response.data.data.agent.email
+          
+        })
+        selectedCountry(response.data.data.agent.country || '')
+        selectedState(response.data.data.agent.state || '')
+
+      })
+      .catch((error) => {
+        console.error("Error fetching user information:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.put(CONTACT_DETAILS);
+        const userProfileData = response.data; // Adjust this based on your API response structure
+        console.log(response.data);
+
+        // setEmail(userProfileData.email || '');
+        // setPassword(userProfileData.password || '');
+        // setConfirmPassword(userProfileData.password || '');
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   const handleUpload = () => {
     // Perform upload logic
@@ -42,54 +120,65 @@ const Settings = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
+    let reader = new FileReader();
+
+  reader.readAsDataURL(file);
+
+  reader.onload = function() {
+    setPayload({
+      ...payload,
+      image: reader.result,
+    })
+  };
+
+    // console.log(URL.createObjectURL(selectedImage))
 
     // You can perform additional actions with the selected image, such as uploading to a server
   };
 
-    
   const linkRef = useRef(null);
   const handleDocumentChange = (event) => {
     setSelectedDocument(event.target.value);
-};
+  };
 
-const handleUtilityFileChange = async (event) => {
+  const handleUtilityFileChange = async (event) => {
     const selectedFile = event.target.files[0];
 
     if (selectedFile) {
-        try {
-            convertUtilityToBase64Utility(selectedFile);
-            console.log('utility image = ', selectedFile)
-        } catch (error) {
-            console.error('Error encoding utility image:', error);
-        }
+      try {
+        convertUtilityToBase64Utility(selectedFile);
+        console.log("utility image = ", selectedFile);
+      } catch (error) {
+        console.error("Error encoding utility image:", error);
+      }
     }
-};
-const convertUtilityToBase64Utility = (file) => {
+  };
+  const convertUtilityToBase64Utility = (file) => {
     if (file) {
-        try {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setUtilityImage(reader.result);
-            };
-            reader.readAsDataURL(file);
-        } catch (error) {
-            console.error('Error encoding utility image:', error);
-        }
+      try {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setUtilityImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+      } catch (error) {
+        console.error("Error encoding utility image:", error);
+      }
     }
-};
-const downloadForm = () => {
+  };
+  const downloadForm = () => {
     // Replace with the actual URL of the form document to be downloaded
-    const formDocumentURL = '/path-to-your-form-document.pdf';
+    const formDocumentURL = "/path-to-your-form-document.pdf";
     window.open(formDocumentURL);
-};
+  };
   const handleDownload = () => {
     // Replace 'your_file_url_here' with the actual URL of the file you want to download
-    const fileUrl = 'your_file_url_here';
+    const fileUrl = "your_file_url_here";
 
     // Create a download link
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = fileUrl;
-    link.download = 'downloaded-file'; // Specify the desired filename
+    link.download = "downloaded-file"; // Specify the desired filename
 
     // Append the link to the container ref and trigger a click event
     linkRef.current.appendChild(link);
@@ -98,7 +187,6 @@ const downloadForm = () => {
     // Remove the link from the container ref
     linkRef.current.removeChild(link);
   };
-  
 
   const handleFileChange = (event) => {
     // Access the selected files from the input
@@ -112,15 +200,47 @@ const downloadForm = () => {
     // Perform actions with the selected files, e.g., upload to a server
     if (selectedFiles) {
       // Here, you can handle file uploads or any other logic
-      console.log('Selected files:', selectedFiles);
+      console.log("Selected files:", selectedFiles);
     }
   };
 
   const statesInNigeria = [
-    'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue', 'Borno',
-    'Cross River', 'Delta', 'Ebonyi', 'Edo', 'Ekiti', 'Enugu', 'Gombe', 'Imo', 'Jigawa',
-    'Kaduna', 'Kano', 'Katsina', 'Kebbi', 'Kogi', 'Kwara', 'Lagos', 'Nasarawa', 'Niger',
-    'Ogun', 'Ondo', 'Osun', 'Oyo', 'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara'
+    "Abia",
+    "Adamawa",
+    "Akwa Ibom",
+    "Anambra",
+    "Bauchi",
+    "Bayelsa",
+    "Benue",
+    "Borno",
+    "Cross River",
+    "Delta",
+    "Ebonyi",
+    "Edo",
+    "Ekiti",
+    "Enugu",
+    "Gombe",
+    "Imo",
+    "Jigawa",
+    "Kaduna",
+    "Kano",
+    "Katsina",
+    "Kebbi",
+    "Kogi",
+    "Kwara",
+    "Lagos",
+    "Nasarawa",
+    "Niger",
+    "Ogun",
+    "Ondo",
+    "Osun",
+    "Oyo",
+    "Plateau",
+    "Rivers",
+    "Sokoto",
+    "Taraba",
+    "Yobe",
+    "Zamfara",
   ];
 
   const handleStateChange = (event) => {
@@ -130,17 +250,17 @@ const downloadForm = () => {
   useEffect(() => {
     // Fetch all countries using the restcountries API
     const fetchCountries = async () => {
-        try {
-          const response = await axios.get('https://restcountries.com/v3.1/all');
-          // Sort the countries alphabetically by name
-          const sortedCountries = response.data.sort((a, b) =>
-            a.name.common.localeCompare(b.name.common)
-          );
-          setCountries(sortedCountries);
-        } catch (error) {
-          console.error('Error fetching countries:', error);
-        }
-      };
+      try {
+        const response = await axios.get("https://restcountries.com/v3.1/all");
+        // Sort the countries alphabetically by name
+        const sortedCountries = response.data.sort((a, b) =>
+          a.name.common.localeCompare(b.name.common)
+        );
+        setCountries(sortedCountries);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
     fetchCountries();
   }, []);
 
@@ -156,127 +276,186 @@ const downloadForm = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const formTitles = ['Contact Details', 'Biodata', 'Transaction Pin'];
+  const formTitles = ["Contact Details", "Biodata", "Transaction Pin"];
 
   const handleStepChange = (newStep) => {
     setStep(newStep);
     setTabIndex(newStep);
   };
 
-  const handleSaveChanges = () => {
-    console.log('Changes saved!');
+  const handleSaveChanges = async () => {
+    try {
+      // Send a request to update the user profile
+      await axios.put(CONTACT_DETAILS, payload);
+
+      console.log("Changes saved!");
+    } catch (error) {
+      console.error("Error saving changes:", error);
+    }
   };
 
   let currentStepComponent;
-
+  console.log(userData);
   switch (step) {
     case 1:
       currentStepComponent = (
         <div className="md:p-20 p-5 text-2xl">
           {/* Replace the following comment with your actual contact details form */}
-          <form className='flex flex-col'>
-            <div className='flex gap-10 items-center my-8'>
-              <div className='flex flex-col text-xl'>
-                <label htmlFor="phone number" className='my-3'>Phone Number:</label>
-                <input type="number" placeholder='Type...' id="phone-number" name="phone number" className='outline outline-gray-100 py-3 px-3 md:w-[500px] w-full' />
+          <form className="flex flex-col">
+            <div className="flex gap-10 items-center my-8">
+              <div className="flex flex-col text-xl">
+                <label htmlFor="phone number" className="my-3">
+                  Phone Number:
+                </label>
+                <input
+                  type="number"
+                  placeholder="Type..."
+                  id="phone-number"
+                  name="phone number"
+                  value={userData ? userData.business_phone : ""}
+                  className="outline outline-gray-100 py-3 px-3 md:w-[500px] w-full"
+                  disabled
+                />
               </div>
-              <div className='flex flex-col'>
-                <label htmlFor="email" className='my-3'>Email:</label>
-                <input type="email" placeholder='Type...' id="email" name="email" className='outline outline-gray-100 py-3 px-1 md:w-[500px] w-full' />
+              <div className="flex flex-col">
+                <label htmlFor="email" className="my-3">
+                  Email:
+                </label>
+                <input
+                  type="email"
+                  placeholder="Type..."
+                  id="email"
+                  name="email"
+                  className="outline outline-gray-100 py-3 px-1 md:w-[500px] w-full"
+                  value={userData ? userData.email : ""}
+                />
               </div>
             </div>
-            <div className='flex gap-10 items-center my-8'>
-              <div className='flex flex-col'>
-                <label htmlFor="password" className='my-3'>Password:</label>
+            <div className="flex gap-10 items-center my-8">
+              <div className="flex flex-col">
+                <label htmlFor="password" className="my-3">
+                  Old Password:
+                </label>
                 <div className="relative">
-      <input
-        type={showPassword ? 'text' : 'password'}
-        id="password"
-        name="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder='***********'
-        className='outline outline-gray-100 py-3 px-3 md:w-[500px] w-full pr-12' // Adjust paddingRight to accommodate the icon
-        required
-      />
-      <button
-        type="button"
-        onClick={handleTogglePasswordVisibility}
-        className="password-toggle absolute inset-y-0 right-0 flex items-center cursor-pointer"
-      >
-        <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-      </button>
-    </div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    value={payload.password.old_password}
+                    onChange={(e) =>
+                      setPayload({
+                        ...payload,
+                        password: {
+                          ...payload.password,
+                          old_password: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder="***********"
+                    className="outline outline-gray-100 py-3 px-3 md:w-[500px] w-full pr-12" // Adjust paddingRight to accommodate the icon
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={handleTogglePasswordVisibility}
+                    className="password-toggle absolute inset-y-0 right-0 flex items-center cursor-pointer"
+                  >
+                    <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                  </button>
+                </div>
               </div>
-              <div className='flex flex-col '>
-                <label htmlFor="confirmPassword" className='my-3'>Confirm Password:</label>
+              <div className="flex flex-col ">
+                <label htmlFor="confirmPassword" className="my-3">
+                  New Password:
+                </label>
                 <div className="password-input relative">
                   <input
-                    type={showConfirmPassword ? 'text' : 'password'}
+                    type={showConfirmPassword ? "text" : "password"}
                     id="confirmPassword"
                     name="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder='***********'
-                    className='outline outline-gray-100 py-3 px-3 md:w-[500px] w-full pr-12' // Adjust paddingRight to accommodate the icon
+                    value={payload.password.new_password}
+                    onChange={(e) =>
+                      setPayload({
+                        ...payload,
+                        password: {
+                          ...payload.password,
+                          new_password: e.target.value,
+                          confirm_password: e.target.value
+                        },
+                      })
+                    }
+                    placeholder="***********"
+                    className="outline outline-gray-100 py-3 px-3 md:w-[500px] w-full pr-12" // Adjust paddingRight to accommodate the icon
                     required
                   />
                   <button
                     type="button"
                     onClick={handleToggleConfirmPasswordVisibility}
                     className="password-toggle absolute inset-y-0 right-0 flex items-center cursor-pointer"
-                    >
-                    <FontAwesomeIcon icon={showConfirmPassword ? faEye : faEyeSlash} />
+                  >
+                    <FontAwesomeIcon
+                      icon={showConfirmPassword ? faEye : faEyeSlash}
+                    />
                   </button>
                 </div>
               </div>
             </div>
             <div className="flex gap-10 items-center my-8">
-      {/* Display the selected image (if any) */}
-      <div className='flex flex-col'>
-      {selectedImage && (
-        <img
-          src={URL.createObjectURL(selectedImage)}
-          alt="Selected"
-          className="mb-4 rounded-lg"
-          style={{ maxWidth: '300px', maxHeight: '300px' }}
-        />
-      )}
+              {/* Display the selected image (if any) */}
+              <div className="flex flex-col">
+                {/* {selectedImage && (
+                  <img
+                    src={}
+                    alt="Selected"
+                    className="mb-4 rounded-lg"
+                    style={{ maxWidth: "300px", maxHeight: "300px" }}
+                  />
+                )} */}
 
-      {/* Image upload input */}
-      <label htmlFor="imageInput" className="mb-2">
-          Image:
-        </label>
-        <input
-          type="file"
-          id="imageInput"
-          name="image"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="mb-4"
-          ref={fileInputRef} // Reference to the hidden file input
-          style={{ display: 'none' }} // Hide the file input
-        />
-        <div className='flex flex-col border border-gray-100 items-center p-6'>
-          <img src={profileAvatar} alt="" className='h[66px] w-[66px]' />
-          <button type="button" className="bg-white text-white px-4 py-2 rounded" onClick={handleUploadButtonClick}>
-            <img src={svg} alt="" />
-          </button>
-          <p className='w-1/2 text-center'>
-            Click to upload or drag and drop SVG, PNG, JPG (max, 800*400px)
-          </p>
-        </div>
+                {/* Image upload input */}
+                <label htmlFor="imageInput" className="mb-2">
+                  Image:
+                </label>
 
-      
-      </div>
-     
+                <div className="flex flex-col border border-gray-100 items-center p-6">
+                  <input
+                    type="file"
+                    id="imageInput"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className=" mb-4"
+                    ref={fileInputRef} // Reference to the hidden file input
+                    style={{ display: "none" }}
+                  />
+                  <div className="h-20 w-20 overflow-hidden rounded-full">
+                  <img alt=""  src={selectedImage ? URL.createObjectURL(selectedImage) : profileAvatar} className="w-full h-full"/>
+                  </div>
+                 
+                  <button
+                    type="button"
+                    className="bg-white text-white px-4 py-2 rounded"
+                    onClick={handleUploadButtonClick}
+                  >
+                    <img src={svg} alt="" />
+                  </button>
+                  <p className="w-1/2 text-center">
+                    Click to upload or drag and drop SVG, PNG, JPG (max,
+                    800*400px)
+                  </p>
+                </div>
+              </div>
 
-      {/* Additional form elements or buttons can be added here */}
-      
-            <div className='flex gap-10 items-center my-8'></div>
+              {/* Additional form elements or buttons can be added here */}
+
+              <div className="flex gap-10 items-center my-8"></div>
             </div>
 
-            <button type="button" className=' bg-gradient-to-l from-[#0E156F]  to-[#8D0C91] hover:bg-gradient-to-r from-[#0E156F] to-[#8D0C91] py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500' onClick={handleSaveChanges}>
+            <button
+              type="button"
+              className=" bg-gradient-to-l from-[#0E156F]  to-[#8D0C91] hover:bg-gradient-to-r from-[#0E156F] to-[#8D0C91] py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+              onClick={handleSaveChanges}
+            >
               Save Changes
             </button>
           </form>
@@ -288,378 +467,466 @@ const downloadForm = () => {
         <div>
           {/* Add your biodata form here */}
           <div className="md:p-20 p-5 text-2xl">
-          {/* Replace the following comment with your actual contact details form */}
-          <form className='flex flex-col'>
-            <div className='flex gap-10 items-center my-8'>
-              <div className='flex flex-col text-xl'>
-                <label htmlFor="phone number" className='my-3'>Legal First Name</label>
-                <input type="text" placeholder='Type...' id="phone-number" name="phone number" className='outline outline-gray-100  md:py-3 md:px-3 p-2 md:w-[500px] w-full' />
-              </div>
-              <div className='flex flex-col'>
-                <label htmlFor="email" className='my-3'>Legal Last Name</label>
-                <input type="text" id="email" placeholder='Type...' name="email" className='outline outline-gray-100 md:p-3 p-2 md:w-[500px] w-full' />
-              </div>
-            </div>
-            <div className='flex md:flex-row flex-col md:justify-between md:items-center my-8 '>
-              <div className='flex flex-col'>
-                <label htmlFor="password" className='my-3'>Address</label>
-                <div className="password-input">
+            {/* Replace the following comment with your actual contact details form */}
+            <form className="flex flex-col">
+              <div className="flex gap-10 items-center my-8">
+                <div className="flex flex-col text-xl">
+                  <label htmlFor="phone number" className="my-3">
+                    Legal First Name
+                  </label>
                   <input
-                    type={showPassword ? 'text' : 'password'}
-                    id="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder='Type Address'
-                    className='outline outline-gray-100 md:p-4 p-2 md:w-[500px] w-full'
-                    required
+                    type="text"
+                    placeholder="Type..."
+                    id="phone-number"
+                    name="phone number"
+                    className="outline outline-gray-100  md:py-3 md:px-3 p-2 md:w-[500px] w-full"
+                    value={userData ? userData.first_name : ""}
+                    disabled
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="email" className="my-3">
+                    Legal Last Name
+                  </label>
+                  <input
+                    type="text"
+                    id="email"
+                    placeholder="Type..."
+                    name="email"
+                    className="outline outline-gray-100 md:p-3 p-2 md:w-[500px] w-full"
+                    value={userData ? userData.last_name : ""}
+                    disabled
                   />
                 </div>
               </div>
-              <div className='flex flex-col'>
-                <label htmlFor="countrySelect" className='my-3'>Country:</label>
-                <select id="countrySelect" name="country" onChange={handleCountryChange} value={selectedCountry} className='outline outline-gray-100 md:p-4 p-2 md:w-[235px] w-full'>
-                    <option value="" disabled>Select Country</option>
-                    {countries.map((country) => (
-                    <option key={country.cca2} value={country.cca2}>
-                        {country.name.common}
+              <div className="flex md:flex-row flex-col md:justify-between md:items-center my-8 ">
+                <div className="flex flex-col">
+                  <label htmlFor="addres" className="my-3">
+                    Address
+                  </label>
+                  <div className="password-input">
+                    <input
+                      
+                      id="password"
+                      name="password"
+                      onChange={(e) => console.log(e.target.value)}
+                      placeholder="Type Address"
+                      className="outline outline-gray-100 md:p-4 p-2 md:w-[500px] w-full"
+                      value={userData ? userData.business_address : ""}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="countrySelect" className="my-3">
+                    Country:
+                  </label>
+                  <select
+                    id="countrySelect"
+                    name="country"
+                    onChange={handleCountryChange}
+                    value={userData ? userData.country : ""}
+                    className="outline outline-gray-100 md:p-4 p-2 md:w-[235px] w-full"
+                  >
+                    <option value="" disabled>
+                      Select Country
                     </option>
+                    {countries.map((country) => (
+                      <option key={country.cca2} value={country.cca2}>
+                        {country.name.common}
+                      </option>
                     ))}
-                </select>
+                  </select>
 
-                {selectedCountry && (
+                  {selectedCountry && (
                     <div>
-                    <h3>Selected Country:</h3>
-                    <p>{selectedCountry}</p>
+                      <h3>Selected Country:</h3>
+                      <p>{selectedCountry}</p>
                     </div>
-                )}
-              </div>
-             
-              <div className='flex flex-col'>
-              <label htmlFor="stateSelect" className='my-3'>State</label>
-      <select id="stateSelect" name="state" onChange={handleStateChange} value={selectedState} className='outline outline-gray-100 md:p-4 p-2 md:w-[235px] w-full'>
-        <option value="" disabled>Select State</option>
-        {statesInNigeria.map((state, index) => (
-          <option key={index} value={state}>
-            {state}
-          </option>
-        ))}
-      </select>
+                  )}
+                </div>
 
-      {selectedState && (
-        <div>
-          <h3>Selected State:</h3>
-          <p>{selectedState}</p>
-        </div>
-      )}
+                <div className="flex flex-col">
+                  <label htmlFor="stateSelect" className="my-3">
+                    State
+                  </label>
+                  <select
+                    id="stateSelect"
+                    name="state"
+                    onChange={handleStateChange}
+                    value={userData ? userData.country : ""}
+                    className="outline outline-gray-100 md:p-4 p-2 md:w-[235px] w-full"
+                  >
+                    <option value="" disabled>
+                      Select State
+                    </option>
+                    {statesInNigeria.map((state, index) => (
+                      <option key={index} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
 
-              </div>
-            </div>
-            <div className='flex md:flex-row flex-col md:justify-between md:items-center my-8 '>
-                
-              <div className='flex flex-col'>
-              <div className="text-deep-green font-bold text-left gap-2 mb-2 flex flex-col">
-                                <p className='text-2xl'>Guarantor Form</p>
-                                <p className="text-gray-700 text-2xl font-thin w-[360px]">Download and Upload a signed copy of this form in your profile</p>
-                            </div>
-                            <div className=' bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 md:p-6 p-3 flex items-center justify-between mt-4 md:w-[300px] lg:w-[500px]'>
-                                <div className='flex gap-2'>
-                                    <img
-                                        src={downloadsvg} 
-                                        alt="Upload Icon"
-                                        className="h-10 w-10"
-                                    />
-                                    <div className='flex flex-col'>
-                                        <p className="text-2xl text-gray-900">Download Guarantor Form</p>
-                                        <p className="block text-gray-400 text-xs">Guarantor form | 10MB max.</p>
-                                    </div>
-
-                                </div>
-                                <div className='mb-2'>
-                                    <button
-                                        type="button"
-                                        className="bg-[#ECE9FC] py-2 md:px-6 px-3 mt-2 rounded-md text-deep-green"
-                                        onClick={downloadForm}
-                                    >
-                                        Download
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className='mt-6'>
-      <p className='text-gray-700 text-2xl mb-2'>Utilities Bill</p>
-      <div className="relative">
-        <div className="border border-gray-300 border-dotted p-2 rounded-md h-16 w-full ">
-          {utilityImage ? (
-            // Display the uploaded image information
-            <div className="flex gap-5 items-center justify-between">
-              <div className='flex gap-2'>
-                <img
-                  src={svg}
-                  alt="Uploaded Icon"
-                  className="h-10 w-10"
-                />
-                <div className='flex flex-col'>
-                  <p className="text-2xl text-gray-900">Image Uploaded</p>
+                  {selectedState && (
+                    <div>
+                      <h3>Selected State:</h3>
+                      <p>{selectedState}</p>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div>
-                {/* Optionally, add an "Edit" button or additional actions */}
-                <button
-                  type="button"
-                  className="bg-blue-500 text-white p-2 rounded-md"
-                  onClick={() => setUtilityImage(null)}
-                >
-                  Edit
-                </button>
-              </div>
-            </div>
-          ) : (
-            // Display the "Tap to Upload" section
-            <label htmlFor="utilityFileInput" className="flex gap-2 cursor-pointer">
-              <div className='flex gap-2'>
-                <img
-                  src={svg}
-                  alt="Upload Icon"
-                  className="h-10 w-10"
-                />
-                <div className='flex flex-col'>
-                  <p className="text-2xl text-gray-900">Tap to Upload</p>
-                  <p className="block text-gray-400 text-xs">PNG, JPG | 10MB max</p>
-                </div>
-              </div>
-              <input
-                type="file"
-                accept=".pdf, .jpg, .png"
-                id="utilityFileInput"
-                className="hidden"
-                onChange={handleUtilityFileChange}
-              />
-            </label>
-          )}
-        </div>
+              <div className="flex md:flex-row flex-col md:justify-between md:items-center my-8 ">
+                <div className="flex flex-col">
+                  <div className="text-deep-green font-bold text-left gap-2 mb-2 flex flex-col">
+                    <p className="text-2xl">Guarantor Form</p>
+                    <p className="text-gray-700 text-2xl font-thin w-[360px]">
+                      Upload a signed copy of this form in your
+                      profile
+                    </p>
+                  </div>
+                  <div className=" bg-white border border-gray-100 rounded-lg h-14 w-full mb-6 md:p-6 p-3 flex items-center justify-between mt-4 md:w-[300px] lg:w-[500px] relative">
+                  <input
+                      type= 'file'
+                      id="upload"
+                      name="upload"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                          
+                          let reader = new FileReader();
 
-        {/* Conditionally render the Upload button based on the state */}
-        {utilityImage && uploadProgress === 0 && (
-          <button
-            type="button"
-            className="bg-progress-green text-white p-2 mt-2 rounded-md"
-            onClick={handleUpload}
-          >
-            Upload
-          </button>
-        )}
+                        reader.readAsDataURL(file);
 
-        {uploadProgress > 0 && (
-          <div className="relative mt-4">
-            {/* Display the upload progress */}
-            <div className="flex h-2 mb-4 overflow-hidden text-xs bg-progress-light rounded-xl">
-              <div
-                style={{ width: `${uploadProgress}%` }}
-                className="flex flex-col text-center whitespace-nowrap text-white bg-progress-green shadow-none w-0 h-4"
-              ></div>
-            </div>
-            <div className="flex mb-2 items-center justify-between">
-              <div className="text-right">
-                <span className="text-xs font-semibold inline-block text-progress-green">
-                  {uploadProgress}% <span> Completed</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+                        reader.onload = function() {
+                          setDocUploadPayload({
+                            ...docUploadPayload,
+                            guarantor:{
+                              file: reader.result
+                            }
+                          })
+                        };
+                        
 
-              </div>
-              <div className='flex flex-col'>
-                
+                      }}
+                      className="outline outline-gray-100 md:p-4 p-2 w-full absolute top-0 left-0 opacity-0 z-10"
+                      required
+                    />
+                    <div className="flex gap-2">
+                      <img
+                        src={downloadsvg}
+                        alt="Upload Icon"
+                        className="h-10 w-10"
+                      />
+                      <div className="flex flex-col">
+                        <p className="text-2xl text-gray-900">
+                          Upload Guarantor Form
+                        </p>
+                        <p className="block text-gray-400 text-xs">
+                          Guarantor form | 10MB max.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mb-2 ">
+                      <button
+                        type="button"
+                        className="bg-[#ECE9FC] py-3 md:px-6 px-3 mt-2 rounded-md text-deep-green"
+                        onClick={downloadForm}
+                      >
+                        Upload
+                      </button>
+                    </div>
+                  </div>
 
-              <div className="text-deep-green font-bold text-left gap-2 mb-2 my-4 md:my-0">
-                                <p className='text-2xl'>Means of ID</p>
-                                <p className="text-gray-700 text-2xl font-thin w[360px]">Download and Upload a signed copy of this form in your profile</p>
+                  <div className="mt-6">
+                    <p className="text-gray-700 text-2xl mb-2">
+                      Utilities Bill
+                    </p>
+                    <div className="relative">
+                      <div className="border border-gray-300 border-dotted p-2 rounded-md h-16 w-full ">
+                        {utilityImage ? (
+                          // Display the uploaded image information
+                          <div className="flex gap-5 items-center justify-between">
+                            <div className="flex gap-2">
+                              <img
+                                src={svg}
+                                alt="Uploaded Icon"
+                                className="h-10 w-10"
+                              />
+                              <div className="flex flex-col">
+                                <p className="text-2xl text-gray-900">
+                                  Image Uploaded
+                                </p>
+                              </div>
                             </div>
-                            <select
-                                className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 md:p-4 p-2'
-                                value={selectedDocument}
-                                onChange={handleDocumentChange}
+                            <div>
+                              {/* Optionally, add an "Edit" button or additional actions */}
+                              <button
+                                type="button"
+                                className="bg-blue-500 text-white p-2 rounded-md"
+                                onClick={() => setUtilityImage(null)}
+                              >
+                                Edit
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          // Display the "Tap to Upload" section
+                          <label
+                            htmlFor="utilityFileInput"
+                            className="flex gap-2 cursor-pointer"
+                          >
+                            <div className="flex gap-2">
+                              <img
+                                src={svg}
+                                alt="Upload Icon"
+                                className="h-10 w-10"
+                              />
+                              <div className="flex flex-col">
+                                <p className="text-2xl text-gray-900">
+                                  Tap to Upload
+                                </p>
+                                <p className="block text-gray-400 text-xs">
+                                  PNG, JPG | 10MB max
+                                </p>
+                              </div>
+                            </div>
+                            <input
+                              type="file"
+                              accept=".pdf, .jpg, .png"
+                              id="utilityFileInput"
+                              className="hidden"
+                              onChange={handleUtilityFileChange}
+                            />
+                          </label>
+                        )}
+                      </div>
+
+                      {/* Conditionally render the Upload button based on the state */}
+                      {utilityImage && uploadProgress === 0 && (
+                        <button
+                          type="button"
+                          className="bg-progress-green text-white p-2 mt-2 rounded-md"
+                          onClick={handleUpload}
+                        >
+                          Upload
+                        </button>
+                      )}
+
+                      {uploadProgress > 0 && (
+                        <div className="relative mt-4">
+                          {/* Display the upload progress */}
+                          <div className="flex h-2 mb-4 overflow-hidden text-xs bg-progress-light rounded-xl">
+                            <div
+                              style={{ width: `${uploadProgress}%` }}
+                              className="flex flex-col text-center whitespace-nowrap text-white bg-progress-green shadow-none w-0 h-4"
+                            ></div>
+                          </div>
+                          <div className="flex mb-2 items-center justify-between">
+                            <div className="text-right">
+                              <span className="text-xs font-semibold inline-block text-progress-green">
+                                {uploadProgress}% <span> Completed</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-deep-green font-bold text-left gap-2 mb-2 my-4 md:my-0">
+                    <p className="text-2xl">Means of ID</p>
+                    <p className="text-gray-700 text-2xl font-thin w[360px]">
+                      Download and Upload a signed copy of this form in your
+                      profile
+                    </p>
+                  </div>
+                  <select
+                    className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 md:p-4 p-2"
+                    value={selectedDocument}
+                    onChange={handleDocumentChange}
+                  >
+                    <option value="">Choose Document Type</option>
+                    <option value="drivers-license">Driver's License</option>
+                    <option value="nin-id">NIN ID</option>
+                    <option value="int-passport">Int Passport</option>
+                  </select>
+                  <div className="relative">
+                    <div className="border border-gray-300 border-dotted p-2 rounded-md h-16 w-full ">
+                      {utilityImage ? (
+                        // Display the uploaded image information
+                        <div className="flex gap-5 items-center justify-between">
+                          <div className="flex gap-2">
+                            <img
+                              src={svg}
+                              alt="Uploaded Icon"
+                              className="h-10 w-10"
+                            />
+                            <div className="flex flex-col">
+                              <p className="text-2xl text-gray-900">
+                                Image Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div>
+                            {/* Optionally, add an "Edit" button or additional actions */}
+                            <button
+                              type="button"
+                              className="bg-blue-500 text-white p-2 rounded-md"
+                              onClick={() => setUtilityImage(null)}
                             >
-                                <option value="">Choose Document Type</option>
-                                <option value="drivers-license">Driver's License</option>
-                                <option value="nin-id">NIN ID</option>
-                                <option value="int-passport">Int Passport</option>
-                            </select>
-                            <div className="relative">
-        <div className="border border-gray-300 border-dotted p-2 rounded-md h-16 w-full ">
-          {utilityImage ? (
-            // Display the uploaded image information
-            <div className="flex gap-5 items-center justify-between">
-              <div className='flex gap-2'>
-                <img
-                  src={svg}
-                  alt="Uploaded Icon"
-                  className="h-10 w-10"
-                />
-                <div className='flex flex-col'>
-                  <p className="text-2xl text-gray-900">Image Uploaded</p>
+                              Edit
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        // Display the "Tap to Upload" section
+                        <label
+                          htmlFor="utilityFileInput"
+                          className="flex gap-2 cursor-pointer"
+                        >
+                          <div className="flex gap-2">
+                            <img
+                              src={svg}
+                              alt="Upload Icon"
+                              className="h-10 w-10"
+                            />
+                            <div className="flex flex-col">
+                              <p className="text-2xl text-gray-900">
+                                Tap to Upload
+                              </p>
+                              <p className="block text-gray-400 text-xs">
+                                PNG, JPG | 10MB max
+                              </p>
+                            </div>
+                          </div>
+                          <input
+                            type="file"
+                            accept=".pdf, .jpg, .png"
+                            id="utilityFileInput"
+                            className="hidden"
+                            onChange={handleUtilityFileChange}
+                          />
+                        </label>
+                      )}
+                    </div>
+
+                    {/* Conditionally render the Upload button based on the state */}
+                    {utilityImage && uploadProgress === 0 && (
+                      <button
+                        type="button"
+                        className="bg-progress-green text-white p-2 mt-2 rounded-md"
+                        onClick={handleUpload}
+                      >
+                        Upload
+                      </button>
+                    )}
+
+                    {uploadProgress > 0 && (
+                      <div className="relative mt-4">
+                        {/* Display the upload progress */}
+                        <div className="flex h-2 mb-4 overflow-hidden text-xs bg-progress-light rounded-xl">
+                          <div
+                            style={{ width: `${uploadProgress}%` }}
+                            className="flex flex-col text-center whitespace-nowrap text-white bg-progress-green shadow-none w-0 h-4"
+                          ></div>
+                        </div>
+                        <div className="flex mb-2 items-center justify-between">
+                          <div className="text-right">
+                            <span className="text-xs font-semibold inline-block text-progress-green">
+                              {uploadProgress}% <span> Completed</span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-              <div>
-                {/* Optionally, add an "Edit" button or additional actions */}
-                <button
-                  type="button"
-                  className="bg-blue-500 text-white p-2 rounded-md"
-                  onClick={() => setUtilityImage(null)}
-                >
-                  Edit
-                </button>
-              </div>
-            </div>
-          ) : (
-            // Display the "Tap to Upload" section
-            <label htmlFor="utilityFileInput" className="flex gap-2 cursor-pointer">
-              <div className='flex gap-2'>
-                <img
-                  src={svg}
-                  alt="Upload Icon"
-                  className="h-10 w-10"
-                />
-                <div className='flex flex-col'>
-                  <p className="text-2xl text-gray-900">Tap to Upload</p>
-                  <p className="block text-gray-400 text-xs">PNG, JPG | 10MB max</p>
-                </div>
-              </div>
-              <input
-                type="file"
-                accept=".pdf, .jpg, .png"
-                id="utilityFileInput"
-                className="hidden"
-                onChange={handleUtilityFileChange}
-              />
-            </label>
-          )}
-        </div>
 
-        {/* Conditionally render the Upload button based on the state */}
-        {utilityImage && uploadProgress === 0 && (
-          <button
-            type="button"
-            className="bg-progress-green text-white p-2 mt-2 rounded-md"
-            onClick={handleUpload}
-          >
-            Upload
-          </button>
-        )}
-
-        {uploadProgress > 0 && (
-          <div className="relative mt-4">
-            {/* Display the upload progress */}
-            <div className="flex h-2 mb-4 overflow-hidden text-xs bg-progress-light rounded-xl">
-              <div
-                style={{ width: `${uploadProgress}%` }}
-                className="flex flex-col text-center whitespace-nowrap text-white bg-progress-green shadow-none w-0 h-4"
-              ></div>
-            </div>
-            <div className="flex mb-2 items-center justify-between">
-              <div className="text-right">
-                <span className="text-xs font-semibold inline-block text-progress-green">
-                  {uploadProgress}% <span> Completed</span>
-                </span>
-              </div>
-            </div>
+              <button
+                type="button"
+                className=" bg-gradient-to-l from-[#0E156F]  to-[#8D0C91] hover:bg-gradient-to-r from-[#0E156F] to-[#8D0C91] py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+                onClick={handleSaveChanges}
+              >
+                Save Changes
+              </button>
+            </form>
           </div>
-        )}
-      </div>
-              </div>
-             
-            </div>
-
-
-            <button type="button" className=' bg-gradient-to-l from-[#0E156F]  to-[#8D0C91] hover:bg-gradient-to-r from-[#0E156F] to-[#8D0C91] py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500' onClick={handleSaveChanges}>
-              Save Changes
-            </button>
-          </form>
-        </div>
         </div>
       );
       break;
     case 3:
       currentStepComponent = (
-        <div className='flex flex-col items-center md:py-20 md:px-40 px-20 text-2xl'>
+        <div className="flex flex-col items-center md:py-20 md:px-40 px-20 text-2xl">
           <div className="flex md:flex-row flex-col md:gap-20 items-center">
-            <div className='flex flex-col my-4 md:my-0'>
-            <p>Enter Pin</p>
+            <div className="flex flex-col my-4 md:my-0">
+              <p>Enter Pin</p>
 
-      <form className="flex space-x-4">
-        {/* Four input fields for the transaction pin */}
-        <input
-          type="text"
-          className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-          maxLength="1"
-          placeholder='8'
-
-        />
-        <input
-          type="text"
-          className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-          maxLength="1"
-          placeholder='8'
-
-        />
-        <input
-          type="text"
-          className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-          maxLength="1"
-          placeholder='8'
-
-        />
-        <input
-          type="text"
-          className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-          maxLength="1"
-          placeholder='8'
-
-        />
-
-        
-      </form>
+              <form className="flex space-x-4">
+                {/* Four input fields for the transaction pin */}
+                <input
+                  type="text"
+                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                  maxLength="1"
+                  placeholder="8"
+                />
+                <input
+                  type="text"
+                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                  maxLength="1"
+                  placeholder="8"
+                />
+                <input
+                  type="text"
+                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                  maxLength="1"
+                  placeholder="8"
+                />
+                <input
+                  type="text"
+                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                  maxLength="1"
+                  placeholder="8"
+                />
+              </form>
             </div>
-            <div className='flex flex-col  my-4 md:my-0'>
-            <p>Confirm Pin</p>
+            <div className="flex flex-col  my-4 md:my-0">
+              <p>Confirm Pin</p>
 
-      <form className="flex space-x-4">
-        {/* Four input fields for the transaction pin */}
-        <input
-          type="text"
-          className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-          maxLength="1"
-        />
-        <input
-          type="text"
-          className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-          maxLength="1"
-        />
-        <input
-          type="text"
-          className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-          maxLength="1"
-        />
-        <input
-          type="text"
-          className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-          maxLength="1"
-          
-        />
-
-        
-      </form>
+              <form className="flex space-x-4">
+                {/* Four input fields for the transaction pin */}
+                <input
+                  type="text"
+                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                  maxLength="1"
+                />
+                <input
+                  type="text"
+                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                  maxLength="1"
+                />
+                <input
+                  type="text"
+                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                  maxLength="1"
+                />
+                <input
+                  type="text"
+                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                  maxLength="1"
+                />
+              </form>
             </div>
-         </div>
+          </div>
 
-          <button type="button" className=' bg-gradient-to-l from-[#0E156F]  to-[#8D0C91] hover:bg-gradient-to-r from-[#0E156F] to-[#8D0C91] md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500' onClick={handleSaveChanges}>
-              Save Changes
-            </button>       
-             </div>
+          <button
+            type="button"
+            className=" bg-gradient-to-l from-[#0E156F]  to-[#8D0C91] hover:bg-gradient-to-r from-[#0E156F] to-[#8D0C91] md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+            onClick={handleSaveChanges}
+          >
+            Save Changes
+          </button>
+        </div>
       );
       break;
     default:
@@ -677,7 +944,11 @@ const downloadForm = () => {
                 <div
                   key={index}
                   onClick={() => handleStepChange(index + 1)}
-                  className={`cursor-pointer ${index === tabIndex - 1 ? 'text-color1 font-semibold border-b-2 border-color1 pb-2' : 'text-[#1F1F1F]'} transition-all ease-in-out duration-300 text-2xl md:w[200px]`}
+                  className={`cursor-pointer ${
+                    index === tabIndex - 1
+                      ? "text-color1 font-semibold border-b-2 border-color1 pb-2"
+                      : "text-[#1F1F1F]"
+                  } transition-all ease-in-out duration-300 text-2xl md:w[200px]`}
                 >
                   {title}
                 </div>
