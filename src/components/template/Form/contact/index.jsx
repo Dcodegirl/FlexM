@@ -183,8 +183,8 @@ const Contact = ({ nextStep }) => {
                   value={gender}
                   onChange={handleGenderChange}
                 >
-                  <option value="">Male</option>
-                  <option value="drivers-license">Female</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                 </select>
               </div>
               <div className="mb-6">
