@@ -10,131 +10,194 @@ import Down from '../../../assets/icons/down.svg';
 
 import styles from './Sidebar.module.scss';
 
-export const Sidebar = ({ agentType }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [width, setWidth] = useState(window.innerWidth);
-    const [activeDropdown, setActiveDropdown] = useState(null);
+export const Sidebar = ({ agentType, aggregatorId }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
-    useEffect(() => {
-        window.addEventListener('resize', (e) => {
-            setWidth(window.innerWidth);
+  useEffect(() => {
+    window.addEventListener('resize', (e) => {
+      setWidth(window.innerWidth);
 
-            if (window.innerWidth === 1000) {
-                setIsOpen(true);
-            } else if (window.innerWidth < 1000) {
-                setIsOpen(false);
-            }
-        });
+      if (window.innerWidth === 1000) {
+        setIsOpen(true);
+      } else if (window.innerWidth < 1000) {
+        setIsOpen(false);
+      }
+    });
 
-        return () => {
-            window.removeEventListener('resize', () => {
-                console.log('event');
-            });
-        };
-    }, []);
+    return () => {
+      window.removeEventListener('resize', () => {
+        console.log('event');
+      });
+    };
+  }, []);
 
-    return (
-        <>
-            <div className='md:w-96 '>
-                <div
-                    className={styles.toggle}
-                    onClick={() => {
-                        setIsOpen(!isOpen);
-                    }}
-                >
-                    <img src={toggleIcon} alt="" className='h-12 w-12' />
-                </div>
-                {isOpen && (
-                    <div
-                        className={styles.overlay}
-                        onClick={() => {
-                            setIsOpen(!isOpen);
-                        }}
-                    ></div>
-                )}
-                {(isOpen || width >= 1000) && (
-                    <div className={styles.sidebar}>
-                        <div className={styles.content}>
-                            <div>
-                                <img
-                                    src={logo}
-                                    className={styles.logo}
-                                    alt='company logo'
-                                />
-                            </div>
-                            <div
-                                className={styles.toggleSidebarClose}
-                                onClick={() => {
-                                    setIsOpen(!isOpen);
-                                }}
-                            >
-                                <img
-                                    src={close}
-                                    className={styles.iconClose}
-                                    alt=''
-                                />
-                            </div>
-                            <nav className='flex flex-col gap-16 mt-16'>
-                            {navigationItems
-                                .filter((item) => item.condition === undefined || (item.condition !== 'sub' || agentType !== 'sub'))
-                                .map((item, index) => (
-                                    <div key={index}>
-                                        {item.to ? (
-                                            <NavLink
-                                                to={item.to}
-                                                className='flex gap-5 items-center'
-                                                activeClassName={styles.active}
-                                            >
-                                                <img src={item.icon} alt="" className='navItemImage'/>
-                                                <span className='text-gray-700 font-normal text-xl'>{item.text}</span>
-                                            </NavLink>
-                                        ) : (
-                                            <div className='relative flex  items-center'>
-                                                <div className='flex flex-col'>
-                                                   <div className='flex gap-5 items-center'>
-                                                    <img src={item.icon} alt="" className='navItemImage'/>
-                                                    <div className='flex items-center'>
-                                                        <span className='text-gray-700 font-normal text-xl w-64'>{item.text}</span>
-                                                        <img src={Down} alt=""  className='flex gap-5 items-center text-gray-700'
-                                                    onClick={() => setActiveDropdown(index === activeDropdown ? null : index)}/>
-                                                    </div>
-                                                </div>
-                                                    
-                                                    {index === activeDropdown && (
-                                                        <div
-                                                            className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
-                                                        >
-                                                            {item.items.map((subItem, subIndex) => (
-                                                                <NavLink
-                                                                    key={subIndex}
-                                                                    to={subItem.to}
-                                                                    className='block text-gray-700 py-1'
-                                                                    activeClassName={styles.active}
-                                                                >
-                                                                    <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
-                                                                </NavLink>
-                                                            ))}
-                                                        </div>
-                                                    )} 
-                                                </div>
-                                            </div>
-                                        )}
+  return (
+    <>
+      <div className='md:w-96 '>
+        <div
+          className={styles.toggle}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        >
+          <img src={toggleIcon} alt="" className='h-12 w-12' />
+        </div>
+        {isOpen && (
+          <div
+            className={styles.overlay}
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+          ></div>
+        )}
+        {(isOpen || width >= 1000) && (
+          <div className={styles.sidebar}>
+            <div className={styles.content}>
+              <div>
+                <img
+                  src={logo}
+                  className={styles.logo}
+                  alt='company logo'
+                />
+              </div>
+              <div
+                className={styles.toggleSidebarClose}
+                onClick={() => {
+                  setIsOpen(!isOpen);
+                }}
+              >
+                <img
+                  src={close}
+                  className={styles.iconClose}
+                  alt=''
+                />
+              </div>
+              <nav className='flex flex-col gap-16 mt-16'>
+                {navigationItems
+                  .filter(
+                    (item) =>
+                      item.condition === undefined ||
+                      (item.condition !== 'sub' || agentType !== 'sub')
+                  )
+                  .map((item, index) => {
+                    if (item.isAggregator) {
+                      if (aggregatorId !== null) {
+                        return (
+                          <div key={index}>
+                            {item.to ? (
+                              <NavLink
+                                to={item.to}
+                                className='flex gap-5 items-center'
+                                activeClassName={styles.active}
+                              >
+                                <img src={item.icon} alt="" className='navItemImage' />
+                                <span className='text-gray-700 font-normal text-xl'>{item.text}</span>
+                              </NavLink>
+                            ) : (
+                              <div className='relative flex items-center'>
+                                <div className='flex flex-col'>
+                                  <div className='flex gap-5 items-center'>
+                                    <img src={item.icon} alt="" className='navItemImage' />
+                                    <div className='flex items-center'>
+                                      <span className='text-gray-700 font-normal text-xl w-64'>{item.text}</span>
+                                      <img
+                                        src={Down}
+                                        alt=""
+                                        className='flex gap-5 items-center text-gray-700'
+                                        onClick={() => setActiveDropdown(index === activeDropdown ? null : index)}
+                                      />
                                     </div>
-                                ))}
-                        </nav>
+                                  </div>
+                                  {index === activeDropdown && (
+                                    <div
+                                      className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
+                                    >
+                                      {item.items.map((subItem, subIndex) => (
+                                        <NavLink
+                                          key={subIndex}
+                                          to={subItem.to}
+                                          className='block text-gray-700 py-1'
+                                          activeClassName={styles.active}
+                                        >
+                                          <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
+                                        </NavLink>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      } else {
+                        return null;
+                      }
+                    } else {
+                      return (
+                        <div key={index}>
+                          {item.to ? (
+                            <NavLink
+                              to={item.to}
+                              className='flex gap-5 items-center'
+                              activeClassName={styles.active}
+                            >
+                              <img src={item.icon} alt="" className='navItemImage' />
+                              <span className='text-gray-700 font-normal text-xl'>{item.text}</span>
+                            </NavLink>
+                          ) : (
+                            <div className='relative flex items-center'>
+                              <div className='flex flex-col'>
+                                <div className='flex gap-5 items-center'>
+                                  <img src={item.icon} alt="" className='navItemImage' />
+                                  <div className='flex items-center'>
+                                    <span className='text-gray-700 font-normal text-xl w-64'>{item.text}</span>
+                                    <img
+                                      src={Down}
+                                      alt=""
+                                      className='flex gap-5 items-center text-gray-700'
+                                      onClick={() => setActiveDropdown(index === activeDropdown ? null : index)}
+                                    />
+                                  </div>
+                                </div>
+                                {index === activeDropdown && (
+                                  <div
+                                    className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
+                                  >
+                                    {item.items.map((subItem, subIndex) => (
+                                      <NavLink
+                                        key={subIndex}
+                                        to={subItem.to}
+                                        className='block text-gray-700 py-1'
+                                        activeClassName={styles.active}
+                                      >
+                                        <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
+                                      </NavLink>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
                         </div>
-                    </div>
-                )}
+                      );
+                    }
+                  })}
+              </nav>
             </div>
-
-        </>
-    );
+          </div>
+        )}
+      </div>
+    </>
+  );
 };
 
 const mapStateToProps = (state) => {
-    return {
-        agentType: state.auth.user.type,
-    };
+  return {
+    agentType: state.auth.user.type,
+    aggregatorId: state.auth.user.aggregator_id,
+  };
 };
 
 export default connect(mapStateToProps)(Sidebar);

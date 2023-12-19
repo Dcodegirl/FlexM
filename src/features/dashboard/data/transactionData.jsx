@@ -11,43 +11,66 @@ export const TransactionData = async (period) => {
   }
 };
 
-export const Transactions = () => {
-  // Fetch or provide your transaction data here
-  const transactions = [
-    {id:1, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Successful', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    {id:2, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Successful', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },    
-    {id:3, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Failed', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },    
-    {id:4, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Pending', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    {id:5, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Failed', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    {id:6, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Successful', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    {id:7, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Pending', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    {id:8, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Pending', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    {id:9, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Failed', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    {id:10, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Pending', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },
-    {id:11, PreviousBalance : '24,000.45', Amount: '5000', Description : 'Commission on transaction with ref: CICO', status: 'Failed', CurrentBalance : '19,000.23', TransactionType :'Transfer ' , date: 'Friday 5th, 2022 6:45pm' },    // Add more data as needed
-  ];
+export const fetchTransactionsData = async (agentId) => {
+  try {
+    const response = await axios.get('/aggregtorwallet', {
+      params: {
+        'agent_id': agentId, // Include 'agent-id' as a parameter
+      },
+    });
 
-  return transactions;
-};
-export const AgentTransactionData = () => {
-  // Fetch or provide your transaction data here
-  const agentTansaction = [
-    { id:1 , agentCode: 'CI/AGT/LA/94659262', name: 'Jummzyy Venture', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    { id: 2, agentCode: 'CI/AGT/LA/94659262', name: 'Kaleb Enterprises', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    { id: 3, agentCode: 'CI/AGT/LA/94659262', name: 'Solo Squard', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    { id: 4, agentCode: 'CI/AGT/LA/94659262', name: 'Welllness  HQ', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    { id: 5, agentCode: 'CI/AGT/LA/94659262', name: 'GDM Consult', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    { id: 6, agentCode: 'CI/AGT/LA/94659262', name: 'DAggregate', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    { id: 7, agentCode: 'CI/AGT/LA/94659262', name: 'EIC', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    { id: 8, agentCode: 'CI/AGT/LA/94659262', name: 'StartUp Lagos', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    { id: 9, agentCode: 'CI/AGT/LA/94659262', name: 'DPrmix', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    { id: 10, agentCode: 'CI/AGT/LA/94659262', name: 'Hazon Tech', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    { id: 11, agentCode: 'CI/AGT/LA/94659262', name: 'VIGA Enterprises', phoneNumber: +2347065292789, address: 'No 5, Ileri Ayoola Ogba', localGovt: 'Ikeja North', state: 'Lagos State' },
-    // Add more data as needed
-  ];
+    const data = response.data;
+    const transactionsFromAPI = data.data.transaction.data;
 
-  return agentTansaction;
+    // Map the API transactions to the format you want
+    const mappedTransactions = transactionsFromAPI.map((apiTransaction, index) => ({
+      id: index + 1,
+      PreviousBalance: apiTransaction.previous_bal,
+      Amount: apiTransaction.amount,
+      Description: apiTransaction.status_description,
+      status:
+        apiTransaction.status_description === 'Transaction successful'
+          ? 'Successful'
+          : apiTransaction.status_description === 'Transaction pending'
+          ? 'Pending'
+          : 'Failed',
+      CurrentBalance: apiTransaction.current_bal,
+      TransactionType: 'Transfer', // You can update this based on your actual data
+      date: apiTransaction.created_at,
+    }));
+
+    return mappedTransactions;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return [];
+  }
 };
+
+
+
+export const AgentTransactionData = async () => {
+  try {
+    const response = await axios.get('/searchAg');
+    const data = response.data;
+
+    // Map the API response to the desired format
+    const agentTransactionData = data.data.map(agent => ({
+      id: agent.id,
+      agentCode: agent.agent_code,
+      name: `${agent.first_name} ${agent.last_name}`,
+      phoneNumber: agent.business_phone || '',
+      address: agent.business_address || '',
+      localGovt: agent.lga || '',
+      state: agent.state || ''
+    }));
+
+    return agentTransactionData;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return [];
+  }
+};
+
 
 export const SingleAgentTransactionData = () => {
   // Fetch or provide your transaction data here
