@@ -10,10 +10,13 @@ import axios from "../../utils/axiosInstance";
 import svg from "../../assets/images/Upload.svg";
 import downloadsvg from "../../assets/images/downloading.svg";
 import profileAvatar from "../../assets/images/avatarImg.svg";
+import { useToasts } from 'react-toast-notifications';
+
 
 const Settings = () => {
   const [step, setStep] = useState(1);
   const [tabIndex, setTabIndex] = useState(1);
+  const { addToast } = useToasts();
   const [payload, setPayload] = useState({
     email: "",
     password: {
@@ -36,6 +39,10 @@ const Settings = () => {
         file: ""
     }
   })
+  const [pinPayload, setPinPayload]= useState({
+    agent_id:"",
+    transaction_pin : ""
+  })
   const [userData, setUserData] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -46,27 +53,94 @@ const Settings = () => {
   const [selectedDocument, setSelectedDocument] = useState("");
   const [documentImage, setDocumentImage] = useState(null);
   const [utilityImage, setUtilityImage] = useState(null);
+  const [docImage, setDocImage] = useState(null);
+  const [fileUploaded, setFileUploaded] = useState(false);
+  const [guarantorUpload, setGuarantorUpload]= useState(false)
+  const [guarantorSelect, setGuarantorSelect]= useState(null);
+  const [pin, setPin] = useState([])
+  const [confirmPin, setConfirmPin] = useState([])
+
+
+
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const CONTACT_DETAILS = "/agent/contact";
+  const TRANSACTION_PIN = "/AgPin"
+  
+  const handleTransactionPin = async ()=>{
+    console.log({
+      pin: pin.join(''),
+      confirmPin: confirmPin.join('')
+    })
+    if (pin.join('') === confirmPin.join('') ) {
+      
+      const transactionPin = {
+        agent_id: pinPayload.agent_id,
+        transaction_pin: pin.join('') 
+      }
+      
+       try {
+        let data = await axios.post(TRANSACTION_PIN, transactionPin)
+        console.log(data)
+        addToast('Profile updated successfully!', {
+          appearance: 'success',
+          autoDismiss: true,
+          autoDismissTimeout: 3000, // milliseconds
+        });
+  
+      } catch (error) {
+        console.log(error)
+      }
+  
+    }else{
+      addToast('Pin Incorrect!', {
+        appearance: 'warning',
+        autoDismiss: true,
+        autoDismissTimeout: 3000, // milliseconds
+      });
+    }
+    
+    
+  }
+
 
   const handleUserBioData =async()=>{
     const bio = {
       ...docUploadPayload,
-    utility: {
-      image: utilityImage, 
-  },
-    }
+      document: {
+          type: "",
+          image: ""
+      },
+      utility: {
+          image: ""
+      },
+      guarantor: {
+          file: guarantorSelect
+      } 
+  }
+    console.log(docUploadPayload)
     try {
       let data = await axios.put('/agent/bio-data', bio)
       console.log(data)
+      addToast('Profile updated successfully!', {
+        appearance: 'success',
+        autoDismiss: true,
+        autoDismissTimeout: 3000, // milliseconds
+      });
 
     } catch (error) {
       console.log(error)
     }
   }
+  const uploadFile = () => {
+    // Your upload logic goes here
+
+    // Assuming the upload was successful
+    setGuarantorUpload(true)
+    setFileUploaded(true);
+  };
   useEffect(() => {
     // Make API call to fetch user information
     axios
@@ -77,6 +151,15 @@ const Settings = () => {
           ...payload,
           email: response.data.data.agent.email
           
+        })
+        setDocUploadPayload({
+          ...docUploadPayload,
+          business_address: response.data.data.agent.business_address
+          
+        })
+        setPinPayload({
+          ...pinPayload,
+          agent_id: response.data.data.agent.id
         })
         selectedCountry(response.data.data.agent.country || '')
         selectedState(response.data.data.agent.state || '')
@@ -109,36 +192,43 @@ const Settings = () => {
     // Perform upload logic
     // Set uploadProgress based on the actual progress
     // This is just a placeholder, replace it with your actual upload logic
-    setUploadProgress(50);
+    setUploadProgress(100);
+    setFileUploaded(true);
+    setTimeout(() => {
+      setFileUploaded(false);
+    }, 2000);
+
   };
 
   const handleUploadButtonClick = () => {
     // Trigger click on the hidden file input
     fileInputRef.current.click();
   };
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
-    let reader = new FileReader();
-
-  reader.readAsDataURL(file);
-
-  reader.onload = function() {
+  
+    const formData = new FormData();
+    formData.append('image', file);
+  
     setPayload({
       ...payload,
-      image: reader.result,
-    })
+      image: formData,
+    });
   };
-
-    // console.log(URL.createObjectURL(selectedImage))
-
-    // You can perform additional actions with the selected image, such as uploading to a server
-  };
+  
 
   const linkRef = useRef(null);
+  const handleGuarantorUpload = (event) => {
+    setSelectedDocument(event.target.value);
+    setGuarantorUpload(true);
+
+  };
+
   const handleDocumentChange = (event) => {
     setSelectedDocument(event.target.value);
+    setFileUploaded(true);
+
   };
 
   const handleUtilityFileChange = async (event) => {
@@ -165,6 +255,8 @@ const Settings = () => {
         console.error("Error encoding utility image:", error);
       }
     }
+    setFileUploaded(true);
+
   };
   const downloadForm = () => {
     // Replace with the actual URL of the form document to be downloaded
@@ -282,13 +374,20 @@ const Settings = () => {
     setStep(newStep);
     setTabIndex(newStep);
   };
-
   const handleSaveChanges = async () => {
     try {
       // Send a request to update the user profile
       await axios.put(CONTACT_DETAILS, payload);
 
       console.log("Changes saved!");
+
+      // Display a success toast notification
+      addToast('Profile updated successfully!', {
+        appearance: 'success',
+        autoDismiss: true,
+        autoDismissTimeout: 3000, // milliseconds
+      });
+
     } catch (error) {
       console.error("Error saving changes:", error);
     }
@@ -507,12 +606,17 @@ const Settings = () => {
                   <div className="password-input">
                     <input
                       
-                      id="password"
-                      name="password"
-                      onChange={(e) => console.log(e.target.value)}
-                      placeholder="Type Address"
+                      id="address"
+                      name="address"
+                      onChange={(e) =>
+                        setDocUploadPayload({
+                          ...docUploadPayload,
+                          business_address: e.target.value
+                        })
+                      }                     
+                       placeholder="Type Address"
                       className="outline outline-gray-100 md:p-4 p-2 md:w-[500px] w-full"
-                      value={userData ? userData.business_address : ""}
+                      value={docUploadPayload.business_address}
                       required
                     />
                   </div>
@@ -591,19 +695,8 @@ const Settings = () => {
                       name="upload"
                       onChange={(e) => {
                         const file = e.target.files[0];
-                          
-                          let reader = new FileReader();
-
-                        reader.readAsDataURL(file);
-
-                        reader.onload = function() {
-                          setDocUploadPayload({
-                            ...docUploadPayload,
-                            guarantor:{
-                              file: reader.result
-                            }
-                          })
-                        };
+                        setGuarantorSelect(file);
+                      
                         
 
                       }}
@@ -612,7 +705,7 @@ const Settings = () => {
                     />
                     <div className="flex gap-2">
                       <img
-                        src={downloadsvg}
+                        src={svg}
                         alt="Upload Icon"
                         className="h-10 w-10"
                       />
@@ -626,14 +719,19 @@ const Settings = () => {
                       </div>
                     </div>
                     <div className="mb-2 ">
-                      <button
-                        type="button"
-                        className="bg-[#ECE9FC] py-3 md:px-6 px-3 mt-2 rounded-md text-deep-green"
-                        onClick={downloadForm}
-                      >
-                        Upload
-                      </button>
-                    </div>
+        {!fileUploaded ? (
+          <button
+            type="button"
+            className="bg-[#ECE9FC] py-3 md:px-6 px-3 mt-2 rounded-md text-deep-green"
+            onClick={guarantorUpload}
+          >
+            Upload
+          </button>
+        ) : (
+          <span className="text-deep-green">File Uploaded</span>
+        )}
+      </div>
+  
                   </div>
 
                   <div className="mt-6">
@@ -661,7 +759,7 @@ const Settings = () => {
                               {/* Optionally, add an "Edit" button or additional actions */}
                               <button
                                 type="button"
-                                className="bg-blue-500 text-white p-2 rounded-md"
+                                className="bg-purple-100 text-white p-2 rounded-md"
                                 onClick={() => setUtilityImage(null)}
                               >
                                 Edit
@@ -772,7 +870,7 @@ const Settings = () => {
                             <button
                               type="button"
                               className="bg-blue-500 text-white p-2 rounded-md"
-                              onClick={() => setUtilityImage(null)}
+                              onClick={() => setDocumentImage(null)}
                             >
                               Edit
                             </button>
@@ -804,7 +902,26 @@ const Settings = () => {
                             accept=".pdf, .jpg, .png"
                             id="utilityFileInput"
                             className="hidden"
-                            onChange={handleUtilityFileChange}
+                            onChange={(e) => {
+                              const file = e.target.files[0];
+                              setDocumentImage()
+                                
+                                let reader = new FileReader();
+      
+                              reader.readAsDataURL(file);
+      
+                              reader.onload = function() {
+                                setDocUploadPayload({
+                                  ...docUploadPayload,
+                                  document:{
+                                    type: selectedDocument,
+                                    file: reader.result
+                                  }
+                                })
+                              };
+                              
+      
+                            }}
                           />
                         </label>
                       )}
@@ -846,7 +963,7 @@ const Settings = () => {
               <button
                 type="button"
                 className=" bg-gradient-to-l from-[#0E156F]  to-[#8D0C91] hover:bg-gradient-to-r from-[#0E156F] to-[#8D0C91] py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
-                onClick={handleSaveChanges}
+                onClick={handleUserBioData}
               >
                 Save Changes
               </button>
@@ -869,24 +986,36 @@ const Settings = () => {
                   className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                   maxLength="1"
                   placeholder="8"
+                  onChange={(e)=>{
+                  setPin([...pin, e.target.value])
+                  }}
                 />
                 <input
                   type="text"
                   className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                   maxLength="1"
                   placeholder="8"
+                  onChange={(e)=>{
+                    setPin([...pin, e.target.value])
+                    }}
                 />
                 <input
                   type="text"
                   className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                   maxLength="1"
                   placeholder="8"
+                  onChange={(e)=>{
+                    setPin([...pin, e.target.value])
+                    }}
                 />
                 <input
                   type="text"
                   className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                   maxLength="1"
                   placeholder="8"
+                  onChange={(e)=>{
+                    setPin([...pin, e.target.value])
+                    }}
                 />
               </form>
             </div>
@@ -899,21 +1028,33 @@ const Settings = () => {
                   type="text"
                   className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                   maxLength="1"
+                  onChange={(e)=>{
+                    setConfirmPin([...confirmPin, e.target.value])
+                    }}
                 />
                 <input
                   type="text"
                   className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                   maxLength="1"
+                  onChange={(e)=>{
+                    setConfirmPin([...confirmPin, e.target.value])
+                    }}
                 />
                 <input
                   type="text"
                   className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                   maxLength="1"
+                  onChange={(e)=>{
+                    setConfirmPin([...confirmPin, e.target.value])
+                    }}
                 />
                 <input
                   type="text"
                   className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                   maxLength="1"
+                  onChange={(e)=>{
+                    setConfirmPin([...confirmPin, e.target.value])
+                    }}
                 />
               </form>
             </div>
@@ -922,7 +1063,8 @@ const Settings = () => {
           <button
             type="button"
             className=" bg-gradient-to-l from-[#0E156F]  to-[#8D0C91] hover:bg-gradient-to-r from-[#0E156F] to-[#8D0C91] md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
-            onClick={handleSaveChanges}
+            onClick={handleTransactionPin}
+            disabled={pin.length !== 4 && confirmPin.length !== 4 }
           >
             Save Changes
           </button>
