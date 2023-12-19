@@ -8,6 +8,7 @@ import warn from '../../../assets/icons/warning.svg'
 import smallwarn from '../../../assets/icons/smallwarning.png'
 import arrowright from '../../../assets/icons/rightarrow.svg'
 import axios from '../../../utils/axiosInstance';
+import { NavLink } from 'react-router-dom';
 
 const UserInfo = () => {
   const [userData, setUserData] = useState(null);
@@ -76,6 +77,7 @@ const UserInfo = () => {
             <div>
               <img src={warn} alt="" />
             </div>
+            
             <div className='flex flex-col gap-5'>
               <p className='text-[#331E00] font-extrabold'>KYC Update</p>
               <p className='text-[#111023] text-xl'>You’re yet to finish up your registrations. You will need to update your image and get verified.</p>

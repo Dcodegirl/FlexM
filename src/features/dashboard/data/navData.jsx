@@ -12,26 +12,26 @@ import reportIcon from '../../../assets/icons/reportIcon.svg'
 import settingIcon from '../../../assets/icons/settingIcon.svg'
 
 export const navigationItems = [
-  { to: '/overview', text: 'Overview', icon: overviewIcon },
+  { to: '/overview', text: 'Overview', icon: overviewIcon, isAggregator: false },
   {
     text: 'My Wallet', icon: walletIcon, hasSubMenu: true,
     items: [
-      { to: '/wallet', text: 'Main Wallet' },
-      { to: '/aggregator', text: 'Aggregator Wallet' },
-      { to: '/commission', text: 'Commission Wallet' },
+      { to: '/wallet', text: 'Main Wallet', isAggregator: false },
+      { to: '/aggregator', text: 'Aggregator Wallet', isAggregator: true },
+      { to: '/commission', text: 'Commission Wallet', isAggregator: false },
     ],
   },
-  { to: '/transactions', text: 'Transactions', icon: transactionIcon },
+  { to: '/transactions', text: 'Transactions', icon: transactionIcon, isAggregator: false },
   {
     text: 'Agent Management', icon: commisionIcon, hasSubMenu: true,
     items: [
-      { to: '/create-agent', text: 'Create Agent' },
-      { to: '/view-agents', text: "View Agents" },
-      { to: '/agents-performance', text: "Agent's Performance" },
-      // { to: '/agents-transaction', text: "Agent's Transaction" },
+      { to: '/create-agent', text: 'Create Agent', isAggregator: false },
+      { to: '/view-agents', text: "View Agents", isAggregator: false },
+      { to: '/agents-performance', text: "Agent's Performance", isAggregator: false },
+      // { to: '/agents-transaction', text: "Agent's Transaction", isAggregator: false },
     ],
   },
-  { to: '/users', text: 'Users', icon: usersIcon},
-  { to: '/settings', text: 'Settings', icon: settingIcon },
-  { to: '/support', text: 'Support', icon: supportIcon },
+  { to: '/users', text: 'Users', icon: usersIcon, isAggregator: false },
+  { to: '/settings', text: 'Settings', icon: settingIcon, isAggregator: false },
+  { to: '/support', text: 'Support', icon: supportIcon, isAggregator: false },
 ];

@@ -3,8 +3,11 @@ import axios from "../../../utils/axiosInstance";
 import WalletInfo from "../../dashboard/WalletInfo";
 import WalletBreakDown from "../../dashboard/WalleBreakdown";
 import WalletLogs from "../wallet/WalletLog";
+import { useSelector } from 'react-redux';
 
 const Users = () => {
+  const agentId = useSelector((state) => state.auth.user?.id);
+
   const [totalBalance, setTotalBalance] = useState(0);
   const [currentBalance, setCurrentBalance] = useState({ amount: 0, growth_rate: 0 });
   const [totalCashout, setTotalCashout] = useState({ amount: 0, growth_rate: 0 });
@@ -14,30 +17,42 @@ const Users = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseTotalBalance = await axios.get('/main/balance');
-        setTotalBalance(responseTotalBalance.data.data);
+        const response = await axios.get(
+          "/aggregtorwallet",
+          {
+            params: {
+              agent_id: agentId,
+            },
+          }
+        );
 
-        const responseCurrentBalance = await axios.get('/main/current');
-        setCurrentBalance(responseCurrentBalance.data.data);
-
-        const responseTotalCashout = await axios.get('/main/withdrawal');
-        setTotalCashout(responseTotalCashout.data.data);
-
-        const responseTotalDeposit = await axios.get('/main/deposit');
-        setTotalDeposit(responseTotalDeposit.data.data);
-      
-      const responseTransactions = await axios.get('/main/transactions');
-        setTransactions(responseTransactions.data.data.list);
+        const data = response.data.data;
+        setTotalBalance(parseFloat(data.current_bal.current_balance));
+        setCurrentBalance({
+          amount: parseFloat(data.current_bal.current_balance),
+          growth_rate: data.current_bal.rate,
+        });
+        setTotalCashout({
+          amount: parseFloat(data.cashout.total_cashout),
+          growth_rate: data.cashout.rate,
+        });
+        setTotalDeposit({
+          amount: parseFloat(data.deposit.total_deposit),
+          growth_rate: data.deposit.rate,
+        });
+        setTransactions(data.transaction.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [agentId]);
+
   const formatAmount = (amount) => {
-    return amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return amount?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
+
   const walletInfoProps = {
     title: "Aggregator's Wallet Balance",
     amount: `NGN ${formatAmount(totalBalance)}`,

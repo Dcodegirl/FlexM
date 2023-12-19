@@ -10,7 +10,7 @@ import ConfirmTerminalModal from "../../features/dashboard/modal/ConfirmTerminal
 
 
 const ViewAgent = () => {
-    const transactions = AgentTransactionData();
+    const [transactions, setTransactions] = useState([]);
     const [selectedTransactionId, setSelectedTransactionId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAssignTerminalModalOpen, setIsAssignTerminalModalOpen] = useState(false);
@@ -51,6 +51,18 @@ const ViewAgent = () => {
             document.removeEventListener('mousedown', handleOutsideClick);
         };
     }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const data = await AgentTransactionData();
+            setTransactions(data);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+    
+        fetchData();
+      }, []);
 
     const selectedTransaction = transactions.find(transaction => transaction.id === selectedTransactionId);
     // Use react-router-dom to navigate to the ViewSingleAgent page
