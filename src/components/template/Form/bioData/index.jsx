@@ -16,6 +16,8 @@ function Document({ nextStep }) {
     firstname,
     lastname,
     address,
+    lga,
+    setLga,
     country,
     state,
     userId,
@@ -72,6 +74,9 @@ function Document({ nextStep }) {
   };
   const handleaddressnameChange = (event) => {
     setAddress(event.target.value);
+  };
+  const handlelgaChange = (event) => {
+    setLga(event.target.value);
   };
 
   const downloadForm = () => {
@@ -148,6 +153,32 @@ function Document({ nextStep }) {
                                         className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
                                     />
                                 </div>
+                            </div>
+                            <div className="flex gap-5">
+                            <div>
+                                <p className='text-gray-700 text-sm mb-2'>Address</p>
+                                <input
+                                    type="text"
+                                    value={address}
+                                    onChange={handleaddressnameChange}
+                                    required
+                                    readOnly
+                                    placeholder='Type Address'
+                                    className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
+                                />
+                            </div>
+                            <div>
+                                <p className='text-gray-700 text-sm mb-2'>Local Govt</p>
+                                <input
+                                    type="text"
+                                    value={lga}
+                                    onChange={handlelgaChange}
+                                    required
+                                    readOnly
+                                    placeholder='Type Local Govt Area'
+                                    className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
+                                />
+                            </div>
                             </div>
                             <div>
                                 <p className='text-gray-700 text-sm mb-2'>Address</p>
@@ -348,7 +379,7 @@ function Document({ nextStep }) {
                     <div className='flex p-2'>
                         <button
                             onClick={handleSubmit}
-                            className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative`}
+                            className={`bg-color1  rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative`}
                         >
                             {loading && (
                                 <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>

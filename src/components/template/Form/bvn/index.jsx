@@ -4,7 +4,7 @@ import { useGlobalContext } from '../../../../custom-hooks/Context';
 import { useToasts } from 'react-toast-notifications';
 
 function Contact({ nextStep }) {
-  const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry } = useGlobalContext();
+  const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga } = useGlobalContext();
   const { addToast } = useToasts();
 
   const [timeLeft, setTimeLeft] = useState(600);
@@ -87,6 +87,7 @@ function Contact({ nextStep }) {
         setAddress(responseData.data.address);
         setSelectedState(responseData.data.state);
         setSelectedCountry(responseData.data.country);
+        setLga(responseData.data.lga);
         setState(responseData.data.state);
         setCountry(responseData.data.country);
 
@@ -148,7 +149,7 @@ function Contact({ nextStep }) {
             </button>
             <button
               onClick={handleSubmit}
-              className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''}`}
+              className={`bg-color1 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''}`}
               disabled={loading}
             >
               {loading && (

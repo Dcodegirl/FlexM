@@ -110,7 +110,7 @@ function BvnVerifi({ nextStep }) {
             </button>
             <button
               onClick={handleSubmit}
-              className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''}`}
+              className={`bg-color1 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''}`}
               disabled={loading}
             >
               {loading && (

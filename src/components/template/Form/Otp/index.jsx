@@ -6,6 +6,7 @@ import { useGlobalContext } from '../../../../custom-hooks/Context';
 function Contact({ nextStep }) {
   const { addToast } = useToasts();
   const { setUserId } = useGlobalContext();
+  const { phoneNum } = useGlobalContext();
   const [timeLeft, setTimeLeft] = useState(600);
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
@@ -101,7 +102,7 @@ function Contact({ nextStep }) {
           <div className='text-deep-green font-bold text-center'>
             <p className='text-2xl'>Verify your OTP</p>
             <p className='text-gray-500 text-xl font-thin w-[360px]'>
-              We sent OTP to the number attached to your OTP +2347065436765
+              We sent OTP to the number attached to your OTP {phoneNum}
             </p>
           </div>
           <div className='w-[350px] mt-6 flex items-center justify-center'>
@@ -142,7 +143,7 @@ function Contact({ nextStep }) {
             </button>
             <button
               onClick={handleSubmit}
-              className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${
+              className={` bg-color1 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${
                 loading ? 'opacity-50 pointer-events-none' : ''
               }`}
               disabled={loading}
