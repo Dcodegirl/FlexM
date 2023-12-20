@@ -54,7 +54,7 @@ const UserInfo = () => {
               </div>
             </div>
             <div className='flex gap-3 items-center -mt-2'>
-            <span><img src={isAfter4PM ? moon : sun} alt="" /></span>
+              <span><img src={isAfter4PM ? moon : sun} alt="" /></span>
               <span className=''><img src={Ellipse} alt="" /></span>
               <span className='text-[#748274]'>{currentDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
               <span className=''><img src={Ellipse} alt="" /></span>
@@ -77,7 +77,7 @@ const UserInfo = () => {
             <div>
               <img src={warn} alt="" />
             </div>
-            
+
             <div className='flex flex-col gap-5'>
               <p className='text-[#331E00] font-extrabold'>KYC Update</p>
               <p className='text-[#111023] text-xl'>You’re yet to finish up your registrations. You will need to update your image and get verified.</p>
@@ -85,10 +85,13 @@ const UserInfo = () => {
           </div>
 
           <div>
-          <div className='cursor-pointer flex items-center'>
-              <p className='text-[#FFAC33] text-2xl font-medium'>Proceed</p>
-              <img src={arrowright} alt="" />
-            </div>
+            <NavLink to='/settings'>
+              <div className='cursor-pointer flex items-center'>
+                <p className='text-[#FFAC33] text-2xl font-medium'>Proceed</p>
+                <img src={arrowright} alt="" />
+              </div>
+            </NavLink>
+
           </div>
         </div>
       )}
