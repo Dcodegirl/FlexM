@@ -92,11 +92,11 @@ const Contact = ({ nextStep }) => {
           if (data && data.errors) {
             // If the error response contains 'errors' field, display each error in a separate toast
             Object.values(data.errors).flat().forEach(errorMessage => {
-              addToast(`Server error: ${status} - ${errorMessage}`, { appearance: 'error' });
+              addToast(`${errorMessage}`, { appearance: 'error' });
             });
           } else {
             // If the error response does not contain 'errors' field, display a generic error message
-            addToast(`Server error: ${status} - An unexpected error occurred.`, { appearance: 'error' });
+            addToast(`An unexpected error occurred.`, { appearance: 'error' });
           }
         } else if (error.request) {
           // The request was made but no response was received
