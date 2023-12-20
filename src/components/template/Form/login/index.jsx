@@ -48,23 +48,7 @@ function Login() {
       addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success' });
       history.push('/otpVerification');
     } catch (error) {
-      console.error('API Error:', error);
-
-      if (error.response) {
-        const { status, data } = error.response;
-
-        if (data && data.errors) {
-          Object.values(data.errors).flat().forEach(errorMessage => {
-            addToast(`Server error: ${status} - ${errorMessage}`, { appearance: 'error' });
-          });
-        } else {
-          addToast(`Server error: ${status} - An unexpected error occurred.`, { appearance: 'error' });
-        }
-      } else if (error.request) {
-        addToast('No response from the server. Please try again.', { appearance: 'error' });
-      } else {
-        addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
-      }
+      addToast( error.response.data.message, { appearance: 'error' });
     } finally {
       setLoading(false);
     }
@@ -107,14 +91,14 @@ function Login() {
               </div>
               <div className="flex justify-between my-4 items-center">
                 <div>
-                  <label className="text-[#1F1F1F] flex items-center gap-3">
+                  {/* <label className="text-[#1F1F1F] flex items-center gap-3">
                     <input
                       type="checkbox"
                       checked={acceptRemember}
                       onChange={handleAcceptRemChange}
                     />
                     Remember for 30 days
-                  </label>
+                  </label> */}
                 </div>
                 <div className='flex justify-center'>
                   <NavLink to="/forgotPassword" className='text-color1 text-xl font-xl'>
@@ -126,7 +110,7 @@ function Login() {
                 <button
                   type='button'
                   onClick={handleSubmit}
-                  className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2  border rounded-lg h-14 w-full text-white mx-auto ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`bg-color1  border rounded-lg h-14 w-full text-white mx-auto ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                   disabled={loading}
                 >
                   {loading ? 'Loading...' : 'Next'}
