@@ -46,7 +46,7 @@ function BvnVerifi({ nextStep }) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         const { status, data } = error.response;
-        addToast(`Server error: ${status} - ${data.message}`, { appearance: 'error' });
+        addToast(` ${data.message}`, { appearance: 'error' });
       } else if (error.request) {
         // The request was made but no response was received
         addToast('No response from the server. Please try again.', { appearance: 'error' });
