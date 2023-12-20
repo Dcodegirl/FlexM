@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useToasts } from 'react-toast-notifications';
 import axios from "../../../../utils/axiosInstance";
 
-
-const PersonalDetails = ({ }) => {
+const PersonalDetails = () => {
   const { addToast } = useToasts();
   const [errors, setErrors] = useState(false);
   const [firstname, setFirstname] = useState('');
@@ -11,15 +10,13 @@ const PersonalDetails = ({ }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [lastname, setLastname] = useState('');
   const [address, setAddress] = useState('');
+  const [lga, setLga] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('');
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [dob, setDob] = useState('');
-  const [loading, setLoading ] = useState('')
-
-
-
+  const [loading, setLoading] = useState('');
 
   const handlefirstnameChange = (event) => {
     setFirstname(event.target.value);
@@ -30,14 +27,42 @@ const PersonalDetails = ({ }) => {
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
+  const handleLgaChange = (event) => {
+    setLga(event.target.value);
+  };
   const handlePhoneNumber = (event) => {
     setPhoneNumber(event.target.value);
   };
   const handleaddressnameChange = (event) => {
     setAddress(event.target.value);
   };
+
+  const handleCountryChange = async (event) => {
+    const selectedCountryId = event.target.value;
+
+    // Find the selected country object
+    const selectedCountryObject = countries.find(country => country.id === selectedCountryId);
+
+    // Update selectedCountry state with the entire country object
+    setSelectedCountry(selectedCountryObject);
+
+    // Fetch states based on the selected country
+    try {
+      const response = await axios.get(`/countries/all-states/${selectedCountryId}`);
+      setStates(response.data.data);
+    } catch (error) {
+      console.error("Error fetching states:", error);
+    }
+  };
+
   const handleStateChange = (event) => {
-    setSelectedState(event.target.value);
+    const selectedStateId = event.target.value;
+
+    // Find the selected state object
+    const selectedStateObject = states.find(state => state.id === selectedStateId);
+
+    // Update selectedState state with the entire state object
+    setSelectedState(selectedStateObject);
   };
 
   useEffect(() => {
@@ -54,20 +79,6 @@ const PersonalDetails = ({ }) => {
     fetchCountries();
   }, []);
 
-  const handleCountryChange = async (event) => {
-    const selectedCountryId = event.target.value;
-
-    // Update selectedCountry state
-    setSelectedCountry(selectedCountryId);
-
-    // Fetch states based on the selected country
-    try {
-      const response = await axios.get(`/countries/all-states/${selectedCountryId}`);
-      setStates(response.data.data);
-    } catch (error) {
-      console.error("Error fetching states:", error);
-    }
-  };
   const resetForm = () => {
     setFirstname('');
     setEmail('');
@@ -81,7 +92,7 @@ const PersonalDetails = ({ }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
       setLoading(true);
       // Create the payload variable and update it with form data
@@ -89,50 +100,45 @@ const PersonalDetails = ({ }) => {
         first_name: firstname,
         last_name: lastname,
         business_address: address,
-        country_id: selectedCountry,
-        state_id: selectedState,
+        country: selectedCountry.name, // Use country name instead of ID
+        state: selectedState.name, // Use state name instead of ID
         email: email,
+        lga: lga,
         phone_number: phoneNumber,
         date_of_birth: dob,
       };
       // Call the API with Axios
       const response = await axios.post('/agent/create', payload);
-  
+
       // Handle the response as needed
       const responseData = response.data;
       console.log('API Response:', responseData);
-  
+
       addToast("Agent Invite sent successfully", { appearance: 'success' });
-      resetForm(); 
+      resetForm();
     } catch (error) {
       console.error('API Error:', error);
-  
+
+      // Error handling code
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         const { status, data } = error.response;
-  
+
         if (data && data.errors) {
-          // If the error response contains 'errors' field, display each error in a separate toast
           Object.values(data.errors).flat().forEach(errorMessage => {
-            addToast(`Server error: ${status} - ${errorMessage}`, { appearance: 'error' });
+            addToast(` ${errorMessage}`, { appearance: 'error' });
           });
         } else {
-          // If the error response does not contain 'errors' field, display a generic error message
-          addToast(`Server error: ${status} - An unexpected error occurred.`, { appearance: 'error' });
+          addToast(`An unexpected error occurred.`, { appearance: 'error' });
         }
       } else if (error.request) {
-        // The request was made but no response was received
         addToast('No response from the server. Please try again.', { appearance: 'error' });
       } else {
-        // Something happened in setting up the request that triggered an error
         addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
       }
     } finally {
       setLoading(false);
     }
   };
-  
 
 
   return (
@@ -185,7 +191,7 @@ const PersonalDetails = ({ }) => {
                 <select
                   className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
                   value={selectedState}
-                  onChange={(e) => setSelectedState(e.target.value)}
+                  onChange={handleStateChange}
                 >
                   <option value="">Choose State</option>
                   {states.map((state) => (
@@ -232,7 +238,8 @@ const PersonalDetails = ({ }) => {
               />
             </div>
           </div>
-          <div>
+          <div className="flex md:flex-row flex-col gap-5 w-full">
+            <div>
             <p className='text-gray-700 text-sm mb-2'>Date of Birth</p>
             <input
               type="date"
@@ -243,6 +250,19 @@ const PersonalDetails = ({ }) => {
               className='bg-white border-[#D0D5DD] border rounded-lg h-20  md:w-[500px] w-full mb-6 p-4'
             />
           </div>
+          <div>
+            <p className='text-gray-700 text-sm mb-2'>Local Govt</p>
+            <input
+              type="text"
+              value={lga}
+              onChange={handleLgaChange}
+              required
+              placeholder='Type Local Govt'
+              className='bg-white border-[#D0D5DD] border rounded-lg h-20  md:w-[500px] w-full mb-6 p-4'
+            />
+          </div>
+          </div>
+          
         </div>
       </form>
       <div className='flex justify-center mt-2'>

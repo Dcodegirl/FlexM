@@ -111,7 +111,7 @@ function Contact({ nextStep }) {
         <div className="md:p-16 py-16 px-8 md:bg-bg-green md:border-border-primary bg-white border-white rounded-3xl border">
           <div className="text-deep-green font-bold text-center">
             <p className='text-2xl'>Verify your BVN</p>
-            <p className="text-gray-500 text-xl font-thin w-[360px]">we sent OTP to the number attached to your BVN +2347065436765</p>
+            <p className="text-gray-500 text-xl font-thin w-[360px]">we sent OTP to the number attached to your BVN</p>
           </div>
           <div className='w-[350px] mt-6 flex items-center justify-center'>
             <form onSubmit={handleSubmit} className=''>
