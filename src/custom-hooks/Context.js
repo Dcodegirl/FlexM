@@ -8,7 +8,9 @@ export const GlobalProvider = ({ children }) => {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [address, setAddress] = useState('');
+    const [lga, setLga] = useState('');
     const [state, setState] = useState('');
+    const [phoneNum, setPhoneNum] = useState('');
     const [country, setCountry] = useState('');
     const [selectedState, setSelectedState] = useState('');
     const [selectedCountry, setSelectedCountry] = useState('');
@@ -22,7 +24,9 @@ export const GlobalProvider = ({ children }) => {
                 userId, setUserId, 
                 firstname, setFirstname,
                 lastname, setLastname,
+                lga, setLga,
                 address, setAddress,
+                phoneNum, setPhoneNum,
                 selectedState, setSelectedState,
                 selectedCountry, setSelectedCountry,
                 country, setCountry,

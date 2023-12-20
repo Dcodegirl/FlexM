@@ -28,9 +28,9 @@ const CreateAgent = () => {
               <div
                 key={index}
                 className={`${index < tabIndex - 1
-                  ? 'bg-progress-green h-2'
+                  ? 'bg-color1 h-2'
                   : index === tabIndex - 1
-                    ? 'bg-progress-green h-2'
+                    ? 'bg-color1 h-2'
                     : 'bg-progress-light h-2'
                   } rounded-lg transition-all ease-in-out duration-300`}
               >

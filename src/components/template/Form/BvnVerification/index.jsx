@@ -54,8 +54,7 @@ function BvnVerifi({ nextStep }) {
         
         // that falls out of the range of 2xx
         const { status, data } = error.response;
-        addToast(`Server error: ${status} - ${data.message}`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  }
-          );
+        addToast(` ${data.message}`, { appearance: 'error' });
       } else if (error.request) {
         // The request was made but no response was received
         addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
@@ -119,7 +118,7 @@ function BvnVerifi({ nextStep }) {
             </button>
             <button
               onClick={handleSubmit}
-              className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''}`}
+              className={`bg-color1 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''}`}
               disabled={loading}
             >
               {loading && (

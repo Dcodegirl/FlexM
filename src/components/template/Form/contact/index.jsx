@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from '../../../../utils/axiosInstance'; // Import Axios
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useToasts } from 'react-toast-notifications';
+import { useGlobalContext } from '../../../../custom-hooks/Context';
 
 const Contact = ({ nextStep }) => {
   const { addToast } = useToasts();
   const [loading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
+  const {setPhoneNum} = useGlobalContext();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -76,7 +78,8 @@ const Contact = ({ nextStep }) => {
         const responseData = response.data;
         console.log('API Response:', responseData);
   
-        addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000  });
+        addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success' });
+        setPhoneNum(phoneNumber)
         nextStep();
       } catch (error) {
         console.error('API Error:', error);
@@ -89,18 +92,18 @@ const Contact = ({ nextStep }) => {
           if (data && data.errors) {
             // If the error response contains 'errors' field, display each error in a separate toast
             Object.values(data.errors).flat().forEach(errorMessage => {
-              addToast(`Server error: ${status} - ${errorMessage}`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+              addToast(`${errorMessage}`, { appearance: 'error' });
             });
           } else {
             // If the error response does not contain 'errors' field, display a generic error message
-            addToast(`Server error: ${status} - An unexpected error occurred.`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+            addToast(`An unexpected error occurred.`, { appearance: 'error' });
           }
         } else if (error.request) {
           // The request was made but no response was received
-          addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+          addToast('No response from the server. Please try again.', { appearance: 'error' });
         } else {
           // Something happened in setting up the request that triggered an error
-          addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+          addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
         }
       } finally {
         setLoading(false);
@@ -108,7 +111,7 @@ const Contact = ({ nextStep }) => {
     } else {
       // Passwords don't match, display an error or handle it as needed
       setPasswordMatch(false);
-      addToast('Passwords do not match.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+      addToast('Passwords do not match.', { appearance: 'error' });
     }
   };
   
@@ -169,8 +172,8 @@ const Contact = ({ nextStep }) => {
                   value={businessType}
                   onChange={handleBtypeChange}
                 >
-                  <option value="">Agent</option>
-                  <option value="drivers-license">Individual</option>
+                  <option value="agent">Agent</option>
+                  <option value="merchant" disabled>Merchant</option>
                 </select>
               </div>
               <div className="mb-6">
@@ -183,8 +186,8 @@ const Contact = ({ nextStep }) => {
                   value={gender}
                   onChange={handleGenderChange}
                 >
-                  <option value="">Male</option>
-                  <option value="drivers-license">Female</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                 </select>
               </div>
               <div className="mb-6">
@@ -244,7 +247,7 @@ const Contact = ({ nextStep }) => {
               </div>
               <button
                 type="submit"
-                className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 w-full text-white mx-auto relative ${
+                className={` bg-color1 rounded-lg h-14 w-full text-white mx-auto relative ${
                   loading ? 'opacity-50 pointer-events-none' : ''
                 }`}
                 disabled={loading}

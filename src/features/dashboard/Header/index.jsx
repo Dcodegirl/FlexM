@@ -182,7 +182,7 @@ const Header = ({
                                 </div>
                                 <div className='p-5'>
                                     <Link
-                                        to='/profile'
+                                        to='/settings'
                                         className='flex items-center relative  text-no-underline text-purple-800 text-lg'
                                     >
                                         <img
@@ -198,7 +198,7 @@ const Header = ({
                                         />
                                     </Link>
                                     <Link
-                                        to='/profile'
+                                        to='/settings'
                                         className="flex items-center relative  no-underline text-purple-800 text-lg"
                                     >
                                         <img
@@ -230,7 +230,7 @@ const Header = ({
                                         />
                                     </Link>
                                     <Link
-                                        to='Profile'
+                                        to='settings'
                                         className="flex items-center relative  no-underline text-purple-800 text-lg"
                                     >
                                         <img

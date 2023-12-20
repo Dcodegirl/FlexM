@@ -6,6 +6,7 @@ import { useGlobalContext } from '../../../../custom-hooks/Context';
 function Contact({ nextStep }) {
   const { addToast } = useToasts();
   const { setUserId } = useGlobalContext();
+  const { phoneNum } = useGlobalContext();
   const [timeLeft, setTimeLeft] = useState(600);
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
@@ -31,30 +32,30 @@ function Contact({ nextStep }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
       setLoading(true);
-  
+
       const enteredOtp = otp.join('');
       const payload = {
         code: enteredOtp,
       };
-  
+
       const response = await axios.post('/onboarding/confirm', payload);
-  
+
       const responseData = response.data;
       setUserId(responseData.data.id);
-  
+
       addToast('OTP verification successful!', { appearance: 'success' });
       nextStep();
     } catch (error) {
       console.error('API Error:', error);
-  
+
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         const { status, data } = error.response;
-        addToast(`Server error: ${status} - ${data.message}`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+        addToast(`${data.message}`, { appearance: 'error' });
       } else if (error.request) {
         // The request was made but no response was received
         addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
@@ -66,7 +67,7 @@ function Contact({ nextStep }) {
       setLoading(false);
     }
   };
-  
+
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -93,6 +94,27 @@ function Contact({ nextStep }) {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
+  const handleResendOtp = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post('/onboarding/resend', { phone: phoneNum });
+      const responseData = response.data;
+
+      if (responseData.status === 'Successful') {
+        // Reset the timer and disable the Resend button
+        setTimeLeft(600);
+        setResendButtonDisabled(true);
+        addToast('OTP has been resent successfully!', { appearance: 'success' });
+      } else {
+        addToast('Failed to resend OTP. Please try again.', { appearance: 'error' });
+      }
+    } catch (error) {
+      console.error('API Error:', error);
+      addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -101,7 +123,7 @@ function Contact({ nextStep }) {
           <div className='text-deep-green font-bold text-center'>
             <p className='text-2xl'>Verify your OTP</p>
             <p className='text-gray-500 text-xl font-thin w-[360px]'>
-              We sent OTP to the number attached to your OTP +2347065436765
+              We sent OTP to the number attached to your OTP {phoneNum}
             </p>
           </div>
           <div className='w-[350px] mt-6 flex items-center justify-center'>
@@ -131,7 +153,13 @@ function Contact({ nextStep }) {
           <div className='flex justify-center'>
             <p>
               I didn't get the code?{' '}
-              {resendButtonDisabled ? 'Resend OTP' : <a href='#'>Resend OTP</a>}
+              {resendButtonDisabled ? (
+                `Resend OTP in ${formatTime(timeLeft)}`
+              ) : (
+                <span onClick={handleResendOtp} style={{ cursor: 'pointer' }}>
+                  Resend OTP
+                </span>
+              )}
             </p>
           </div>
           <div className='flex p-2'>
@@ -142,9 +170,8 @@ function Contact({ nextStep }) {
             </button>
             <button
               onClick={handleSubmit}
-              className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${
-                loading ? 'opacity-50 pointer-events-none' : ''
-              }`}
+              className={` bg-color1 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''
+                }`}
               disabled={loading}
             >
               {loading && (

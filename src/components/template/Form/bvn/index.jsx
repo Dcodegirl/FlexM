@@ -4,7 +4,7 @@ import { useGlobalContext } from '../../../../custom-hooks/Context';
 import { useToasts } from 'react-toast-notifications';
 
 function Contact({ nextStep }) {
-  const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry } = useGlobalContext();
+  const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, phoneNum } = useGlobalContext();
   const { addToast } = useToasts();
 
   const [timeLeft, setTimeLeft] = useState(600);
@@ -87,6 +87,7 @@ function Contact({ nextStep }) {
         setAddress(responseData.data.address);
         setSelectedState(responseData.data.state);
         setSelectedCountry(responseData.data.country);
+        setLga(responseData.data.lga);
         setState(responseData.data.state);
         setCountry(responseData.data.country);
 
@@ -115,6 +116,27 @@ function Contact({ nextStep }) {
       });
     }
   };
+  const handleResendOtp = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post('/onboarding/resend', { phone: phoneNum });
+      const responseData = response.data;
+
+      if (responseData.status === 'Successful') {
+        // Reset the timer and disable the Resend button
+        setTimeLeft(600);
+        setResendButtonDisabled(true);
+        addToast('OTP has been resent successfully!', { appearance: 'success' });
+      } else {
+        addToast('Failed to resend OTP. Please try again.', { appearance: 'error' });
+      }
+    } catch (error) {
+      console.error('API Error:', error);
+      addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -122,7 +144,7 @@ function Contact({ nextStep }) {
         <div className="md:p-16 py-16 px-8 md:bg-bg-green md:border-border-primary bg-white border-white rounded-3xl border">
           <div className="text-deep-green font-bold text-center">
             <p className='text-2xl'>Verify your BVN</p>
-            <p className="text-gray-500 text-xl font-thin w-[360px]">we sent OTP to the number attached to your BVN +2347065436765</p>
+            <p className="text-gray-500 text-xl font-thin w-[360px]">we sent OTP to the number attached to your BVN {phoneNum}</p>
           </div>
           <div className='w-[350px] mt-6 flex items-center justify-center'>
             <form onSubmit={handleSubmit} className=''>
@@ -149,7 +171,16 @@ function Contact({ nextStep }) {
             {formatTime(timeLeft)}
           </div>
           <div className="flex justify-center">
-            <p>I didn't get the code? {resendButtonDisabled ? 'Resend OTP' : <a href="#"><span className="text-[#00BD7A]">Resend OTP</span></a>}</p>
+          <p>
+              I didn't get the code?{' '}
+              {resendButtonDisabled ? (
+                `Resend OTP in ${formatTime(timeLeft)}`
+              ) : (
+                <span onClick={handleResendOtp} style={{ cursor: 'pointer' }}>
+                  Resend OTP
+                </span>
+              )}
+            </p>
           </div>
           <div className="flex p-2">
             <button
@@ -160,7 +191,7 @@ function Contact({ nextStep }) {
             </button>
             <button
               onClick={handleSubmit}
-              className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''}`}
+              className={`bg-color1 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''}`}
               disabled={loading}
             >
               {loading && (
