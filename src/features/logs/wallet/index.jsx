@@ -36,6 +36,10 @@ const Users = () => {
     fetchData();
   }, []);
   const formatAmount = (amount) => {
+    if (amount === undefined || amount === null) {
+      // Provide a default value or handle the case where amount is undefined or null
+      return 'N/A';
+    }
     return amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
   const walletInfoProps = {

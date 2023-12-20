@@ -44,22 +44,22 @@ const Header = ({
     const wrapperRef = useRef(null);
     const { addToast } = useToasts();
    
-    useEffect(() => {
-        let isCancelled;
+    // useEffect(() => {
+    //     let isCancelled;
 
-        if (!isCancelled) {
-            if (isDefaultPassword == 1) {
-                addToast('Please create a new password to continue', {
-                    appearance: 'info',
-                    autoDismiss: false,
-                });
-            }
-        }
+    //     if (!isCancelled) {
+    //         if (isDefaultPassword == 1) {
+    //             addToast('Please create a new password to continue', {
+    //                 appearance: 'info',
+    //                 autoDismiss: false,
+    //             });
+    //         }
+    //     }
 
-        return () => {
-            isCancelled = true;
-        };
-    }, []);
+    //     return () => {
+    //         isCancelled = true;
+    //     };
+    // }, []);
 
     const handleToggleNotifications = () => {
         notifications.forEach((notification) => {
