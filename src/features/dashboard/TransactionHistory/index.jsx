@@ -1,31 +1,67 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { TransactionData, Transactions } from '../data/transactionData';
-// import "./style.css";
 
-const Trans = ({ }) => {
-
-    const periods = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+const Trans = () => {
     const [selectedPeriod, setSelectedPeriod] = useState('Monthly');
-    const transactions = TransactionData();
+    const [transactions, setTransactions] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchTransactionData = async (selectedPeriod) => {
+        try {
+            setLoading(true);
+            const data = await TransactionData(selectedPeriod);
+            setTransactions(data);
+            console.log(data)
+        } catch (error) {
+            console.error('Error fetching transaction data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchTransactionData(selectedPeriod);
+    }, [selectedPeriod]);
 
     const handlePeriodSelect = (e) => {
-        // Handle the period change logic here
-        // You can fetch data for the selected period or perform any other actions
-        console.log(`Selected Period: ${e.target.value}`);
-        setSelectedPeriod(e.target.value);
+        const selectedPeriod = e.target.value;
+        console.log(`Selected Period: ${selectedPeriod}`);
+        setSelectedPeriod(selectedPeriod);
     };
+    const formatDate = (createdAt) => {
+        const date = new Date(createdAt);
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+    const getStatusLabel = (statusCode) => {
+        switch (statusCode) {
+            case '1':
+                return 'Pending';
+            case '2':
+                return 'Successful';
+            case '3':
+                return 'Failed';
+            default:
+                return 'Unknown';
+        }
+    };
+
     return (
         <>
             <div className="bg-white p-8 rounded-md mt-8">
-                <div className='flex justify-between  mb-24'>
+                <div className="flex justify-between mb-24">
                     <div>
                         <p className="text-deep-green font-medium my-4 text-3xl">Recent Transactions</p>
                     </div>
-                    {/* Add a bar or any other UI element for period selection */}
                     <div className="flex items-center justify-center gap-3">
                         <p>Sort By: </p>
-                        <select onChange={handlePeriodSelect} className="border rounded bg-[#F1F1F1] py-1.5 px-3">
+                        <select
+                            onChange={handlePeriodSelect}
+                            value={selectedPeriod}
+                            className="border rounded bg-[#F1F1F1] py-1.5 px-3"
+                        >
                             <option value="Daily">Daily</option>
                             <option value="Weekly">Weekly</option>
                             <option value="Monthly">Monthly</option>
@@ -33,38 +69,74 @@ const Trans = ({ }) => {
                         </select>
                     </div>
                 </div>
-                <div className="box  overflow-x-auto md:overflow-x-hidden">
+                <div className="box overflow-x-auto md:overflow-x-hidden">
                     <div className="md:w-full w-[1000px]">
-                        <div className="grid grid-cols-5 grid-rows-1 p-8 font-medium text-xl bg-[#F1F1F1]">
-                            <p>Agent Code</p>
-                            <p>Description</p>
-                            <p>Amount</p>
-                            <p>Status</p>
-                            <p>Date</p>
-                        </div>
-                        {transactions.map((transaction, index) => (
-                            <div key={index} className={`grid grid-cols-5 grid-rows-1 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
-                                <div className="text-wrapper-5">{transaction.agentCode}</div>
-                                <div className="text-wrapper-6">{transaction.description}</div>
-                                <p style={{
-                                    color:
-                                        transaction.status === 'Successful' ? '#00B378' :
-                                            transaction.status === 'Failed' ? '#FF1919' :
-                                                '#FF9212'
-                                }}>
-                                    <span className="span">N</span>
-                                    <span className="text-wrapper-7">{transaction.amount}</span>
-                                </p>
-                                <div style={{
-                                    color:
-                                        transaction.status === 'Successful' ? '#00B378' :
-                                            transaction.status === 'Failed' ? '#FF1919' :
-                                                '#FF9212'
-                                }}>{transaction.status}</div>
-                                <div className="text-wrapper-9">{transaction.date}</div>
-                            </div>
-                        ))}
+                        <table className="w-full border-collapse border border-gray-200">
+                            <thead>
+                                <tr className="bg-[#F1F1F1]">
+                                    <th className="p-3">Agent Code</th>
+                                    <th className="p-3">Description</th>
+                                    <th className="p-3">Amount</th>
+                                    <th className="p-3">Status</th>
+                                    <th className="p-3">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan="5" className="p-3 text-center">
+                                            Loading...
+                                        </td>
+                                    </tr>
+                                ) : transactions.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="5" className="p-3 text-center">
+                                            No transactions found
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    transactions.map((transaction, index) => (
+                                        <tr
+                                            key={index}
+                                            className={`${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'
+                                                } text-center`}
+                                        >
+                                            <td className="p-3">{transaction.agent_code}</td>
+                                            <td className="p-3">{transaction.status_description}</td>
+                                            <td
+                                                style={{
+                                                    color:
+                                                        transaction.status === 'Successful'
+                                                            ? '#00B378'
+                                                            : transaction.status === 'Failed'
+                                                                ? '#FF1919'
+                                                                : '#FF9212',
+                                                }}
+                                                className="p-3"
+                                            >
+                                                <span className="span">N</span>
+                                                {transaction.amount}
+                                            </td>
+                                            <td
+                                                style={{
+                                                    color:
+                                                        transaction.status === 'Successful'
+                                                            ? '#00B378'
+                                                            : transaction.status === 'Failed'
+                                                                ? '#FF1919'
+                                                                : '#FF9212',
+                                                }}
+                                                className="p-3"
+                                            >
+                                                {getStatusLabel(transaction.status)}
+                                            </td>
 
+                                            <td className="p-3">{formatDate(transaction.created_at)}</td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

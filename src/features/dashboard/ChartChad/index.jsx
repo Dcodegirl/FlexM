@@ -1,103 +1,67 @@
-import React from 'react';
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-const data = [
-    {
-        name: 'January',
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
-    },
-    {
-        name: 'Febuary',
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
-    },
-    {
-        name: 'March',
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
-    },
-    {
-        name: 'April',
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
-    },
-    {
-        name: 'May',
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
-    },
-    {
-        name: 'June',
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
-    },
-    {
-        name: 'July',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
-    },
-    {
-        name: 'August',
-        uv: 3000,
-        pv: 2300,
-        amt: 2100,
-    },
-    {
-        name: 'September',
-        uv: 3490,
-        pv: 1300,
-        amt: 2100,
-    },
-    {
-        name: 'October',
-        uv: 3490,
-        pv: 5400,
-        amt: 2100,
-    },
-    {
-        name: 'November',
-        uv: 3490,
-        pv: 1700,
-        amt: 2100,
-    },
-    {
-        name: 'December',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
-    },
-];
+import React, { useState, useEffect } from 'react';
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import axios from '../../../utils/axiosInstance';
 
-const ChartChad = ({}) =>{
-    return (
-        <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-                width={500}
-                height={300}
-                data={data}
-                margin={{
-                    top: 5,
-                    right: 10,
-                    left: 10,
-                    bottom: 5
-                }}
-            >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="pv" fill="#3E215B" />
-            </BarChart>
-        </ResponsiveContainer>
-    );
-}
+const ChartChad = ({ period, onLoadingChange }) => {
+  const [chartData, setChartData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`/tranxanalysis?period=${period}`);
+        const { status, data } = response.data;
+
+        if (status === 'Successful') {
+            // Format data based on period
+            const formattedData =
+              period === 'weekly'
+                ? data.days.map((day, index) => ({ name: day, pv: data.amount[index] }))
+                : period === 'monthly'
+                ? data.month.map((month, index) => ({ name: month, pv: parseFloat(data.amount[index]) }))
+                : period === 'yearly'
+                ? data.year.map((year, index) => ({ name: String(year), pv: parseFloat(data.amount[index]) }))
+                : [];
+  
+            setChartData(formattedData);
+          } else {
+            console.error('Error fetching data:', data.message);
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error.message);
+        }finally {
+            setLoading(false);
+            // Notify the parent component about the loading state change
+            onLoadingChange && onLoadingChange(loading);
+          }
+        };
+
+    fetchData();
+  }, [period, onLoadingChange]);
+
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart
+        width={500}
+        height={300}
+        data={chartData}
+        margin={{
+          top: 5,
+          right: 10,
+          left: 10,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="pv" fill="#3E215B" />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+};
 
 export default ChartChad;

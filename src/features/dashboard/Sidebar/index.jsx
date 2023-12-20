@@ -10,7 +10,7 @@ import Down from '../../../assets/icons/down.svg';
 
 import styles from './Sidebar.module.scss';
 
-export const Sidebar = ({ agentType }) => {
+export const Sidebar = ({ agentType, aggregatorId }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [width, setWidth] = useState(window.innerWidth);
     const [activeDropdown, setActiveDropdown] = useState(null);
@@ -75,58 +75,167 @@ export const Sidebar = ({ agentType }) => {
                                 />
                             </div>
                             <nav className='flex flex-col gap-16 mt-16'>
-                            {navigationItems
-                                .filter((item) => item.condition === undefined || (item.condition !== 'sub' || agentType !== 'sub'))
-                                .map((item, index) => (
-                                    <div key={index}>
-                                        {item.to ? (
-                                            <NavLink
-                                                to={item.to}
-                                                className='flex gap-5 items-center'
-                                                activeClassName={styles.active}
-                                            >
-                                                <img src={item.icon} alt="" className='navItemImage'/>
-                                                <span className='text-gray-700 font-normal text-xl'>{item.text}</span>
-                                            </NavLink>
-                                        ) : (
-                                            <div className='relative flex  items-center'>
-                                                <div className='flex flex-col'>
-                                                   <div className='flex gap-5 items-center'>
-                                                    <img src={item.icon} alt="" className='navItemImage'/>
-                                                    <div className='flex items-center'>
-                                                        <span className='text-gray-700 font-normal text-xl w-64'>{item.text}</span>
-                                                        <img src={Down} alt=""  className='flex gap-5 items-center text-gray-700'
-                                                    onClick={() => setActiveDropdown(index === activeDropdown ? null : index)}/>
+                                {navigationItems
+                                    .filter(
+                                        (item) =>
+                                            item.condition === undefined ||
+                                            (item.condition !== 'sub' || agentType !== 'sub')
+                                    )
+                                    .map((item, index) => {
+                                        if (item.isAggregator) {
+                                            if (aggregatorId !== null) {
+                                                return (
+                                                    <div key={index}>
+                                                        {item.to ? (
+                                                            <NavLink
+                                                                to={item.to}
+                                                                className='flex gap-5 items-center'
+                                                                activeClassName={styles.active}
+                                                            >
+                                                                <img src={item.icon} alt="" className='navItemImage' />
+                                                                <span className='text-gray-700 font-normal text-xl'>{item.text}</span>
+                                                            </NavLink>
+                                                        ) : (
+                                                            <div className='relative flex items-center'>
+                                                                <div className='flex flex-col'>
+                                                                    <div className='flex gap-5 items-center'>
+                                                                        <img src={item.icon} alt="" className='navItemImage' />
+                                                                        <div className='flex items-center'>
+                                                                            <span className='text-gray-700 font-normal text-xl w-64'>{item.text}</span>
+                                                                            <img
+                                                                                src={Down}
+                                                                                alt=""  
+                                                                                className='flex gap-5 items-center text-gray-700'
+                                                                                onClick={() => setActiveDropdown(index === activeDropdown ? null : index)}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                    {index === activeDropdown && (
+                                                                        <div
+                                                                            className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
+                                                                        >
+                                                                            {item.items.map((subItem, subIndex) => {
+                                                                            // if(subItem.isAggregator){
+                                                                            //     if(aggregatorId !== null){
+                                                                            //         return (
+                                                                            //             <NavLink
+                                                                            //             key={subIndex}
+                                                                            //             to={subItem.to}
+                                                                            //             className='block text-gray-700 py-1'
+                                                                            //             activeClassName={styles.active}
+                                                                            //         >
+                                                                            //             <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
+                                                                            //         </NavLink>
+                                                                            //         )
+                                                                            //     }else {
+                                                                            //         return null;
+                                                                            //     }
+                                                                            // }
+                                                                            if(subItem.isAggregator){
+                                                                               
+                                                                                    return (
+                                                                                        <NavLink
+                                                                                        key={subIndex}
+                                                                                        to={subItem.to}
+                                                                                        className='block text-gray-700 py-1'
+                                                                                        activeClassName={styles.active}
+                                                                                    >
+                                                                                        <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
+                                                                                    </NavLink>
+                                                                                    )
+                                                                                
+                                                                            }
+                                                                            
+                                                                        })}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                </div>
-                                                    
-                                                    {index === activeDropdown && (
-                                                        <div
-                                                            className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
+                                                );
+                                            } else {
+                                                return null;
+                                            }
+                                        } else {
+                                            return (
+                                                <div key={index}>
+                                                    {item.to ? (
+                                                        <NavLink
+                                                            to={item.to}
+                                                            className='flex gap-5 items-center'
+                                                            activeClassName={styles.active}
                                                         >
-                                                            {item.items.map((subItem, subIndex) => (
-                                                                <NavLink
-                                                                    key={subIndex}
-                                                                    to={subItem.to}
-                                                                    className='block text-gray-700 py-1'
-                                                                    activeClassName={styles.active}
-                                                                >
-                                                                    <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
-                                                                </NavLink>
-                                                            ))}
+                                                            <img src={item.icon} alt="" className='navItemImage' />
+                                                            <span className='text-gray-700 font-normal text-xl'>{item.text}</span>
+                                                        </NavLink>
+                                                    ) : (
+                                                        <div className='relative flex items-center'>
+                                                            <div className='flex flex-col'>
+                                                                <div className='flex gap-5 items-center'>
+                                                                    <img src={item.icon} alt="" className='navItemImage' />
+                                                                    <div className='flex items-center'>
+                                                                        <span className='text-gray-700 font-normal text-xl w-64'>{item.text}</span>
+                                                                        <img
+                                                                            src={Down}
+                                                                            alt=""
+                                                                            className='flex gap-5 items-center text-gray-700'
+                                                                            onClick={() => setActiveDropdown(index === activeDropdown ? null : index)}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                                {index === activeDropdown && (
+                                                                    // 
+                                                                    <div
+                                                                        className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
+                                                                    >
+                                                                        {item.items.map((subItem, subIndex) => {
+                                                                            // if(subItem.isAggregator){
+                                                                            //     if(aggregatorId !== null){
+                                                                            //         return (
+                                                                            //             <NavLink
+                                                                            //             key={subIndex}
+                                                                            //             to={subItem.to}
+                                                                            //             className='block text-gray-700 py-1'
+                                                                            //             activeClassName={styles.active}
+                                                                            //         >
+                                                                            //             <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
+                                                                            //         </NavLink>
+                                                                            //         )
+                                                                            //     }else {
+                                                                            //         return null;
+                                                                            //     }
+                                                                            // }
+                                                                            if(!subItem.isAggregator){
+                                                                               
+                                                                                    return (
+                                                                                        <NavLink
+                                                                                        key={subIndex}
+                                                                                        to={subItem.to}
+                                                                                        className='block text-gray-700 py-1'
+                                                                                        activeClassName={styles.active}
+                                                                                    >
+                                                                                        <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
+                                                                                    </NavLink>
+                                                                                    )
+                                                                                
+                                                                            }
+                                                                            
+                                                                        })}
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         </div>
-                                                    )} 
+                                                    )}
                                                 </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                        </nav>
+                                            );
+                                        }
+                                    })}
+                            </nav>
                         </div>
                     </div>
                 )}
             </div>
-
         </>
     );
 };
@@ -134,6 +243,7 @@ export const Sidebar = ({ agentType }) => {
 const mapStateToProps = (state) => {
     return {
         agentType: state.auth.user.type,
+        aggregatorId: state.auth.user.aggregator_id,
     };
 };
 

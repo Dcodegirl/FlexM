@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from '../../../../utils/axiosInstance'; // Import Axios
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useToasts } from 'react-toast-notifications';
+import { useGlobalContext } from '../../../../custom-hooks/Context';
 
 const Contact = ({ nextStep }) => {
   const { addToast } = useToasts();
   const [loading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
+  const {setPhoneNum} = useGlobalContext();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -77,6 +79,7 @@ const Contact = ({ nextStep }) => {
         console.log('API Response:', responseData);
   
         addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success' });
+        setPhoneNum(phoneNumber)
         nextStep();
       } catch (error) {
         console.error('API Error:', error);
@@ -183,8 +186,8 @@ const Contact = ({ nextStep }) => {
                   value={gender}
                   onChange={handleGenderChange}
                 >
-                  <option value="">Male</option>
-                  <option value="drivers-license">Female</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                 </select>
               </div>
               <div className="mb-6">
@@ -244,7 +247,7 @@ const Contact = ({ nextStep }) => {
               </div>
               <button
                 type="submit"
-                className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 w-full text-white mx-auto relative ${
+                className={` bg-color1 rounded-lg h-14 w-full text-white mx-auto relative ${
                   loading ? 'opacity-50 pointer-events-none' : ''
                 }`}
                 disabled={loading}

@@ -10,7 +10,7 @@ import ConfirmTerminalModal from "../../features/dashboard/modal/ConfirmTerminal
 
 
 const ViewAgent = () => {
-    const transactions = AgentTransactionData();
+    const [transactions, setTransactions] = useState([]);
     const [selectedTransactionId, setSelectedTransactionId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAssignTerminalModalOpen, setIsAssignTerminalModalOpen] = useState(false);
@@ -28,18 +28,10 @@ const ViewAgent = () => {
         setIsAssignTerminalModalOpen(false);
     };
     const handleConfirm = () => {
-        // Handle confirmation logic here
-        // ...
-
-        // Close the confirmation modal
         setIsConfirmationModalOpen(false);
     };
 
     const handleCancel = () => {
-        // Handle cancellation logic here
-        // ...
-
-        // Close the confirmation modal
         setIsConfirmationModalOpen(false);
     };
     const handleAssignTerminalClick = () => {
@@ -48,7 +40,6 @@ const ViewAgent = () => {
 
     useEffect(() => {
         const handleOutsideClick = (e) => {
-            // Close the modal if the click is outside the modal content
             if (!e.target.closest('.modal-content')) {
                 closeModal();
             }
@@ -56,11 +47,22 @@ const ViewAgent = () => {
 
         // Add event listener for clicks outside the modal
         document.addEventListener('mousedown', handleOutsideClick);
-        // Clean up the event listener on component unmount
         return () => {
             document.removeEventListener('mousedown', handleOutsideClick);
         };
-    }, []); // Ensure that closeModal is accessible within this scope
+    }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const data = await AgentTransactionData();
+            setTransactions(data);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+    
+        fetchData();
+      }, []);
 
     const selectedTransaction = transactions.find(transaction => transaction.id === selectedTransactionId);
     // Use react-router-dom to navigate to the ViewSingleAgent page

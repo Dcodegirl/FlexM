@@ -1,17 +1,17 @@
 import React, { useState , useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import TransactionDetailsModal from '../../dashboard/modal/TransactionDetailsModal';
 import more from '../../../assets/icons/moreDot.svg'
-import { TransactionData, Transactions } from '../../dashboard/data/transactionData';
+import { fetchTransactionsData } from '../../dashboard/data/transactionData';
 // import "./style.css";
 
-const TransactionLog = ({ }) => {
+const TransactionLog = ({ user }) => {
 
-    const periods = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+    
     const [selectedPeriod, setSelectedPeriod] = useState('Monthly');
     const [selectedTransactionId, setSelectedTransactionId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const transactions = Transactions();
+    const [transactions, setTransactions] = useState([]);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
@@ -30,6 +30,30 @@ const TransactionLog = ({ }) => {
         setSelectedTransactionId(null);
         setIsModalOpen(false);
     };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (user) {
+                    console.log("User in TransactionLog component:", user);
+                    // Extract the 'id' from the user data in Redux state
+                    const agentId = user.id;
+    
+                    // Fetch transactions data using the agentId
+                    const transactionData = await fetchTransactionsData(agentId);
+                    setTransactions(transactionData);
+                } else {
+                    console.error("User data not found in Redux state");
+                }
+            } catch (error) {
+                console.error("Error fetching transaction data:", error);
+            }
+        };
+    
+        fetchData();
+    }, [user]);
+    
+    
+    
     useEffect(() => {
         const handleOutsideClick = (e) => {
             // Close the modal if the click is outside the modal content
@@ -175,5 +199,10 @@ const TransactionLog = ({ }) => {
         </>
     );
 };
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+    };
+};
 
-export default TransactionLog;
+export default connect(mapStateToProps)(TransactionLog);

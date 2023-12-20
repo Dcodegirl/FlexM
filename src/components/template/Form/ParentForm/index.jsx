@@ -93,33 +93,6 @@ const MultiStepForm = () => {
       <div className="flex justify-center">
         <div className="flex flex-col">
           {currentStepComponent}
-          {/* <div className="flex p-2">
-            {!isFirstStep && (
-              <button
-                onClick={prevStep}
-                className="bg-global-gray border rounded-lg h-14 w-[30%] text-deep-green mx-auto"
-              >
-                <i className="fa-solid fa-left-long md:px-4 px-2"></i>Previous
-              </button>
-            )}
-
-            {!isLastStep ? (
-            <button
-              onClick={nextStep}
-              className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto"
-            >
-              Next
-            </button>
-            ) : (
-              <button
-                 // Add your submit handler function
-                className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2  rounded-lg h-14 w-[60%]  text-white mx-auto"
-              >
-                Submit
-              </button>
-            )}
-
-          </div> */}
         </div>
       </div>
     </div>
