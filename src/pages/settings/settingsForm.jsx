@@ -3,17 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
   faEyeSlash,
-  faDownload,
-  faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "../../utils/axiosInstance";
 import svg from "../../assets/images/Upload.svg";
-import downloadsvg from "../../assets/images/downloading.svg";
 import profileAvatar from "../../assets/images/avatarImg.svg";
-import { useToasts } from 'react-toast-notifications';
-
+import { useToasts } from "react-toast-notifications";
 
 const Settings = () => {
+  const [otp, setOtp] = useState("");
   const [step, setStep] = useState(1);
   const [tabIndex, setTabIndex] = useState(1);
   const { addToast } = useToasts();
@@ -26,23 +23,11 @@ const Settings = () => {
     },
     image: "",
   });
-  const [docUploadPayload, setDocUploadPayload] = useState({
-    business_address: "",
-    document: {
-        type: "",
-        image: ""
-    },
-    utility: {
-        image: ""
-    },
-    "guarantor": {
-        file: ""
-    }
-  })
-  const [pinPayload, setPinPayload]= useState({
-    agent_id:"",
-    transaction_pin : ""
-  })
+  const [docUploadPayload, setDocUploadPayload] = useState('');
+  const [pinPayload, setPinPayload] = useState({
+    agent_id: "",
+    transaction_pin: "",
+  });
   const [userData, setUserData] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -55,90 +40,101 @@ const Settings = () => {
   const [utilityImage, setUtilityImage] = useState(null);
   const [docImage, setDocImage] = useState(null);
   const [fileUploaded, setFileUploaded] = useState(false);
-  const [guarantorUpload, setGuarantorUpload]= useState(false)
-  const [guarantorSelect, setGuarantorSelect]= useState(null);
-  const [pin, setPin] = useState([])
-  const [confirmPin, setConfirmPin] = useState([])
-
-
+  const [guarantorUpload, setGuarantorUpload] = useState(false);
+  const [guarantorSelect, setGuarantorSelect] = useState(null);
+  const [pin, setPin] = useState([]);
+  const [confirmPin, setConfirmPin] = useState([]);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const pinInputRefs = [useRef(), useRef(), useRef(), useRef()];
+  const confirmPinInputRefs = [useRef(), useRef(), useRef(), useRef()];
+  const utilityBillInputRef = useRef();
+  const idDocumentInputRef = useRef();
+
+
+  // business_address
+  // document_type
+  // document_image
+  // utility_image
+  // guarantor_file
 
   const CONTACT_DETAILS = "/agent/contact";
-  const TRANSACTION_PIN = "/AgPin"
-  
-  const handleTransactionPin = async ()=>{
+  const TRANSACTION_PIN = "/AgPin";
+  const handleDocumentFileChange = (e) => {
+    const file = e.target.files[0];
+    setDocumentImage(file);
+  };
+  const handleUtilityBillChange = (e) => {
+    const file = e.target.files[0];
+    setUtilityImage(file);
+  };
+  const handleTransactionPin = async () => {
     console.log({
-      pin: pin.join(''),
-      confirmPin: confirmPin.join('')
-    })
-    if (pin.join('') === confirmPin.join('') ) {
-      
+      pin: pin.join(""),
+      confirmPin: confirmPin.join(""),
+    });
+    if (pin.join("") === confirmPin.join("")) {
       const transactionPin = {
         agent_id: pinPayload.agent_id,
-        transaction_pin: pin.join('') 
-      }
-      
-       try {
-        let data = await axios.post(TRANSACTION_PIN, transactionPin)
-        console.log(data)
-        addToast('Profile updated successfully!', {
-          appearance: 'success',
+        transaction_pin: pin.join(""),
+      };
+
+      try {
+        let data = await axios.post(TRANSACTION_PIN, transactionPin);
+        console.log(data);
+        addToast("Profile updated successfully!", {
+          appearance: "success",
           autoDismiss: true,
           autoDismissTimeout: 3000, // milliseconds
         });
-  
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-  
-    }else{
-      addToast('Pin Incorrect!', {
-        appearance: 'warning',
+    } else {
+      addToast("Pin Incorrect!", {
+        appearance: "warning",
         autoDismiss: true,
         autoDismissTimeout: 3000, // milliseconds
       });
     }
-    
-    
-  }
+  };
+
+  const handleUserBioData = async () => {
+    const bio = new FormData() 
+    bio.append('business_address', docUploadPayload)
+    bio.append('guarantor_file',  guarantorSelect)
+    bio.append('utility_image', utilityImage )
+    bio.append('document_type', selectedDocument)
+    bio.append('document_image', documentImage )
 
 
-  const handleUserBioData =async()=>{
-    const bio = {
-      ...docUploadPayload,
-      document: {
-          type: "",
-          image: ""
-      },
-      utility: {
-          image: ""
-      },
-      guarantor: {
-          file: guarantorSelect
-      } 
-  }
-    console.log(docUploadPayload)
+    console.log(docUploadPayload);
     try {
-      let data = await axios.put('/agent/bio-data', bio)
-      console.log(data)
-      addToast('Profile updated successfully!', {
-        appearance: 'success',
+      let data = await axios.put("/agent/bio-data", bio);
+      if(data.status=== 200){
+        addToast("Profile updated successfully!", {
+          appearance: "success",
+          autoDismiss: true,
+          autoDismissTimeout: 3000, // milliseconds
+        });
+      }
+      
+    } catch (error) {
+      addToast("An error occured", {
+        appearance: "error",
         autoDismiss: true,
         autoDismissTimeout: 3000, // milliseconds
       });
-
-    } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   const uploadFile = () => {
     // Your upload logic goes here
 
     // Assuming the upload was successful
-    setGuarantorUpload(true)
+    setGuarantorUpload(true);
     setFileUploaded(true);
   };
   useEffect(() => {
@@ -149,21 +145,15 @@ const Settings = () => {
         setUserData(response.data.data.agent);
         setPayload({
           ...payload,
-          email: response.data.data.agent.email
-          
-        })
-        setDocUploadPayload({
-          ...docUploadPayload,
-          business_address: response.data.data.agent.business_address
-          
-        })
+          email: response.data.data.agent.email,
+        });
+        setDocUploadPayload(response.data.data.agent.business_address);
         setPinPayload({
           ...pinPayload,
-          agent_id: response.data.data.agent.id
-        })
-        selectedCountry(response.data.data.agent.country || '')
-        selectedState(response.data.data.agent.state || '')
-
+          agent_id: response.data.data.agent.id,
+        });
+        selectedCountry(response.data.data.agent.country || "");
+        selectedState(response.data.data.agent.state || "");
       })
       .catch((error) => {
         console.error("Error fetching user information:", error);
@@ -187,6 +177,38 @@ const Settings = () => {
 
     fetchUserProfile();
   }, []);
+  const handleInputChange = (index, setValue, nextInputRef, e) => {
+    const { value } = e.target;
+    setValue((prevPin) => {
+      const newPin = [...prevPin];
+      newPin[index] = value;
+
+      // Move focus to the next input field if there is one and the current input is not the last one
+      if (value !== '' && index < 3 && nextInputRef.current) {
+        nextInputRef.current.focus();
+      } else if (index === 3 && value !== '') {
+        // Move to the first input of the confirm PIN form when the last PIN input is filled
+        confirmPinInputRefs[0].current.focus();
+      }
+
+      return newPin;
+    });
+  };
+
+  const handleConfirmPinInputChange = (index, e) => {
+    const { value } = e.target;
+    setConfirmPin((prevConfirmPin) => {
+      const newConfirmPin = [...prevConfirmPin];
+      newConfirmPin[index] = value;
+
+      // Move focus to the next input field if there is one
+      if (value !== '' && confirmPinInputRefs[index + 1]?.current) {
+        confirmPinInputRefs[index + 1].current.focus();
+      }
+
+      return newConfirmPin;
+    });
+  };
 
   const handleUpload = () => {
     // Perform upload logic
@@ -197,7 +219,6 @@ const Settings = () => {
     setTimeout(() => {
       setFileUploaded(false);
     }, 2000);
-
   };
 
   const handleUploadButtonClick = () => {
@@ -207,28 +228,25 @@ const Settings = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
-  
+
     const formData = new FormData();
-    formData.append('image', file);
-  
+    formData.append("image", file);
+
     setPayload({
       ...payload,
       image: formData,
     });
   };
-  
 
   const linkRef = useRef(null);
   const handleGuarantorUpload = (event) => {
     setSelectedDocument(event.target.value);
     setGuarantorUpload(true);
-
   };
 
   const handleDocumentChange = (event) => {
     setSelectedDocument(event.target.value);
     setFileUploaded(true);
-
   };
 
   const handleUtilityFileChange = async (event) => {
@@ -256,7 +274,6 @@ const Settings = () => {
       }
     }
     setFileUploaded(true);
-
   };
   const downloadForm = () => {
     // Replace with the actual URL of the form document to be downloaded
@@ -382,12 +399,11 @@ const Settings = () => {
       console.log("Changes saved!");
 
       // Display a success toast notification
-      addToast('Profile updated successfully!', {
-        appearance: 'success',
+      addToast("Profile updated successfully!", {
+        appearance: "success",
         autoDismiss: true,
         autoDismissTimeout: 3000, // milliseconds
       });
-
     } catch (error) {
       console.error("Error saving changes:", error);
     }
@@ -479,7 +495,7 @@ const Settings = () => {
                         password: {
                           ...payload.password,
                           new_password: e.target.value,
-                          confirm_password: e.target.value
+                          confirm_password: e.target.value,
                         },
                       })
                     }
@@ -528,9 +544,17 @@ const Settings = () => {
                     style={{ display: "none" }}
                   />
                   <div className="h-20 w-20 overflow-hidden rounded-full">
-                  <img alt=""  src={selectedImage ? URL.createObjectURL(selectedImage) : profileAvatar} className="w-full h-full"/>
+                    <img
+                      alt=""
+                      src={
+                        selectedImage
+                          ? URL.createObjectURL(selectedImage)
+                          : profileAvatar
+                      }
+                      className="w-full h-full"
+                    />
                   </div>
-                 
+
                   <button
                     type="button"
                     className="bg-white text-white px-4 py-2 rounded"
@@ -605,18 +629,14 @@ const Settings = () => {
                   </label>
                   <div className="password-input">
                     <input
-                      
                       id="address"
                       name="address"
                       onChange={(e) =>
-                        setDocUploadPayload({
-                          ...docUploadPayload,
-                          business_address: e.target.value
-                        })
-                      }                     
-                       placeholder="Type Address"
+                        setDocUploadPayload( e.target.value)
+                      }
+                      placeholder="Type Address"
                       className="outline outline-gray-100 md:p-4 p-2 md:w-[500px] w-full"
-                      value={docUploadPayload.business_address}
+                      value={docUploadPayload}
                       required
                     />
                   </div>
@@ -684,31 +704,23 @@ const Settings = () => {
                   <div className="text-deep-green font-bold text-left gap-2 mb-2 flex flex-col">
                     <p className="text-2xl">Guarantor Form</p>
                     <p className="text-gray-700 text-2xl font-thin w-[360px]">
-                      Upload a signed copy of this form in your
-                      profile
+                      Upload a signed copy of this form in your profile
                     </p>
                   </div>
                   <div className=" bg-white border border-gray-100 rounded-lg h-14 w-full mb-6 md:p-6 p-3 flex items-center justify-between mt-4 md:w-[300px] lg:w-[500px] relative">
-                  <input
-                      type= 'file'
+                    <input
+                      type="file"
                       id="upload"
                       name="upload"
                       onChange={(e) => {
                         const file = e.target.files[0];
                         setGuarantorSelect(file);
-                      
-                        
-
                       }}
                       className="outline outline-gray-100 md:p-4 p-2 w-full absolute top-0 left-0 opacity-0 z-10"
                       required
                     />
                     <div className="flex gap-2">
-                      <img
-                        src={svg}
-                        alt="Upload Icon"
-                        className="h-10 w-10"
-                      />
+                      <img src={svg} alt="Upload Icon" className="h-10 w-10" />
                       <div className="flex flex-col">
                         <p className="text-2xl text-gray-900">
                           Upload Guarantor Form
@@ -719,245 +731,152 @@ const Settings = () => {
                       </div>
                     </div>
                     <div className="mb-2 ">
-        {!fileUploaded ? (
-          <button
-            type="button"
-            className="bg-[#ECE9FC] py-3 md:px-6 px-3 mt-2 rounded-md text-deep-green"
-            onClick={guarantorUpload}
-          >
-            Upload
-          </button>
-        ) : (
-          <span className="text-deep-green">File Uploaded</span>
-        )}
-      </div>
-  
-                  </div>
-
-                  <div className="mt-6">
-                    <p className="text-gray-700 text-2xl mb-2">
-                      Utilities Bill
-                    </p>
-                    <div className="relative">
-                      <div className="border border-gray-300 border-dotted p-2 rounded-md h-16 w-full ">
-                        {utilityImage ? (
-                          // Display the uploaded image information
-                          <div className="flex gap-5 items-center justify-between">
-                            <div className="flex gap-2">
-                              <img
-                                src={svg}
-                                alt="Uploaded Icon"
-                                className="h-10 w-10"
-                              />
-                              <div className="flex flex-col">
-                                <p className="text-2xl text-gray-900">
-                                  Image Uploaded
-                                </p>
-                              </div>
-                            </div>
-                            <div>
-                              {/* Optionally, add an "Edit" button or additional actions */}
-                              <button
-                                type="button"
-                                className="bg-purple-100 text-white p-2 rounded-md"
-                                onClick={() => setUtilityImage(null)}
-                              >
-                                Edit
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          // Display the "Tap to Upload" section
-                          <label
-                            htmlFor="utilityFileInput"
-                            className="flex gap-2 cursor-pointer"
-                          >
-                            <div className="flex gap-2">
-                              <img
-                                src={svg}
-                                alt="Upload Icon"
-                                className="h-10 w-10"
-                              />
-                              <div className="flex flex-col">
-                                <p className="text-2xl text-gray-900">
-                                  Tap to Upload
-                                </p>
-                                <p className="block text-gray-400 text-xs">
-                                  PNG, JPG | 10MB max
-                                </p>
-                              </div>
-                            </div>
-                            <input
-                              type="file"
-                              accept=".pdf, .jpg, .png"
-                              id="utilityFileInput"
-                              className="hidden"
-                              onChange={handleUtilityFileChange}
-                            />
-                          </label>
-                        )}
-                      </div>
-
-                      {/* Conditionally render the Upload button based on the state */}
-                      {utilityImage && uploadProgress === 0 && (
+                      {!fileUploaded ? (
                         <button
                           type="button"
-                          className="bg-progress-green text-white p-2 mt-2 rounded-md"
-                          onClick={handleUpload}
+                          className="bg-[#ECE9FC] py-3 md:px-6 px-3 mt-2 rounded-md text-deep-green"
+                          onClick={guarantorUpload}
                         >
                           Upload
                         </button>
-                      )}
-
-                      {uploadProgress > 0 && (
-                        <div className="relative mt-4">
-                          {/* Display the upload progress */}
-                          <div className="flex h-2 mb-4 overflow-hidden text-xs bg-progress-light rounded-xl">
-                            <div
-                              style={{ width: `${uploadProgress}%` }}
-                              className="flex flex-col text-center whitespace-nowrap text-white bg-progress-green shadow-none w-0 h-4"
-                            ></div>
-                          </div>
-                          <div className="flex mb-2 items-center justify-between">
-                            <div className="text-right">
-                              <span className="text-xs font-semibold inline-block text-progress-green">
-                                {uploadProgress}% <span> Completed</span>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-deep-green font-bold text-left gap-2 mb-2 my-4 md:my-0">
-                    <p className="text-2xl">Means of ID</p>
-                    <p className="text-gray-700 text-2xl font-thin w[360px]">
-                      Download and Upload a signed copy of this form in your
-                      profile
-                    </p>
-                  </div>
-                  <select
-                    className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 md:p-4 p-2"
-                    value={selectedDocument}
-                    onChange={handleDocumentChange}
-                  >
-                    <option value="">Choose Document Type</option>
-                    <option value="drivers-license">Driver's License</option>
-                    <option value="nin-id">NIN ID</option>
-                    <option value="int-passport">Int Passport</option>
-                  </select>
-                  <div className="relative">
-                    <div className="border border-gray-300 border-dotted p-2 rounded-md h-16 w-full ">
-                      {utilityImage ? (
-                        // Display the uploaded image information
-                        <div className="flex gap-5 items-center justify-between">
-                          <div className="flex gap-2">
-                            <img
-                              src={svg}
-                              alt="Uploaded Icon"
-                              className="h-10 w-10"
-                            />
-                            <div className="flex flex-col">
-                              <p className="text-2xl text-gray-900">
-                                Image Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div>
-                            {/* Optionally, add an "Edit" button or additional actions */}
-                            <button
-                              type="button"
-                              className="bg-blue-500 text-white p-2 rounded-md"
-                              onClick={() => setDocumentImage(null)}
-                            >
-                              Edit
-                            </button>
-                          </div>
-                        </div>
                       ) : (
-                        // Display the "Tap to Upload" section
-                        <label
-                          htmlFor="utilityFileInput"
-                          className="flex gap-2 cursor-pointer"
-                        >
-                          <div className="flex gap-2">
-                            <img
-                              src={svg}
-                              alt="Upload Icon"
-                              className="h-10 w-10"
-                            />
-                            <div className="flex flex-col">
-                              <p className="text-2xl text-gray-900">
-                                Tap to Upload
-                              </p>
-                              <p className="block text-gray-400 text-xs">
-                                PNG, JPG | 10MB max
-                              </p>
-                            </div>
-                          </div>
-                          <input
-                            type="file"
-                            accept=".pdf, .jpg, .png"
-                            id="utilityFileInput"
-                            className="hidden"
-                            onChange={(e) => {
-                              const file = e.target.files[0];
-                              setDocumentImage()
-                                
-                                let reader = new FileReader();
-      
-                              reader.readAsDataURL(file);
-      
-                              reader.onload = function() {
-                                setDocUploadPayload({
-                                  ...docUploadPayload,
-                                  document:{
-                                    type: selectedDocument,
-                                    file: reader.result
-                                  }
-                                })
-                              };
-                              
-      
-                            }}
-                          />
-                        </label>
+                        <span className="text-deep-green">File Uploaded</span>
                       )}
                     </div>
-
-                    {/* Conditionally render the Upload button based on the state */}
-                    {utilityImage && uploadProgress === 0 && (
-                      <button
-                        type="button"
-                        className="bg-progress-green text-white p-2 mt-2 rounded-md"
-                        onClick={handleUpload}
-                      >
-                        Upload
-                      </button>
-                    )}
-
-                    {uploadProgress > 0 && (
-                      <div className="relative mt-4">
-                        {/* Display the upload progress */}
-                        <div className="flex h-2 mb-4 overflow-hidden text-xs bg-progress-light rounded-xl">
-                          <div
-                            style={{ width: `${uploadProgress}%` }}
-                            className="flex flex-col text-center whitespace-nowrap text-white bg-progress-green shadow-none w-0 h-4"
-                          ></div>
-                        </div>
-                        <div className="flex mb-2 items-center justify-between">
-                          <div className="text-right">
-                            <span className="text-xs font-semibold inline-block text-progress-green">
-                              {uploadProgress}% <span> Completed</span>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                  </div>
+                  <div className="mt-6">
+            <p className="text-gray-700 text-2xl mb-2">Utilities Bill</p>
+            <div className="relative">
+              <input
+                type="file"
+                id="utilityBillInput"
+                name="utilityBill"
+                ref={utilityBillInputRef}
+                className="outline outline-gray-100 md:p-4 p-2 w-full"
+                onChange={handleUtilityBillChange}
+                accept=".pdf, .jpg, .png"
+              />
+              {utilityImage ? (
+                // Display the uploaded image information
+                <div className="flex gap-5 items-center justify-between mt-4">
+                  <div className="flex gap-2">
+                    <img src={svg} alt="Uploaded Icon" className="h-10 w-10" />
+                    <div className="flex flex-col">
+                      <p className="text-2xl text-gray-900">Image Uploaded</p>
+                    </div>
+                  </div>
+                  <div>
+                    {/* Optionally, add an "Edit" button or additional actions */}
+                    <button
+                      type="button"
+                      className="bg-[#ECE9FC] text-deep-green p-2 rounded-md"
+                      onClick={() => setUtilityImage(null)}
+                    >
+                      Edit
+                    </button>
                   </div>
                 </div>
+              ) : (
+                // Display the "Tap to Upload" section
+                <label
+                  htmlFor="utilityBillInput"
+                  className="flex gap-2 cursor-pointer mt-4"
+                >
+                  <div className="flex gap-2">
+                    <img src={svg} alt="Upload Icon" className="h-10 w-10" />
+                    <div className="flex flex-col">
+                      <p className="text-2xl text-gray-900">Tap to Upload</p>
+                      <p className="block text-gray-400 text-xs">
+                        PDF, JPG, PNG | 10MB max
+                      </p>
+                    </div>
+                  </div>
+                </label>
+              )}
+            </div>
+          </div>
+                </div>
+          <div className="flex flex-col">
+            <div className="text-deep-green font-bold text-left gap-2 mb-2 my-4 md:my-0">
+              <p className="text-2xl">Means of ID</p>
+              <p className="text-gray-700 text-2xl font-thin w-[360px]">
+                Download and Upload a signed copy of this form in your profile
+              </p>
+            </div>
+            <select
+              className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 md:p-4 p-2"
+              value={selectedDocument}
+              onChange={handleDocumentChange}
+            >
+              <option value="">Choose Document Type</option>
+              <option value="drivers-license">Driver's License</option>
+              <option value="nin-id">NIN ID</option>
+              <option value="int-passport">Int Passport</option>
+            </select>
+            <div className="relative">
+  <input
+    type="file"
+    id="documentFileInput"
+    name="documentFile"
+    ref={idDocumentInputRef}
+    className="outline outline-gray-100 md:p-4 p-2 w-full"
+    onChange={handleDocumentFileChange}
+    accept=".pdf, .jpg, .png"
+  />
+  {documentImage ? (
+    // Display the uploaded image information
+    <div className="flex gap-5 items-center justify-between mt-4">
+      <div className="flex gap-2">
+        <img src={svg} alt="Uploaded Icon" className="h-10 w-10" />
+        <div className="flex flex-col">
+          <p className="text-2xl text-gray-900">Image Uploaded</p>
+        </div>
+      </div>
+      <div>
+        {/* Optionally, add an "Edit" button or additional actions */}
+        <button
+          type="button"
+          className="bg-[#ECE9FC] text-deep-green p-2 rounded-md"
+          onClick={() => setDocumentImage(null)}
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  ) : (
+    // Display the "Tap to Upload" section
+    <label
+      htmlFor="documentFileInput"
+      className="flex gap-2 cursor-pointer mt-4"
+    >
+      <div className="flex gap-2">
+        <img src={svg} alt="Upload Icon" className="h-10 w-10" />
+        <div className="flex flex-col">
+          <p className="text-2xl text-gray-900">Tap to Upload</p>
+          <p className="block text-gray-400 text-xs">PDF, JPG, PNG | 10MB max</p>
+        </div>
+      </div>
+    </label>
+  )}
+</div>
+
+{/* Conditionally render the Upload button based on the state */}
+{documentImage && (
+  <button
+    type="button"
+    className="bg-progress-green text-white p-2 mt-2 rounded-md"
+    onClick={() => {
+      // Handle the upload logic here
+      // You may want to include your upload logic or trigger an API call
+      console.log('Document Uploaded');
+    }}
+  >
+    Upload
+  </button>
+)}
+
+          </div>
+          
               </div>
 
               <button
@@ -975,100 +894,49 @@ const Settings = () => {
     case 3:
       currentStepComponent = (
         <div className="flex flex-col items-center md:py-20 md:px-40 px-20 text-2xl">
-          <div className="flex md:flex-row flex-col md:gap-20 items-center">
-            <div className="flex flex-col my-4 md:my-0">
-              <p>Enter Pin</p>
-
-              <form className="flex space-x-4">
-                {/* Four input fields for the transaction pin */}
-                <input
-                  type="text"
-                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-                  maxLength="1"
-                  placeholder="8"
-                  onChange={(e)=>{
-                  setPin([...pin, e.target.value])
-                  }}
-                />
-                <input
-                  type="text"
-                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-                  maxLength="1"
-                  placeholder="8"
-                  onChange={(e)=>{
-                    setPin([...pin, e.target.value])
-                    }}
-                />
-                <input
-                  type="text"
-                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-                  maxLength="1"
-                  placeholder="8"
-                  onChange={(e)=>{
-                    setPin([...pin, e.target.value])
-                    }}
-                />
-                <input
-                  type="text"
-                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-                  maxLength="1"
-                  placeholder="8"
-                  onChange={(e)=>{
-                    setPin([...pin, e.target.value])
-                    }}
-                />
-              </form>
-            </div>
-            <div className="flex flex-col  my-4 md:my-0">
-              <p>Confirm Pin</p>
-
-              <form className="flex space-x-4">
-                {/* Four input fields for the transaction pin */}
-                <input
-                  type="text"
-                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-                  maxLength="1"
-                  onChange={(e)=>{
-                    setConfirmPin([...confirmPin, e.target.value])
-                    }}
-                />
-                <input
-                  type="text"
-                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-                  maxLength="1"
-                  onChange={(e)=>{
-                    setConfirmPin([...confirmPin, e.target.value])
-                    }}
-                />
-                <input
-                  type="text"
-                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-                  maxLength="1"
-                  onChange={(e)=>{
-                    setConfirmPin([...confirmPin, e.target.value])
-                    }}
-                />
-                <input
-                  type="text"
-                  className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-                  maxLength="1"
-                  onChange={(e)=>{
-                    setConfirmPin([...confirmPin, e.target.value])
-                    }}
-                />
-              </form>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className=" bg-gradient-to-l from-[#0E156F]  to-[#8D0C91] hover:bg-gradient-to-r from-[#0E156F] to-[#8D0C91] md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
-            onClick={handleTransactionPin}
-            disabled={pin.length !== 4 && confirmPin.length !== 4 }
-          >
-            Save Changes
-          </button>
+      <div className="flex md:flex-row flex-col md:gap-20 items-center">
+        <div className="flex flex-col my-4 md:my-0">
+          <p>Enter Pin</p>
+          <form className="flex space-x-4">
+            {pinInputRefs.map((ref, index) => (
+              <input
+                key={index}
+                type="text"
+                className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                maxLength="1"
+                onChange={(e) => handleInputChange(index, setPin, pinInputRefs[index + 1], e)}
+                ref={ref}
+              />
+            ))}
+          </form>
         </div>
+        <div className="flex flex-col  my-4 md:my-0">
+          <p>Confirm Pin</p>
+          <form className="flex space-x-4">
+            {confirmPinInputRefs.map((ref, index) => (
+              <input
+                key={index}
+                type="text"
+                className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                maxLength="1"
+                onChange={(e) => handleConfirmPinInputChange(index, e)}
+                ref={ref}
+              />
+            ))}
+          </form>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        className="bg-gradient-to-l from-[#0E156F] to-[#8D0C91] hover:bg-gradient-to-r from-[#0E156F] to-[#8D0C91] md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+        onClick={handleTransactionPin}
+        disabled={pin.length !== 4 && confirmPin.length !== 4}
+      >
+        Save Changes
+      </button>
+    </div>
+
       );
       break;
     default:
