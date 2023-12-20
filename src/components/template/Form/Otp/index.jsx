@@ -32,25 +32,25 @@ function Contact({ nextStep }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
       setLoading(true);
-  
+
       const enteredOtp = otp.join('');
       const payload = {
         code: enteredOtp,
       };
-  
+
       const response = await axios.post('/onboarding/confirm', payload);
-  
+
       const responseData = response.data;
       setUserId(responseData.data.id);
-  
+
       addToast('OTP verification successful!', { appearance: 'success' });
       nextStep();
     } catch (error) {
       console.error('API Error:', error);
-  
+
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
@@ -67,7 +67,7 @@ function Contact({ nextStep }) {
       setLoading(false);
     }
   };
-  
+
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -93,6 +93,27 @@ function Contact({ nextStep }) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
+  const handleResendOtp = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post('/onboarding/resend', { phone: phoneNum });
+      const responseData = response.data;
+
+      if (responseData.status === 'Successful') {
+        // Reset the timer and disable the Resend button
+        setTimeLeft(600);
+        setResendButtonDisabled(true);
+        addToast('OTP has been resent successfully!', { appearance: 'success' });
+      } else {
+        addToast('Failed to resend OTP. Please try again.', { appearance: 'error' });
+      }
+    } catch (error) {
+      console.error('API Error:', error);
+      addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -132,7 +153,13 @@ function Contact({ nextStep }) {
           <div className='flex justify-center'>
             <p>
               I didn't get the code?{' '}
-              {resendButtonDisabled ? 'Resend OTP' : <a href='#'>Resend OTP</a>}
+              {resendButtonDisabled ? (
+                `Resend OTP in ${formatTime(timeLeft)}`
+              ) : (
+                <span onClick={handleResendOtp} style={{ cursor: 'pointer' }}>
+                  Resend OTP
+                </span>
+              )}
             </p>
           </div>
           <div className='flex p-2'>
@@ -143,9 +170,8 @@ function Contact({ nextStep }) {
             </button>
             <button
               onClick={handleSubmit}
-              className={` bg-color1 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${
-                loading ? 'opacity-50 pointer-events-none' : ''
-              }`}
+              className={` bg-color1 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''
+                }`}
               disabled={loading}
             >
               {loading && (
