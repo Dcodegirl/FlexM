@@ -175,7 +175,7 @@ const PersonalDetails = () => {
                 <p className='text-gray-700 text-xl mb-2 font-medium'>Country</p>
                 <select
                   className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
-                  value={selectedCountry}
+                  value={selectedCountry.id}
                   onChange={handleCountryChange}
                 >
                   <option value="">Choose Country</option>
@@ -190,7 +190,7 @@ const PersonalDetails = () => {
                 <p className='text-gray-700 text-xl mb-2 font-medium'>State</p>
                 <select
                   className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
-                  value={selectedState}
+                  value={selectedState.id}
                   onChange={handleStateChange}
                 >
                   <option value="">Choose State</option>
