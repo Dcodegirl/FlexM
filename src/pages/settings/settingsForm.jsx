@@ -140,7 +140,9 @@ const Settings = () => {
         setPayload({
           ...payload,
           email: response.data.data.agent.email,
+          
         });
+
         setDocUploadPayload(response.data.data.agent.business_address);
         setPinPayload({
           ...pinPayload,
@@ -222,14 +224,7 @@ const Settings = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
-
-    const formData = new FormData();
-    formData.append("image", file);
-
-    setPayload({
-      ...payload,
-      image: formData,
-    });
+console.log(file)
   };
 
   const linkRef = useRef(null);
@@ -386,9 +381,18 @@ const Settings = () => {
     setTabIndex(newStep);
   };
   const handleSaveChanges = async () => {
+    const contactUpdate = new FormData();
+    contactUpdate.append('email', userData.email )
+    contactUpdate.append('image', selectedImage )
+    contactUpdate.append('old_password', payload.password.old_password )
+    contactUpdate.append('new_password', payload.password.new_password )
+    contactUpdate.append('confirm_password', payload.password.new_password )
+    console.log(contactUpdate);
+
+
     try {
       // Send a request to update the user profile
-      await axios.post(CONTACT_DETAILS, payload);
+      await axios.post(CONTACT_DETAILS, contactUpdate);
 
       console.log("Changes saved!");
 
