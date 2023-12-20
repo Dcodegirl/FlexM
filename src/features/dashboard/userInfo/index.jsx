@@ -64,10 +64,10 @@ const UserInfo = () => {
         </div>
         <div className='flex flex-col'>
           <div className='text-[14px]'>
-            <span className='text-[#748274]'>Account Number: </span><span className='font-extrabold text-deep-green'> {userData.agent.account_number || 'N/A'}</span>
+            <span className='text-[#748274]'>Account Number: </span><span className='font-extrabold text-deep-green'> {userData.agent.virtual_account_number || 'N/A'}</span>
           </div>
           <div className='text-[14px]'>
-            <span className='text-[#748274]'>Bank Name: </span><span className='font-extrabold text-deep-green'> {userData.agent.bank_name || 'N/A'}</span>
+            <span className='text-[#748274]'>Bank Name: </span><span className='font-extrabold text-deep-green'> {userData.agent.virtual_account_bank|| 'N/A'}</span>
           </div>
         </div>
       </div>
