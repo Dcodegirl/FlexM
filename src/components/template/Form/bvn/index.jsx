@@ -91,17 +91,29 @@ function Contact({ nextStep }) {
         setState(responseData.data.state);
         setCountry(responseData.data.country);
 
-        addToast('BVN verification successful!', { appearance: 'success' });
+        addToast('BVN verification successful!', {
+          appearance: 'success',
+          autoDismiss: true,
+          autoDismissTimeout: 3000, // milliseconds
+        });
         nextStep();
       } catch (error) {
         console.error('API Error:', error);
         // Handle API errors
-        addToast('BVN verification failed. Please try again.', { appearance: 'error' });
+        addToast('BVN verification failed. Please try again.', {
+          appearance: 'error',
+          autoDismiss: true,
+          autoDismissTimeout: 3000, // milliseconds
+        });
       } finally {
         setLoading(false);
       }
     } else {
-      addToast('Please enter all 6 BVN digits.', { appearance: 'error' });
+      addToast('Please enter all 6 BVN digits.', {
+        appearance: 'error',
+        autoDismiss: true,
+        autoDismissTimeout: 3000, // milliseconds
+      });
     }
   };
   const handleResendOtp = async () => {

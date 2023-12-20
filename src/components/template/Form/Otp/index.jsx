@@ -58,10 +58,10 @@ function Contact({ nextStep }) {
         addToast(`${data.message}`, { appearance: 'error' });
       } else if (error.request) {
         // The request was made but no response was received
-        addToast('No response from the server. Please try again.', { appearance: 'error' });
+        addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
       } else {
         // Something happened in setting up the request that triggered an error
-        addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+        addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
       }
     } finally {
       setLoading(false);

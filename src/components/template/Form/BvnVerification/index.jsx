@@ -20,7 +20,11 @@ function BvnVerifi({ nextStep }) {
 
       // Validation: Ensure BVN is 11 digits
       if (bvn.length !== 11) {
-        addToast('BVN must be 11 digits.', { appearance: 'error' });
+        addToast('BVN must be 11 digits.', {
+          appearance: 'error',
+          autoDismiss: true,
+          autoDismissTimeout: 3000, // milliseconds
+        });
         return;
       }
 
@@ -36,23 +40,27 @@ function BvnVerifi({ nextStep }) {
       // Handle the response as needed
       const responseData = response.data;
       console.log('API Response:', responseData);
-
-      addToast('BVN validation successful!', { appearance: 'success' });
+      addToast('BVN validation successful!', {
+        appearance: 'success',
+        autoDismiss: true,
+        autoDismissTimeout: 3000, // milliseconds
+      });
       // Move to the next step in your component logic
       nextStep();
     } catch (error) {
       console.error('API Error:', error);
       if (error.response) {
         // The request was made and the server responded with a status code
+        
         // that falls out of the range of 2xx
         const { status, data } = error.response;
         addToast(` ${data.message}`, { appearance: 'error' });
       } else if (error.request) {
         // The request was made but no response was received
-        addToast('No response from the server. Please try again.', { appearance: 'error' });
+        addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
       } else {
         // Something happened in setting up the request that triggered an error
-        addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+        addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
       }
     } finally {
       setLoading(false);

@@ -45,13 +45,15 @@ export const Profile = ({ agentData, changeCurrentPage, displayModal }) => {
                 if (res) {
                     addToast('Profile updated successfully', {
                         appearance: 'success',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                        autoDismissTimeout: 3000 
                     });
                 }
             } catch (e) {
                 addToast('An error occurred', {
                     appearance: 'error',
-                    autoDismiss: true,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000 
                 });
             } finally {
                 setLoading(false);

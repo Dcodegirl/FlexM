@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEye,
-  faEyeSlash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "../../utils/axiosInstance";
 import svg from "../../assets/images/Upload.svg";
 import profileAvatar from "../../assets/images/avatarImg.svg";
@@ -23,7 +20,7 @@ const Settings = () => {
     },
     image: "",
   });
-  const [docUploadPayload, setDocUploadPayload] = useState('');
+  const [docUploadPayload, setDocUploadPayload] = useState("");
   const [pinPayload, setPinPayload] = useState({
     agent_id: "",
     transaction_pin: "",
@@ -52,7 +49,6 @@ const Settings = () => {
   const confirmPinInputRefs = [useRef(), useRef(), useRef(), useRef()];
   const utilityBillInputRef = useRef();
   const idDocumentInputRef = useRef();
-
 
   // business_address
   // document_type
@@ -102,25 +98,23 @@ const Settings = () => {
   };
 
   const handleUserBioData = async () => {
-    const bio = new FormData() 
-    bio.append('business_address', docUploadPayload)
-    bio.append('guarantor_file',  guarantorSelect)
-    bio.append('utility_image', utilityImage )
-    bio.append('document_type', selectedDocument)
-    bio.append('document_image', documentImage )
-
+    const bio = new FormData();
+    bio.append("business_address", docUploadPayload);
+    bio.append("guarantor_file", guarantorSelect);
+    bio.append("utility_image", utilityImage);
+    bio.append("document_type", selectedDocument);
+    bio.append("document_image", documentImage);
 
     console.log(docUploadPayload);
     try {
-      let data = await axios.put("/agent/bio-data", bio);
-      if(data.status=== 200){
+      let data = await axios.post("/agent/bio-data", bio);
+      if (data.status === 200) {
         addToast("Profile updated successfully!", {
           appearance: "success",
           autoDismiss: true,
           autoDismissTimeout: 3000, // milliseconds
         });
       }
-      
     } catch (error) {
       addToast("An error occured", {
         appearance: "error",
@@ -146,7 +140,9 @@ const Settings = () => {
         setPayload({
           ...payload,
           email: response.data.data.agent.email,
+          
         });
+
         setDocUploadPayload(response.data.data.agent.business_address);
         setPinPayload({
           ...pinPayload,
@@ -163,7 +159,7 @@ const Settings = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.put(CONTACT_DETAILS);
+        const response = await axios.post(CONTACT_DETAILS);
         const userProfileData = response.data; // Adjust this based on your API response structure
         console.log(response.data);
 
@@ -184,9 +180,9 @@ const Settings = () => {
       newPin[index] = value;
 
       // Move focus to the next input field if there is one and the current input is not the last one
-      if (value !== '' && index < 3 && nextInputRef.current) {
+      if (value !== "" && index < 3 && nextInputRef.current) {
         nextInputRef.current.focus();
-      } else if (index === 3 && value !== '') {
+      } else if (index === 3 && value !== "") {
         // Move to the first input of the confirm PIN form when the last PIN input is filled
         confirmPinInputRefs[0].current.focus();
       }
@@ -202,7 +198,7 @@ const Settings = () => {
       newConfirmPin[index] = value;
 
       // Move focus to the next input field if there is one
-      if (value !== '' && confirmPinInputRefs[index + 1]?.current) {
+      if (value !== "" && confirmPinInputRefs[index + 1]?.current) {
         confirmPinInputRefs[index + 1].current.focus();
       }
 
@@ -228,14 +224,7 @@ const Settings = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
-
-    const formData = new FormData();
-    formData.append("image", file);
-
-    setPayload({
-      ...payload,
-      image: formData,
-    });
+console.log(file)
   };
 
   const linkRef = useRef(null);
@@ -371,9 +360,18 @@ const Settings = () => {
     setTabIndex(newStep);
   };
   const handleSaveChanges = async () => {
+    const contactUpdate = new FormData();
+    contactUpdate.append('email', userData.email )
+    contactUpdate.append('image', selectedImage )
+    contactUpdate.append('old_password', payload.password.old_password )
+    contactUpdate.append('new_password', payload.password.new_password )
+    contactUpdate.append('confirm_password', payload.password.new_password )
+    console.log(contactUpdate);
+
+
     try {
       // Send a request to update the user profile
-      await axios.put(CONTACT_DETAILS, payload);
+      await axios.post(CONTACT_DETAILS, contactUpdate);
 
       console.log("Changes saved!");
 
@@ -556,6 +554,7 @@ const Settings = () => {
             <button
               type="button"
               className=" bg-color1  py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+
               onClick={handleSaveChanges}
             >
               Save Changes
@@ -610,9 +609,7 @@ const Settings = () => {
                     <input
                       id="address"
                       name="address"
-                      onChange={(e) =>
-                        setDocUploadPayload( e.target.value)
-                      }
+                      onChange={(e) => setDocUploadPayload(e.target.value)}
                       placeholder="Type Address"
                       className="outline outline-gray-100 md:p-4 p-2 md:w-[500px] w-full"
                       value={docUploadPayload}
@@ -702,143 +699,171 @@ const Settings = () => {
                     </div>
                   </div>
                   <div className="mt-6">
-            <p className="text-gray-700 text-2xl mb-2">Utilities Bill</p>
-            <div className="relative">
-              <input
-                type="file"
-                id="utilityBillInput"
-                name="utilityBill"
-                ref={utilityBillInputRef}
-                className="outline outline-gray-100 md:p-4 p-2 w-full"
-                onChange={handleUtilityBillChange}
-                accept=".pdf, .jpg, .png"
-              />
-              {utilityImage ? (
-                // Display the uploaded image information
-                <div className="flex gap-5 items-center justify-between mt-4">
-                  <div className="flex gap-2">
-                    <img src={svg} alt="Uploaded Icon" className="h-10 w-10" />
-                    <div className="flex flex-col">
-                      <p className="text-2xl text-gray-900">Image Uploaded</p>
+                    <p className="text-gray-700 text-2xl mb-2">
+                      Utilities Bill
+                    </p>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        id="utilityBillInput"
+                        name="utilityBill"
+                        ref={utilityBillInputRef}
+                        className="outline outline-gray-100 md:p-4 p-2 w-full"
+                        onChange={handleUtilityBillChange}
+                        accept=".pdf, .jpg, .png"
+                      />
+                      {utilityImage ? (
+                        // Display the uploaded image information
+                        <div className="flex gap-5 items-center justify-between mt-4">
+                          <div className="flex gap-2">
+                            <img
+                              src={svg}
+                              alt="Uploaded Icon"
+                              className="h-10 w-10"
+                            />
+                            <div className="flex flex-col">
+                              <p className="text-2xl text-gray-900">
+                                Image Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div>
+                            {/* Optionally, add an "Edit" button or additional actions */}
+                            <button
+                              type="button"
+                              className="bg-[#ECE9FC] text-deep-green p-2 rounded-md"
+                              onClick={() => setUtilityImage(null)}
+                            >
+                              Edit
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        // Display the "Tap to Upload" section
+                        <label
+                          htmlFor="utilityBillInput"
+                          className="flex gap-2 cursor-pointer mt-4"
+                        >
+                          <div className="flex gap-2">
+                            <img
+                              src={svg}
+                              alt="Upload Icon"
+                              className="h-10 w-10"
+                            />
+                            <div className="flex flex-col">
+                              <p className="text-2xl text-gray-900">
+                                Tap to Upload
+                              </p>
+                              <p className="block text-gray-400 text-xs">
+                                PDF, JPG, PNG | 10MB max
+                              </p>
+                            </div>
+                          </div>
+                        </label>
+                      )}
                     </div>
                   </div>
-                  <div>
-                    {/* Optionally, add an "Edit" button or additional actions */}
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-deep-green font-bold text-left gap-2 mb-2 my-4 md:my-0">
+                    <p className="text-2xl">Means of ID</p>
+                    <p className="text-gray-700 text-2xl font-thin w-[360px]">
+                      Download and Upload a signed copy of this form in your
+                      profile
+                    </p>
+                  </div>
+                  <select
+                    className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 md:p-4 p-2"
+                    value={selectedDocument}
+                    onChange={handleDocumentChange}
+                  >
+                    <option value="">Choose Document Type</option>
+                    <option value="drivers-license">Driver's License</option>
+                    <option value="nin-id">NIN ID</option>
+                    <option value="int-passport">Int Passport</option>
+                  </select>
+                  <div className="relative">
+                    <input
+                      type="file"
+                      id="documentFileInput"
+                      name="documentFile"
+                      ref={idDocumentInputRef}
+                      className="outline outline-gray-100 md:p-4 p-2 w-full"
+                      onChange={handleDocumentFileChange}
+                      accept=".pdf, .jpg, .png"
+                    />
+                    {documentImage ? (
+                      // Display the uploaded image information
+                      <div className="flex gap-5 items-center justify-between mt-4">
+                        <div className="flex gap-2">
+                          <img
+                            src={svg}
+                            alt="Uploaded Icon"
+                            className="h-10 w-10"
+                          />
+                          <div className="flex flex-col">
+                            <p className="text-2xl text-gray-900">
+                              Image Uploaded
+                            </p>
+                          </div>
+                        </div>
+                        <div>
+                          {/* Optionally, add an "Edit" button or additional actions */}
+                          <button
+                            type="button"
+                            className="bg-[#ECE9FC] text-deep-green p-2 rounded-md"
+                            onClick={() => setDocumentImage(null)}
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      // Display the "Tap to Upload" section
+                      <label
+                        htmlFor="documentFileInput"
+                        className="flex gap-2 cursor-pointer mt-4"
+                      >
+                        <div className="flex gap-2">
+                          <img
+                            src={svg}
+                            alt="Upload Icon"
+                            className="h-10 w-10"
+                          />
+                          <div className="flex flex-col">
+                            <p className="text-2xl text-gray-900">
+                              Tap to Upload
+                            </p>
+                            <p className="block text-gray-400 text-xs">
+                              PDF, JPG, PNG | 10MB max
+                            </p>
+                          </div>
+                        </div>
+                      </label>
+                    )}
+                  </div>
+
+                  {/* Conditionally render the Upload button based on the state */}
+                  {documentImage && (
                     <button
                       type="button"
-                      className="bg-[#ECE9FC] text-deep-green p-2 rounded-md"
-                      onClick={() => setUtilityImage(null)}
+                      className="bg-progress-green text-white p-2 mt-2 rounded-md"
+                      onClick={() => {
+                        // Handle the upload logic here
+                        // You may want to include your upload logic or trigger an API call
+                        console.log("Document Uploaded");
+                      }}
                     >
-                      Edit
+                      Upload
                     </button>
-                  </div>
+                  )}
                 </div>
-              ) : (
-                // Display the "Tap to Upload" section
-                <label
-                  htmlFor="utilityBillInput"
-                  className="flex gap-2 cursor-pointer mt-4"
-                >
-                  <div className="flex gap-2">
-                    <img src={svg} alt="Upload Icon" className="h-10 w-10" />
-                    <div className="flex flex-col">
-                      <p className="text-2xl text-gray-900">Tap to Upload</p>
-                      <p className="block text-gray-400 text-xs">
-                        PDF, JPG, PNG | 10MB max
-                      </p>
-                    </div>
-                  </div>
-                </label>
-              )}
-            </div>
-          </div>
-                </div>
-          <div className="flex flex-col">
-            <div className="text-deep-green font-bold text-left gap-2 mb-2 my-4 md:my-0">
-              <p className="text-2xl">Means of ID</p>
-              <p className="text-gray-700 text-2xl font-thin w-[360px]">
-                Download and Upload a signed copy of this form in your profile
-              </p>
-            </div>
-            <select
-              className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 md:p-4 p-2"
-              value={selectedDocument}
-              onChange={handleDocumentChange}
-            >
-              <option value="">Choose Document Type</option>
-              <option value="drivers-license">Driver's License</option>
-              <option value="nin-id">NIN ID</option>
-              <option value="int-passport">Int Passport</option>
-            </select>
-            <div className="relative">
-  <input
-    type="file"
-    id="documentFileInput"
-    name="documentFile"
-    ref={idDocumentInputRef}
-    className="outline outline-gray-100 md:p-4 p-2 w-full"
-    onChange={handleDocumentFileChange}
-    accept=".pdf, .jpg, .png"
-  />
-  {documentImage ? (
-    // Display the uploaded image information
-    <div className="flex gap-5 items-center justify-between mt-4">
-      <div className="flex gap-2">
-        <img src={svg} alt="Uploaded Icon" className="h-10 w-10" />
-        <div className="flex flex-col">
-          <p className="text-2xl text-gray-900">Image Uploaded</p>
-        </div>
-      </div>
-      <div>
-        {/* Optionally, add an "Edit" button or additional actions */}
-        <button
-          type="button"
-          className="bg-[#ECE9FC] text-deep-green p-2 rounded-md"
-          onClick={() => setDocumentImage(null)}
-        >
-          Edit
-        </button>
-      </div>
-    </div>
-  ) : (
-    // Display the "Tap to Upload" section
-    <label
-      htmlFor="documentFileInput"
-      className="flex gap-2 cursor-pointer mt-4"
-    >
-      <div className="flex gap-2">
-        <img src={svg} alt="Upload Icon" className="h-10 w-10" />
-        <div className="flex flex-col">
-          <p className="text-2xl text-gray-900">Tap to Upload</p>
-          <p className="block text-gray-400 text-xs">PDF, JPG, PNG | 10MB max</p>
-        </div>
-      </div>
-    </label>
-  )}
-</div>
-
-{/* Conditionally render the Upload button based on the state */}
-{documentImage && (
-  <button
-    type="button"
-    className="bg-progress-green text-white p-2 mt-2 rounded-md"
-    onClick={() => {
-      // Handle the upload logic here
-      // You may want to include your upload logic or trigger an API call
-      console.log('Document Uploaded');
-    }}
-  >
-    Upload
-  </button>
-)}
-
-          </div>
-          
               </div>
 
               <button
                 type="button"
                 className=" bg-color1 py-2 px-20  m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform "
+
                 onClick={handleUserBioData}
               >
                 Save Changes
@@ -894,6 +919,15 @@ const Settings = () => {
       </button>
     </div>
 
+          <button
+            type="button"
+            className="bg-color1 md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+            onClick={handleTransactionPin}
+            disabled={pin.length !== 4 && confirmPin.length !== 4}
+          >
+            Save Changes
+          </button>
+        </div>
       );
       break;
     default:

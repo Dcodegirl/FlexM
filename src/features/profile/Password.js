@@ -56,7 +56,8 @@ export const Password = ({ displayModal }) => {
                 if (res) {
                     addToast('Password changed successfully', {
                         appearance: 'success',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                        autoDismissTimeout: 3000 
                     });
 
                     displayModal({
@@ -68,7 +69,8 @@ export const Password = ({ displayModal }) => {
             } catch (e) {
                 addToast('An error occurred', {
                     appearance: 'error',
-                    autoDismiss: true,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000 
                 });
             } finally {
                 setLoading(false);

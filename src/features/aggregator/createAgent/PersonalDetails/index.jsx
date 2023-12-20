@@ -114,7 +114,8 @@ const PersonalDetails = () => {
       const responseData = response.data;
       console.log('API Response:', responseData);
 
-      addToast("Agent Invite sent successfully", { appearance: 'success' });
+      addToast("Agent Invite sent successfully", { appearance: 'success', autoDismiss: true, 
+      autoDismissTimeout: 3000});
       resetForm();
     } catch (error) {
       console.error('API Error:', error);
@@ -125,15 +126,19 @@ const PersonalDetails = () => {
 
         if (data && data.errors) {
           Object.values(data.errors).flat().forEach(errorMessage => {
-            addToast(` ${errorMessage}`, { appearance: 'error' });
+            addToast(` ${errorMessage}`, { appearance: 'error', autoDismiss: true, 
+            autoDismissTimeout: 3000 });
           });
         } else {
-          addToast(`An unexpected error occurred.`, { appearance: 'error' });
+          addToast(`An unexpected error occurred.`, { appearance: 'error', autoDismiss: true, 
+          autoDismissTimeout: 3000 });
         }
       } else if (error.request) {
-        addToast('No response from the server. Please try again.', { appearance: 'error' });
+        addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, 
+        autoDismissTimeout: 3000 });
       } else {
-        addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+        addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true, 
+        autoDismissTimeout: 3000 });
       }
     } finally {
       setLoading(false);

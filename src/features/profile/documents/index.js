@@ -58,7 +58,8 @@ const Document = ({ agent_code, displayModal }) => {
             } catch (e) {
                 addToast('An error occured, kindly reload', {
                     appearance: 'error',
-                    autoDismiss: true,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000 
                 });
                 setOverlayActive(false);
             }
@@ -91,6 +92,7 @@ const Document = ({ agent_code, displayModal }) => {
                 addToast('The documents field is required.', {
                     appearance: 'error',
                     autoDismiss: true,
+                    autoDismissTimeout: 3000
                 });
                 setLoading(false);
                 return;
@@ -110,25 +112,29 @@ const Document = ({ agent_code, displayModal }) => {
                     setLoading(false);
                     addToast(err.response.statusText, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                 } else if (err.response && err.response.status === 401) {
                     setLoading(false);
                     addToast(err.response.statusText, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                 } else if (err.response && err.response.status === 500) {
                     setLoading(false);
                     addToast(err.response.statusText, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                 } else if (err.response && err.response.status === 412) {
                     setLoading(false);
                     addToast(err.response.data.error[0], {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                 } else {
                     setTimeout(() => {
