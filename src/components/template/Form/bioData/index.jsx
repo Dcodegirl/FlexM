@@ -9,114 +9,115 @@ import './style.css';
 import SuccessModal from '../../../layout/Modal/successModal';
 
 function Document({ nextStep }) {
-  const {
-    setFirstname,
-    setLastname,
-    setAddress,
-    firstname,
-    lastname,
-    address,
-    lga,
-    setLga,
-    country,
-    state,
-    userId,
-  } = useGlobalContext();
-  const { addToast } = useToasts();
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedDocument, setSelectedDocument] = useState('');
-  const [documentImage, setDocumentImage] = useState(null);
-  const [utilityImage, setUtilityImage] = useState(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const { successModalOpen, setSuccessModalOpen } = useGlobalContext();
+    const {
+        setFirstname,
+        setLastname,
+        setAddress,
+        firstname,
+        lastname,
+        address,
+        lga,
+        setLga,
+        country,
+        state,
+        userId,
+    } = useGlobalContext();
+    const { addToast } = useToasts();
+    const [selectedCountry, setSelectedCountry] = useState('');
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedDocument, setSelectedDocument] = useState('');
+    const [documentImage, setDocumentImage] = useState(null);
+    const [utilityImage, setUtilityImage] = useState(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const { successModalOpen, setSuccessModalOpen } = useGlobalContext();
 
-  const handleDocumentChange = (event) => {
-    setSelectedDocument(event.target.value);
-  };
-  const handleStateChange = (event) => {
-    setSelectedState(event.target.value);
-  };
-  const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value);
-  };
+    const handleDocumentChange = (event) => {
+        setSelectedDocument(event.target.value);
+    };
+    const handleStateChange = (event) => {
+        setSelectedState(event.target.value);
+    };
+    const handleCountryChange = (event) => {
+        setSelectedCountry(event.target.value);
+    };
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0];
 
-    if (selectedFile) {
-      try {
-        setDocumentImage(selectedFile);
-      } catch (error) {
-        console.error('Error setting document image:', error);
-      }
-    }
-  };
+        if (selectedFile) {
+            try {
+                setDocumentImage(selectedFile);
+            } catch (error) {
+                console.error('Error setting document image:', error);
+            }
+        }
+    };
 
-  const handleUtilityFileChange = (event) => {
-    const selectedFile = event.target.files[0];
+    const handleUtilityFileChange = (event) => {
+        const selectedFile = event.target.files[0];
 
-    if (selectedFile) {
-      try {
-        setUtilityImage(selectedFile);
-      } catch (error) {
-        console.error('Error setting utility image:', error);
-      }
-    }
-  };
+        if (selectedFile) {
+            try {
+                setUtilityImage(selectedFile);
+            } catch (error) {
+                console.error('Error setting utility image:', error);
+            }
+        }
+    };
 
-  const handlefirstnameChange = (event) => {
-    setFirstname(event.target.value);
-  };
-  const handlelastnameChange = (event) => {
-    setLastname(event.target.value);
-  };
-  const handleaddressnameChange = (event) => {
-    setAddress(event.target.value);
-  };
-  const handlelgaChange = (event) => {
-    setLga(event.target.value);
-  };
+    const handlefirstnameChange = (event) => {
+        setFirstname(event.target.value);
+    };
+    const handlelastnameChange = (event) => {
+        setLastname(event.target.value);
+    };
+    const handleaddressnameChange = (event) => {
+        setAddress(event.target.value);
+    };
+    const handlelgaChange = (event) => {
+        setLga(event.target.value);
+    };
 
-  const downloadForm = () => {
-    // Replace with the actual URL of the form document to be downloaded
-    const formDocumentURL = '/path-to-your-form-document.pdf';
-    window.open(formDocumentURL);
-  };
+    const downloadForm = () => {
+        // Replace with the actual URL of the form document to be downloaded
+        const formDocumentURL = '/path-to-your-form-document.pdf';
+        window.open(formDocumentURL);
+    };
 
-  const handleSubmit = async () => {
-    try {
-      setLoading(true);
+    const handleSubmit = async () => {
+        try {
+            setLoading(true);
 
-      const postData = new FormData();
-      postData.append('first_name', firstname);
-      postData.append('last_name', lastname);
-      postData.append('user_id', userId);
-      postData.append('business_address', address);
-      postData.append('country', country);
-      postData.append('state', state);
-      postData.append('document_type', selectedDocument);
-      postData.append('document_image', documentImage);
-      postData.append('utility_image', utilityImage);
+            const postData = new FormData();
+            postData.append('first_name', firstname);
+            postData.append('last_name', lastname);
+            postData.append('user_id', userId);
+            postData.append('business_address', address);
+            postData.append('lga', lga);
+            postData.append('country', country);
+            postData.append('state', state);
+            postData.append('document_type', selectedDocument);
+            postData.append('document_image', documentImage);
+            postData.append('utility_image', utilityImage);
 
-      const response = await axios.post('/onboarding/bioData', postData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+            const response = await axios.post('/onboarding/bioData', postData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
 
-      console.log('BioData submitted successfully:', response.data);
-      setSuccessModalOpen(true);
-    } catch (error) {
-      console.error('Error submitting BioData:', error);
-      addToast('Error submitting BioData. Please try again.', {
-        appearance: 'error',
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+            console.log('BioData submitted successfully:', response.data);
+            setSuccessModalOpen(true);
+        } catch (error) {
+            console.error('Error submitting BioData:', error);
+            addToast('Error submitting BioData. Please try again.', {
+                appearance: 'error',
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <>
@@ -155,42 +156,30 @@ function Document({ nextStep }) {
                                 </div>
                             </div>
                             <div className="flex gap-5">
-                            <div>
-                                <p className='text-gray-700 text-sm mb-2'>Address</p>
-                                <input
-                                    type="text"
-                                    value={address}
-                                    onChange={handleaddressnameChange}
-                                    required
-                                    readOnly
-                                    placeholder='Type Address'
-                                    className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
-                                />
-                            </div>
-                            <div>
-                                <p className='text-gray-700 text-sm mb-2'>Local Govt</p>
-                                <input
-                                    type="text"
-                                    value={lga}
-                                    onChange={handlelgaChange}
-                                    required
-                                    readOnly
-                                    placeholder='Type Local Govt Area'
-                                    className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
-                                />
-                            </div>
-                            </div>
-                            <div>
-                                <p className='text-gray-700 text-sm mb-2'>Address</p>
-                                <input
-                                    type="text"
-                                    value={address}
-                                    onChange={handleaddressnameChange}
-                                    required
-                                    readOnly
-                                    placeholder='Type Address'
-                                    className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
-                                />
+                                <div className=' w-full'>
+                                    <p className='text-gray-700 text-sm mb-2'>Address</p>
+                                    <input
+                                        type="text"
+                                        value={address}
+                                        onChange={handleaddressnameChange}
+                                        required
+                                        readOnly
+                                        placeholder='Type Address'
+                                        className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
+                                    />
+                                </div>
+                                <div className=' w-full'>
+                                    <p className='text-gray-700 text-sm mb-2'>Local Govt</p>
+                                    <input
+                                        type="text"
+                                        value={lga}
+                                        onChange={handlelgaChange}
+                                        required
+                                        readOnly
+                                        placeholder='Type Local Govt Area'
+                                        className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14  w-full mb-6 p-4'
+                                    />
+                                </div>
                             </div>
                             <div className="flex gap-5">
                                 <div className=' w-full'>

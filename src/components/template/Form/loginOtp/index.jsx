@@ -4,10 +4,11 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 import { startLoginUser } from '../../../../actions/auth2';
+import { useGlobalContext } from '../../../../custom-hooks/Context';
 
 function Contact() {
   const [timeLeft, setTimeLeft] = useState(600);
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const { phoneNum } = useGlobalContext();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
   const history = useHistory();
@@ -93,7 +94,7 @@ function Contact() {
           <div className='text-deep-green font-bold text-center'>
             <p className='text-2xl'>Verify your OTP</p>
             <p className='text-gray-500 text-xl font-thin w-[360px]'>
-              We sent OTP to the number attached to your OTP +2347065436765
+              We sent OTP to the number attached to your OTP {phoneNum}
             </p>
           </div>
           <div className='w-[350px] mt-6 flex items-center justify-center'>
@@ -132,7 +133,7 @@ function Contact() {
           </div>
           <div className='flex justify-center mt-2'>
             <button
-              className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2  border rounded-lg h-14 w-full text-white mx-auto ${
+              className={`bg-color1 border rounded-lg h-14 w-full text-white mx-auto ${
                 loading ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               onClick={handleSubmit}
