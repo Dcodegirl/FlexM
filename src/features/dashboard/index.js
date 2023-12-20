@@ -26,10 +26,7 @@ const Dashboard = ({ overlay, displayModal, hasSetPin }) => {
         if (!hasSetPin) {
             addToast(
                 'You currently dont have transaction pin yet, Kindly navigate to  settings to set one',
-                {
-                    appearance: 'warning',
-                    autoDismiss: false,
-                }
+                { appearance: 'warning', autoDismiss: true, autoDismissTimeout: 3000  }
             );
         }
     }, []);

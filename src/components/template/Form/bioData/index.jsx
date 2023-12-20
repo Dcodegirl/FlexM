@@ -144,7 +144,11 @@ function Document({ nextStep }) {
             setSuccessModalOpen(true);
         } catch (error) {
             console.error('Error submitting BioData:', error);
-            addToast('Error submitting BioData. Please try again.', { appearance: 'error' });
+            addToast('Error submitting BioData. Please try again.', {
+                appearance: 'error',
+                autoDismiss: true,
+                autoDismissTimeout: 3000, // milliseconds
+              });
         }
     };
 

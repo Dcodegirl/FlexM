@@ -76,7 +76,7 @@ const Contact = ({ nextStep }) => {
         const responseData = response.data;
         console.log('API Response:', responseData);
   
-        addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success' });
+        addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000  });
         nextStep();
       } catch (error) {
         console.error('API Error:', error);
@@ -89,18 +89,18 @@ const Contact = ({ nextStep }) => {
           if (data && data.errors) {
             // If the error response contains 'errors' field, display each error in a separate toast
             Object.values(data.errors).flat().forEach(errorMessage => {
-              addToast(`Server error: ${status} - ${errorMessage}`, { appearance: 'error' });
+              addToast(`Server error: ${status} - ${errorMessage}`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
             });
           } else {
             // If the error response does not contain 'errors' field, display a generic error message
-            addToast(`Server error: ${status} - An unexpected error occurred.`, { appearance: 'error' });
+            addToast(`Server error: ${status} - An unexpected error occurred.`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
           }
         } else if (error.request) {
           // The request was made but no response was received
-          addToast('No response from the server. Please try again.', { appearance: 'error' });
+          addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
         } else {
           // Something happened in setting up the request that triggered an error
-          addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+          addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
         }
       } finally {
         setLoading(false);
@@ -108,7 +108,7 @@ const Contact = ({ nextStep }) => {
     } else {
       // Passwords don't match, display an error or handle it as needed
       setPasswordMatch(false);
-      addToast('Passwords do not match.', { appearance: 'error' });
+      addToast('Passwords do not match.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
     }
   };
   

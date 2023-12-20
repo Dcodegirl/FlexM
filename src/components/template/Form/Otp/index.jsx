@@ -54,13 +54,13 @@ function Contact({ nextStep }) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         const { status, data } = error.response;
-        addToast(`Server error: ${status} - ${data.message}`, { appearance: 'error' });
+        addToast(`Server error: ${status} - ${data.message}`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
       } else if (error.request) {
         // The request was made but no response was received
-        addToast('No response from the server. Please try again.', { appearance: 'error' });
+        addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
       } else {
         // Something happened in setting up the request that triggered an error
-        addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+        addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
       }
     } finally {
       setLoading(false);

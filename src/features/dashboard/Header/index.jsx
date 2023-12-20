@@ -51,7 +51,8 @@ const Header = ({
             if (isDefaultPassword == 1) {
                 addToast('Please create a new password to continue', {
                     appearance: 'info',
-                    autoDismiss: false,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000 
                 });
             }
         }
@@ -65,7 +66,8 @@ const Header = ({
         notifications.forEach((notification) => {
             addToast(notification.body, {
                 appearance: 'info',
-                autoDismiss: false,
+                autoDismiss: true, 
+                autoDismissTimeout: 3000 
             });
         });
     };

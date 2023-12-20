@@ -45,7 +45,7 @@ function Login() {
       const response = await axios.post(apiUrl, requestBody);
       console.log('logged in successfully and otp sent:', response.data);
 
-      addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success' });
+      addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000  });
       history.push('/otpVerification');
     } catch (error) {
       console.error('API Error:', error);
@@ -55,15 +55,15 @@ function Login() {
 
         if (data && data.errors) {
           Object.values(data.errors).flat().forEach(errorMessage => {
-            addToast(`Server error: ${status} - ${errorMessage}`, { appearance: 'error' });
+            addToast(`Server error: ${status} - ${errorMessage}`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
           });
         } else {
-          addToast(`Server error: ${status} - An unexpected error occurred.`, { appearance: 'error' });
+          addToast(`Server error: ${status} - An unexpected error occurred.`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
         }
       } else if (error.request) {
-        addToast('No response from the server. Please try again.', { appearance: 'error' });
+        addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
       } else {
-        addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+        addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
       }
     } finally {
       setLoading(false);

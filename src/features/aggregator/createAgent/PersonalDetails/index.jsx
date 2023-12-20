@@ -14,8 +14,6 @@ const PersonalDetails = ({ setStatus, agentData, dispatch }) => {
   const [dob, setDob] = useState('');
 
 
-
-
   const handlefirstnameChange = (event) => {
     setFirstname(event.target.value);
   };
