@@ -43,25 +43,25 @@ const Header = ({
     const virtualAccountBank = bank ? bank.name : 'N/A';
     const wrapperRef = useRef(null);
     const { addToast } = useToasts();
-    const userNewData = localStorage.getItem('user');
-   const [myImage, setMyImage] = useState(null);
-    useEffect(() => {
-        let isCancelled;
 
-        if (!isCancelled) {
-            if (isDefaultPassword == 1) {
-                addToast('Please create a new password to continue', {
-                    appearance: 'info',
-                    autoDismiss: true, 
-                    autoDismissTimeout: 3000 
-                });
-            }
-        }
+   
+    // useEffect(() => {
+    //     let isCancelled;
 
-        return () => {
-            isCancelled = true;
-        };
-    }, []);
+    //     if (!isCancelled) {
+    //         if (isDefaultPassword == 1) {
+    //             addToast('Please create a new password to continue', {
+    //                 appearance: 'info',
+    //                 autoDismiss: false,
+    //             });
+    //         }
+    //     }
+
+
+    //     return () => {
+    //         isCancelled = true;
+    //     };
+    // }, []);
 
     const getImage = async() => {
         try {
