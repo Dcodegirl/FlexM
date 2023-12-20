@@ -172,8 +172,8 @@ const Contact = ({ nextStep }) => {
                   value={businessType}
                   onChange={handleBtypeChange}
                 >
-                  <option value="">Agent</option>
-                  <option value="drivers-license">Individual</option>
+                  <option value="agent">Agent</option>
+                  <option value="merchant" disabled>Merchant</option>
                 </select>
               </div>
               <div className="mb-6">
