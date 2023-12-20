@@ -78,12 +78,12 @@ function Contact() {
       } catch (error) {
         console.error('OTP verification error:', error);
 
-        addToast('OTP verification failed. Please try again.', { appearance: 'error' });
+        addToast('OTP verification failed. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
       } finally {
         setLoading(false);
       }
     } else {
-      addToast('Please enter all 6 OTP digits.', { appearance: 'error' });
+      addToast('Please enter all 6 OTP digits.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
     }
   };
 

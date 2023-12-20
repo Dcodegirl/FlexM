@@ -22,7 +22,7 @@ import mark from '../../../assets/icons/aggregator.svg';
 import sun from '../../../assets/icons/sun.svg';
 import Ellipse from '../../../assets/icons/Ellipse.svg';
 import profile from '../../../assets/images/profileImage.png';
-
+import axiosInstance from '../../../utils/axiosInstance';
 
 import styles from './Header.module.scss';
 
@@ -43,7 +43,8 @@ const Header = ({
     const virtualAccountBank = bank ? bank.name : 'N/A';
     const wrapperRef = useRef(null);
     const { addToast } = useToasts();
-   
+    const userNewData = localStorage.getItem('user');
+   const [myImage, setMyImage] = useState(null);
     useEffect(() => {
         let isCancelled;
 
@@ -51,7 +52,8 @@ const Header = ({
             if (isDefaultPassword == 1) {
                 addToast('Please create a new password to continue', {
                     appearance: 'info',
-                    autoDismiss: false,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000 
                 });
             }
         }
@@ -61,11 +63,27 @@ const Header = ({
         };
     }, []);
 
+    const getImage = async() => {
+        try {
+            const {data} = await axiosInstance.get(`/agent/userinfo`);
+            console.log(data.data.image);
+            setMyImage(data.data.image)
+        }catch(err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        getImage();
+       
+    },[])
+
     const handleToggleNotifications = () => {
         notifications.forEach((notification) => {
             addToast(notification.body, {
                 appearance: 'info',
-                autoDismiss: false,
+                autoDismiss: true, 
+                autoDismissTimeout: 3000 
             });
         });
     };
@@ -108,8 +126,11 @@ const Header = ({
                     <div className=''>
                         <div className="flex gap-2 items-center">
                             <div className='md:block hidden'>
-                                <img src={imagebg} alt="" className='relative w-[40px] h-[40px]' />
-                                <img
+                                {
+                                    myImage ? 
+                                    <img src={myImage} alt="" className='relative w-[40px] h-[40px]' />
+                                    :
+                                    <img
                                     className='w-[30px] h-[30px] top-8 absolute ml-2'
                                     src={pic}
                                     alt='User silhoutte'
@@ -117,6 +138,9 @@ const Header = ({
                                         setToggleUser(!toggleUser);
                                     }}
                                 />
+                                }
+                                
+                                
                             </div>
 
                             <div className='flex'>
@@ -134,7 +158,7 @@ const Header = ({
                             <div className={`top-28 right-16 w-72 h-[300px] bg-white shadow-md rounded-lg text-center text-lg absolute z-10`} ref={wrapperRef}>
                                 <div className='h-1/2 bg-purple-800 p-8 text-white rounded-tl-lg rounded-tr-lg'>
                                     <img
-                                        src={pic}
+                                        src={myImage}
                                         alt='user avatar'
                                         className='block mx-auto w-10 rounded-full'
                                     />
@@ -247,7 +271,7 @@ const Header = ({
                     <div className='md:hidden flex gap-9'>
                         <div className='flex gap-3' >
                             <div>
-                                <img src={profile} alt="user pic" className='w-[20px]' />
+                                <img src={myImage} alt="user pic" className='w-[20px]' />
                             </div>
                             <div className=''>
                                 <div className='flex gap-2'><div><h1 className='text-[12px] font-bold'>Hi, Mark!    </h1></div></div>

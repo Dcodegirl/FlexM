@@ -113,9 +113,9 @@ function Document({ nextStep }) {
             console.error('Error submitting BioData:', error);
             addToast('Error submitting BioData. Please try again.', {
                 appearance: 'error',
-            });
-        } finally {
-            setLoading(false);
+                autoDismiss: true,
+                autoDismissTimeout: 3000, // milliseconds
+              });
         }
     };
 
