@@ -24,7 +24,8 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
     if (loading === false && message) {
       addToast(message, {
         appearance: "error",
-        autoDismiss: true,
+        autoDismiss: true, 
+        autoDismissTimeout: 3000
       });
 
       dispatch({

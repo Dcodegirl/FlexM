@@ -62,7 +62,8 @@ const ElectricityPaymentForm = (props) => {
                         setLoading(false);
                         addToast(err.response.data.data[0], {
                             appearance: 'error',
-                            autoDismiss: true,
+                            autoDismiss: true, 
+                            autoDismissTimeout: 3000
                         });
                     } else {
                         setValidationErrors({

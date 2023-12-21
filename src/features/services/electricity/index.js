@@ -65,7 +65,8 @@ export const ElectricityPayment = ({ service, hasSetPin }) => {
                 setSuccessData(res.data.data);
                 addToast(message, {
                     appearance: 'success',
-                    autoDismiss: true,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000
                 });
                 setComponentToRender('success');
             } catch (err) {
@@ -73,14 +74,16 @@ export const ElectricityPayment = ({ service, hasSetPin }) => {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 400) {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                     setComponentToRender('failed');
                 } else {

@@ -64,7 +64,8 @@ const CreateAgent = ({ history }) => {
                         message,
                         {
                             appearance: 'success',
-                            autoDismiss: true,
+                            autoDismiss: true, 
+                            autoDismissTimeout: 3000
                         }
                     );
 
@@ -75,7 +76,8 @@ const CreateAgent = ({ history }) => {
                 setLoading(false);
                 addToast(e.response.data.data, {
                     appearance: 'error',
-                    autoDismiss: true,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000
                 });
             }
         })();

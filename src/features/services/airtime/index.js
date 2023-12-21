@@ -100,7 +100,8 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                 setLoading(false);
                 addToast(message, {
                     appearance: 'success',
-                    autoDismiss: true,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000
                 });
                 setSuccessData({ ...successData, date: date.toDateString() });
                 setComponentToRender('success');
@@ -119,7 +120,8 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
@@ -127,7 +129,8 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');

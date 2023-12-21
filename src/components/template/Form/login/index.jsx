@@ -45,7 +45,7 @@ function Login() {
       const response = await axios.post(apiUrl, requestBody);
       console.log('logged in successfully and otp sent:', response.data);
 
-      addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success' });
+      addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000  });
       history.push('/otpVerification');
     } catch (error) {
       addToast( error.response.data.message, { appearance: 'error' });
