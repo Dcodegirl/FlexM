@@ -8,6 +8,7 @@ import Overlay from '../modal/index';
 import Header from '../Header';
 
 import styles from './Main.module.scss';
+
 import { setDisplayModal } from '../../../actions/modal';
 
 export const Main = ({ history , overlay}) => {
@@ -15,6 +16,7 @@ export const Main = ({ history , overlay}) => {
     const [loading, setLoading] = useState(true);
     const [commissionBalance, setCommissionBalance] = useState(0);
    
+
 
     // Simulating static data instead of API call
     const staticOverviewData = {
