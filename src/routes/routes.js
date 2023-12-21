@@ -21,6 +21,7 @@ import WalletTransfer from '../features/services/walletTransfer/WalletTransfer';
 import CommissionTransfer from '../features/services/commissionTransfer/CommissionTransfer';
 import BillPayment from '../pages/BillPayment';
 import AirtimeData from '../pages/AirtimeData';
+import Airtimeairtime from '../pages/Airtimeairtime';
 import LoanPage from '../pages/Loan';
 import LoanHistory from '../features/services/loan/LoanHistory';
 import RepaymentHistory from '../features/services/loan/RepaymentHistory';
@@ -176,12 +177,20 @@ const routes = [
         component: FundsTransfer,
     },
     {
+        path: '/cable-payment',
+        component: BillPayment,
+    },
+    {
         path: '/bill-payment',
         component: BillPayment,
     },
     {
         path: '/airtime-data',
         component: AirtimeData,
+    },
+    {
+        path: '/airtime-airtime',
+        component: Airtimeairtime,
     },
     {
         path: '/loan',

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import axios from 'axios';
+import axios from '../../../utils/axiosInstance';
 import { connect } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 import { setCurrentPage } from '../../../actions/page';
@@ -13,7 +13,7 @@ import { EventEmitter } from '../../../utils/event';
 
 // import styles from "./BuyAirtime.module.scss";
 
-export const BuyAirtime = ({ service, hasSetPin }) => {
+export const BuyAirtime = ({ service, has_pin }) => {
     let renderedComponent;
     const TRANSACTION_COST = 0;
     const [componentToRender, setComponentToRender] = useState('form');
@@ -165,7 +165,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                     loading={loading}
                     transactionCost={TRANSACTION_COST}
                     service={service}
-                    hasSetPin={hasSetPin}
+                    hasSetPin={has_pin}
                     dispatch={dispatch}
                     setComponentToRender={setComponentToRender}
                 />
@@ -195,9 +195,10 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
 };
 
 const mapStateToProps = (state) => {
+    console.log('has_pin:', state.auth.has_pin);
     return {
         service: state.modal.service,
-        hasSetPin: state.auth.user.hasSetPin,
+        hasSetPin: state.auth.has_pin,
     };
 };
 
