@@ -117,7 +117,7 @@ export const BuyAirtimeSummary = (props) => {
                     e.preventDefault();
                     handleOnSubmit();
                 }}
-                disabled={!hasSetPin}
+                // disabled={!hasSetPin}
             >
                 {loading ? <ThreeDots fill='white' /> : 'Proceed'}
             </Submit>
