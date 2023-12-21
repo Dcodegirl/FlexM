@@ -37,6 +37,8 @@ const Settings = () => {
   const [utilityImage, setUtilityImage] = useState(null);
   const [docImage, setDocImage] = useState(null);
   const [fileUploaded, setFileUploaded] = useState(false);
+  const [guarantorfileUploaded, setGuarantorFileUploaded] = useState(false);
+
   const [guarantorUpload, setGuarantorUpload] = useState(false);
   const [guarantorSelect, setGuarantorSelect] = useState(null);
   const [pin, setPin] = useState([]);
@@ -739,7 +741,7 @@ console.log(file)
           </button>
         ) : (
           <span className="text-deep-green">
-            File Uploaded: {guarantorSelect ? guarantorSelect.name : ''}
+            {guarantorSelect ? guarantorSelect.name : ''}
           </span>
         )}
       </div>
@@ -890,7 +892,7 @@ console.log(file)
                   </div>
 
                   {/* Conditionally render the Upload button based on the state */}
-                  {documentImage && (
+                  {/* {documentImage && (
                     <button
                       type="button"
                       className="bg-progress-green text-white p-2 mt-2 rounded-md"
@@ -902,7 +904,7 @@ console.log(file)
                     >
                       Upload
                     </button>
-                  )}
+                  )} */}
                 </div>
               </div>
 
