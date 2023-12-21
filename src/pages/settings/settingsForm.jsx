@@ -37,7 +37,6 @@ const Settings = () => {
   const [utilityImage, setUtilityImage] = useState(null);
   const [docImage, setDocImage] = useState(null);
   const [fileUploaded, setFileUploaded] = useState(false);
-  const [guarantorUpload, setGuarantorUpload] = useState(false);
   const [guarantorSelect, setGuarantorSelect] = useState(null);
   const [pin, setPin] = useState([]);
   const [confirmPin, setConfirmPin] = useState([]);
@@ -128,16 +127,15 @@ const Settings = () => {
 const handleGuarantorSelect = (e) => {
   const file = e.target.files[0];
   setGuarantorSelect(file);
-  setFileUploaded(false); // Reset the fileUploaded state when a new file is selected
+  setFileUploaded(true); // Reset the fileUploaded state when a new file is selected
+};
+const guarantorUpload = () => {
+  // Your file upload logic here
+  // After successful upload, setFileUploaded(true);
+  setFileUploaded(true); // Simulate a successful upload for demonstration purposes
 };
 
-  const uploadFile = () => {
-    // Your upload logic goes here
-
-    // Assuming the upload was successful
-    setGuarantorUpload(true);
-    setFileUploaded(true);
-  };
+  
   useEffect(() => {
     // Make API call to fetch user information
     axios
@@ -235,11 +233,7 @@ console.log(file)
   };
 
   const linkRef = useRef(null);
-  const handleGuarantorUpload = (event) => {
-    setSelectedDocument(event.target.value);
-    setGuarantorUpload(true);
-  };
-
+ 
   const handleDocumentChange = (event) => {
     setSelectedDocument(event.target.value);
     setFileUploaded(true);
@@ -890,7 +884,19 @@ console.log(file)
                   </div>
 
                   {/* Conditionally render the Upload button based on the state */}
-                  
+                  {/* {documentImage && (
+                    <button
+                      type="button"
+                      className="bg-progress-green text-white p-2 mt-2 rounded-md"
+                      onClick={() => {
+                        // Handle the upload logic here
+                        // You may want to include your upload logic or trigger an API call
+                        console.log("Document Uploaded");
+                      }}
+                    >
+                      Upload
+                    </button>
+                  )} */}
                 </div>
               </div>
 
