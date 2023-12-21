@@ -78,7 +78,7 @@ function Utilities() {
 
                                 </div>
                             </div>
-                            {file && uploadProgress === 0 && (
+                            {/* {file && uploadProgress === 0 && (
                                 <button
                                 type="button"
                                     className="bg-progress-green text-white p-2 mt-2 rounded-md"
@@ -103,7 +103,7 @@ function Utilities() {
                                         </div>
                                     </div>
                                 </div>
-                            )}
+                            )} */}
 
                         </form>
                     </div>

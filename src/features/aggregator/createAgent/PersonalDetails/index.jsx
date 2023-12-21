@@ -274,7 +274,7 @@ const PersonalDetails = () => {
       <button
                 type="submit"
                 onClick={handleSubmit}
-                className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 w-full text-white mx-auto relative ${
+                className={`bg-color1  rounded-lg h-14 w-full text-white mx-auto relative ${
                   loading ? 'opacity-50 pointer-events-none' : ''
                 }`}
                 disabled={loading}
