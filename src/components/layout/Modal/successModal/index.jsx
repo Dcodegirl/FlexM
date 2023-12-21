@@ -31,7 +31,7 @@ function SuccessModal() {
             </div>
             <div className=" mt-8">
               <NavLink to="/login'">
-                <button className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 w-full text-white">
+                <button className="bg-color1 rounded-lg h-14 w-full text-white">
                   Proceed
                 </button>
               </NavLink>

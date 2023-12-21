@@ -107,7 +107,7 @@ function Guarantor() {
 
                                 </div>
                             </div>
-                            {file && uploadProgress === 0 && (
+                            {/* {file && uploadProgress === 0 && (
                                 <button
                                     type="button"
                                     className="bg-progress-green text-white p-2 mt-2 rounded-md"
@@ -131,8 +131,8 @@ function Guarantor() {
                                             </span>
                                         </div>
                                     </div>
-                                </div>
-                            )}
+                                </div> */}
+                            {/* )} */}
 
                         </form>
                     </div>

@@ -121,7 +121,7 @@ function Contact() {
           <div className='flex justify-center items-center mt-8'>
             <button
                 onClick={handleSubmit}
-              className="bg-cico-green rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto cursor-pointer"
+              className="bg-color1 rounded-lg h-14 md:w-[60%] w-[30%] text-white mx-auto cursor-pointer"
             >
               Next
             </button>

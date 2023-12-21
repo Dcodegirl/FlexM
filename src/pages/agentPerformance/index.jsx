@@ -16,7 +16,7 @@ const agentPerformance = () => {
                 </div>
                 <div className="flex flex-col text-[#111023] gap-3">
                     <p className="text-[16px]">Agents Performance</p>
-                    <p className="font-medium text-xl">Manage your account settings and preferences</p>
+                    <p className="font-medium text-xl">Manage your agent's performances</p>
                 </div>
             </div>
             <div className="bg-white p-8 rounded-md mt-8">

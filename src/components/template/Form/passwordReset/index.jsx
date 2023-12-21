@@ -144,7 +144,7 @@ function ForgotConfirmation() {
                                 <div className='w-full mt-4'>
                                     <button
                                         onClick={handleResetBtn}
-                                        className="bg-cico-green  border rounded-lg h-14 w-full text-white"
+                                        className="bg-color1 border rounded-lg h-14 w-full text-white"
                                         disabled={!isPasswordValid || !isSpecialCharacterValid}
                                     >
                                         Reset password

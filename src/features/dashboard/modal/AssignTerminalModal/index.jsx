@@ -74,7 +74,7 @@ const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick }) => {
             {/* Assign button */}
             <div className="text-center">
               <button
-                className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 text-white px-6 py-3 w-full rounded-md"
+                className="bg-color1  text-white px-6 py-3 w-full rounded-md"
                 onClick={handleAssignClick}
               >
                 Confirm

@@ -35,13 +35,13 @@ function ForgotConfirmation() {
                                 </div>
                                 <div className='flex justify-center mt-4'>
                                     <button
-                                        className="bg-cico-green  border rounded-lg h-14 w-full text-white mx-auto"
+                                        className="bg-color1  border rounded-lg h-14 w-full text-white mx-auto"
                                     >
                                         Check Email
                                     </button>
                                 </div>
                                 <div className="flex justify-center mt-4">
-                                    <p>Didn’t receive the email?<span className="text-cico-green">  Click to resend</span></p>
+                                    <p>Didn’t receive the email?<span className="text-color1">  Click to resend</span></p>
                                 </div>
                                 <div className='flex justify-center mt-6'>
                                     <NavLink to="/signin"><p className='text-gray-500 text-xl font-xl'><i className="fa-solid fa-left-long px-4"></i>Back to Login</p></NavLink>
