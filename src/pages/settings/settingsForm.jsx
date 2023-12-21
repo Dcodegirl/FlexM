@@ -41,7 +41,7 @@ const Settings = () => {
   const [guarantorSelect, setGuarantorSelect] = useState(null);
   const [pin, setPin] = useState([]);
   const [confirmPin, setConfirmPin] = useState([]);
-  const [states, setStates] = useState([]);
+
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -98,32 +98,39 @@ const Settings = () => {
   };
 
   const handleUserBioData = async () => {
-    const bio = new FormData();
-    bio.append("business_address", docUploadPayload);
-    bio.append("guarantor_file", guarantorSelect);
-    bio.append("utility_image", utilityImage);
-    bio.append("document_type", selectedDocument);
-    bio.append("document_image", documentImage);
+  const bio = new FormData();
+  bio.append("business_address", docUploadPayload);
+  bio.append("guarantor_file", guarantorSelect || ''); // If guarantorSelect is null, append an empty string
+  bio.append("utility_image", utilityImage || ''); // If utilityImage is null, append an empty string
+  bio.append("document_type", selectedDocument);
+  bio.append("document_image", documentImage || ''); // If documentImage is null, append an empty string
 
-    console.log(docUploadPayload);
-    try {
-      let data = await axios.post("/agent/bio-data", bio);
-      if (data.status === 200) {
-        addToast("Profile updated successfully!", {
-          appearance: "success",
-          autoDismiss: true,
-          autoDismissTimeout: 3000, // milliseconds
-        });
-      }
-    } catch (error) {
-      addToast("An error occured", {
-        appearance: "error",
+  console.log(docUploadPayload);
+  try {
+    let data = await axios.post("/agent/bio-data", bio);
+    if (data.status === 200) {
+      addToast("Profile updated successfully!", {
+        appearance: "success",
         autoDismiss: true,
         autoDismissTimeout: 3000, // milliseconds
       });
-      console.log(error);
     }
-  };
+  } catch (error) {
+    addToast("An error occurred", {
+      appearance: "error",
+      autoDismiss: true,
+      autoDismissTimeout: 3000, // milliseconds
+    });
+    console.log(error);
+  }
+};
+
+const handleGuarantorSelect = (e) => {
+  const file = e.target.files[0];
+  setGuarantorSelect(file);
+  setFileUploaded(false); // Reset the fileUploaded state when a new file is selected
+};
+
   const uploadFile = () => {
     // Your upload logic goes here
 
@@ -140,7 +147,7 @@ const Settings = () => {
         setPayload({
           ...payload,
           email: response.data.data.agent.email,
-
+          
         });
 
         setDocUploadPayload(response.data.data.agent.business_address);
@@ -224,7 +231,7 @@ const Settings = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
-    console.log(file)
+console.log(file)
   };
 
   const linkRef = useRef(null);
@@ -302,47 +309,68 @@ const Settings = () => {
     }
   };
 
-
+  const statesInNigeria = [
+    "Abia",
+    "Adamawa",
+    "Akwa Ibom",
+    "Anambra",
+    "Bauchi",
+    "Bayelsa",
+    "Benue",
+    "Borno",
+    "Cross River",
+    "Delta",
+    "Ebonyi",
+    "Edo",
+    "Ekiti",
+    "Enugu",
+    "Gombe",
+    "Imo",
+    "Jigawa",
+    "Kaduna",
+    "Kano",
+    "Katsina",
+    "Kebbi",
+    "Kogi",
+    "Kwara",
+    "Lagos",
+    "Nasarawa",
+    "Niger",
+    "Ogun",
+    "Ondo",
+    "Osun",
+    "Oyo",
+    "Plateau",
+    "Rivers",
+    "Sokoto",
+    "Taraba",
+    "Yobe",
+    "Zamfara",
+  ];
 
   const handleStateChange = (event) => {
-    const selectedStateId = event.target.value;
-
-    // Find the selected state object
-    const selectedStateObject = states.find(state => state.id === selectedStateId);
-
-    // Update selectedState state with the entire state object
-    setSelectedState(selectedStateObject);
+    setSelectedState(event.target.value);
   };
+
   useEffect(() => {
-    // Fetch the list of countries when the component mounts
+    // Fetch all countries using the restcountries API
     const fetchCountries = async () => {
       try {
-        const response = await axios.get("/countries/all-countries");
-        setCountries(response.data.data);
+        const response = await axios.get("https://restcountries.com/v3.1/all");
+        // Sort the countries alphabetically by name
+        const sortedCountries = response.data.sort((a, b) =>
+          a.name.common.localeCompare(b.name.common)
+        );
+        setCountries(sortedCountries);
       } catch (error) {
         console.error("Error fetching countries:", error);
       }
     };
-
     fetchCountries();
   }, []);
 
-  const handleCountryChange = async (event) => {
-    const selectedCountryId = event.target.value;
-
-    // Find the selected country object
-    const selectedCountryObject = countries.find(country => country.id === selectedCountryId);
-
-    // Update selectedCountry state with the entire country object
-    setSelectedCountry(selectedCountryObject);
-
-    // Fetch states based on the selected country
-    try {
-      const response = await axios.get(`/countries/all-states/${selectedCountryId}`);
-      setStates(response.data.data);
-    } catch (error) {
-      console.error("Error fetching states:", error);
-    }
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
   };
 
   const handleTogglePasswordVisibility = () => {
@@ -361,11 +389,11 @@ const Settings = () => {
   };
   const handleSaveChanges = async () => {
     const contactUpdate = new FormData();
-    contactUpdate.append('email', userData.email)
-    contactUpdate.append('image', selectedImage)
-    contactUpdate.append('old_password', payload.password.old_password)
-    contactUpdate.append('new_password', payload.password.new_password)
-    contactUpdate.append('confirm_password', payload.password.new_password)
+    contactUpdate.append('email', userData.email )
+    contactUpdate.append('image', selectedImage )
+    contactUpdate.append('old_password', payload.password.old_password )
+    contactUpdate.append('new_password', payload.password.new_password )
+    contactUpdate.append('confirm_password', payload.password.new_password )
     console.log(contactUpdate);
 
 
@@ -553,8 +581,7 @@ const Settings = () => {
 
             <button
               type="button"
-              className=" bg-color1  py-2 px-20  m-auto my-10  text-white rounded-lg hover:scale-105 transition-transform duration-500"
-
+              className=" bg-color1 py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
               onClick={handleSaveChanges}
             >
               Save Changes
@@ -622,17 +649,28 @@ const Settings = () => {
                     Country:
                   </label>
                   <select
-                    className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
-                    value={selectedCountry.id}
+                    id="countrySelect"
+                    name="country"
                     onChange={handleCountryChange}
+                    value={userData ? userData.country : ""}
+                    className="outline outline-gray-100 md:p-4 p-2 md:w-[235px] w-full"
                   >
-                    <option value="">Choose Country</option>
+                    <option value="" disabled>
+                      Select Country
+                    </option>
                     {countries.map((country) => (
-                      <option key={country.id} value={country.id}>
-                        {country.name}
+                      <option key={country.cca2} value={country.cca2}>
+                        {country.name.common}
                       </option>
                     ))}
                   </select>
+
+                  {selectedCountry && (
+                    <div>
+                      <h3>Selected Country:</h3>
+                      <p>{selectedCountry}</p>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex flex-col">
@@ -640,17 +678,28 @@ const Settings = () => {
                     State
                   </label>
                   <select
-                    className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
-                    value={selectedState.id}
+                    id="stateSelect"
+                    name="state"
                     onChange={handleStateChange}
+                    value={userData ? userData.country : ""}
+                    className="outline outline-gray-100 md:p-4 p-2 md:w-[235px] w-full"
                   >
-                    <option value="">Choose State</option>
-                    {states.map((state) => (
-                      <option key={state.id} value={state.id}>
-                        {state.name}
+                    <option value="" disabled>
+                      Select State
+                    </option>
+                    {statesInNigeria.map((state, index) => (
+                      <option key={index} value={state}>
+                        {state}
                       </option>
                     ))}
                   </select>
+
+                  {selectedState && (
+                    <div>
+                      <h3>Selected State:</h3>
+                      <p>{selectedState}</p>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex md:flex-row flex-col md:justify-between md:items-center my-8 ">
@@ -661,43 +710,40 @@ const Settings = () => {
                       Upload a signed copy of this form in your profile
                     </p>
                   </div>
-                  <div className=" bg-white border border-gray-100 rounded-lg h-14 w-full mb-6 md:p-6 p-3 flex items-center justify-between mt-4 md:w-[300px] lg:w-[500px] relative">
-                    <input
-                      type="file"
-                      id="upload"
-                      name="upload"
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        setGuarantorSelect(file);
-                      }}
-                      className="outline outline-gray-100 md:p-4 p-2 w-full absolute top-0 left-0 opacity-0 z-10"
-                      required
-                    />
-                    <div className="flex gap-2">
-                      <img src={svg} alt="Upload Icon" className="h-10 w-10" />
-                      <div className="flex flex-col">
-                        <p className="text-2xl text-gray-900">
-                          Upload Guarantor Form
-                        </p>
-                        <p className="block text-gray-400 text-xs">
-                          Guarantor form | 10MB max.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mb-2 ">
-                      {!fileUploaded ? (
-                        <button
-                          type="button"
-                          className="bg-[#ECE9FC] py-3 md:px-6 px-3 mt-2 rounded-md text-deep-green"
-                          onClick={guarantorUpload}
-                        >
-                          Upload
-                        </button>
-                      ) : (
-                        <span className="text-deep-green">File Uploaded</span>
-                      )}
-                    </div>
-                  </div>
+                  <div className="bg-white border border-gray-100 rounded-lg h-14 w-full mb-6 md:p-6 p-3 flex items-center justify-between mt-4 md:w-[300px] lg:w-[500px] relative">
+      <input
+        type="file"
+        id="upload"
+        name="upload"
+        onChange={handleGuarantorSelect}
+        className="outline outline-gray-100 md:p-4 p-2 w-full absolute top-0 left-0 opacity-0 z-10"
+        required
+      />
+      <div className="flex gap-2">
+        <img src={svg} alt="Upload Icon" className="h-10 w-10" />
+        <div className="flex flex-col">
+          <p className="text-2xl text-gray-900">Upload Guarantor Form</p>
+          <p className="block text-gray-400 text-xs">
+            Guarantor form | 10MB max.
+          </p>
+        </div>
+      </div>
+      <div className="mb-2">
+        {!fileUploaded ? (
+          <button
+            type="button"
+            className="bg-[#ECE9FC] py-3 md:px-6 px-3 mt-2 rounded-md text-deep-green"
+            onClick={guarantorUpload}
+          >
+            Upload
+          </button>
+        ) : (
+          <span className="text-deep-green">
+            {guarantorSelect ? guarantorSelect.name : ''}
+          </span>
+        )}
+      </div>
+    </div>
                   <div className="mt-6">
                     <p className="text-gray-700 text-2xl mb-2">
                       Utilities Bill
@@ -844,26 +890,13 @@ const Settings = () => {
                   </div>
 
                   {/* Conditionally render the Upload button based on the state */}
-                  {documentImage && (
-                    <button
-                      type="button"
-                      className="bg-progress-green text-white p-2 mt-2 rounded-md"
-                      onClick={() => {
-                        // Handle the upload logic here
-                        // You may want to include your upload logic or trigger an API call
-                        console.log("Document Uploaded");
-                      }}
-                    >
-                      Upload
-                    </button>
-                  )}
+                  
                 </div>
               </div>
 
               <button
                 type="button"
-                className=" bg-color1 py-2 px-20  m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform "
-
+                className="bg-color1 py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
                 onClick={handleUserBioData}
               >
                 Save Changes
@@ -886,7 +919,14 @@ const Settings = () => {
                     type="text"
                     className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                     maxLength="1"
-                    onChange={(e) => handleInputChange(index, setPin, pinInputRefs[index + 1], e)}
+                    onChange={(e) =>
+                      handleInputChange(
+                        index,
+                        setPin,
+                        pinInputRefs[index + 1],
+                        e
+                      )
+                    }
                     ref={ref}
                   />
                 ))}
@@ -911,7 +951,9 @@ const Settings = () => {
 
           <button
             type="button"
-            className="bg-color1 md:py-6 md:px-36 p-6  m-auto my-10  text-white rounded-lg hover:scale-105 transition-transform duration-500"
+
+            className="bg-color1 md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+
             onClick={handleTransactionPin}
             disabled={pin.length !== 4 && confirmPin.length !== 4}
           >
@@ -919,39 +961,40 @@ const Settings = () => {
           </button>
         </div>
       );
-break;
+      break;
     default:
-currentStepComponent = null;
-break;
+      currentStepComponent = null;
+      break;
   }
 
-return (
-  <div className="rounded-lg mt-10 pt-20 ">
-    <div className="mb-4">
-      <div className="relative pt-1">
-        <div className="flex ">
-          <div className="flex flex-row w-full gap-2 justify-evenly">
-            {formTitles.map((title, index) => (
-              <div
-                key={index}
-                onClick={() => handleStepChange(index + 1)}
-                className={`cursor-pointer ${index === tabIndex - 1
-                    ? "text-color1 font-semibold border-b-2 border-color1 pb-2"
-                    : "text-[#1F1F1F]"
+  return (
+    <div className="rounded-lg mt-10 pt-20 ">
+      <div className="mb-4">
+        <div className="relative pt-1">
+          <div className="flex ">
+            <div className="flex flex-row w-full gap-2 justify-evenly">
+              {formTitles.map((title, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleStepChange(index + 1)}
+                  className={`cursor-pointer ${
+                    index === tabIndex - 1
+                      ? "text-color1 font-semibold border-b-2 border-color1 pb-2"
+                      : "text-[#1F1F1F]"
                   } transition-all ease-in-out duration-300 text-2xl md:w[200px]`}
-              >
-                {title}
-              </div>
-            ))}
+                >
+                  {title}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
+      <div className="flex justify-between">
+        <div className="flex flex-col">{currentStepComponent}</div>
+      </div>
     </div>
-    <div className="flex justify-between">
-      <div className="flex flex-col">{currentStepComponent}</div>
-    </div>
-  </div>
-);
+  );
 };
 
 export default Settings;
