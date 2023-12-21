@@ -6,18 +6,12 @@ import Overlay from '../modal/index';
 import Header from '../Header';
 
 import styles from './Main.module.scss';
-import { connect } from 'react-redux';
-import { setDisplayModal } from '../../../actions/modal';
 
-
-
-
-
-export const Main = ({ history ,overlay}) => {
+export const Main = ({ history }) => {
     const [overviewData, setOverviewData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [commissionBalance, setCommissionBalance] = useState(0);
-    
+    const [overlay, setOverlay] = useState(false);
 
     // Simulating static data instead of API call
     const staticOverviewData = {
@@ -66,15 +60,5 @@ export const Main = ({ history ,overlay}) => {
         </Suspense>
     );
 };
-const mapStateToProps = (state) => {
-    return {
-        overlay: state.modal.overlay
-    };
-};
-const mapDispatchToProps = (dispatch) => {
-    return {
-        displayModal: (payload) => dispatch(setDisplayModal(payload)),
-    };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps) (withRouter(Main));
+export default withRouter(Main);

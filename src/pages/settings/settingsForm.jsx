@@ -41,7 +41,7 @@ const Settings = () => {
   const [guarantorSelect, setGuarantorSelect] = useState(null);
   const [pin, setPin] = useState([]);
   const [confirmPin, setConfirmPin] = useState([]);
-
+  const [states, setStates] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -98,33 +98,32 @@ const Settings = () => {
   };
 
   const handleUserBioData = async () => {
-  const bio = new FormData();
-  bio.append("business_address", docUploadPayload);
-  bio.append("guarantor_file", guarantorSelect || ''); // If guarantorSelect is null, append an empty string
-  bio.append("utility_image", utilityImage || ''); // If utilityImage is null, append an empty string
-  bio.append("document_type", selectedDocument);
-  bio.append("document_image", documentImage || ''); // If documentImage is null, append an empty string
+    const bio = new FormData();
+    bio.append("business_address", docUploadPayload);
+    bio.append("guarantor_file", guarantorSelect);
+    bio.append("utility_image", utilityImage);
+    bio.append("document_type", selectedDocument);
+    bio.append("document_image", documentImage);
 
-  console.log(docUploadPayload);
-  try {
-    let data = await axios.post("/agent/bio-data", bio);
-    if (data.status === 200) {
-      addToast("Profile updated successfully!", {
-        appearance: "success",
+    console.log(docUploadPayload);
+    try {
+      let data = await axios.post("/agent/bio-data", bio);
+      if (data.status === 200) {
+        addToast("Profile updated successfully!", {
+          appearance: "success",
+          autoDismiss: true,
+          autoDismissTimeout: 3000, // milliseconds
+        });
+      }
+    } catch (error) {
+      addToast("An error occured", {
+        appearance: "error",
         autoDismiss: true,
         autoDismissTimeout: 3000, // milliseconds
       });
+      console.log(error);
     }
-  } catch (error) {
-    addToast("An error occurred", {
-      appearance: "error",
-      autoDismiss: true,
-      autoDismissTimeout: 3000, // milliseconds
-    });
-    console.log(error);
-  }
-};
-
+  };
   const uploadFile = () => {
     // Your upload logic goes here
 
@@ -141,7 +140,7 @@ const Settings = () => {
         setPayload({
           ...payload,
           email: response.data.data.agent.email,
-          
+
         });
 
         setDocUploadPayload(response.data.data.agent.business_address);
@@ -225,7 +224,7 @@ const Settings = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
-console.log(file)
+    console.log(file)
   };
 
   const linkRef = useRef(null);
@@ -303,68 +302,47 @@ console.log(file)
     }
   };
 
-  const statesInNigeria = [
-    "Abia",
-    "Adamawa",
-    "Akwa Ibom",
-    "Anambra",
-    "Bauchi",
-    "Bayelsa",
-    "Benue",
-    "Borno",
-    "Cross River",
-    "Delta",
-    "Ebonyi",
-    "Edo",
-    "Ekiti",
-    "Enugu",
-    "Gombe",
-    "Imo",
-    "Jigawa",
-    "Kaduna",
-    "Kano",
-    "Katsina",
-    "Kebbi",
-    "Kogi",
-    "Kwara",
-    "Lagos",
-    "Nasarawa",
-    "Niger",
-    "Ogun",
-    "Ondo",
-    "Osun",
-    "Oyo",
-    "Plateau",
-    "Rivers",
-    "Sokoto",
-    "Taraba",
-    "Yobe",
-    "Zamfara",
-  ];
+
 
   const handleStateChange = (event) => {
-    setSelectedState(event.target.value);
-  };
+    const selectedStateId = event.target.value;
 
+    // Find the selected state object
+    const selectedStateObject = states.find(state => state.id === selectedStateId);
+
+    // Update selectedState state with the entire state object
+    setSelectedState(selectedStateObject);
+  };
   useEffect(() => {
-    // Fetch all countries using the restcountries API
+    // Fetch the list of countries when the component mounts
     const fetchCountries = async () => {
       try {
-        const response = await axios.get("https://restcountries.com/v3.1/all");
-        // Sort the countries alphabetically by name
-        const sortedCountries = response.data.sort((a, b) =>
-          a.name.common.localeCompare(b.name.common)
-        );
-        setCountries(sortedCountries);
+        const response = await axios.get("/countries/all-countries");
+        setCountries(response.data.data);
       } catch (error) {
         console.error("Error fetching countries:", error);
       }
     };
+
     fetchCountries();
   }, []);
 
-  const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value);
+  const handleCountryChange = async (event) => {
+    const selectedCountryId = event.target.value;
+
+    // Find the selected country object
+    const selectedCountryObject = countries.find(country => country.id === selectedCountryId);
+
+    // Update selectedCountry state with the entire country object
+    setSelectedCountry(selectedCountryObject);
+
+    // Fetch states based on the selected country
+    try {
+      const response = await axios.get(`/countries/all-states/${selectedCountryId}`);
+      setStates(response.data.data);
+    } catch (error) {
+      console.error("Error fetching states:", error);
+    }
   };
 
   const handleTogglePasswordVisibility = () => {
@@ -383,11 +361,11 @@ console.log(file)
   };
   const handleSaveChanges = async () => {
     const contactUpdate = new FormData();
-    contactUpdate.append('email', userData.email )
-    contactUpdate.append('image', selectedImage )
-    contactUpdate.append('old_password', payload.password.old_password )
-    contactUpdate.append('new_password', payload.password.new_password )
-    contactUpdate.append('confirm_password', payload.password.new_password )
+    contactUpdate.append('email', userData.email)
+    contactUpdate.append('image', selectedImage)
+    contactUpdate.append('old_password', payload.password.old_password)
+    contactUpdate.append('new_password', payload.password.new_password)
+    contactUpdate.append('confirm_password', payload.password.new_password)
     console.log(contactUpdate);
 
 
@@ -575,7 +553,8 @@ console.log(file)
 
             <button
               type="button"
-              className=" bg-color1 py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+              className=" bg-color1  py-2 px-20  m-auto my-10  text-white rounded-lg hover:scale-105 transition-transform duration-500"
+
               onClick={handleSaveChanges}
             >
               Save Changes
@@ -643,28 +622,17 @@ console.log(file)
                     Country:
                   </label>
                   <select
-                    id="countrySelect"
-                    name="country"
+                    className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                    value={selectedCountry.id}
                     onChange={handleCountryChange}
-                    value={userData ? userData.country : ""}
-                    className="outline outline-gray-100 md:p-4 p-2 md:w-[235px] w-full"
                   >
-                    <option value="" disabled>
-                      Select Country
-                    </option>
+                    <option value="">Choose Country</option>
                     {countries.map((country) => (
-                      <option key={country.cca2} value={country.cca2}>
-                        {country.name.common}
+                      <option key={country.id} value={country.id}>
+                        {country.name}
                       </option>
                     ))}
                   </select>
-
-                  {selectedCountry && (
-                    <div>
-                      <h3>Selected Country:</h3>
-                      <p>{selectedCountry}</p>
-                    </div>
-                  )}
                 </div>
 
                 <div className="flex flex-col">
@@ -672,28 +640,17 @@ console.log(file)
                     State
                   </label>
                   <select
-                    id="stateSelect"
-                    name="state"
+                    className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                    value={selectedState.id}
                     onChange={handleStateChange}
-                    value={userData ? userData.country : ""}
-                    className="outline outline-gray-100 md:p-4 p-2 md:w-[235px] w-full"
                   >
-                    <option value="" disabled>
-                      Select State
-                    </option>
-                    {statesInNigeria.map((state, index) => (
-                      <option key={index} value={state}>
-                        {state}
+                    <option value="">Choose State</option>
+                    {states.map((state) => (
+                      <option key={state.id} value={state.id}>
+                        {state.name}
                       </option>
                     ))}
                   </select>
-
-                  {selectedState && (
-                    <div>
-                      <h3>Selected State:</h3>
-                      <p>{selectedState}</p>
-                    </div>
-                  )}
                 </div>
               </div>
               <div className="flex md:flex-row flex-col md:justify-between md:items-center my-8 ">
@@ -905,7 +862,8 @@ console.log(file)
 
               <button
                 type="button"
-                className="bg-color1 py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+                className=" bg-color1 py-2 px-20  m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform "
+
                 onClick={handleUserBioData}
               >
                 Save Changes
@@ -928,14 +886,7 @@ console.log(file)
                     type="text"
                     className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                     maxLength="1"
-                    onChange={(e) =>
-                      handleInputChange(
-                        index,
-                        setPin,
-                        pinInputRefs[index + 1],
-                        e
-                      )
-                    }
+                    onChange={(e) => handleInputChange(index, setPin, pinInputRefs[index + 1], e)}
                     ref={ref}
                   />
                 ))}
@@ -960,9 +911,7 @@ console.log(file)
 
           <button
             type="button"
-
-            className="bg-color1 md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
-
+            className="bg-color1 md:py-6 md:px-36 p-6  m-auto my-10  text-white rounded-lg hover:scale-105 transition-transform duration-500"
             onClick={handleTransactionPin}
             disabled={pin.length !== 4 && confirmPin.length !== 4}
           >
@@ -970,40 +919,39 @@ console.log(file)
           </button>
         </div>
       );
-      break;
+break;
     default:
-      currentStepComponent = null;
-      break;
+currentStepComponent = null;
+break;
   }
 
-  return (
-    <div className="rounded-lg mt-10 pt-20 ">
-      <div className="mb-4">
-        <div className="relative pt-1">
-          <div className="flex ">
-            <div className="flex flex-row w-full gap-2 justify-evenly">
-              {formTitles.map((title, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleStepChange(index + 1)}
-                  className={`cursor-pointer ${
-                    index === tabIndex - 1
-                      ? "text-color1 font-semibold border-b-2 border-color1 pb-2"
-                      : "text-[#1F1F1F]"
+return (
+  <div className="rounded-lg mt-10 pt-20 ">
+    <div className="mb-4">
+      <div className="relative pt-1">
+        <div className="flex ">
+          <div className="flex flex-row w-full gap-2 justify-evenly">
+            {formTitles.map((title, index) => (
+              <div
+                key={index}
+                onClick={() => handleStepChange(index + 1)}
+                className={`cursor-pointer ${index === tabIndex - 1
+                    ? "text-color1 font-semibold border-b-2 border-color1 pb-2"
+                    : "text-[#1F1F1F]"
                   } transition-all ease-in-out duration-300 text-2xl md:w[200px]`}
-                >
-                  {title}
-                </div>
-              ))}
-            </div>
+              >
+                {title}
+              </div>
+            ))}
           </div>
         </div>
       </div>
-      <div className="flex justify-between">
-        <div className="flex flex-col">{currentStepComponent}</div>
-      </div>
     </div>
-  );
+    <div className="flex justify-between">
+      <div className="flex flex-col">{currentStepComponent}</div>
+    </div>
+  </div>
+);
 };
 
 export default Settings;
