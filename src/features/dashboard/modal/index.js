@@ -40,26 +40,21 @@ const OverlayContainer = ({ overlay, modal, displayModal }) => {
             <Overlay>
                 <Modal>
                     {
-                        modal == 'fundsTransfer' ? <FundsTransfer />
-                        : modal == 'cableRecharge' ? <CableRecharge /> :
-                        modal == 'airtimeRecharge' && <AirtimeRecharge />
-                
-
-                        // {
-                        //     fundsTransfer: <FundsTransfer />,
-                        //     airtimeRecharge: <AirtimeRecharge />,
-                        //     dataRecharge: <DataRecharge />,
-                        //     energy: <Energy />,
-                        //     cableRecharge: <CableRecharge />,
-                        //     pin: <TransactionPin />,
-                        //     addUsers: <AddUser />,
-                        //     password: <Password />,
-                        //     walletTransfer: <WalletTransfer />,
-                        //     commissionTransfer:<CommissionTransfer />,
-                        //     customerStatus: <CustomerStatus />,
-                        //     loanApplication: <LoanApplication />,
-                        //     showUpload: <ShowUpload />,
-                        // }[modal]
+                        {
+                            fundsTransfer: <FundsTransfer />,
+                            airtimeRecharge: <AirtimeRecharge />,
+                            dataRecharge: <DataRecharge />,
+                            energy: <Energy />,
+                            cableRecharge: <CableRecharge />,
+                            pin: <TransactionPin />,
+                            addUsers: <AddUser />,
+                            password: <Password />,
+                            walletTransfer: <WalletTransfer />,
+                            commissionTransfer:<CommissionTransfer />,
+                            customerStatus: <CustomerStatus />,
+                            loanApplication: <LoanApplication />,
+                            showUpload: <ShowUpload />,
+                        }[modal]
                     }
                 </Modal>
             </Overlay>

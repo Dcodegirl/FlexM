@@ -9,6 +9,7 @@ import Header from '../Header';
 
 import styles from './Main.module.scss';
 
+
 import { setDisplayModal } from '../../../actions/modal';
 
 export const Main = ({ history , overlay}) => {
@@ -76,4 +77,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (withRouter(Main));
+export default withRouter(Main);
