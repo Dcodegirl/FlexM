@@ -23,8 +23,12 @@ import sun from '../../../assets/icons/sun.svg';
 import Ellipse from '../../../assets/icons/Ellipse.svg';
 import profile from '../../../assets/images/profileImage.png';
 import axiosInstance from '../../../utils/axiosInstance';
+import moon from '../../../assets/icons/moon.svg'
+
 
 import styles from './Header.module.scss';
+
+
 
 const Header = ({
     currentPage,
@@ -44,6 +48,11 @@ const Header = ({
     const virtualAccountBank = bank ? bank.name : 'N/A';
     const wrapperRef = useRef(null);
     const { addToast } = useToasts();
+    const currentDate = new Date();
+
+    const currentHour = currentDate.getHours();
+
+const isAfter4PM = currentHour >= 16;
 
    
     // useEffect(() => {
@@ -273,13 +282,16 @@ const Header = ({
                                 <img src={image} alt="user pic" className='w-[20px]' />
                             </div>
                             <div className=''>
-                                <div className='flex gap-2'><div><h1 className='text-[12px] font-bold'>Hi, Mark!    </h1></div></div>
+                                <div className='flex gap-2'><div><h1 className='text-[12px] font-bold'> {name}    </h1></div></div>
                                 <div className='flex items-center'>
                                     <img src={sun} alt="star" className='w-[10px]' />
-                                    <div>
-                                        <span className='text-[#748274]'>Tuesday, October 27</span>
-
-                                    </div>
+                                    <div className='flex gap-3 items-center -mt-2'>
+              <span><img src={isAfter4PM ? moon : sun} alt="" /></span>
+              <span className=''><img src={Ellipse} alt="" /></span>
+              <span className='text-[#748274]'>{currentDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <span className=''><img src={Ellipse} alt="" /></span>
+              <span className='text-[#748274]'>{currentDate.toLocaleTimeString()}</span>
+            </div>
                                 </div>
                             </div>
                         </div>
