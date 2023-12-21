@@ -555,7 +555,7 @@ const Settings = () => {
 
             <button
               type="button"
-              className=" bg-color1  py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+              className=" bg-color1  py-2 px-20  m-auto my-10  text-white rounded-lg hover:scale-105 transition-transform duration-500"
               onClick={handleSaveChanges}
             >
               Save Changes
@@ -886,7 +886,7 @@ const Settings = () => {
 
       <button
         type="button"
-        className="bg-color1 md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+        className="bg-color1 md:py-6 md:px-36 p-6  m-auto my-10  text-white rounded-lg hover:scale-105 transition-transform duration-500"
         onClick={handleTransactionPin}
         disabled={pin.length !== 4 && confirmPin.length !== 4}
       >
