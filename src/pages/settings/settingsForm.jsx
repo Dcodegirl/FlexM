@@ -917,14 +917,6 @@ const Settings = () => {
           >
             Save Changes
           </button>
-          <button
-            type="button"
-            className="bg-color1 md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white hover:scale-105 transition-transform"
-            onClick={handleTransactionPin}
-            disabled={pin.length !== 4 && confirmPin.length !== 4}
-          >
-            Save Changes
-          </button>
         </div>
       );
 break;
