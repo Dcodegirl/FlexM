@@ -46,6 +46,7 @@ export const startLoginUser = (payload, history) => async (dispatch) => {
           ...data.data.bank_info
         },
         has_pin: data.data.has_pin,
+        image: data.data.image,
 
 
       };

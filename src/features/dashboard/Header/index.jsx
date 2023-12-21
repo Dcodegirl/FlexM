@@ -33,9 +33,10 @@ const Header = ({
     createNotification,
     logout,
     user,
-    bank
+    bank,
+    image,
 }) => {
-    console.log('Current user state:', user);
+    console.log('Current user state:', image);
     const [toggleUser, setToggleUser] = useState(false);
     const name = user ? `${user.first_name} ${user.last_name}` : 'User';
     const walletId = user ? user.walletNo : 'N/A';
@@ -63,20 +64,20 @@ const Header = ({
     //     };
     // }, []);
 
-    const getImage = async() => {
-        try {
-            const {data} = await axiosInstance.get(`/agent/userinfo`);
-            console.log(data.data.image);
-            setMyImage(data.data.image)
-        }catch(err) {
-            console.log(err)
-        }
-    }
+    // const getImage = async() => {
+    //     try {
+    //         const {data} = await axiosInstance.get(`/agent/userinfo`);
+    //         console.log(data.data.image);
+    //         setMyImage(data.data.image)
+    //     }catch(err) {
+    //         console.log(err)
+    //     }
+    // }
 
-    useEffect(() => {
-        getImage();
+    // useEffect(() => {
+    //     getImage();
        
-    },[])
+    // },[])
 
     const handleToggleNotifications = () => {
         notifications.forEach((notification) => {
@@ -127,12 +128,10 @@ const Header = ({
                         <div className="flex gap-2 items-center">
                             <div className='md:block hidden'>
                                 {
-                                    myImage ? 
-                                    <img src={myImage} alt="" className='relative w-[40px] h-[40px]' />
-                                    :
+                                   
                                     <img
                                     className='w-[30px] h-[30px] top-8 absolute ml-2'
-                                    src={pic}
+                                    src={image}
                                     alt='User silhoutte'
                                     onClick={() => {
                                         setToggleUser(!toggleUser);
@@ -158,7 +157,7 @@ const Header = ({
                             <div className={`top-28 right-16 w-72 h-[300px] bg-white shadow-md rounded-lg text-center text-lg absolute z-10`} ref={wrapperRef}>
                                 <div className='h-1/2 bg-purple-800 p-8 text-white rounded-tl-lg rounded-tr-lg'>
                                     <img
-                                        src={myImage}
+                                        src={image}
                                         alt='user avatar'
                                         className='block mx-auto w-10 rounded-full'
                                     />
@@ -271,7 +270,7 @@ const Header = ({
                     <div className='md:hidden flex gap-9'>
                         <div className='flex gap-3' >
                             <div>
-                                <img src={myImage} alt="user pic" className='w-[20px]' />
+                                <img src={image} alt="user pic" className='w-[20px]' />
                             </div>
                             <div className=''>
                                 <div className='flex gap-2'><div><h1 className='text-[12px] font-bold'>Hi, Mark!    </h1></div></div>
@@ -309,6 +308,7 @@ const mapStateToProps = (state) => {
         currentPage: state?.page,
         user : state.auth.user,
         bank: state.auth.bank,
+        image: state.auth.image,
         isDefaultPassword: state?.auth.user.verified,
         notifications: state?.notification.notifications,
         walletId: state?.auth?.user?.walletNo,
