@@ -41,7 +41,7 @@ export const quickActionData = [
       modal: null,
     },
     {
-      to: '/bill-payment',
+      to: '/bet',
       className: 'cardBill',
       icon: bet,
       text: 'Bet',
@@ -57,7 +57,7 @@ export const quickActionData = [
       modal: null,
     },
     {
-      to: '/loan',
+      to: '/loan-bill',
       className: 'cardCash',
       icon: loan,
       text: 'Loan',
