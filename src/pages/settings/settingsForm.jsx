@@ -125,6 +125,12 @@ const Settings = () => {
   }
 };
 
+const handleGuarantorSelect = (e) => {
+  const file = e.target.files[0];
+  setGuarantorSelect(file);
+  setFileUploaded(false); // Reset the fileUploaded state when a new file is selected
+};
+
   const uploadFile = () => {
     // Your upload logic goes here
 
@@ -704,43 +710,40 @@ console.log(file)
                       Upload a signed copy of this form in your profile
                     </p>
                   </div>
-                  <div className=" bg-white border border-gray-100 rounded-lg h-14 w-full mb-6 md:p-6 p-3 flex items-center justify-between mt-4 md:w-[300px] lg:w-[500px] relative">
-                    <input
-                      type="file"
-                      id="upload"
-                      name="upload"
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        setGuarantorSelect(file);
-                      }}
-                      className="outline outline-gray-100 md:p-4 p-2 w-full absolute top-0 left-0 opacity-0 z-10"
-                      required
-                    />
-                    <div className="flex gap-2">
-                      <img src={svg} alt="Upload Icon" className="h-10 w-10" />
-                      <div className="flex flex-col">
-                        <p className="text-2xl text-gray-900">
-                          Upload Guarantor Form
-                        </p>
-                        <p className="block text-gray-400 text-xs">
-                          Guarantor form | 10MB max.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mb-2 ">
-                      {!fileUploaded ? (
-                        <button
-                          type="button"
-                          className="bg-[#ECE9FC] py-3 md:px-6 px-3 mt-2 rounded-md text-deep-green"
-                          onClick={guarantorUpload}
-                        >
-                          Upload
-                        </button>
-                      ) : (
-                        <span className="text-deep-green">File Uploaded</span>
-                      )}
-                    </div>
-                  </div>
+                  <div className="bg-white border border-gray-100 rounded-lg h-14 w-full mb-6 md:p-6 p-3 flex items-center justify-between mt-4 md:w-[300px] lg:w-[500px] relative">
+      <input
+        type="file"
+        id="upload"
+        name="upload"
+        onChange={handleGuarantorSelect}
+        className="outline outline-gray-100 md:p-4 p-2 w-full absolute top-0 left-0 opacity-0 z-10"
+        required
+      />
+      <div className="flex gap-2">
+        <img src={svg} alt="Upload Icon" className="h-10 w-10" />
+        <div className="flex flex-col">
+          <p className="text-2xl text-gray-900">Upload Guarantor Form</p>
+          <p className="block text-gray-400 text-xs">
+            Guarantor form | 10MB max.
+          </p>
+        </div>
+      </div>
+      <div className="mb-2">
+        {!fileUploaded ? (
+          <button
+            type="button"
+            className="bg-[#ECE9FC] py-3 md:px-6 px-3 mt-2 rounded-md text-deep-green"
+            onClick={guarantorUpload}
+          >
+            Upload
+          </button>
+        ) : (
+          <span className="text-deep-green">
+            File Uploaded: {guarantorSelect ? guarantorSelect.name : ''}
+          </span>
+        )}
+      </div>
+    </div>
                   <div className="mt-6">
                     <p className="text-gray-700 text-2xl mb-2">
                       Utilities Bill
