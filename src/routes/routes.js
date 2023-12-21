@@ -20,6 +20,7 @@ import Support from '../pages/support';
 import WalletTransfer from '../features/services/walletTransfer/WalletTransfer';
 import CommissionTransfer from '../features/services/commissionTransfer/CommissionTransfer';
 import BillPayment from '../pages/BillPayment';
+import CablePayment from '../pages/CablePayment';
 import AirtimeData from '../pages/AirtimeData';
 import Airtimeairtime from '../pages/Airtimeairtime';
 import LoanPage from '../pages/Loan';
@@ -178,7 +179,7 @@ const routes = [
     },
     {
         path: '/cable-payment',
-        component: BillPayment,
+        component: CablePayment,
     },
     {
         path: '/bill-payment',
