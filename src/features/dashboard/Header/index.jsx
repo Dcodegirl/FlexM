@@ -134,12 +134,12 @@ const isAfter4PM = currentHour >= 16;
                         </span>
                     </div>
                     <div className=''>
-                        <div className="flex gap-2 items-center">
+                        <div className="flex items-center">
                             <div className='md:block hidden'>
                                 {
                                    
                                     <img
-                                    className='w-[30px] h-[30px] top-8 absolute ml-2'
+                                    className='w-[30px] h-[30px] top-8 ml-2'
                                     src={image}
                                     alt='User silhoutte'
                                     onClick={() => {
