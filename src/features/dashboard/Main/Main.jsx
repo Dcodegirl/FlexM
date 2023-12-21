@@ -1,4 +1,6 @@
 import React, { Suspense, useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+
 import { Route, Switch, withRouter } from 'react-router-dom';
 import Profile from '../../profile/Profile';
 import routes from '../../../routes/routes';
@@ -7,11 +9,15 @@ import Header from '../Header';
 
 import styles from './Main.module.scss';
 
-export const Main = ({ history }) => {
+
+import { setDisplayModal } from '../../../actions/modal';
+
+export const Main = ({ history , overlay}) => {
     const [overviewData, setOverviewData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [commissionBalance, setCommissionBalance] = useState(0);
-    const [overlay, setOverlay] = useState(false);
+   
+
 
     // Simulating static data instead of API call
     const staticOverviewData = {
@@ -59,6 +65,16 @@ export const Main = ({ history }) => {
             </main>
         </Suspense>
     );
+};
+const mapStateToProps = (state) => {
+    return {
+        overlay : state.modal.overlay
+    };
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        displayModal: (payload) => dispatch(setDisplayModal(payload)),
+    }
 };
 
 export default withRouter(Main);
