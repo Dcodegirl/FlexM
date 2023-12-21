@@ -193,6 +193,7 @@ const Header = ({
                                             alt=''
                                         />
                                     </span> */}
+
                   <span className="block w-70 bg-white rounded-md p-2 mx-auto my-2 text-purple-800 text-base">
                     Wallet ID: {walletId}
                   </span>
