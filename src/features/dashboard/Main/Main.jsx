@@ -77,4 +77,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default withRouter(Main);
+export default connect(mapStateToProps, mapDispatchToProps) (withRouter(Main));
