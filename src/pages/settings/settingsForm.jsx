@@ -140,7 +140,7 @@ const Settings = () => {
         setPayload({
           ...payload,
           email: response.data.data.agent.email,
-          
+
         });
 
         setDocUploadPayload(response.data.data.agent.business_address);
@@ -224,7 +224,7 @@ const Settings = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
-console.log(file)
+    console.log(file)
   };
 
   const linkRef = useRef(null);
@@ -302,7 +302,7 @@ console.log(file)
     }
   };
 
-  
+
 
   const handleStateChange = (event) => {
     const selectedStateId = event.target.value;
@@ -361,11 +361,11 @@ console.log(file)
   };
   const handleSaveChanges = async () => {
     const contactUpdate = new FormData();
-    contactUpdate.append('email', userData.email )
-    contactUpdate.append('image', selectedImage )
-    contactUpdate.append('old_password', payload.password.old_password )
-    contactUpdate.append('new_password', payload.password.new_password )
-    contactUpdate.append('confirm_password', payload.password.new_password )
+    contactUpdate.append('email', userData.email)
+    contactUpdate.append('image', selectedImage)
+    contactUpdate.append('old_password', payload.password.old_password)
+    contactUpdate.append('new_password', payload.password.new_password)
+    contactUpdate.append('confirm_password', payload.password.new_password)
     console.log(contactUpdate);
 
 
@@ -553,7 +553,7 @@ console.log(file)
 
             <button
               type="button"
-              className=" bg-color1  py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+              className=" bg-color1  py-2 px-20  m-auto my-10  text-white rounded-lg hover:scale-105 transition-transform duration-500"
 
               onClick={handleSaveChanges}
             >
@@ -622,17 +622,17 @@ console.log(file)
                     Country:
                   </label>
                   <select
-                  className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
-                  value={selectedCountry.id}
-                  onChange={handleCountryChange}
-                >
-                  <option value="">Choose Country</option>
-                  {countries.map((country) => (
-                    <option key={country.id} value={country.id}>
-                      {country.name}
-                    </option>
-                  ))}
-                </select>
+                    className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                    value={selectedCountry.id}
+                    onChange={handleCountryChange}
+                  >
+                    <option value="">Choose Country</option>
+                    {countries.map((country) => (
+                      <option key={country.id} value={country.id}>
+                        {country.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="flex flex-col">
@@ -640,17 +640,17 @@ console.log(file)
                     State
                   </label>
                   <select
-                  className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
-                  value={selectedState.id}
-                  onChange={handleStateChange}
-                >
-                  <option value="">Choose State</option>
-                  {states.map((state) => (
-                    <option key={state.id} value={state.id}>
-                      {state.name}
-                    </option>
-                  ))}
-                </select>
+                    className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                    value={selectedState.id}
+                    onChange={handleStateChange}
+                  >
+                    <option value="">Choose State</option>
+                    {states.map((state) => (
+                      <option key={state.id} value={state.id}>
+                        {state.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div className="flex md:flex-row flex-col md:justify-between md:items-center my-8 ">
@@ -876,52 +876,50 @@ console.log(file)
     case 3:
       currentStepComponent = (
         <div className="flex flex-col items-center md:py-20 md:px-40 px-20 text-2xl">
-      <div className="flex md:flex-row flex-col md:gap-20 items-center">
-        <div className="flex flex-col my-4 md:my-0">
-          <p>Enter Pin</p>
-          <form className="flex space-x-4">
-            {pinInputRefs.map((ref, index) => (
-              <input
-                key={index}
-                type="text"
-                className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-                maxLength="1"
-                onChange={(e) => handleInputChange(index, setPin, pinInputRefs[index + 1], e)}
-                ref={ref}
-              />
-            ))}
-          </form>
-        </div>
-        <div className="flex flex-col  my-4 md:my-0">
-          <p>Confirm Pin</p>
-          <form className="flex space-x-4">
-            {confirmPinInputRefs.map((ref, index) => (
-              <input
-                key={index}
-                type="text"
-                className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
-                maxLength="1"
-                onChange={(e) => handleConfirmPinInputChange(index, e)}
-                ref={ref}
-              />
-            ))}
-          </form>
-        </div>
-      </div>
-
-      <button
-        type="button"
-        className="bg-color1 md:py-6 md:px-36 p-6  m-auto my-10  text-white rounded-lg hover:scale-105 transition-transform duration-500"
-        onClick={handleTransactionPin}
-        disabled={pin.length !== 4 && confirmPin.length !== 4}
-      >
-        Save Changes
-      </button>
-    </div>
+          <div className="flex md:flex-row flex-col md:gap-20 items-center">
+            <div className="flex flex-col my-4 md:my-0">
+              <p>Enter Pin</p>
+              <form className="flex space-x-4">
+                {pinInputRefs.map((ref, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                    maxLength="1"
+                    onChange={(e) => handleInputChange(index, setPin, pinInputRefs[index + 1], e)}
+                    ref={ref}
+                  />
+                ))}
+              </form>
+            </div>
+            <div className="flex flex-col  my-4 md:my-0">
+              <p>Confirm Pin</p>
+              <form className="flex space-x-4">
+                {confirmPinInputRefs.map((ref, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
+                    maxLength="1"
+                    onChange={(e) => handleConfirmPinInputChange(index, e)}
+                    ref={ref}
+                  />
+                ))}
+              </form>
+            </div>
+          </div>
 
           <button
             type="button"
-            className="bg-color1 md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+            className="bg-color1 md:py-6 md:px-36 p-6  m-auto my-10  text-white rounded-lg hover:scale-105 transition-transform duration-500"
+            onClick={handleTransactionPin}
+            disabled={pin.length !== 4 && confirmPin.length !== 4}
+          >
+            Save Changes
+          </button>
+          <button
+            type="button"
+            className="bg-color1 md:py-6 md:px-36 p-6 rounded m-auto my-10 duration-500 text-white hover:scale-105 transition-transform"
             onClick={handleTransactionPin}
             disabled={pin.length !== 4 && confirmPin.length !== 4}
           >
@@ -929,40 +927,39 @@ console.log(file)
           </button>
         </div>
       );
-      break;
+break;
     default:
-      currentStepComponent = null;
-      break;
+currentStepComponent = null;
+break;
   }
 
-  return (
-    <div className="rounded-lg mt-10 pt-20 ">
-      <div className="mb-4">
-        <div className="relative pt-1">
-          <div className="flex ">
-            <div className="flex flex-row w-full gap-2 justify-evenly">
-              {formTitles.map((title, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleStepChange(index + 1)}
-                  className={`cursor-pointer ${
-                    index === tabIndex - 1
-                      ? "text-color1 font-semibold border-b-2 border-color1 pb-2"
-                      : "text-[#1F1F1F]"
+return (
+  <div className="rounded-lg mt-10 pt-20 ">
+    <div className="mb-4">
+      <div className="relative pt-1">
+        <div className="flex ">
+          <div className="flex flex-row w-full gap-2 justify-evenly">
+            {formTitles.map((title, index) => (
+              <div
+                key={index}
+                onClick={() => handleStepChange(index + 1)}
+                className={`cursor-pointer ${index === tabIndex - 1
+                    ? "text-color1 font-semibold border-b-2 border-color1 pb-2"
+                    : "text-[#1F1F1F]"
                   } transition-all ease-in-out duration-300 text-2xl md:w[200px]`}
-                >
-                  {title}
-                </div>
-              ))}
-            </div>
+              >
+                {title}
+              </div>
+            ))}
           </div>
         </div>
       </div>
-      <div className="flex justify-between">
-        <div className="flex flex-col">{currentStepComponent}</div>
-      </div>
     </div>
-  );
+    <div className="flex justify-between">
+      <div className="flex flex-col">{currentStepComponent}</div>
+    </div>
+  </div>
+);
 };
 
 export default Settings;
