@@ -37,8 +37,6 @@ const Settings = () => {
   const [utilityImage, setUtilityImage] = useState(null);
   const [docImage, setDocImage] = useState(null);
   const [fileUploaded, setFileUploaded] = useState(false);
-  const [guarantorfileUploaded, setGuarantorFileUploaded] = useState(false);
-
   const [guarantorUpload, setGuarantorUpload] = useState(false);
   const [guarantorSelect, setGuarantorSelect] = useState(null);
   const [pin, setPin] = useState([]);
