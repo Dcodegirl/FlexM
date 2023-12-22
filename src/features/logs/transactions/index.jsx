@@ -4,6 +4,7 @@ import TransactionDetailsModal from '../../dashboard/modal/TransactionDetailsMod
 import more from '../../../assets/icons/moreDot.svg'
 import { fetchTransactionsData } from '../../dashboard/data/transactionData';
 // import "./style.css";
+import { useSelector } from 'react-redux';
 
 const TransactionLog = ({ user }) => {
 
@@ -14,6 +15,7 @@ const TransactionLog = ({ user }) => {
     const [transactions, setTransactions] = useState([]);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const agentId = useSelector((state) => state.auth.user?.id);
 
     const handlePeriodSelect = (e) => {
         // Handle the period change logic here
@@ -33,10 +35,10 @@ const TransactionLog = ({ user }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (user) {
-                    console.log("User in TransactionLog component:", user);
+                if (agentId) {
+                    
                     // Extract the 'id' from the user data in Redux state
-                    const agentId = user.id;
+                    const agentId = agentId;
     
                     // Fetch transactions data using the agentId
                     const transactionData = await fetchTransactionsData(agentId);
@@ -205,4 +207,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(TransactionLog);
+export default TransactionLog;
