@@ -52,7 +52,7 @@ export const fetchTransactionsData = async (agentId) => {
 };
 
 
-export const AgentTransactionData = async (agentId) => {
+export const AgentTransactionData = async (agentId, searchValue) => {
   try {
     if (!agentId) {
       console.error('Agent ID is required.');
@@ -62,6 +62,7 @@ export const AgentTransactionData = async (agentId) => {
     const response = await axios.get('/searchAgtByAggregator', {
       params: {
         agent_id: agentId,
+        business_name: searchValue, // Add the business_name parameter
       },
     });
 
@@ -72,6 +73,7 @@ export const AgentTransactionData = async (agentId) => {
       id: agent.id,
       agentCode: agent.agent_code,
       name: `${agent.first_name} ${agent.last_name}`,
+      businessName: agent.business_name || '',
       phoneNumber: agent.business_phone || '',
       address: agent.business_address || '',
       localGovt: agent.lga || '',
@@ -87,26 +89,60 @@ export const AgentTransactionData = async (agentId) => {
 };
 
 
+export const SingleAgentTransactionData  = async (agentId) => {
+  try {
+    if (!agentId) {
+      console.error('Agent ID is required.');
+      return [];
+    }
 
-export const SingleAgentTransactionData = () => {
-  // Fetch or provide your transaction data here
-  const agentTansaction = [
-    { id:1 , TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Successful', date: '2022-07-09 14:02:24'},
-    { id: 2, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'DSTV', Status: 'Failed', date: '2022-07-09 14:02:24'},
-    { id: 3, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Successful', date: '2022-07-09 14:02:24'},
-    { id: 4, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Failed', date: '2022-07-09 14:02:24'},
-    { id: 5, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Pending', date: '2022-07-09 14:02:24'},
-    { id: 6, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'GOTV', Status: 'Successful', date: '2022-07-09 14:02:24'},
-    { id: 7, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Failed', date: '2022-07-09 14:02:24'},
-    { id: 8, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Transfer', Status: 'Pending', date: '2022-07-09 14:02:24'},
-    { id: 9, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Pending', date: '2022-07-09 14:02:24'},
-    { id: 10, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Transfer', Status: 'Successful', date: '2022-07-09 14:02:24'},
-    { id: 11, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Failed', date: '2022-07-09 14:02:24'},
-    // Add more data as needed
-  ];
+    const response = await axios.get('/searchAg', {
+      params: {
+        agent_id: agentId
+      },
+    });
 
-  return agentTansaction;
+    const data = response.data;
+
+    // Map the API response to the desired format
+    const agentTransactionData = data.data.map(agent => ({
+      id: agent.id,
+      agentCode: agent.agent_code,
+      name: `${agent.first_name} ${agent.last_name}`,
+      businessName: agent.business_name || '',
+      phoneNumber: agent.business_phone || '',
+      address: agent.business_address || '',
+      localGovt: agent.lga || '',
+      state: agent.state || ''
+    }));
+
+    console.log(agentTransactionData);
+    return agentTransactionData;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return [];
+  }
 };
+
+// export const = (agentId) => {
+//   // Fetch or provide your transaction data here
+//   const agentTansaction = [
+//     { id:1 , TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Successful', date: '2022-07-09 14:02:24'},
+//     { id: 2, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'DSTV', Status: 'Failed', date: '2022-07-09 14:02:24'},
+//     { id: 3, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Successful', date: '2022-07-09 14:02:24'},
+//     { id: 4, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Failed', date: '2022-07-09 14:02:24'},
+//     { id: 5, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Pending', date: '2022-07-09 14:02:24'},
+//     { id: 6, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'GOTV', Status: 'Successful', date: '2022-07-09 14:02:24'},
+//     { id: 7, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Failed', date: '2022-07-09 14:02:24'},
+//     { id: 8, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Transfer', Status: 'Pending', date: '2022-07-09 14:02:24'},
+//     { id: 9, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Pending', date: '2022-07-09 14:02:24'},
+//     { id: 10, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Transfer', Status: 'Successful', date: '2022-07-09 14:02:24'},
+//     { id: 11, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Failed', date: '2022-07-09 14:02:24'},
+//     // Add more data as needed
+//   ];
+
+//   return agentTansaction;
+// };
 
 
 

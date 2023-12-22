@@ -319,7 +319,7 @@ const [loading, setLoading] = useState(true);
               <div>
               <img src={userInfo.image || pic} alt="" className='w-20 rounded-full' />
 
-                <img src={image} alt="user pic" className="w-[20px]" />
+                <img src={image} alt="user pic" className="w-[20px] md:hidden lg:block hidden" />
               </div>
               <div className="">
                 <div className="flex gap-2">
