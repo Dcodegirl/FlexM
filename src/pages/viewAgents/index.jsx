@@ -43,7 +43,7 @@ const ViewAgent = () => {
     const handleCancel = () => {
         setIsConfirmationModalOpen(false);
     };
-    const handleAssignTerminalClick = () => {
+    const handleAssignTerminalClick = (selectedTerminalId, selectedSerialNumber) => {
         setIsAssignTerminalModalOpen(true);
     };
 
@@ -122,7 +122,9 @@ console.log(filteredTransactions);
         <>
             {/* Render AssignTerminalModal if isAssignTerminalModalOpen is true */}
             {isAssignTerminalModalOpen && (
-                <AssignTerminalModal isOpen={isAssignTerminalModalOpen} onClose={() => setIsAssignTerminalModalOpen(false)} onAssignConfirmClick={() => setIsConfirmationModalOpen(true)} />
+                <AssignTerminalModal isOpen={isAssignTerminalModalOpen} onClose={() => setIsAssignTerminalModalOpen(false)} 
+                onAssignConfirmClick={() => setIsConfirmationModalOpen(true)} 
+                />
             )}
             <div className="bg-white p-8 rounded-md mt-8 flex gap-10 items-center mb-8">
                 <div>

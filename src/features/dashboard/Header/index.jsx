@@ -22,9 +22,7 @@ import mark from "../../../assets/icons/aggregator.svg";
 import sun from "../../../assets/icons/sun.svg";
 import Ellipse from "../../../assets/icons/Ellipse.svg";
 import profile from "../../../assets/images/profileImage.png";
-import axiosInstance from "../../../utils/axiosInstance";
 import moon from "../../../assets/icons/moon.svg";
-
 import styles from "./Header.module.scss";
 import axios from "../../../utils/axiosInstance";
 
@@ -69,20 +67,22 @@ const Header = ({
   //     };
   // }, []);
 
-  // const getImage = async() => {
+  // const get_user = async() => {
   //     try {
   //         const {data} = await axiosInstance.get(`/agent/userinfo`);
   //         console.log(data.data.image);
-  //         setMyImage(data.data.image)
+  //         setUserInfo(data.data.image)
   //     }catch(err) {
   //         console.log(err)
   //     }
   // }
 
   // useEffect(() => {
-  //     getImage();
+  //     get_user ();
 
   // },[])
+  const [userInfo, setUserInfo] = useState('');
+const [loading, setLoading] = useState(true);
 
   const handleToggleNotifications = () => {
     notifications.forEach((notification) => {
@@ -113,25 +113,29 @@ const Header = ({
   useClickOutside(wrapperRef);
 
 
-    const [userData, setUserData] = useState(null);
-    
-  
-    useEffect(() => {
-      // Make API call to fetch user information
-      axios.get('/agent/userinfo')
-        .then(response => {
-          setUserData(response.data.data);
-          console.log(response.data.data)
-        })
-        .catch(error => {
-          console.error('Error fetching user information:', error);
-        });
-    }, []);
-  
-    if (!userData) {
-      // Loading state or handle error
-      return null;
-    }
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        // Make the API call
+        const response = await axios.get('/agent/userinfo');
+
+        // Set the user info in the state
+        setUserInfo(response.data.data);
+        console.log(response.data.data)
+
+        // Set loading to false
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+
+        // Set loading to false even if there's an error
+        setLoading(false);
+      }
+    };
+
+    // Call the fetchUserInfo function
+    fetchUserInfo();
+  }, []);
 
   return (
     <header className={`flex md:justify-end bg-white h-full justify-between`}>
@@ -171,8 +175,8 @@ const Header = ({
                 {
 
                   <img
-                    className="w-[30px] h-[30px] top-8 ml-2 rounded-full"
-                    src={userData?.image || profile}
+                    className="w-[30px] h-[30px] top-8 ml-2"
+                    src={userInfo.image || pic}
                     alt="User silhoutte"
                     onClick={() => {
                       setToggleUser(!toggleUser);
@@ -203,7 +207,7 @@ const Header = ({
               >
                 <div className="h-1/2 bg-purple-800 p-8 text-white rounded-tl-lg rounded-tr-lg">
                   <img
-                    src={image}
+                    src={userInfo.image || pic}
                     alt="user avatar"
                     className="block mx-auto w-10 rounded-full"
                   />
@@ -217,13 +221,13 @@ const Header = ({
                                     </span> */}
 
                   <span className="block w-70 bg-white rounded-md p-2 mx-auto my-2 text-purple-800 text-base">
-                    Wallet ID: {walletId}
+                    Wallet ID: {userInfo.agent.wallet_no}
                   </span>
                   <span className="block w-70 bg-white rounded-md p-2 mx-auto my-2 text-purple-800 text-base">
-                    Account No: {virtualAccountNumber}
+                    Account No: {userInfo.agent.virtual_account_number || 'N/A'}
                   </span>
                   <span className="block w-70 bg-white rounded-md p-2 mx-auto my-2 text-purple-800 text-base">
-                    Bank Name : {virtualAccountBank}
+                    Bank Name : {userInfo.agent.virtual_account_bank || 'N/A'}
                   </span>
                 </div>
                 <div className="p-5">
@@ -313,7 +317,7 @@ const Header = ({
           <div className="md:hidden flex gap-9">
             <div className="flex gap-3">
               <div>
-              <img src={userData?.image || profile} alt="" className='w-20 rounded-full' />
+              <img src={userInfo.image || pic} alt="" className='w-20 rounded-full' />
 
                 <img src={image} alt="user pic" className="w-[20px] md:hidden lg:block hidden" />
               </div>
@@ -370,6 +374,7 @@ const Header = ({
     </header>
   );
 };
+
 
 const mapStateToProps = (state) => {
   return {
