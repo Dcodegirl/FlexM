@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { navigationItems } from '../data/navData';
 
-import logo from '../../../assets/images/cico-logo.svg';
+import logo from '../../../assets/images/flexbycico.svg';
 import close from '../../../assets/icons/closeModal.svg';
 import toggleIcon from '../../../assets/icons/toggleIcon.svg';
 import Down from '../../../assets/icons/down.svg';
