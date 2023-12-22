@@ -47,10 +47,19 @@ export const fetchTransactionsData = async (agentId) => {
 };
 
 
-
-export const AgentTransactionData = async () => {
+export const AgentTransactionData = async (agentId) => {
   try {
-    const response = await axios.get('/searchAg');
+    if (!agentId) {
+      console.error('Agent ID is required.');
+      return [];
+    }
+
+    const response = await axios.get('/searchAgtByAggregator', {
+      params: {
+        agent_id: agentId,
+      },
+    });
+
     const data = response.data;
 
     // Map the API response to the desired format
@@ -64,12 +73,14 @@ export const AgentTransactionData = async () => {
       state: agent.state || ''
     }));
 
+    console.log(agentTransactionData);
     return agentTransactionData;
   } catch (error) {
     console.error('Error fetching data:', error);
     return [];
   }
 };
+
 
 
 export const SingleAgentTransactionData = () => {

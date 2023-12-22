@@ -26,6 +26,7 @@ import axiosInstance from "../../../utils/axiosInstance";
 import moon from "../../../assets/icons/moon.svg";
 import axios from "../../../utils/axiosInstance";
 import styles from "./Header.module.scss";
+import axios from "../../../utils/axiosInstance";
 
 const Header = ({
   currentPage,
@@ -111,8 +112,8 @@ const [loading, setLoading] = useState(true);
       };
     }, []);
   }
-
   useClickOutside(wrapperRef);
+
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -174,6 +175,7 @@ const [loading, setLoading] = useState(true);
             <div className="flex items-center">
               <div className="md:block hidden">
                 {
+
                   <img
                     className="w-[30px] h-[30px] top-8 ml-2"
                     src={userInfo.image || pic}
@@ -317,6 +319,8 @@ const [loading, setLoading] = useState(true);
           <div className="md:hidden flex gap-9">
             <div className="flex gap-3">
               <div>
+              <img src={userData?.image || profile} alt="" className='w-20 rounded-full' />
+
                 <img src={image} alt="user pic" className="w-[20px]" />
               </div>
               <div className="">

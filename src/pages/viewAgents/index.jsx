@@ -6,6 +6,7 @@ import more from '../../assets/icons/moreDot.svg'
 import AgentDetailsModal from "../../features/dashboard/modal/AgentDetailsModal";
 import AssignTerminalModal from "../../features/dashboard/modal/AssignTerminalModal";
 import ConfirmTerminalModal from "../../features/dashboard/modal/ConfirmTerminalModal";
+import { useSelector } from "react-redux";
 
 
 
@@ -15,6 +16,7 @@ const ViewAgent = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAssignTerminalModalOpen, setIsAssignTerminalModalOpen] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+    const agent_id = useSelector((state) => state.auth.user?.id);
 
     const handleMoreClick = (transactionId) => {
 
@@ -54,7 +56,7 @@ const ViewAgent = () => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const data = await AgentTransactionData();
+            const data = await AgentTransactionData(agent_id);
             setTransactions(data);
           } catch (error) {
             console.error('Error fetching data:', error);
@@ -135,10 +137,10 @@ const ViewAgent = () => {
                             <div key={index} className={`grid grid-cols-7 grid-rows-1 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
                                 <div className="text-wrapper-6">{transaction.agentCode}</div>
                                 <div className="text-wrapper-6">{transaction.name}</div>
-                                <div className="text-wrapper-6">{transaction.phoneNumber}</div>
-                                <div className="text-wrapper-6">{transaction.address}</div>
-                                <div className="text-wrapper-6">{transaction.localGovt}</div>
-                                <div className="text-wrapper-6">{transaction.state}</div>
+                                <div className="text-wrapper-6">{transaction.phoneNumber || 'NA'}</div>
+                                <div className="text-wrapper-6">{transaction.address || 'NA'}</div>
+                                <div className="text-wrapper-6">{transaction.localGovt || 'NA'}</div>
+                                <div className="text-wrapper-6">{transaction.state || 'NA'}</div>
                                 <div className="flex gap-3 relative">
                                     <div className="text-wrapper-6 cursor-pointer" onClick={() => handleMoreClick(transaction.id)}><img src={more} alt="" /></div>
                                     <div className="absolute right-6 -top-8 md:right-2">
