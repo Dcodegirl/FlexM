@@ -22,9 +22,7 @@ import mark from "../../../assets/icons/aggregator.svg";
 import sun from "../../../assets/icons/sun.svg";
 import Ellipse from "../../../assets/icons/Ellipse.svg";
 import profile from "../../../assets/images/profileImage.png";
-import axiosInstance from "../../../utils/axiosInstance";
 import moon from "../../../assets/icons/moon.svg";
-import axios from "../../../utils/axiosInstance";
 import styles from "./Header.module.scss";
 import axios from "../../../utils/axiosInstance";
 
@@ -319,7 +317,7 @@ const [loading, setLoading] = useState(true);
           <div className="md:hidden flex gap-9">
             <div className="flex gap-3">
               <div>
-              <img src={userData?.image || profile} alt="" className='w-20 rounded-full' />
+              <img src={userInfo.image || pic} alt="" className='w-20 rounded-full' />
 
                 <img src={image} alt="user pic" className="w-[20px]" />
               </div>
