@@ -198,7 +198,7 @@ console.log(filteredTransactions);
         </div>
         
         {transactions.length === 0 ? (
-                            <p className="text-red-500 text-center mt-4">No agents found with the specified business name.</p>
+                            <p className="text-red-500 text-center mt-4 text-xl">No agents found with the specified business name.</p>
                         ) : (
                             transactions.map((transaction, index) => (
                                 <div key={index} className={`grid grid-cols-8 grid-rows-1 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>

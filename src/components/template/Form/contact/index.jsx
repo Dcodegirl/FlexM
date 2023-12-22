@@ -78,7 +78,8 @@ const Contact = ({ nextStep }) => {
         const responseData = response.data;
         console.log('API Response:', responseData);
   
-        addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success' });
+        addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success', autoDismiss: true,
+        autoDismissTimeout: 3000, });
         setPhoneNum(phoneNumber)
         nextStep();
       } catch (error) {
