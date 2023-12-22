@@ -133,42 +133,37 @@ const ViewSingleAgent = () => {
                         </div> */}
                     </div>
                 </div>
-                    
-                {noResults ? (
-                    <p className="text-red-500 text-center mt-4 text-xl">No transactions found for the agent.</p>
-                ) : (
-                    <div className="box overflow-x-auto md:overflow-x-hidden">
-                        <div className="w-[1100px] md:w-full">
-                            {loading ? (
-                                <p>Loading...</p>
-                            ) : (
-                                <>
-                                    <div className="grid grid-cols-5  p-8 font-medium text-xl bg-[#F1F1F1]">
+                <div className="box overflow-x-auto md:overflow-x-hidden">
+                    <div className="md:w-full w-[1100px]">
+
+                        <div className="grid grid-cols-5  p-8 font-medium text-xl bg-[#F1F1F1]">
                                         <p>Transaction ref</p>
                                         <p>Transaction ID</p>
                                         <p>Transaction type</p>
                                         <p>Status</p>
                                         <p>Date created</p>
                                     </div>
-                                    {transactions.map((transaction, index) => (
-                                        <div key={index} className={`grid grid-cols-5  p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
-                                            <div className="text-wrapper-5">{transaction.TransactionRef}</div>
-                                            <div className="text-wrapper-6">{transaction.TransactionID}</div>
-                                            <div className="text-wrapper-6">{transaction.TransactionType}</div>
-                                            <div className="text-wrapper-6" style={{
-                                                color:
-                                                    transaction.Status === 'Successful' ? '#00B378' :
-                                                        transaction.Status === 'Failed' ? '#FF1919' :
-                                                            '#FF9212'
-                                            }}>{transaction.Status}</div>
-                                            <div className="text-wrapper-6">{transaction.date}</div>
-                                        </div>
-                                    ))}
-                                </>
-                            )}
-                        </div>
+                        {loading ? (
+                            <p className="flex justify-center mt-8 text-xl">Loading...</p>
+                        ) : transactions.length === 0 ? (
+                            <p className="flex justify-center mt-8 text-xl">No agent to display under this aggregator.</p>
+                        ) : (
+                            transactions.map((transaction, index) => (
+                                <div key={index} className={`grid grid-cols-8 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
+                                    <div className="text-wrapper-5">{transaction.agentCode}</div>
+                                    <div className="text-wrapper-6">{transaction.BusinessName}</div>
+                                    <div className="text-wrapper-6">{transaction.CashCount}</div>
+                                    <div className="text-wrapper-6">{transaction.TransferCount}</div>
+                                    <div className="text-wrapper-6">{transaction.TotalCount}</div>
+                                    <div className="text-wrapper-6">#{transaction.CashVolume?.toLocaleString()}</div>
+                                    <div className="text-wrapper-6">#{transaction.TransferVolume?.toLocaleString()}</div>
+                                    <div className="text-wrapper-6">#{transaction.TotalAmount?.toLocaleString()}</div>
+                                </div>
+                            ))
+                        )}
                     </div>
-                )}
+                </div>
+                
             </div>
         </>
     );
