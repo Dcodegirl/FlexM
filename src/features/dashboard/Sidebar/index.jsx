@@ -16,7 +16,7 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   useEffect(() => {
-    window.addEventListener('resize', (e) => {
+    const handleResize = () => {
       setWidth(window.innerWidth);
 
       if (window.innerWidth === 1000) {
@@ -24,12 +24,12 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
       } else if (window.innerWidth < 1000) {
         setIsOpen(false);
       }
-    });
+    };
+
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', () => {
-        console.log('event');
-      });
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -82,39 +82,46 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
                       (item.condition !== 'sub' || agentType !== 'sub')
                   )
                   .map((item, index) => {
-                    if (item.isAggregator) {
-                      if (aggregatorId !== null) {
-                        return (
-                          <div key={index}>
-                            {item.to ? (
-                              <NavLink
-                                to={item.to}
-                                className='flex gap-5 items-center'
-                                activeClassName={styles.active}
-                              >
-                                <img src={item.icon} alt="" className='navItemImage' />
-                                <span className='text-gray-700 font-normal text-xl'>{item.text}</span>
-                              </NavLink>
-                            ) : (
-                              <div className='relative flex items-center'>
-                                <div className='flex flex-col'>
-                                  <div className='flex gap-5 items-center'>
-                                    <img src={item.icon} alt="" className='navItemImage' />
-                                    <div className='flex items-center'>
-                                      <span className='text-gray-700 font-normal text-xl w-64'>{item.text}</span>
-                                      <img
-                                        src={Down}
-                                        alt=""
-                                        className='flex gap-5 items-center text-gray-700'
-                                        onClick={() => setActiveDropdown(index === activeDropdown ? null : index)}
-                                      />
-                                    </div>
+                    if (item.isAggregator && agentType !== 'aggregator') {
+                      // Skip rendering this item for non-aggregator users
+                      return null;
+                    }
+
+                    if (item.hasSubMenu) {
+                      // Dropdown menu rendering
+                      return (
+                        <div key={index}>
+                          {item.to ? (
+                            <NavLink
+                              to={item.to}
+                              className='flex gap-5 items-center'
+                              activeClassName={styles.active}
+                            >
+                              <img src={item.icon} alt="" className='navItemImage' />
+                              <span className='text-gray-700 font-normal text-xl'>{item.text}</span>
+                            </NavLink>
+                          ) : (
+                            <div className='relative flex items-center'>
+                              <div className='flex flex-col'>
+                                <div className='flex gap-5 items-center'>
+                                  <img src={item.icon} alt="" className='navItemImage' />
+                                  <div className='flex items-center'>
+                                    <span className='text-gray-700 font-normal text-xl w-64'>{item.text}</span>
+                                    <img
+                                      src={Down}
+                                      alt=""
+                                      className='flex gap-5 items-center text-gray-700'
+                                      onClick={() => setActiveDropdown(index === activeDropdown ? null : index)}
+                                    />
                                   </div>
-                                  {index === activeDropdown && (
-                                    <div
-                                      className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
-                                    >
-                                      {item.items.map((subItem, subIndex) => (
+                                </div>
+                                {index === activeDropdown && (
+                                  <div
+                                    className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
+                                  >
+                                    {item.items
+                                      .filter((subItem) => subItem.isAggregator ? aggregatorId !== null : true)
+                                      .map((subItem, subIndex) => (
                                         <NavLink
                                           key={subIndex}
                                           to={subItem.to}
@@ -124,17 +131,15 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
                                           <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
                                         </NavLink>
                                       ))}
-                                    </div>
-                                  )}
-                                </div>
+                                  </div>
+                                )}
                               </div>
-                            )}
-                          </div>
-                        );
-                      } else {
-                        return null;
-                      }
+                            </div>
+                          )}
+                        </div>
+                      );
                     } else {
+                      // Regular navigation item rendering
                       return (
                         <div key={index}>
                           {item.to ? (

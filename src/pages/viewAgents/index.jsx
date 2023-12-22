@@ -25,8 +25,8 @@ const ViewAgent = () => {
     const agent_id = useSelector((state) => state.auth.user?.id);
 
     const [selectedTerminalId, setSelectedTerminalId] = useState("");
-  const [selectedSerialNumber, setSelectedSerialNumber] = useState("");
-  const [selectedAgent, setSelectedAgent] = useState(null);
+    const [selectedSerialNumber, setSelectedSerialNumber] = useState("");
+    const [selectedAgent, setSelectedAgent] = useState(null);
 
 
 
@@ -69,27 +69,27 @@ const ViewAgent = () => {
 
     const fetchData = async () => {
         try {
-          // Replace 'searchInput' with the actual state or variable containing the search value
-          const data = await AgentTransactionData(agent_id, "");
-          setTransactions(data);
-          setNoResults(data.length === 0);  // Set noResults state based on data length
-          setLoading(false)
+            // Replace 'searchInput' with the actual state or variable containing the search value
+            const data = await AgentTransactionData(agent_id, "");
+            setTransactions(data);
+            setNoResults(data.length === 0);  // Set noResults state based on data length
+            setLoading(false)
         } catch (error) {
-          console.error('Error fetching data:', error);
-          setLoading(false)
+            console.error('Error fetching data:', error);
+            setLoading(false)
         }
-      };
-    
+    };
+
     useEffect(() => {
-     
-      fetchData();
-      
+
+        fetchData();
+
     }, []);
 
     const handleSearch = (e) => {
-    
+
         const searchValue = e.target.value
-        if (searchValue.length > 0){
+        if (searchValue.length > 0) {
             setLoading(true);
 
             // Filter transactions based on the inputted business name
@@ -97,12 +97,12 @@ const ViewAgent = () => {
                 (transaction) =>
                     transaction.businessName.toLowerCase().includes(searchBusinessName.toLowerCase())
             );
-console.log(filteredTransactions);
-    
+            console.log(filteredTransactions);
+
             //setNoResults(filteredTransactions.length === 0); // Set noResults state based on filtered transactions
-            if(filteredTransactions.length == 0) {
+            if (filteredTransactions.length == 0) {
                 setTransactions([]);
-            }else {
+            } else {
                 setTransactions(filteredTransactions);
             }
             setLoading(false);
@@ -114,9 +114,9 @@ console.log(filteredTransactions);
         console.log(e.target.value);
         if (e.key === 'Enter') {
             console.log(e.key);
-            
+
         }
-            // fetchData();
+        // fetchData();
 
     };
 
@@ -124,13 +124,13 @@ console.log(filteredTransactions);
     const selectedTransaction = transactions.find(transaction => transaction.id === selectedTransactionId);
 
     // Use react-router-dom to navigate to the ViewSingleAgent page
-    
+
     return (
         <>
             {/* Render AssignTerminalModal if isAssignTerminalModalOpen is true */}
             {isAssignTerminalModalOpen && (
-                <AssignTerminalModal isOpen={isAssignTerminalModalOpen} onClose={() => setIsAssignTerminalModalOpen(false)} 
-                onAssignConfirmClick={() => setIsConfirmationModalOpen(true)} 
+                <AssignTerminalModal isOpen={isAssignTerminalModalOpen} onClose={() => setIsAssignTerminalModalOpen(false)}
+                    onAssignConfirmClick={() => setIsConfirmationModalOpen(true)}
                 />
             )}
             <div className="bg-white p-8 rounded-md mt-8 flex gap-10 items-center mb-8">
@@ -147,41 +147,41 @@ console.log(filteredTransactions);
                     <div className="flex md:block justify-between">
                         <p className="font-medium text-[16px]">Agent Details</p>
                         <div className="relative md:hidden block">
-                            <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400"  
-                            
+                            <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400"
 
-                               />
+
+                            />
                             <input type="text" placeholder="Search agent by business name"
-                             className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2"
-                             value={searchBusinessName}
-                             onChange={(e) => handleSearch(e)} />
+                                className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2"
+                                value={searchBusinessName}
+                                onChange={(e) => handleSearch(e)} />
                         </div>
                     </div>
                     <div className="flex md:flex-row flex-col gap-3 items-center">
                         <div className="relative md:block hidden">
-                            <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400" 
-                             />
-                            <input type="text" placeholder="Search agent by business name"  
-                            value={searchBusinessName}
-                             onChange={(e) => handleSearch(e)} 
-                             className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2" />
+                            <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400"
+                            />
+                            <input type="text" placeholder="Search agent by business name"
+                                value={searchBusinessName}
+                                onChange={(e) => handleSearch(e)}
+                                className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2" />
                         </div>
                     </div>
                 </div>
 
                 <div className="box overflow-x-auto md:overflow-x-hidden">
-    <div className="md:w-full w-[1200px]">
-        <div className="grid grid-cols-8 grid-rows-1 p-8 font-medium text-xl bg-[#F1F1F1]">
-            <p>Agent Code</p>
-            <p>Name</p>
-            <p>Business Name</p>
-            <p>Phone Number</p>
-            <p>Address</p>
-            <p>Local Govt</p>
-            <p>State</p>
-        </div>
-        
-        {transactions.length === 0 ? (
+                    <div className="md:w-full w-[1200px]">
+                        <div className="grid grid-cols-8 grid-rows-1 p-8 font-medium text-xl bg-[#F1F1F1]">
+                            <p>Agent Code</p>
+                            <p>Name</p>
+                            <p>Business Name</p>
+                            <p>Phone Number</p>
+                            <p>Address</p>
+                            <p>Local Govt</p>
+                            <p>State</p>
+                        </div>
+
+                        {transactions.length === 0 ? (
                             <p className="text-red-500 text-center mt-4 text-xl">No agents found with the specified business name.</p>
                         ) : (
                             transactions.map((transaction, index) => (
@@ -208,19 +208,18 @@ console.log(filteredTransactions);
                         )}
 
 
-</div>
-</div>
+                    </div>
+                </div>
 
             </div>
             {/* Confirmation Modal */}
-
+<ConfirmTerminalModal
             selectedTerminalId = {selectedTerminalId}
-             selectedSerialNumber = {selectedSerialNumber}
-             agentName = {selectedAgent?.id}
-
-                isOpen={isConfirmationModalOpen}
-                onConfirm={handleConfirm}
-                onCancel={handleCancel}
+            selectedSerialNumber = {selectedSerialNumber}
+            agentName = {selectedAgent?.id}
+            isOpen={isConfirmationModalOpen}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
             />
 
         </>
