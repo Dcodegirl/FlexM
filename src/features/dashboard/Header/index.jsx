@@ -26,6 +26,7 @@ import axiosInstance from "../../../utils/axiosInstance";
 import moon from "../../../assets/icons/moon.svg";
 
 import styles from "./Header.module.scss";
+import axios from "../../../utils/axiosInstance";
 
 const Header = ({
   currentPage,
@@ -109,8 +110,28 @@ const Header = ({
       };
     }, []);
   }
-
   useClickOutside(wrapperRef);
+
+
+    const [userData, setUserData] = useState(null);
+    
+  
+    useEffect(() => {
+      // Make API call to fetch user information
+      axios.get('/agent/userinfo')
+        .then(response => {
+          setUserData(response.data.data);
+          console.log(response.data.data)
+        })
+        .catch(error => {
+          console.error('Error fetching user information:', error);
+        });
+    }, []);
+  
+    if (!userData) {
+      // Loading state or handle error
+      return null;
+    }
 
   return (
     <header className={`flex md:justify-end bg-white h-full justify-between`}>
@@ -148,9 +169,10 @@ const Header = ({
             <div className="flex items-center">
               <div className="md:block hidden">
                 {
+
                   <img
-                    className="w-[30px] h-[30px] top-8 ml-2"
-                    src={image}
+                    className="w-[30px] h-[30px] top-8 ml-2 rounded-full"
+                    src={userData?.image || profile}
                     alt="User silhoutte"
                     onClick={() => {
                       setToggleUser(!toggleUser);
@@ -291,6 +313,8 @@ const Header = ({
           <div className="md:hidden flex gap-9">
             <div className="flex gap-3">
               <div>
+              <img src={userData?.image || profile} alt="" className='w-20 rounded-full' />
+
                 <img src={image} alt="user pic" className="w-[20px]" />
               </div>
               <div className="">
