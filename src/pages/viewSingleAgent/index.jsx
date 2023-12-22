@@ -151,13 +151,13 @@ const ViewSingleAgent = () => {
                             transactions.map((transaction, index) => (
                                 <div key={index} className={`grid grid-cols-8 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
                                     <div className="text-wrapper-5">{transaction.agentCode}</div>
-                                    <div className="text-wrapper-6">{transaction.BusinessName}</div>
-                                    <div className="text-wrapper-6">{transaction.CashCount}</div>
-                                    <div className="text-wrapper-6">{transaction.TransferCount}</div>
-                                    <div className="text-wrapper-6">{transaction.TotalCount}</div>
-                                    <div className="text-wrapper-6">#{transaction.CashVolume?.toLocaleString()}</div>
-                                    <div className="text-wrapper-6">#{transaction.TransferVolume?.toLocaleString()}</div>
-                                    <div className="text-wrapper-6">#{transaction.TotalAmount?.toLocaleString()}</div>
+                                    <div className="text-wrapper-6">{transaction.businessName}</div>
+                                    <div className="text-wrapper-6">{transaction.cashCount}</div>
+                                    <div className="text-wrapper-6">{transaction.transferCount}</div>
+                                    <div className="text-wrapper-6">{transaction.totalCount}</div>
+                                    <div className="text-wrapper-6">#{transaction.cashVolume?.toLocaleString()}</div>
+                                    <div className="text-wrapper-6">#{transaction.transferVolume?.toLocaleString()}</div>
+                                    <div className="text-wrapper-6">#{transaction.totalAmount?.toLocaleString()}</div>
                                 </div>
                             ))
                         )}

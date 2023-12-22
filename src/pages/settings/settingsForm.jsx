@@ -570,7 +570,7 @@ console.log(file)
       break;
     case 2:
       currentStepComponent = (
-        <div>
+        <div id="Biodata">
           {/* Add your biodata form here */}
           <div className="md:p-20 p-5 text-2xl">
             {/* Replace the following comment with your actual contact details form */}
