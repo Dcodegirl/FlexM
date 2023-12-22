@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "../../../../utils/axiosInstance";
 
 const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick }) => {
   const [selectedTerminalId, setSelectedTerminalId] = useState("");
   const [selectedSerialNumber, setSelectedSerialNumber] = useState("");
+  const [terminals, setTerminals] = useState([]);
+  const [serials, setSerials] = useState([]);
+
 
   const handleAssignClick = () => {
     // Perform assignment logic here
@@ -10,18 +14,39 @@ const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick }) => {
     console.log("Assigned Serial Number:", selectedSerialNumber);
 
     // Trigger the callback to open the confirmation modal
-    onAssignConfirmClick();
+    onAssignConfirmClick(selectedTerminalId, selectedSerialNumber);
 
     // Close the assign terminal modal
     onClose();
   };
 
+  useEffect(() => {
+    const fetchTerminals = async () => {
+      try {
+        const response = await axios.get("/terminals/terminal");
+        setTerminals(response.data.data);
+      } catch (error) {
+        console.error("Error fetching terminals:", error);
+      }
+    };
+
+    const fetchSerials = async () => {
+      try {
+        const response = await axios.get("/terminals/serial");
+        setSerials(response.data.data);
+      } catch (error) {
+        console.error("Error fetching serials:", error);
+      }
+    };
+
+    fetchTerminals();
+    fetchSerials();
+  }, []);
   return (
     // Modal backdrop
     <div
-      className={`${
-        isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-      } fixed inset-0 z-50 transition-opacity ease-in-out duration-300`}
+      className={`${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        } fixed inset-0 z-50 transition-opacity ease-in-out duration-300`}
     >
       {/* Modal container */}
       <div className="flex items-center justify-center min-h-screen modal-content">
@@ -46,10 +71,14 @@ const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick }) => {
                 className="mt-1 p-2 border rounded-md w-full"
                 onChange={(e) => setSelectedTerminalId(e.target.value)}
               >
-                {/* Add options for terminal IDs */}
-                <option value="terminal1">Terminal 1</option>
-                <option value="terminal2">Terminal 2</option>
-                {/* Add more options as needed */}
+                <option value="" disabled selected>
+                  Select Terminal
+                </option>
+                {terminals.map((terminal) => (
+                  <option key={terminal.id} value={terminal.terminal_id}>
+                    {terminal.terminal_id}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -64,10 +93,14 @@ const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick }) => {
                 className="mt-1 p-2 border rounded-md w-full"
                 onChange={(e) => setSelectedSerialNumber(e.target.value)}
               >
-                {/* Add options for terminal serial numbers */}
-                <option value="serial1">Serial 1</option>
-                <option value="serial2">Serial 2</option>
-                {/* Add more options as needed */}
+                <option value="" disabled selected>
+                  Select Serial Number
+                </option>
+                {serials.map((serial) => (
+                  <option key={serial.id} value={serial.serial_no}>
+                    {serial.serial_no}
+                  </option>
+                ))}
               </select>
             </div>
 
