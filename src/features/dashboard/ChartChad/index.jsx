@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axios from '../../../utils/axiosInstance';
+import { useSelector } from 'react-redux';
 
 const ChartChad = ({ period, onLoadingChange }) => {
   const [chartData, setChartData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const agentId = useSelector((state) => state.auth.user?.id);
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/tranxanalysis?period=${period}`);
+        const response = await axios.get(`/tranxanalysis?period=${period}&agent_id=${agentId}`);
         const { status, data } = response.data;
 
         if (status === 'Successful') {
