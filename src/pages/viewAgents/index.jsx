@@ -17,6 +17,8 @@ const ViewAgent = () => {
     const [isAssignTerminalModalOpen, setIsAssignTerminalModalOpen] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const agent_id = useSelector((state) => state.auth.user?.id);
+    const [selectedTerminalId, setSelectedTerminalId] = useState("");
+  const [selectedSerialNumber, setSelectedSerialNumber] = useState("");
 
     const handleMoreClick = (transactionId) => {
 
@@ -67,6 +69,7 @@ const ViewAgent = () => {
       }, []);
 
     const selectedTransaction = transactions.find(transaction => transaction.id === selectedTransactionId);
+    
     // Use react-router-dom to navigate to the ViewSingleAgent page
 
     return (
@@ -74,7 +77,8 @@ const ViewAgent = () => {
             {/* Render AssignTerminalModal if isAssignTerminalModalOpen is true */}
             {isAssignTerminalModalOpen && (
                 <AssignTerminalModal isOpen={isAssignTerminalModalOpen} onClose={() => setIsAssignTerminalModalOpen(false)} 
-                onAssignConfirmClick={() => setIsConfirmationModalOpen(true)} 
+                onAssignConfirmClick={() => setIsConfirmationModalOpen(true)}
+                selectedTerminalId = {selectedTerminalId} setSelectedTerminalId = {setSelectedTerminalId} selectedSerialNumber = {selectedSerialNumber} setSelectedSerialNumber = {setSelectedSerialNumber}
                 />
             )}
             <div className="bg-white p-8 rounded-md mt-8 flex gap-10 items-center mb-8">
@@ -159,6 +163,9 @@ const ViewAgent = () => {
             </div>
             {/* Confirmation Modal */}
             <ConfirmTerminalModal
+            selectedTerminalId = {selectedTerminalId}
+             selectedSerialNumber = {selectedSerialNumber}
+             agentName = {selectedTransaction}
                 isOpen={isConfirmationModalOpen}
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}

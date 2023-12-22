@@ -76,7 +76,7 @@ const Tranx = () => {
                     <div className="md:w-full w-[1000px]">
                         <table className="w-full border-collapse border border-gray-200">
                             <thead>
-                                <tr className="bg-[#F1F1F1]">
+                                <tr className="bg-[#F1F1F1] text-xl">
                                     <th className="p-3">Agent Code</th>
                                     <th className="p-3">Description</th>
                                     <th className="p-3">Amount</th>
@@ -102,7 +102,7 @@ const Tranx = () => {
                                         <tr
                                             key={index}
                                             className={`${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'
-                                                } text-center`}
+                                                } text-center text-xl`}
                                         >
                                             <td className="p-3">{transaction.agent_code}</td>
                                             <td className="p-3">{transaction.status_description}</td>

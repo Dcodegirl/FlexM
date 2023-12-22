@@ -30,6 +30,7 @@ const Settings = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [selectedDocument, setSelectedDocument] = useState("");
@@ -102,7 +103,9 @@ const Settings = () => {
   bio.append("guarantor_file", guarantorSelect || ''); // If guarantorSelect is null, append an empty string
   bio.append("utility_image", utilityImage || ''); // If utilityImage is null, append an empty string
   bio.append("document_type", selectedDocument);
-  bio.append("document_image", documentImage || ''); // If documentImage is null, append an empty string
+  bio.append("document_image", documentImage || '');
+  bio.append("country", selectedCountry || '');
+  bio.append("state", selectedState || '');  // If documentImage is null, append an empty string
 
   console.log(docUploadPayload);
   try {
@@ -303,68 +306,49 @@ console.log(file)
     }
   };
 
-  const statesInNigeria = [
-    "Abia",
-    "Adamawa",
-    "Akwa Ibom",
-    "Anambra",
-    "Bauchi",
-    "Bayelsa",
-    "Benue",
-    "Borno",
-    "Cross River",
-    "Delta",
-    "Ebonyi",
-    "Edo",
-    "Ekiti",
-    "Enugu",
-    "Gombe",
-    "Imo",
-    "Jigawa",
-    "Kaduna",
-    "Kano",
-    "Katsina",
-    "Kebbi",
-    "Kogi",
-    "Kwara",
-    "Lagos",
-    "Nasarawa",
-    "Niger",
-    "Ogun",
-    "Ondo",
-    "Osun",
-    "Oyo",
-    "Plateau",
-    "Rivers",
-    "Sokoto",
-    "Taraba",
-    "Yobe",
-    "Zamfara",
-  ];
+
 
   const handleStateChange = (event) => {
-    setSelectedState(event.target.value);
+    const selectedStateId = event.target.value;
+
+    // Find the selected state object
+    const selectedStateObject = states.find(state => state.id === selectedStateId);
+    console.log(selectedStateObject)
+
+    // Update selectedState state with the entire state object
+    setSelectedState(selectedStateObject);
   };
 
   useEffect(() => {
-    // Fetch all countries using the restcountries API
+    // Fetch the list of countries when the component mounts
     const fetchCountries = async () => {
       try {
-        const response = await axios.get("https://restcountries.com/v3.1/all");
-        // Sort the countries alphabetically by name
-        const sortedCountries = response.data.sort((a, b) =>
-          a.name.common.localeCompare(b.name.common)
-        );
-        setCountries(sortedCountries);
+        const response = await axios.get("/countries/all-countries");
+        setCountries(response.data.data);
       } catch (error) {
         console.error("Error fetching countries:", error);
       }
     };
+
     fetchCountries();
   }, []);
 
-  const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value);
+  const handleCountryChange = async (event) => {
+    const selectedCountryId = event.target.value;
+
+    // Find the selected country object
+    const selectedCountryObject = countries.find(country => country.id === selectedCountryId);
+
+    // Update selectedCountry state with the entire country object
+    setSelectedCountry(selectedCountryObject);
+
+    // Fetch states based on the selected country
+    try {
+      const response = await axios.get(`/countries/all-states/${selectedCountryId}`);
+      setStates(response.data.data);
+    } catch (error) {
+      console.error("Error fetching states:", error);
+    }
   };
 
   const handleTogglePasswordVisibility = () => {
@@ -643,28 +627,17 @@ console.log(file)
                     Country:
                   </label>
                   <select
-                    id="countrySelect"
-                    name="country"
-                    onChange={handleCountryChange}
-                    value={userData ? userData.country : ""}
-                    className="outline outline-gray-100 md:p-4 p-2 md:w-[235px] w-full"
-                  >
-                    <option value="" disabled>
-                      Select Country
+                  className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                  value={selectedCountry.id}
+                  onChange={handleCountryChange}
+                >
+                  <option value="">Choose Country</option>
+                  {countries.map((country) => (
+                    <option key={country.id} value={country.id}>
+                      {country.name}
                     </option>
-                    {countries.map((country) => (
-                      <option key={country.cca2} value={country.cca2}>
-                        {country.name.common}
-                      </option>
-                    ))}
-                  </select>
-
-                  {selectedCountry && (
-                    <div>
-                      <h3>Selected Country:</h3>
-                      <p>{selectedCountry}</p>
-                    </div>
-                  )}
+                  ))}
+                </select>
                 </div>
 
                 <div className="flex flex-col">
@@ -672,28 +645,17 @@ console.log(file)
                     State
                   </label>
                   <select
-                    id="stateSelect"
-                    name="state"
-                    onChange={handleStateChange}
-                    value={userData ? userData.country : ""}
-                    className="outline outline-gray-100 md:p-4 p-2 md:w-[235px] w-full"
-                  >
-                    <option value="" disabled>
-                      Select State
+                  className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                  value={selectedState.id}
+                  onChange={handleStateChange}
+                >
+                  <option value="">Choose State</option>
+                  {states.map((state) => (
+                    <option key={state.id} value={state.id}>
+                      {state.name}
                     </option>
-                    {statesInNigeria.map((state, index) => (
-                      <option key={index} value={state}>
-                        {state}
-                      </option>
-                    ))}
-                  </select>
-
-                  {selectedState && (
-                    <div>
-                      <h3>Selected State:</h3>
-                      <p>{selectedState}</p>
-                    </div>
-                  )}
+                  ))}
+                </select>
                 </div>
               </div>
               <div className="flex md:flex-row flex-col md:justify-between md:items-center my-8 ">

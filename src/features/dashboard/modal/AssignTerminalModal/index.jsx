@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../../../utils/axiosInstance";
 
-const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick }) => {
-  const [selectedTerminalId, setSelectedTerminalId] = useState("");
-  const [selectedSerialNumber, setSelectedSerialNumber] = useState("");
+const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick, selectedTerminalId, setSelectedTerminalId, selectedSerialNumber, setSelectedSerialNumber }) => {
+  
   const [terminals, setTerminals] = useState([]);
   const [serials, setSerials] = useState([]);
 

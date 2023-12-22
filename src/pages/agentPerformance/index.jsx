@@ -88,9 +88,9 @@ const AgentPerformance = () => {
                                     <div className="text-wrapper-6">{transaction.CashCount}</div>
                                     <div className="text-wrapper-6">{transaction.TransferCount}</div>
                                     <div className="text-wrapper-6">{transaction.TotalCount}</div>
-                                    <div className="text-wrapper-6">#{transaction.CashVolume.toLocaleString()}</div>
-                                    <div className="text-wrapper-6">#{transaction.TransferVolume.toLocaleString()}</div>
-                                    <div className="text-wrapper-6">#{transaction.TotalAmount.toLocaleString()}</div>
+                                    <div className="text-wrapper-6">#{transaction.CashVolume?.toLocaleString()}</div>
+                                    <div className="text-wrapper-6">#{transaction.TransferVolume?.toLocaleString()}</div>
+                                    <div className="text-wrapper-6">#{transaction.TotalAmount?.toLocaleString()}</div>
                                 </div>
                             ))
                         )}
