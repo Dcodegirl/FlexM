@@ -19,7 +19,7 @@ const handleConfirmClick = async () => {
     });
 
     // Check if the response status is successful
-    if (response.status === 200) {
+    if (response.status === 201) {
       // Handle the response as needed
       console.log("API Response:", response.data);
       addToast("Terminal assigned successfully", {
