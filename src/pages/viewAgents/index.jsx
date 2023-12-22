@@ -106,29 +106,6 @@ const ViewAgent = () => {
                             <img src={searchIcon} alt="Search" className="absolute left-2 top-3  text-gray-400" />
                             <input type="text" placeholder="Search transactions" className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2" />
                         </div>
-                        <div className="flex gap-3 justify-between items-center mt-3 md:mt-0">
-                            <p>Sort by</p>
-                            <div className=" md:hidden block ">
-                            <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
-                                <option value="Agent Code">Agent Code</option>
-                            </select>
-                        </div>
-                        <div className="md:hidden block">
-                            <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
-                                <option value="Agent Code">Business Name</option>
-                            </select>
-                        </div>
-                        </div>
-                        <div className=" md:block hidden">
-                            <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
-                                <option value="Agent Code">Agent Code</option>
-                            </select>
-                        </div>
-                        <div className="md:block hidden">
-                            <select name="" id="" className="bg-[#F1F1F1] rounded py-1 px-2">
-                                <option value="Agent Code">Business Name</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
                 <div className="box overflow-x-auto md:overflow-x-hidden">

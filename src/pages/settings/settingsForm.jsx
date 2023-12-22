@@ -49,6 +49,8 @@ const Settings = () => {
   const confirmPinInputRefs = [useRef(), useRef(), useRef(), useRef()];
   const utilityBillInputRef = useRef();
   const idDocumentInputRef = useRef();
+  const [loading, setLoading] = useState('');
+
 
   // business_address
   // document_type
@@ -558,12 +560,20 @@ console.log(file)
             </div>
 
             <button
-              type="button"
-              className=" bg-color1 py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
-              onClick={handleSaveChanges}
-            >
-              Save Changes
-            </button>
+                type="submit"
+                onClick={handleSaveChanges}
+                className={`bg-color1  rounded-lg h-14 w-full text-white mx-auto relative ${
+                  loading ? 'opacity-50 pointer-events-none' : ''
+                }`}
+                disabled={loading}
+              >
+                {loading && (
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div className="loader"></div>
+                  </div>
+                )}
+                {loading ? 'Saving...' : 'Saving'}
+              </button>
           </form>
         </div>
       );
@@ -862,12 +872,21 @@ console.log(file)
                 </div>
               </div>
 
+              
               <button
-                type="button"
-                className="bg-color1 py-2 px-20 rounded m-auto my-10 duration-500 text-white rounded-lg hover:scale-105 transition-transform duration-500"
+                type="submit"
                 onClick={handleUserBioData}
+                className={`bg-color1  rounded-lg h-14 w-full text-white mx-auto relative ${
+                  loading ? 'opacity-50 pointer-events-none' : ''
+                }`}
+                disabled={loading}
               >
-                Save Changes
+                {loading && (
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div className="loader"></div>
+                  </div>
+                )}
+                {loading ? 'Saving...' : 'Save'}
               </button>
             </form>
           </div>
@@ -927,6 +946,21 @@ console.log(file)
           >
             Save Changes
           </button>
+          <button
+                type="submit"
+                onClick={handleSubmit}
+                className={`bg-color1  rounded-lg h-14 w-full text-white mx-auto relative ${
+                  loading ? 'opacity-50 pointer-events-none' : ''
+                }`}
+                disabled={loading}
+              >
+                {loading && (
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div className="loader"></div>
+                  </div>
+                )}
+                {loading ? 'Saving...' : 'Save'}
+              </button>
         </div>
       );
       break;
