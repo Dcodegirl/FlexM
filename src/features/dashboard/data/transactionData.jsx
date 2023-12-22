@@ -52,7 +52,7 @@ export const fetchTransactionsData = async (agentId) => {
 };
 
 
-export const AgentTransactionData = async (agentId) => {
+export const AgentTransactionData = async (agentId, searchValue) => {
   try {
     if (!agentId) {
       console.error('Agent ID is required.');
@@ -62,6 +62,7 @@ export const AgentTransactionData = async (agentId) => {
     const response = await axios.get('/searchAgtByAggregator', {
       params: {
         agent_id: agentId,
+        business_name: searchValue, // Add the business_name parameter
       },
     });
 
@@ -72,6 +73,7 @@ export const AgentTransactionData = async (agentId) => {
       id: agent.id,
       agentCode: agent.agent_code,
       name: `${agent.first_name} ${agent.last_name}`,
+      businessName: agent.business_name || '',
       phoneNumber: agent.business_phone || '',
       address: agent.business_address || '',
       localGovt: agent.lga || '',
