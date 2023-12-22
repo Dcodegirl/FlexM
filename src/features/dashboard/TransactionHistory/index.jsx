@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { TransactionData, Transactions } from '../data/transactionData';
+import { TransactionData } from '../../dashboard/data/transactionData';
+import { useSelector } from 'react-redux';
 
-const Trans = () => {
+
+const Tranx = () => {
     const [selectedPeriod, setSelectedPeriod] = useState('Monthly');
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
+    const agentId = useSelector((state) => state.auth.user?.id);
 
-    const fetchTransactionData = async (selectedPeriod) => {
+    const fetchTransactionData = async () => {
         try {
             setLoading(true);
-            const data = await TransactionData(selectedPeriod);
-            setTransactions(data);
-            console.log(data)
+            const response = await TransactionData(selectedPeriod, agentId);
+            const dataa = response.data;
+            setTransactions(dataa);
+            console.log('the data for trabnaction: ', dataa)
         } catch (error) {
             console.error('Error fetching transaction data:', error);
         } finally {
@@ -21,39 +25,39 @@ const Trans = () => {
 
     useEffect(() => {
         fetchTransactionData(selectedPeriod);
-    }, [selectedPeriod]);
+    }, [selectedPeriod, agentId]);
 
     const handlePeriodSelect = (e) => {
         const selectedPeriod = e.target.value;
         console.log(`Selected Period: ${selectedPeriod}`);
         setSelectedPeriod(selectedPeriod);
     };
-    const formatDate = (createdAt) => {
-        const date = new Date(createdAt);
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    };
-    const getStatusLabel = (statusCode) => {
-        switch (statusCode) {
-            case '1':
-                return 'Pending';
-            case '2':
-                return 'Successful';
-            case '3':
-                return 'Failed';
-            default:
-                return 'Unknown';
-        }
-    };
+    // const formatDate = (createdAt) => {
+    //     const date = new Date(createdAt);
+    //     const day = date.getDate();
+    //     const month = date.getMonth() + 1;
+    //     const year = date.getFullYear();
+    //     return `${day}/${month}/${year}`;
+    // };
+    // const getStatusLabel = (statusCode) => {
+    //     switch (statusCode) {
+    //         case '1':
+    //             return 'Pending';
+    //         case '2':
+    //             return 'Successful';
+    //         case '3':
+    //             return 'Failed';
+    //         default:
+    //             return 'Unknown';
+    //     }
+    // };
 
     return (
         <>
             <div className="bg-white p-8 rounded-md mt-8">
                 <div className="flex justify-between mb-24">
                     <div>
-                        <p className="text-deep-green font-medium my-4 text-3xl">Recent Transactions</p>
+                        <p className="text-deep-green font-medium my-4 text-3xl">All Transactions</p>
                     </div>
                     <div className="flex items-center justify-center gap-3">
                         <p>Sort By: </p>
@@ -62,7 +66,6 @@ const Trans = () => {
                             value={selectedPeriod}
                             className="border rounded bg-[#F1F1F1] py-1.5 px-3"
                         >
-                            <option value="Daily">Daily</option>
                             <option value="Weekly">Weekly</option>
                             <option value="Monthly">Monthly</option>
                             <option value="Yearly">Yearly</option>
@@ -88,7 +91,7 @@ const Trans = () => {
                                             Loading...
                                         </td>
                                     </tr>
-                                ) : transactions.length === 0 ? (
+                                ) : transactions?.length === 0 ? (
                                     <tr>
                                         <td colSpan="5" className="p-3 text-center">
                                             No transactions found
@@ -104,34 +107,26 @@ const Trans = () => {
                                             <td className="p-3">{transaction.agent_code}</td>
                                             <td className="p-3">{transaction.status_description}</td>
                                             <td
-                                                style={{
-                                                    color:
-                                                        transaction.status === 'Successful'
-                                                            ? '#00B378'
-                                                            : transaction.status === 'Failed'
-                                                                ? '#FF1919'
-                                                                : '#FF9212',
-                                                }}
-                                                className="p-3"
+                                                className="p-3 font-bold"
                                             >
                                                 <span className="span">N</span>
-                                                {transaction.amount}
+                                                {parseFloat(transaction.amount).toLocaleString()}
                                             </td>
                                             <td
                                                 style={{
                                                     color:
-                                                        transaction.status === 'Successful'
+                                                        transaction.status === 'successful'
                                                             ? '#00B378'
-                                                            : transaction.status === 'Failed'
+                                                            : transaction.status === 'failed'
                                                                 ? '#FF1919'
                                                                 : '#FF9212',
                                                 }}
                                                 className="p-3"
                                             >
-                                                {getStatusLabel(transaction.status)}
+                                                {transaction.status}
                                             </td>
 
-                                            <td className="p-3">{formatDate(transaction.created_at)}</td>
+                                            <td className="p-3">{transaction.Date}</td>
                                         </tr>
                                     ))
                                 )}
@@ -144,4 +139,4 @@ const Trans = () => {
     );
 };
 
-export default Trans;
+export default Tranx;

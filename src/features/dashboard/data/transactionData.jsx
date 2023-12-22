@@ -1,8 +1,13 @@
 import axios from "../../../utils/axiosInstance";
 
-export const TransactionData = async (period) => {
+export const TransactionData = async (period, agentId) => {
   try {
-    const response = await axios.get(`/alltranx?period=${period}`);
+    const response = await axios.get(`/alltranx`, {
+      params: {
+        'agent_id': agentId,
+        'period': period
+      },
+    });
     const data = response.data;
     return data.status === 'Successful' ? data.data : [];
   } catch (error) {
