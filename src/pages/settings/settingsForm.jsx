@@ -8,6 +8,7 @@ import { useToasts } from "react-toast-notifications";
 
 const Settings = () => {
   const [otp, setOtp] = useState("");
+  const biodataRef = useRef(null);
   const [step, setStep] = useState(1);
   const [tabIndex, setTabIndex] = useState(1);
   const { addToast } = useToasts();
@@ -60,6 +61,17 @@ const Settings = () => {
 
   const CONTACT_DETAILS = "/agent/contact";
   const TRANSACTION_PIN = "/AgPin";
+
+
+  
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const scrollToBiodata = url.searchParams.get('scrollToBiodata') === 'true' || url.hash === '#biodata';
+
+    if (scrollToBiodata && biodataRef.current) {
+      biodataRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
   const handleDocumentFileChange = (e) => {
     const file = e.target.files[0];
     setDocumentImage(file);
@@ -580,8 +592,8 @@ console.log(file)
       break;
     case 2:
       currentStepComponent = (
-        <div id="Biodata">
-          {/* Add your biodata form here */}
+        <div id="biodata" ref={biodataRef}>
+        {/* Add your biodata form here */}
           <div className="md:p-20 p-5 text-2xl">
             {/* Replace the following comment with your actual contact details form */}
             <form className="flex flex-col">
