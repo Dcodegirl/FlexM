@@ -430,46 +430,52 @@ const SettingsForm = () => {
     setTabIndex(newStep);
   };
   const handleSaveChanges = async () => {
-    setLoading(true)
-    // Check if the image size is more than 3MB
-    if (selectedImage && selectedImage.size > 3 * 1024 * 1024) {
-      console.error("Image size exceeds 3MB");
-      // Display an error toast notification
-      addToast("Image size should not exceed 3MB", {
-        appearance: "error",
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
-      setLoading(false)
-      return; // Stop further processing
-    }
-
-    const contactUpdate = new FormData();
-    contactUpdate.append('email', userData.email)
-    contactUpdate.append('image', selectedImage)
-    contactUpdate.append('old_password', payload.password.old_password)
-    contactUpdate.append('new_password', payload.password.new_password)
-    contactUpdate.append('confirm_password', payload.password.new_password)
-    console.log(contactUpdate);
-
     try {
+      setLoading(true);
+  
+      // Check if the image size is more than 3MB
+      if (selectedImage && selectedImage.size > 3 * 1024 * 1024) {
+        console.error("Image size exceeds 3MB");
+        // Display an error toast notification
+        addToast("Image size should not exceed 3MB", {
+          appearance: "error",
+          autoDismiss: true,
+          autoDismissTimeout: 3000, // milliseconds
+        });
+        return; // Stop further processing
+      }
+  
+      const contactUpdate = new FormData();
+      contactUpdate.append('email', userData.email);
+      contactUpdate.append('image', selectedImage);
+      contactUpdate.append('old_password', payload.password.old_password);
+      contactUpdate.append('new_password', payload.password.new_password);
+      contactUpdate.append('confirm_password', payload.password.new_password);
+  
+      console.log(contactUpdate);
+  
       // Send a request to update the user profile
       await axios.post(CONTACT_DETAILS, contactUpdate);
-
-      
-
+  
       // Display a success toast notification
       addToast("Profile updated successfully!", {
         appearance: "success",
         autoDismiss: true,
         autoDismissTimeout: 3000, // milliseconds
       });
-      setLoading(false)
     } catch (error) {
       console.error("Error saving changes:", error);
-      setLoading(false)
+      // Display an error toast notification
+      addToast(`Error saving changes: ${error.message || 'Unknown error'}`, {
+        appearance: "error",
+        autoDismiss: true,
+        autoDismissTimeout: 3000, // milliseconds
+      });
+    } finally {
+      setLoading(false); // Set loading to false regardless of success or error
     }
   };
+  
 
 
   let currentStepComponent;

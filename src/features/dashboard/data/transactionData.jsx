@@ -88,10 +88,18 @@ export const AgentTransactionData = async (agentId, searchValue) => {
 };
 
 
-export const SingleAgentTransactionData  = async () => {
+export const SingleAgentTransactionData  = async (agentId, transactionType, startDate, endDate) => {
   try {
 
-    const response = await axios.get('/singleAgtranx');
+    const response = await axios.get('/singleAgtranx', 
+    {
+      params: {
+        'agent_id': agentId, // Include 'agent-id' as a parameter
+        'transaction_type': transactionType,
+        'start_date': startDate,
+        'end_date': endDate
+      },
+    });
 
     const data = response.data;
 
