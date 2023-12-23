@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import { startLogout } from "../../../actions/auth";
@@ -189,14 +189,14 @@ const [loading, setLoading] = useState(true);
                 <div className="w-36 pl-6 text-[12px] text-icon-purple uppercase md:block hidden">
                   {name}
                 </div>
-                {/* <img
+                <img
                   src={arrowdown}
                   className={`${styles.profileToggle}`}
                   onClick={() => {
                     setToggleUser(!toggleUser);
                   }}
                   alt=""
-                /> */}
+                />
               </div>
             </div>
             {/* dropdown toggle */}
@@ -232,7 +232,7 @@ const [loading, setLoading] = useState(true);
                 </div>
                 <div className="p-5">
                   <Link
-                    to="/settings"
+                    to="/settings#pin"
                     className="flex items-center relative  text-no-underline text-purple-800 text-lg"
                   >
                     <img
@@ -248,7 +248,7 @@ const [loading, setLoading] = useState(true);
                     />
                   </Link>
                   <Link
-                    to="/settings"
+                    to="/settings#biodata"
                     className="flex items-center relative  no-underline text-purple-800 text-lg"
                   >
                     <img
@@ -280,7 +280,7 @@ const [loading, setLoading] = useState(true);
                     />
                   </Link>
                   <Link
-                    to="settings"
+                    to="/settings#contact"
                     className="flex items-center relative  no-underline text-purple-800 text-lg"
                   >
                     <img

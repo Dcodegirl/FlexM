@@ -19,7 +19,7 @@ const UserInfo = () => {
     axios.get('/agent/userinfo')
       .then(response => {
         setUserData(response.data.data);
-        console.log(response.data.data)
+        console.log('user info:',response.data.data)
       })
       .catch(error => {
         console.error('Error fetching user information:', error);
@@ -80,7 +80,7 @@ const UserInfo = () => {
 
             <div className='flex flex-col gap-5'>
               <p className='text-[#331E00] font-extrabold'>KYC Update</p>
-              <p className='text-[#111023] text-xl'>You’re yet to finish up your registrations. You will need to update your image, biodata and get verified.</p>
+              <p className='text-[#111023] text-xl'>You’re yet to finish up your registrations. You will need to update your image and  <span className='font-bold'>upload your guarantor form in biodata</span> to get verified. After which you will be assigned an account number </p>
             </div>
           </div>
 
