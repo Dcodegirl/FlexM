@@ -44,7 +44,7 @@ export const AppRouter = () => {
                 <PublicRoute path='/forgotConfirmation' component={ForgotConfirm} exact />
                 <PublicRoute path='/otpVerification' component={signInOtp} exact />
                 <PrivateRoute path='/' component={Dashboard} />
-                <PrivateRoute path='/settings' component={Settings} exact/>
+                <PrivateRoute path='/settings#biodata' component={Settings} exact/>
 
             </Switch>
         </ErrorHandler>

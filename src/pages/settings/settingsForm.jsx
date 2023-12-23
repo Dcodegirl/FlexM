@@ -6,7 +6,8 @@ import svg from "../../assets/images/Upload.svg";
 import profileAvatar from "../../assets/images/avatarImg.svg";
 import { useToasts } from "react-toast-notifications";
 
-const Settings = () => {
+
+const SettingsForm = () => {
   const [otp, setOtp] = useState("");
   const biodataRef = useRef(null);
   const [step, setStep] = useState(1);
@@ -42,6 +43,7 @@ const Settings = () => {
   const [guarantorSelect, setGuarantorSelect] = useState(null);
   const [pin, setPin] = useState([]);
   const [confirmPin, setConfirmPin] = useState([]);
+
 
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
@@ -488,7 +490,7 @@ const Settings = () => {
                   id="phone-number"
                   name="phone number"
                   value={userData ? userData.business_phone : ""}
-                  className="outline outline-gray-100 py-3 px-3 md:w-[500px] w-full"
+                  className="outline outline-gray-100 py-3 px-3 md:w-[300px] lg:w-[500px] w-full"
                   disabled
                 />
               </div>
@@ -501,7 +503,7 @@ const Settings = () => {
                   placeholder="Type..."
                   id="email"
                   name="email"
-                  className="outline outline-gray-100 py-3 px-1 md:w-[500px] w-full"
+                  className="outline outline-gray-100 py-3 px-1 md:w-[300px] lg:w-[500px] w-full"
                   value={userData ? userData.email : ""}
                 />
               </div>
@@ -527,7 +529,7 @@ const Settings = () => {
                       })
                     }
                     placeholder="***********"
-                    className="outline outline-gray-100 py-3 px-3 md:w-[500px] w-full pr-12" // Adjust paddingRight to accommodate the icon
+                    className="outline outline-gray-100 py-3 px-3 md:w-[300px] lg:w-[500px] w-full pr-12" // Adjust paddingRight to accommodate the icon
                     required
                   />
                   <button
@@ -560,7 +562,7 @@ const Settings = () => {
                       })
                     }
                     placeholder="***********"
-                    className="outline outline-gray-100 py-3 px-3 md:w-[500px] w-full pr-12" // Adjust paddingRight to accommodate the icon
+                    className="outline outline-gray-100 py-3 px-3 md:w-[300px] lg:w-[500px] w-full pr-12" // Adjust paddingRight to accommodate the icon
                     required
                   />
                   <button
@@ -669,7 +671,7 @@ const Settings = () => {
                     placeholder="Type..."
                     id="phone-number"
                     name="phone number"
-                    className="outline outline-gray-100  md:py-3 md:px-3 p-2 md:w-[500px] w-full"
+                    className="outline outline-gray-100  md:py-3 md:px-3 p-2 md:w-[300px] lg:w-[500px] w-full"
                     value={userData ? userData.first_name : ""}
                     disabled
                   />
@@ -683,15 +685,15 @@ const Settings = () => {
                     id="email"
                     placeholder="Type..."
                     name="email"
-                    className="outline outline-gray-100 md:p-3 p-2 md:w-[500px] w-full"
+                    className="outline outline-gray-100 md:p-3 p-2 md:w-[300px] lg:w-[500px] w-full"
                     value={userData ? userData.last_name : ""}
                     disabled
                   />
                 </div>
               </div>
-              <div className="flex md:flex-row flex-col md:justify-between md:items-center my-8 ">
+              <div className="flex md:flex-row flex-col md:gap-3 lg:justify-between md:items-center my-8 ">
                 <div className="flex flex-col">
-                  <label htmlFor="addres" className="my-3">
+                  <label htmlFor="address" className="my-3">
                     Address
                   </label>
                   <div className="password-input">
@@ -700,7 +702,7 @@ const Settings = () => {
                       name="address"
                       onChange={(e) => setDocUploadPayload(e.target.value)}
                       placeholder="Type Address"
-                      className="outline outline-gray-100 md:p-4 p-2 md:w-[500px] w-full"
+                      className="outline outline-gray-100 md:p-4 p-2 md:w-[300px] lg:w-[500px] w-full"
                       value={docUploadPayload}
                       required
                     />
@@ -711,7 +713,7 @@ const Settings = () => {
                     Country:
                   </label>
                   <select
-                    className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                    className=' bg-white border-[#D0D5DD] border rounded-lg h-18 md:w-[150px] lg:w-[244px] w-full mb-6 md:p-4 p-2'
                     value={selectedCountry.id}
                     onChange={handleCountryChange}
                   >
@@ -729,7 +731,7 @@ const Settings = () => {
                     State
                   </label>
                   <select
-                    className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
+                    className=' bg-white border-[#D0D5DD] border rounded-lg h-18 md:w-[150px] lg:w-[244px] w-full mb-6 md:p-4 p-2'
                     value={selectedState.id}
                     onChange={handleStateChange}
                   >
@@ -789,8 +791,8 @@ const Settings = () => {
                       Utilities Bill
                     </p>
                     <div className="relative">
-                      <div className="border border-gray-300 border-dotted p-2 rounded-md h-16 w-full ">
-                        <div className=" flex gap-5 items-center justify-between">
+                      <div className="border border-gray-300 border-dotted p-2 rounded-md h-full w-full md:w-[350px] lg:w-full ">
+                        <div className=" flex flex-col lg:flex-row  gap-5 items-center justify-between">
                           <div className='flex gap-2'>
                             <img
                               src={svg} // Provide the actual path to your SVG upload icon
@@ -825,7 +827,7 @@ const Settings = () => {
                     <p className="text-gray-700 text-sm font-thin w[360px]">Download and Upload a signed copy of this form in your profile</p>
                   </div>
                   <select
-                    className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-18 w-full mb-6 md:p-4 p-2"
+                    className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-18 w-full mb-6 md:p-4 p-2 my-6"
                     value={selectedDocument}
                     onChange={handleDocumentChange}
                   >
@@ -835,8 +837,8 @@ const Settings = () => {
                     <option value="int-passport">Int Passport</option>
                   </select>
                   <div className="relative">
-                    <div className="border border-gray-300 border-dotted p-2 rounded-md h-16 w-full ">
-                      <div className=" flex gap-5 items-center justify-between">
+                    <div className="border border-gray-300 border-dotted p-2 rounded-md h-full w-full md:w-[350px] lg:w-full my-6">
+                      <div className=" flex flex-col lg:flex-row gap-5 items-center justify-between">
                         <div className='flex gap-2'>
                           <img
                             src={svg} // Provide the actual path to your SVG upload icon
@@ -1000,4 +1002,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default SettingsForm;
