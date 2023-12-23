@@ -5,17 +5,16 @@ import { useSelector } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 
 
-const ConfirmTerminalModal = ({ isOpen, onConfirm, onCancel, selectedTerminalId, selectedSerialNumber , agentName }) => {
+const ConfirmTerminalModal = ({ isOpen, onConfirm, onCancel, selectedTerminalId, selectedSerialNumber , agentName, agentId }) => {
   // const agentId = useSelector((state) => state.auth.user?.id);
   const { addToast } = useToasts();
   const [loading, setLoading] = useState('');
-console.log('agent name:', agentName)
 const handleConfirmClick = async () => {
   try {
     setLoading(true);
     // Make the API call to /agent/terminal with the selected values
     const response = await axios.patch("/agent/terminal", {
-      agent_id: agentName,
+      agent_id: agentId,
       terminal_id: selectedTerminalId,
       terminal_serial: selectedSerialNumber,
     });
@@ -98,7 +97,7 @@ const handleApiError = (error) => {
             <div className="flex justify-center py-6">
                 <img src={money} alt="" />
             </div>
-            <p>You’re assigning Terminal with ID {selectedTerminalId} to {agentName?.name} with the Serial No {selectedSerialNumber}</p>
+            <p>You’re assigning Terminal with ID {selectedTerminalId} to {agentName} with the Serial No {selectedSerialNumber}</p>
             {/* <p>You’re assigning Terminal to this agent</p> */}
           </div>
             <div className="flex justify-center space-x-4 py-4">
@@ -111,7 +110,7 @@ const handleApiError = (error) => {
               <button
                 type="submit"
                 onClick={handleConfirmClick}
-                className={`bg-color1  rounded-md  px-6 py-3 w-full text-white mx-auto relative ${
+                className={`bg-color1  rounded-md  px-6 py-3  text-white  relative ${
                   loading ? 'opacity-50 pointer-events-none' : ''
                 }`}
                 disabled={loading}

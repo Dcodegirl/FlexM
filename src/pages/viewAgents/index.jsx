@@ -216,7 +216,8 @@ const ViewAgent = () => {
 <ConfirmTerminalModal
             selectedTerminalId = {selectedTerminalId}
             selectedSerialNumber = {selectedSerialNumber}
-            agentName = {selectedAgent?.id}
+            agentName = {selectedAgent?.name}
+            agentId = {selectedAgent?.id}
             isOpen={isConfirmationModalOpen}
             onConfirm={handleConfirm}
             onCancel={handleCancel}
