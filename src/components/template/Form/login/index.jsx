@@ -26,14 +26,13 @@ function Login() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       setLoading(true);
-  
+
       const apiUrl = '/users/signin';
-  
+
       const requestBody = {
         user: {
           password: password,
@@ -41,22 +40,27 @@ function Login() {
         },
         type: 'agent',
       };
-  
+
       const response = await axios.post(apiUrl, requestBody);
       console.log('logged in successfully and otp sent:', response.data);
-  
+
       addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 });
       history.push('/otpVerification');
     } catch (error) {
       if (error.response && error.response.data) {
         const errorData = error.response.data;
-  
-        // Display validation errors in toast
-        Object.keys(errorData).forEach((key) => {
-          errorData[key].forEach((errorMessage) => {
-            addToast(errorMessage, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 });
+
+        // Display specific error message for "Invalid Credentials"
+        if (errorData.message === 'Invalid Credentials') {
+          addToast('Invalid phone number or password. Please check your credentials and try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 });
+        } else {
+          // Display other validation errors in toast
+          Object.keys(errorData).forEach((key) => {
+            errorData[key].forEach((errorMessage) => {
+              addToast(errorMessage, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 });
+            });
           });
-        });
+        }
       } else {
         // Display a generic error message if the response doesn't contain detailed error data
         addToast('An error occurred. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 });
@@ -65,7 +69,6 @@ function Login() {
       setLoading(false);
     }
   };
-  
 
   return (
     <>
