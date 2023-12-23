@@ -456,7 +456,6 @@ const SettingsForm = () => {
   
       // Send a request to update the user profile
       await axios.post(CONTACT_DETAILS, contactUpdate);
-  
       // Display a success toast notification
       addToast("Profile updated successfully!", {
         appearance: "success",
