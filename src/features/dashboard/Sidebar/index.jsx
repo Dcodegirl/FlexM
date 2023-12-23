@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { navigationItems } from '../data/navData';
 
-import logo from '../../../assets/images/cico-logo.svg';
+import logo from '../../../assets/images/flexbycico.svg';
 import close from '../../../assets/icons/closeModal.svg';
 import toggleIcon from '../../../assets/icons/toggleIcon.svg';
 import Down from '../../../assets/icons/down.svg';
@@ -16,7 +16,7 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   useEffect(() => {
-    window.addEventListener('resize', (e) => {
+    const handleResize = () => {
       setWidth(window.innerWidth);
 
       if (window.innerWidth === 1000) {
@@ -24,12 +24,12 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
       } else if (window.innerWidth < 1000) {
         setIsOpen(false);
       }
-    });
+    };
+
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', () => {
-        console.log('event');
-      });
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -114,16 +114,18 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
                                     <div
                                       className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
                                     >
-                                      {item.items.map((subItem, subIndex) => (
-                                        <NavLink
-                                          key={subIndex}
-                                          to={subItem.to}
-                                          className='block text-gray-700 py-1'
-                                          activeClassName={styles.active}
-                                        >
-                                          <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
-                                        </NavLink>
-                                      ))}
+                                      {item.items
+                                        .filter((subItem) => subItem.isAggregator ? aggregatorId !== null : true)
+                                        .map((subItem, subIndex) => (
+                                          <NavLink
+                                            key={subIndex}
+                                            to={subItem.to}
+                                            className='block text-gray-700 py-1'
+                                            activeClassName={styles.active}
+                                          >
+                                            <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
+                                          </NavLink>
+                                        ))}
                                     </div>
                                   )}
                                 </div>
@@ -165,16 +167,18 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
                                   <div
                                     className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
                                   >
-                                    {item.items.map((subItem, subIndex) => (
-                                      <NavLink
-                                        key={subIndex}
-                                        to={subItem.to}
-                                        className='block text-gray-700 py-1'
-                                        activeClassName={styles.active}
-                                      >
-                                        <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
-                                      </NavLink>
-                                    ))}
+                                    {item.items
+                                      .filter((subItem) => subItem.isAggregator ? aggregatorId !== null : true)
+                                      .map((subItem, subIndex) => (
+                                        <NavLink
+                                          key={subIndex}
+                                          to={subItem.to}
+                                          className='block text-gray-700 py-1'
+                                          activeClassName={styles.active}
+                                        >
+                                          <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
+                                        </NavLink>
+                                      ))}
                                   </div>
                                 )}
                               </div>

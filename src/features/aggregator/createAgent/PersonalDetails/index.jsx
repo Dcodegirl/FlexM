@@ -152,7 +152,7 @@ const PersonalDetails = () => {
         <div className="md:grid md:grid-cols-1 md:grid-rows-4 flex flex-col">
           <div className="flex md:gap-5 w-full md:flex-row flex-col">
             <div className=''>
-              <p className='text-gray-700 text-xl mb-2 font-medium'>Legal First Name</p>
+              <p className='text-gray-700 text-xl mb-2 font-medium'>Legal First Name*</p>
               <input
                 type="text"
                 value={firstname}
@@ -163,7 +163,7 @@ const PersonalDetails = () => {
               />
             </div>
             <div className=''>
-              <p className='text-gray-700 text-xl mb-2 font-medium'>Legal Last Name</p>
+              <p className='text-gray-700 text-xl mb-2 font-medium'>Legal Last Name*</p>
               <input
                 type="text"
                 value={lastname}
@@ -177,7 +177,7 @@ const PersonalDetails = () => {
           <div className="flex md:gap-5 w-full md:flex-row flex-col">
             <div className="flex md:gap-3 md:flex-row flex-col">
               <div className=' w-full'>
-                <p className='text-gray-700 text-xl mb-2 font-medium'>Country</p>
+                <p className='text-gray-700 text-xl mb-2 font-medium'>Country*</p>
                 <select
                   className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
                   value={selectedCountry.id}
@@ -192,7 +192,7 @@ const PersonalDetails = () => {
                 </select>
               </div>
               <div className=' w-full'>
-                <p className='text-gray-700 text-xl mb-2 font-medium'>State</p>
+                <p className='text-gray-700 text-xl mb-2 font-medium'>State*</p>
                 <select
                   className=' bg-white border-[#D0D5DD] border rounded-lg h-20 md:w-[244px] w-full mb-6 p-4'
                   value={selectedState.id}
@@ -208,7 +208,7 @@ const PersonalDetails = () => {
               </div>
             </div>
             <div>
-              <p className='text-gray-700 text-xl mb-2 font-medium'>Address</p>
+              <p className='text-gray-700 text-xl mb-2 font-medium'>Address*</p>
               <input
                 type="text"
                 value={address}
@@ -221,7 +221,7 @@ const PersonalDetails = () => {
           </div>
           <div className="flex md:flex-row flex-col gap-5 w-full">
             <div className=''>
-              <p className='text-gray-700 text-xl mb-2 font-medium'>Email</p>
+              <p className='text-gray-700 text-xl mb-2 font-medium'>Email*</p>
               <input
                 type="email"
                 value={email}
@@ -232,7 +232,7 @@ const PersonalDetails = () => {
               />
             </div>
             <div className=''>
-              <p className='text-gray-700 text-xl mb-2 font-medium'>Phone Number</p>
+              <p className='text-gray-700 text-xl mb-2 font-medium'>Phone Number*</p>
               <input
                 type="tel"
                 value={phoneNumber}
@@ -245,7 +245,7 @@ const PersonalDetails = () => {
           </div>
           <div className="flex md:flex-row flex-col gap-5 w-full">
             <div>
-            <p className='text-gray-700 text-sm mb-2'>Date of Birth</p>
+            <p className='text-gray-700 text-sm mb-2'>Date of Birth*</p>
             <input
               type="date"
               value={dob}
@@ -256,7 +256,7 @@ const PersonalDetails = () => {
             />
           </div>
           <div>
-            <p className='text-gray-700 text-sm mb-2'>Local Govt</p>
+            <p className='text-gray-700 text-sm mb-2'>Local Govt*</p>
             <input
               type="text"
               value={lga}
@@ -274,7 +274,7 @@ const PersonalDetails = () => {
       <button
                 type="submit"
                 onClick={handleSubmit}
-                className={`bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 rounded-lg h-14 w-full text-white mx-auto relative ${
+                className={`bg-color1  rounded-lg h-14 w-full text-white mx-auto relative ${
                   loading ? 'opacity-50 pointer-events-none' : ''
                 }`}
                 disabled={loading}

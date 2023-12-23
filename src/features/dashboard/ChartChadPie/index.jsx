@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, ResponsiveContainer, Cell, Sector } from 'recharts';
 import axios from '../../../utils/axiosInstance';
+import { useSelector } from 'react-redux';
 
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
@@ -36,12 +37,13 @@ const ChartChadPie = ({ period, onDataUpdate }) => {
   const [chartData, setChartData] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [loading, setLoading] = useState(false);
+  const agentId = useSelector((state) => state.auth.user?.id);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/tranxvolume?period=${period}`);
+        const response = await axios.get(`/tranxvolume?period=${period}&agent_id=${agentId}`);
         const { status, data } = response.data;
 
         if (status === 'Successful') {

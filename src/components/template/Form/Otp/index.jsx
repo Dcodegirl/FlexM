@@ -46,7 +46,7 @@ function Contact({ nextStep }) {
       const responseData = response.data;
       setUserId(responseData.data.id);
 
-      addToast('OTP verification successful!', { appearance: 'success' });
+      addToast('OTP verification successful!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 });
       nextStep();
     } catch (error) {
       console.error('API Error:', error);
@@ -104,13 +104,16 @@ function Contact({ nextStep }) {
         // Reset the timer and disable the Resend button
         setTimeLeft(600);
         setResendButtonDisabled(true);
-        addToast('OTP has been resent successfully!', { appearance: 'success' });
+        addToast('OTP has been resent successfully!', { appearance: 'success', autoDismiss: true,
+        autoDismissTimeout: 3000, });
       } else {
-        addToast('Failed to resend OTP. Please try again.', { appearance: 'error' });
+        addToast('Failed to resend OTP. Please try again.', { appearance: 'error', autoDismiss: true,
+        autoDismissTimeout: 3000, });
       }
     } catch (error) {
       console.error('API Error:', error);
-      addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+      addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true,
+      autoDismissTimeout: 3000, });
     } finally {
       setLoading(false);
     }

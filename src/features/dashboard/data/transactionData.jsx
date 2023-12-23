@@ -1,8 +1,12 @@
 import axios from "../../../utils/axiosInstance";
 
-export const TransactionData = async (period) => {
+export const TransactionData = async (period, agentId) => {
   try {
-    const response = await axios.get(`/alltranx?period=${period}`);
+    const response = await axios.get(`/alltranx`, {
+      params: {
+        'period': period
+      },
+    });
     const data = response.data;
     return data.status === 'Successful' ? data.data : [];
   } catch (error) {
@@ -47,10 +51,20 @@ export const fetchTransactionsData = async (agentId) => {
 };
 
 
-
-export const AgentTransactionData = async () => {
+export const AgentTransactionData = async (agentId, searchValue) => {
   try {
-    const response = await axios.get('/searchAg');
+    if (!agentId) {
+      console.error('Agent ID is required.');
+      return [];
+    }
+
+    const response = await axios.get('/searchAgtByAggregator', {
+      params: {
+        agent_id: agentId,
+        business_name: searchValue, // Add the business_name parameter
+      },
+    });
+
     const data = response.data;
 
     // Map the API response to the desired format
@@ -58,12 +72,14 @@ export const AgentTransactionData = async () => {
       id: agent.id,
       agentCode: agent.agent_code,
       name: `${agent.first_name} ${agent.last_name}`,
+      businessName: agent.business_name || '',
       phoneNumber: agent.business_phone || '',
       address: agent.business_address || '',
       localGovt: agent.lga || '',
       state: agent.state || ''
     }));
 
+    console.log(agentTransactionData);
     return agentTransactionData;
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -72,42 +88,81 @@ export const AgentTransactionData = async () => {
 };
 
 
-export const SingleAgentTransactionData = () => {
-  // Fetch or provide your transaction data here
-  const agentTansaction = [
-    { id:1 , TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Successful', date: '2022-07-09 14:02:24'},
-    { id: 2, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'DSTV', Status: 'Failed', date: '2022-07-09 14:02:24'},
-    { id: 3, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Successful', date: '2022-07-09 14:02:24'},
-    { id: 4, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Failed', date: '2022-07-09 14:02:24'},
-    { id: 5, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Pending', date: '2022-07-09 14:02:24'},
-    { id: 6, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'GOTV', Status: 'Successful', date: '2022-07-09 14:02:24'},
-    { id: 7, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Failed', date: '2022-07-09 14:02:24'},
-    { id: 8, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Transfer', Status: 'Pending', date: '2022-07-09 14:02:24'},
-    { id: 9, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Pending', date: '2022-07-09 14:02:24'},
-    { id: 10, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Transfer', Status: 'Successful', date: '2022-07-09 14:02:24'},
-    { id: 11, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Failed', date: '2022-07-09 14:02:24'},
-    // Add more data as needed
-  ];
+export const SingleAgentTransactionData  = async () => {
+  try {
 
-  return agentTansaction;
+    const response = await axios.get('/singleAgtranx');
+
+    const data = response.data;
+
+    // Map the API response to the desired format
+    const agentTransactionData = data.data.map(agent => ({
+      id: agent.id,
+      transactionRef: agent.transaction_ref,
+      transactionId: agent.transaction_id,
+      transactionType: agent.transaction_type,
+      status: agent.transaction_status || ''
+    }));
+
+    console.log(agentTransactionData);
+    return agentTransactionData;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return [];
+  }
 };
 
-export const AgentPerformanceData = () => {
-  // Fetch or provide your transaction data here
-  const agentTansaction = [
-    { id:1 , agentCode: 'CI/AGT/LA/94659262', BusinessName: 'Jummzyy Venture', CashCount : 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00},
-    { id: 2, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'Kaleb Enterprises', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
-    { id: 3, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'Solo Squard', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
-    { id: 4, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'Welllness  HQ', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
-    { id: 5, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'GDM Consult', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00},
-    { id: 6, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'DAggregate', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
-    { id: 7, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'EIC', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
-    { id: 8, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'StartUp Lagos', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
-    { id: 9, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'DPrmix', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
-    { id: 10, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'Hazon Tech', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
-    { id: 11, agentCode: 'CI/AGT/LA/94659262', BusinessName: 'VIGA Enterprises', CashCount: 456, TransferCount: 4356, TotalCount: 4356, CashVolume: 58234987.00, TransferVolume: 23345345.22, TotalAmount: 34987000.00 },
-    // Add more data as needed
-  ];
+// export const = (agentId) => {
+//   // Fetch or provide your transaction data here
+//   const agentTansaction = [
+//     { id:1 , TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Successful', date: '2022-07-09 14:02:24'},
+//     { id: 2, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'DSTV', Status: 'Failed', date: '2022-07-09 14:02:24'},
+//     { id: 3, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Successful', date: '2022-07-09 14:02:24'},
+//     { id: 4, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Failed', date: '2022-07-09 14:02:24'},
+//     { id: 5, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Pending', date: '2022-07-09 14:02:24'},
+//     { id: 6, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'GOTV', Status: 'Successful', date: '2022-07-09 14:02:24'},
+//     { id: 7, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Failed', date: '2022-07-09 14:02:24'},
+//     { id: 8, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Transfer', Status: 'Pending', date: '2022-07-09 14:02:24'},
+//     { id: 9, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Deposit', Status: 'Pending', date: '2022-07-09 14:02:24'},
+//     { id: 10, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Transfer', Status: 'Successful', date: '2022-07-09 14:02:24'},
+//     { id: 11, TransactionRef: 'CiCO_KU9HYMS3BFAEZP7', TransactionID: 'A0000000041010', TransactionType: 'Airtime', Status: 'Failed', date: '2022-07-09 14:02:24'},
+//     // Add more data as needed
+//   ];
 
-  return agentTansaction;
+//   return agentTansaction;
+// };
+
+
+
+export const AgentPerformanceData = async (agentId, businessName) => {
+  try {
+    const params = { agent_id: agentId };
+    if (businessName) {
+      params.business_name = businessName;
+    }
+
+    const response = await axios.get('/agtAggregatorPerformance', {
+      params: params,
+    });
+
+    const data = response.data;
+
+    // Map the API response to the desired format
+    const agentPerformanceData = data.agent_info.map((info, index) => ({
+      id: index + 1,
+      agentCode: info.agent_code,
+      businessName: info.business_name,
+      cashCount: data.CashCount[index],
+      transferCount: data['Transfer count'][index],
+      totalCount: data.TotalCount[index],
+      cashVolume: parseFloat(data.Cashvolume[index]),
+      transferVolume: parseFloat(data.Transfervolume[index]),
+      totalAmount: parseFloat(data.Totalamount[index]),
+    }));
+
+    return agentPerformanceData;
+  } catch (error) {
+    console.error('Error fetching agent performance data:', error);
+    return [];
+  }
 };

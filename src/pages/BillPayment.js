@@ -30,87 +30,142 @@ export const BillPayment = ({ changeCurrentPage, displayModal }) => {
 
   return (
     <div className={styles.container}>
+
       <div className={styles.section}>
         <div className={`${styles.card} ${styles.cardElectricity}`}>
           <h3 className={styles.sectionHeading}>Electricity</h3>
-          <div className={styles.services}>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "energy",
-                  service: "ikedc",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={ikedc} alt="" />
-              <p className={styles.serviceText}>IKEDC</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "energy",
-                  service: "ekedc",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={ekedc} alt="" />
-              <p className={styles.serviceText}>Eko</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "energy",
-                  service: "ibedc",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={ibedc} alt="" />
-              <p className={styles.serviceText}>IBEDC</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "energy",
-                  service: "kedco",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={kedco} alt="" />
-              <p className={styles.serviceText}>Kaduna</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "energy",
-                  service: "kedc",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={kedc} alt="" />
-              <p className={styles.serviceText}>Kano</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "energy",
-                  service: "phedc",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={phedc} alt="" />
-              <p className={styles.serviceText}>PH</p>
+          <div className={styles.section}>
+            <div className={`${styles.card} ${styles.cardElectricity}`}>
+              <h3 className={styles.sectionHeading}>Electricity</h3>
+              <div className={styles.services}>
+                <div
+                  className={styles.service}
+                  onClick={() => {
+                    displayModal({
+                      overlay: true,
+                      modal: "energy",
+                      service: "ikedc",
+                    });
+                  }}
+                >
+                  <img className={styles.serviceLogo} src={ikedc} alt="" />
+                  <p className={styles.serviceText}>IKEDC</p>
+                </div>
+                <div
+                  className={styles.service}
+                  onClick={() => {
+                    displayModal({
+                      overlay: true,
+                      modal: "energy",
+                      service: "ekedc",
+                    });
+                  }}
+                >
+                  <img className={styles.serviceLogo} src={ekedc} alt="" />
+                  <p className={styles.serviceText}>Eko</p>
+                </div>
+                <div
+                  className={styles.service}
+                  onClick={() => {
+                    displayModal({
+                      overlay: true,
+                      modal: "energy",
+                      service: "ibedc",
+                    });
+                  }}
+                >
+                  <img className={styles.serviceLogo} src={ibedc} alt="" />
+                  <p className={styles.serviceText}>IBEDC</p>
+                </div>
+                <div
+                  className={styles.service}
+                  onClick={() => {
+                    displayModal({
+                      overlay: true,
+                      modal: "energy",
+                      service: "kedco",
+                      modal: "energy",
+                      service: "ikedc",
+                    });
+                  }}
+                >
+                  <img className={styles.serviceLogo} src={ikedc} alt="" />
+                  <p className={styles.serviceText}>IKEDC</p>
+                </div>
+                <div
+                  className={styles.service}
+                  onClick={() => {
+                    displayModal({
+                      overlay: true,
+                      modal: "energy",
+                      service: "ekedc",
+                    });
+                  }}
+                >
+                  <img className={styles.serviceLogo} src={ekedc} alt="" />
+                  <p className={styles.serviceText}>Eko</p>
+                </div>
+                <div
+                  className={styles.service}
+                  onClick={() => {
+                    displayModal({
+                      overlay: true,
+                      modal: "energy",
+                      service: "ibedc",
+                    });
+                  }}
+                >
+                  <img className={styles.serviceLogo} src={ibedc} alt="" />
+                  <p className={styles.serviceText}>IBEDC</p>
+                </div>
+                <div
+                  className={styles.service}
+                  onClick={() => {
+                    displayModal({
+                      overlay: true,
+                      modal: "energy",
+                      service: "kedco",
+                    });
+                  }}
+                >
+                  <img className={styles.serviceLogo} src={kedco} alt="" />
+                  <p className={styles.serviceText}>Kaduna</p>
+                  <img className={styles.serviceLogo} src={kedco} alt="" />
+                  <p className={styles.serviceText}>Kaduna</p>
+                </div>
+                <div
+                  className={styles.service}
+                  onClick={() => {
+                    displayModal({
+                      overlay: true,
+                      modal: "energy",
+                      service: "kedc",
+                      modal: "energy",
+                      service: "kedc",
+                    });
+                  }}
+                >
+                  <img className={styles.serviceLogo} src={kedc} alt="" />
+                  <p className={styles.serviceText}>Kano</p>
+                </div>
+                <div
+                  className={styles.service}
+                  onClick={() => {
+                    displayModal({
+                      overlay: true,
+                      modal: "energy",
+                      service: "phedc",
+                      modal: "energy",
+                      service: "phedc",
+                    });
+                  }}
+                >
+                  <img className={styles.serviceLogo} src={phedc} alt="" />
+                  <p className={styles.serviceText}>PH</p>
+                  <img className={styles.serviceLogo} src={phedc} alt="" />
+                  <p className={styles.serviceText}>PH</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

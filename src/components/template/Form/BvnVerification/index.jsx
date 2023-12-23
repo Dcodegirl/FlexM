@@ -54,7 +54,8 @@ function BvnVerifi({ nextStep }) {
         
         // that falls out of the range of 2xx
         const { status, data } = error.response;
-        addToast(` ${data.message}`, { appearance: 'error' });
+        addToast(` ${data.message}`, { appearance: 'error', autoDismiss: true,
+        autoDismissTimeout: 3000, });
       } else if (error.request) {
         // The request was made but no response was received
         addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });

@@ -53,7 +53,7 @@ const Support = () => {
                 </div>
                 <div className="flex flex-col text-[#111023] gap-3">
                     <p className="text-[16px]">Support</p>
-                    <p className="font-medium text-xl">Manage your account settings and preferences</p>
+                <p className="font-medium text-xl">Contact Support for any issues.</p>
                 </div>
             </div>
             <div className="bg-white p-8 rounded-md mt-8 flex items-center mb-8 justify-center h-[70vh]">
@@ -119,7 +119,7 @@ const Support = () => {
                             {/* You can add form fields and other form elements here */}
                             <button
                                 type="submit"
-                                className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 text-white px-6 py-3 w-full rounded-md"
+                                className="bg-color1  text-white px-6 py-3 w-full rounded-md"
                             >
                                 Submit
                             </button>
@@ -131,7 +131,7 @@ const Support = () => {
                             </div>
                             <div>
                                 <button
-                                    className="bg-gradient-to-r hover:bg-gradient-to-l from-color1 to-color2 text-white px-6 py-3 w-full rounded-md"
+                                    className="bg-color1  text-white px-6 py-3 w-full rounded-md"
                                     onClick={handleDisputeClick}
                                 >
                                     Report a dispute

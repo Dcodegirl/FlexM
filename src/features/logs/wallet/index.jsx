@@ -16,6 +16,7 @@ const Users = () => {
       try {
         const responseTotalBalance = await axios.get('/main/balance');
         setTotalBalance(responseTotalBalance.data.data);
+        
 
         const responseCurrentBalance = await axios.get('/main/current');
         setCurrentBalance(responseCurrentBalance.data.data);

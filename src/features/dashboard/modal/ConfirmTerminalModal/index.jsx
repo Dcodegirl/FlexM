@@ -1,8 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
 import money from '../../../../assets/icons/Money.svg'
+import axios from "../../../../utils/axiosInstance";
+import { useSelector } from 'react-redux';
+import { useToasts } from 'react-toast-notifications';
 
 
-const ConfirmTerminalModal = ({ isOpen, onConfirm, onCancel }) => {
+const ConfirmTerminalModal = ({ isOpen, onConfirm, onCancel, selectedTerminalId, selectedSerialNumber , agentName, agentId }) => {
+  // const agentId = useSelector((state) => state.auth.user?.id);
+  const { addToast } = useToasts();
+  const [loading, setLoading] = useState('');
+const handleConfirmClick = async () => {
+  try {
+    setLoading(true);
+    // Make the API call to /agent/terminal with the selected values
+    const response = await axios.patch("/agent/terminal", {
+      agent_id: agentId,
+      terminal_id: selectedTerminalId,
+      terminal_serial: selectedSerialNumber,
+    });
+
+    // Check if the response status is successful
+    if (response.status === 201) {
+      // Handle the response as needed
+      console.log("API Response:", response.data);
+      addToast("Terminal assigned successfully", {
+        appearance: 'success',
+        autoDismiss: true,
+        autoDismissTimeout: 3000
+      });
+      setLoading(false);
+
+      // Trigger the onConfirm callback
+      onConfirm();
+    } else {
+      // Handle other types of errors
+      handleApiError(response);
+    }
+  } catch (error) {
+    // Handle network or other errors
+    setLoading(false);
+    handleApiError(error);
+  }
+};
+
+const handleApiError = (error) => {
+  console.error("Error confirming terminal:", error);
+
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    const { status, data } = error.response;
+    if (status === 400 && data && data.message === "Terminal already assigned") {
+      addToast("Terminal already assigned", {
+        appearance: 'error',
+        autoDismiss: true,
+        autoDismissTimeout: 3000
+      });
+      setLoading(false);
+    } else {
+      // Handle other types of errors
+      addToast("Error assigning terminal. Please try again.", {
+        appearance: 'error',
+        autoDismiss: true,
+        autoDismissTimeout: 3000
+      });
+      setLoading(false);
+    }
+  } else {
+    // Handle other types of errors
+    addToast("Error assigning terminal. Please try again.", {
+      appearance: 'error',
+      autoDismiss: true,
+      autoDismissTimeout: 3000
+    });
+  }
+  setLoading(false);
+  // Trigger the onConfirm callback
+  onConfirm();
+};
+
+
+  console.log('selected transaction info: ', agentName)
   return (
     <div
       className={`${
@@ -20,14 +97,30 @@ const ConfirmTerminalModal = ({ isOpen, onConfirm, onCancel }) => {
             <div className="flex justify-center py-6">
                 <img src={money} alt="" />
             </div>
-            <p>You’re assigning Terminal with ID 65363366363# to Jummzy Venture Capital LTD with the Serial No 243553636 #</p>
+            <p>You’re assigning Terminal with ID {selectedTerminalId} to {agentName} with the Serial No {selectedSerialNumber}</p>
+            {/* <p>You’re assigning Terminal to this agent</p> */}
           </div>
             <div className="flex justify-center space-x-4 py-4">
-              <button
-                className="bg-progress-green text-white px-6 py-3 rounded-md hover:bg-bg-green hover:text-black"
-                onClick={onConfirm}
+              {/* <button
+                className="bg-cico1 text-white px-6 py-3 rounded-md hover:bg-bg-green hover:text-black"
+                onClick={handleConfirmClick}
               >
                 Confirm
+              </button> */}
+              <button
+                type="submit"
+                onClick={handleConfirmClick}
+                className={`bg-color1  rounded-md  px-6 py-3  text-white  relative ${
+                  loading ? 'opacity-50 pointer-events-none' : ''
+                }`}
+                disabled={loading}
+              >
+                {loading && (
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div className="loader"></div>
+                  </div>
+                )}
+                {loading ? 'Confirming...' : 'Confirm'}
               </button>
               <button
                 className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600"
