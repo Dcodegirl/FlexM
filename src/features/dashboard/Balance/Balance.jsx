@@ -8,6 +8,7 @@ import refresh from "../../../assets/icons/refresh.svg";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from "../../../utils/axiosInstance";
+import { useSelector } from 'react-redux';
 // import styles from "./Balance.module.scss";
 
 
@@ -18,6 +19,8 @@ const Balance = ({}) => {
   const [commissionBalance, setCommissionBalance] = useState('');
   const [showCommission, setShowCommission] = useState(false);
   const [showAggregator, setShowAggregator] = useState(false);
+  const aggregatorId = useSelector((state) => state.auth.user.aggregator_id); 
+  console.log('aggregator id: ',aggregatorId)
 
   const toggleWalletVisibility = () => {
     setShowWallet(!showWallet);
@@ -68,7 +71,7 @@ const Balance = ({}) => {
   ) : (
     <span>*********</span>
   );
-  const aggregatorContent = showAggregator ? (
+  const aggregatorContent = showAggregator && aggregatorId ? (
     <span>₦{formatToCurrency(aggregatorBalance)}</span>
   ) : (
     <span>*********</span>
@@ -119,24 +122,26 @@ const Balance = ({}) => {
             </div>
           </div>
         </div>
-        <div className="p-4 bg-bg-card3 bg-cover bg-no-repeat justify-between flex flex-col gap-10 md:w-full w-[650px] h-[170px] rounded-3xl">
-          <div className="flex justify-between relative">
-            <p className="text-[#F5FFFD] font-extrabold text-2xl">Aggregator Balance</p>
-            <FontAwesomeIcon
+        {aggregatorId && ( // Only render the Aggregator Balance card if aggregatorId is not null
+            <div className="p-4 bg-bg-card3 bg-cover bg-no-repeat justify-between flex flex-col gap-10 md:w-full w-[650px] h-[170px] rounded-3xl">
+              <div className="flex justify-between relative">
+                <p className="text-[#F5FFFD] font-extrabold text-2xl">Aggregator Balance</p>
+                <FontAwesomeIcon
                   icon={showAggregator ? faEye : faEyeSlash}
                   className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-[#B2B5BC]"
                   onClick={toggleAggregatorVisibility}
                 />
-          </div>
-          <div className=" flex flex-col gap-10">
-            <div>
-              <p className="text-[#F9F9F9]">Total Balance</p>
+              </div>
+              <div className=" flex flex-col gap-10">
+                <div>
+                  <p className="text-[#F9F9F9]">Total Balance</p>
+                </div>
+                <div className="font-bold text-3xl text-white">
+                  <p>{aggregatorContent}</p>
+                </div>
+              </div>
             </div>
-            <div className="font-bold text-3xl text-white">
-              <p>{aggregatorContent}</p>
-            </div>
-          </div>
-        </div>
+          )}
       </div>
     </div>
    </>

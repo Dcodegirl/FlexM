@@ -23,7 +23,7 @@ const ViewSingleAgent = () => {
     const fetchData = async () => {
         try {
             // Replace 'searchInput' with the actual state or variable containing the search value
-            const data = await SingleAgentTransactionData(agent_id);
+            const data = await SingleAgentTransactionData();
             console.log('Transaction Data:', data); // Add this line
 
             setTransactions(data);
@@ -146,18 +146,15 @@ const ViewSingleAgent = () => {
                         {loading ? (
                             <p className="flex justify-center mt-8 text-xl">Loading...</p>
                         ) : transactions.length === 0 ? (
-                            <p className="flex justify-center mt-8 text-xl">No agent to display under this aggregator.</p>
+                            <p className="flex justify-center mt-8 text-xl">No transactions to display under this agent.</p>
                         ) : (
-                            transactions.map((transaction, index) => (
-                                <div key={index} className={`grid grid-cols-8 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
-                                    <div className="text-wrapper-5">{transaction.agentCode}</div>
-                                    <div className="text-wrapper-6">{transaction.businessName}</div>
-                                    <div className="text-wrapper-6">{transaction.cashCount}</div>
-                                    <div className="text-wrapper-6">{transaction.transferCount}</div>
-                                    <div className="text-wrapper-6">{transaction.totalCount}</div>
-                                    <div className="text-wrapper-6">#{transaction.cashVolume?.toLocaleString()}</div>
-                                    <div className="text-wrapper-6">#{transaction.transferVolume?.toLocaleString()}</div>
-                                    <div className="text-wrapper-6">#{transaction.totalAmount?.toLocaleString()}</div>
+                            transactions.map((transaction, index) => (     <div className="text-wrapper-6">#{transaction.totalAmount?.toLocaleString()}</div>
+                                <div key={index} className={`grid grid-cols-5 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
+                                    <div className="text-wrapper-5">{transaction.id}</div>
+                                    <div className="text-wrapper-6">{transaction.transactionRef}</div>
+                                    <div className="text-wrapper-6">{transaction.transactionId}</div>
+                                    <div className="text-wrapper-6">{transaction.transactionType}</div>
+                                    <div className="text-wrapper-6">{transaction.status}</div>
                                 </div>
                             ))
                         )}
