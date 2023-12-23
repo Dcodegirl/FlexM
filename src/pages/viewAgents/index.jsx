@@ -130,7 +130,7 @@ const ViewAgent = () => {
             {/* Render AssignTerminalModal if isAssignTerminalModalOpen is true */}
             {isAssignTerminalModalOpen && (
                 <AssignTerminalModal isOpen={isAssignTerminalModalOpen} onClose={() => setIsAssignTerminalModalOpen(false)}
-                    onAssignConfirmClick={() => setIsConfirmationModalOpen(true)}
+                    onAssignConfirmClick={() => setIsConfirmationModalOpen(true)} selectedTerminalId = {selectedTerminalId} setSelectedTerminalId = {setSelectedTerminalId} selectedSerialNumber ={selectedSerialNumber} setSelectedSerialNumber= {setSelectedSerialNumber}
                 />
             )}
             <div className="bg-white p-8 rounded-md mt-8 flex gap-10 items-center mb-8">

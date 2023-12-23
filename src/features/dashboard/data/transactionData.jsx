@@ -4,7 +4,6 @@ export const TransactionData = async (period, agentId) => {
   try {
     const response = await axios.get(`/alltranx`, {
       params: {
-        'agent_id': agentId,
         'period': period
       },
     });
@@ -89,31 +88,20 @@ export const AgentTransactionData = async (agentId, searchValue) => {
 };
 
 
-export const SingleAgentTransactionData  = async (agentId) => {
+export const SingleAgentTransactionData  = async () => {
   try {
-    if (!agentId) {
-      console.error('Agent ID is required.');
-      return [];
-    }
 
-    const response = await axios.get('/searchAg', {
-      params: {
-        agent_id: agentId
-      },
-    });
+    const response = await axios.get('/singleAgtranx');
 
     const data = response.data;
 
     // Map the API response to the desired format
     const agentTransactionData = data.data.map(agent => ({
       id: agent.id,
-      agentCode: agent.agent_code,
-      name: `${agent.first_name} ${agent.last_name}`,
-      businessName: agent.business_name || '',
-      phoneNumber: agent.business_phone || '',
-      address: agent.business_address || '',
-      localGovt: agent.lga || '',
-      state: agent.state || ''
+      transactionRef: agent.transaction_ref,
+      transactionId: agent.transaction_id,
+      transactionType: agent.transaction_type,
+      status: agent.transaction_status || ''
     }));
 
     console.log(agentTransactionData);
