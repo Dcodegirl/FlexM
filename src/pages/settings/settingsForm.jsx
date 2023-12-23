@@ -430,7 +430,9 @@ const SettingsForm = () => {
     setTabIndex(newStep);
   };
   const handleSaveChanges = async () => {
-    setLoading(true)
+  try {
+    setLoading(true);
+
     // Check if the image size is more than 3MB
     if (selectedImage && selectedImage.size > 3 * 1024 * 1024) {
       console.error("Image size exceeds 3MB");
@@ -440,35 +442,36 @@ const SettingsForm = () => {
         autoDismiss: true,
         autoDismissTimeout: 3000, // milliseconds
       });
-      setLoading(false)
       return; // Stop further processing
     }
 
     const contactUpdate = new FormData();
-    contactUpdate.append('email', userData.email)
-    contactUpdate.append('image', selectedImage)
-    contactUpdate.append('old_password', payload.password.old_password)
-    contactUpdate.append('new_password', payload.password.new_password)
-    contactUpdate.append('confirm_password', payload.password.new_password)
+    contactUpdate.append('email', userData.email);
+    contactUpdate.append('image', selectedImage);
+    contactUpdate.append('old_password', payload.password.old_password);
+    contactUpdate.append('new_password', payload.password.new_password);
+    contactUpdate.append('confirm_password', payload.password.new_password);
+
     console.log(contactUpdate);
 
-    try {
-      // Send a request to update the user profile
-      await axios.post(CONTACT_DETAILS, contactUpdate);
+    // Send a request to update the user profile
+    await axios.post(CONTACT_DETAILS, contactUpdate);
 
-      console.log("Changes saved!");
+    console.log("Changes saved!");
 
-      // Display a success toast notification
-      addToast("Profile updated successfully!", {
-        appearance: "success",
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
-      setLoading(false)
-    } catch (error) {
-      console.error("Error saving changes:", error);
-    }
-  };
+    // Display a success toast notification
+    addToast("Profile updated successfully!", {
+      appearance: "success",
+      autoDismiss: true,
+      autoDismissTimeout: 3000, // milliseconds
+    });
+  } catch (error) {
+    console.error("Error saving changes:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 
   let currentStepComponent;
