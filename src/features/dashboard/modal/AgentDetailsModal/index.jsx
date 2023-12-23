@@ -11,7 +11,7 @@ const AgentDetailsModal = ({ agentDetails, onClose, onAssignTerminalClick  }) =>
     onClose();
 
     // Trigger the navigation to the 'View' page
-    history.push(`/agent/view?agentCode=${agentDetails.agentCode}&name=${agentDetails.name}&phoneNumber=${agentDetails.phoneNumber}`);
+    history.push(`/agent/view?agentCode=${agentDetails.agentCode}&name=${agentDetails.name}&phoneNumber=${agentDetails.phoneNumber}&agentId=${agentDetails.id}`);
   };
 
   useEffect(() => {
