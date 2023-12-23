@@ -456,7 +456,7 @@ const SettingsForm = () => {
       // Send a request to update the user profile
       await axios.post(CONTACT_DETAILS, contactUpdate);
 
-      console.log("Changes saved!");
+      
 
       // Display a success toast notification
       addToast("Profile updated successfully!", {
@@ -467,6 +467,7 @@ const SettingsForm = () => {
       setLoading(false)
     } catch (error) {
       console.error("Error saving changes:", error);
+      setLoading(false)
     }
   };
 

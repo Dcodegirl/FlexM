@@ -189,14 +189,14 @@ const [loading, setLoading] = useState(true);
                 <div className="w-36 pl-6 text-[12px] text-icon-purple uppercase md:block hidden">
                   {name}
                 </div>
-                {/* <img
+                <img
                   src={arrowdown}
                   className={`${styles.profileToggle}`}
                   onClick={() => {
                     setToggleUser(!toggleUser);
                   }}
                   alt=""
-                /> */}
+                />
               </div>
             </div>
             {/* dropdown toggle */}
