@@ -148,14 +148,14 @@ const ViewSingleAgent = () => {
                         ) : transactions.length === 0 ? (
                             <p className="flex justify-center mt-8 text-xl">No transactions to display under this agent.</p>
                         ) : (
-                            transactions.map((transaction, index) => (     <div className="text-wrapper-6">#{transaction.totalAmount?.toLocaleString()}</div>
-                                <div key={index} className={`grid grid-cols-5 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
-                                    <div className="text-wrapper-5">{transaction.id}</div>
-                                    <div className="text-wrapper-6">{transaction.transactionRef}</div>
-                                    <div className="text-wrapper-6">{transaction.transactionId}</div>
-                                    <div className="text-wrapper-6">{transaction.transactionType}</div>
-                                    <div className="text-wrapper-6">{transaction.status}</div>
-                                </div>
+                            transactions.map((transaction, index) => (     <>
+                            <div className="text-wrapper-6">{transaction.totalAmount?.toLocaleString()}</div><div key={index} className={`grid grid-cols-5 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
+                                <div className="text-wrapper-5">{transaction.id}</div>
+                                <div className="text-wrapper-6">{transaction.transactionRef}</div>
+                                <div className="text-wrapper-6">{transaction.transactionId}</div>
+                                <div className="text-wrapper-6">{transaction.transactionType}</div>
+                                <div className="text-wrapper-6">{transaction.status}</div>
+                            </div></>
                             ))
                         )}
                     </div>
