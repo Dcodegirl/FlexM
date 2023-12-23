@@ -18,7 +18,7 @@ export const navigationItems = [
     items: [
       { to: '/wallet', text: 'Main Wallet' },
       { to: '/aggregator', text: 'Aggregator Wallet', isAggregator: true },
-      { to: '/commission', text: 'Commission Wallet', isAggregator: true },
+      { to: '/commission', text: 'Commission Wallet'},
     ],
   },
   { to: '/transactions', text: 'Transactions', icon: transactionIcon},
