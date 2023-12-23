@@ -144,7 +144,7 @@ const ViewSingleAgent = () => {
                                         <p>Date created</p>
                                     </div>
                         {loading ? (
-                            <p className="flex justify-center mt-8 text-xl">Loading...</p>
+                            <p className="flex justify-center mt-8 text-xl">Loading......</p>
                         ) : transactions.length === 0 ? (
                             <p className="flex justify-center mt-8 text-xl">No transactions to display under this agent.</p>
                         ) : (
