@@ -321,7 +321,7 @@ function Document({ nextStep }) {
                                                 />
                                                 <div className='flex flex-col'>
                                                     <p className="text-sm text-gray-900">Tap to Upload</p>
-                                                    <p className="block text-gray-400 text-xs">PNG, JPG | 10MB max</p>
+                                                    <p className="block text-gray-400 text-xs">PNG, JPG | 3MB max</p>
                                                 </div>
 
                                             </div>
