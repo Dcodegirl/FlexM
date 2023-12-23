@@ -7,7 +7,7 @@ import settings from '../../assets/images/download.png'
 
 const Settings = () => {
   return (
-    <div>
+    <div className='m-0'>
         <div className='flex items-center gap-10'>
             <img src={settings} alt="setting icon" className='w-100'/>
         <div>
