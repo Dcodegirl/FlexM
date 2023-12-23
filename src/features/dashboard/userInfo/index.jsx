@@ -80,12 +80,12 @@ const UserInfo = () => {
 
             <div className='flex flex-col gap-5'>
               <p className='text-[#331E00] font-extrabold'>KYC Update</p>
-              <p className='text-[#111023] text-xl'>You’re yet to finish up your registrations. You will need to update your image and get verified.</p>
+              <p className='text-[#111023] text-xl'>You’re yet to finish up your registrations. You will need to update your image, biodata and get verified.</p>
             </div>
           </div>
 
           <div>
-            <NavLink to='/settings'>
+            <NavLink to='/settings#biodata'>
               <div className='cursor-pointer flex items-center'>
                 <p className='text-[#FFAC33] text-2xl font-medium'>Proceed</p>
                 <img src={arrowright} alt="" />

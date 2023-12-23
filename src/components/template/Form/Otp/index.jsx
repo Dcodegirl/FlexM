@@ -46,7 +46,7 @@ function Contact({ nextStep }) {
       const responseData = response.data;
       setUserId(responseData.data.id);
 
-      addToast('OTP verification successful!', { appearance: 'success' });
+      addToast('OTP verification successful!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 });
       nextStep();
     } catch (error) {
       console.error('API Error:', error);

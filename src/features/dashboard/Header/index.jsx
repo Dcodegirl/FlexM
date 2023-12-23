@@ -138,7 +138,7 @@ const [loading, setLoading] = useState(true);
   }, []);
 
   return (
-    <header className={`flex md:justify-end bg-white h-full justify-between`}>
+    <header className={`flex md:justify-end bg-white h-full justify-between py-6 md:my-0`}>
       <div
         className={` flex justify-between h-full items-center md:gap-3 w-[450px]  md:px-12 px-3`}
       >
@@ -189,14 +189,14 @@ const [loading, setLoading] = useState(true);
                 <div className="w-36 pl-6 text-[12px] text-icon-purple uppercase md:block hidden">
                   {name}
                 </div>
-                <img
+                {/* <img
                   src={arrowdown}
                   className={`${styles.profileToggle}`}
                   onClick={() => {
                     setToggleUser(!toggleUser);
                   }}
                   alt=""
-                />
+                /> */}
               </div>
             </div>
             {/* dropdown toggle */}
