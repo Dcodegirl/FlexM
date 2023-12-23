@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { TransactionData } from '../../dashboard/data/transactionData';
 import { useSelector } from 'react-redux';
 
-
 const Tranx = () => {
     const [selectedPeriod, setSelectedPeriod] = useState('Monthly');
     const [transactions, setTransactions] = useState([]);
@@ -15,7 +14,7 @@ const Tranx = () => {
             const response = await TransactionData(selectedPeriod, agentId);
             const dataa = response.data;
             setTransactions(dataa);
-            console.log('the data for trabnaction: ', dataa)
+            console.log('the data for transaction: ', dataa);
         } catch (error) {
             console.error('Error fetching transaction data:', error);
         } finally {
@@ -32,25 +31,6 @@ const Tranx = () => {
         console.log(`Selected Period: ${selectedPeriod}`);
         setSelectedPeriod(selectedPeriod);
     };
-    // const formatDate = (createdAt) => {
-    //     const date = new Date(createdAt);
-    //     const day = date.getDate();
-    //     const month = date.getMonth() + 1;
-    //     const year = date.getFullYear();
-    //     return `${day}/${month}/${year}`;
-    // };
-    // const getStatusLabel = (statusCode) => {
-    //     switch (statusCode) {
-    //         case '1':
-    //             return 'Pending';
-    //         case '2':
-    //             return 'Successful';
-    //         case '3':
-    //             return 'Failed';
-    //         default:
-    //             return 'Unknown';
-    //     }
-    // };
 
     return (
         <>
@@ -91,45 +71,46 @@ const Tranx = () => {
                                             Loading...
                                         </td>
                                     </tr>
-                                ) : transactions?.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="5" className="p-3 text-center">
-                                            No transactions found
-                                        </td>
-                                    </tr>
-                                ) : (
-                                    transactions.map((transaction, index) => (
-                                        <tr
-                                            key={index}
-                                            className={`${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'
-                                                } text-center text-xl`}
-                                        >
-                                            <td className="p-3">{transaction.agent_code}</td>
-                                            <td className="p-3">{transaction.status_description}</td>
-                                            <td
-                                                className="p-3 font-bold"
-                                            >
-                                                <span className="span">N</span>
-                                                {parseFloat(transaction.amount).toLocaleString()}
+                                ) : transactions ? (
+                                    transactions.length === 0 ? (
+                                        <tr>
+                                            <td colSpan="5" className="p-3 text-center">
+                                                No transactions found
                                             </td>
-                                            <td
-                                                style={{
-                                                    color:
-                                                        transaction.status === 'successful'
-                                                            ? '#00B378'
-                                                            : transaction.status === 'failed'
-                                                                ? '#FF1919'
-                                                                : '#FF9212',
-                                                }}
-                                                className="p-3"
-                                            >
-                                                {transaction.status}
-                                            </td>
-
-                                            <td className="p-3">{transaction.Date}</td>
                                         </tr>
-                                    ))
-                                )}
+                                    ) : (
+                                        transactions.map((transaction, index) => (
+                                            <tr
+                                                key={index}
+                                                className={`${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'
+                                                    } text-center text-xl`}
+                                            >
+                                                <td className="p-3">{transaction.agent_code}</td>
+                                                <td className="p-3">{transaction.status_description}</td>
+                                                <td
+                                                    className="p-3 font-bold"
+                                                >
+                                                    <span className="span">N</span>
+                                                    {parseFloat(transaction.amount).toLocaleString()}
+                                                </td>
+                                                <td
+                                                    style={{
+                                                        color:
+                                                            transaction.status === 'successful'
+                                                                ? '#00B378'
+                                                                : transaction.status === 'failed'
+                                                                    ? '#FF1919'
+                                                                    : '#FF9212',
+                                                    }}
+                                                    className="p-3"
+                                                >
+                                                    {transaction.status}
+                                                </td>
+                                                <td className="p-3">{transaction.Date}</td>
+                                            </tr>
+                                        ))
+                                    )
+                                ) : null}
                             </tbody>
                         </table>
                     </div>
