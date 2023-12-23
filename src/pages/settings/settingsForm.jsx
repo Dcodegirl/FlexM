@@ -477,7 +477,7 @@ const SettingsForm = () => {
   switch (step) {
     case 1:
       currentStepComponent = (
-        <div className="md:p-20 p-5 text-2xl">
+        <div className="md:p-20 p-5 text-2xl" id="contact">
           {/* Replace the following comment with your actual contact details form */}
           <form className="flex flex-col">
             <div className="flex gap-10 items-center my-8">
@@ -657,7 +657,7 @@ const SettingsForm = () => {
       break;
     case 2:
       currentStepComponent = (
-        <div id="biodata" ref={biodataRef}>
+        <div id="biodata">
         {/* Add your biodata form here */}
           <div className="md:p-20 p-5 text-2xl">
             {/* Replace the following comment with your actual contact details form */}
@@ -907,7 +907,7 @@ const SettingsForm = () => {
       break;
     case 3:
       currentStepComponent = (
-        <div className="flex justify-center">
+        <div className="flex justify-center" id="pin">
            <div className="md:py-20 md:px-40 px-20 text-2xl">
           <div className="flex md:flex-row flex-col md:gap-20 items-center mb-8">
             <div className="flex flex-col my-4 md:my-0">
