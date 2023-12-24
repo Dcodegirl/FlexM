@@ -9,7 +9,7 @@ import { useToasts } from "react-toast-notifications";
 
 const SettingsForm = () => {
   const [otp, setOtp] = useState("");
-  const biodataRef = useRef(null);
+  const biodataRef = useRef('');
   const [step, setStep] = useState(1);
   const [tabIndex, setTabIndex] = useState(1);
   const { addToast } = useToasts();
@@ -27,26 +27,26 @@ const SettingsForm = () => {
     agent_id: "",
     transaction_pin: "",
   });
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState('');
   const [selectedDocument, setSelectedDocument] = useState("");
-  const [documentImage, setDocumentImage] = useState(null);
-  const [utilityImage, setUtilityImage] = useState(null);
-  const [docImage, setDocImage] = useState(null);
+  const [documentImage, setDocumentImage] = useState('');
+  const [utilityImage, setUtilityImage] = useState('');
+  const [docImage, setDocImage] = useState('');
   const [fileUploaded, setFileUploaded] = useState(false);
-  const [guarantorSelect, setGuarantorSelect] = useState(null);
+  const [guarantorSelect, setGuarantorSelect] = useState('');
   const [pin, setPin] = useState([]);
   const [confirmPin, setConfirmPin] = useState([]);
 
 
-  const [selectedImage, setSelectedImage] = useState(null);
-  const fileInputRef = useRef(null);
+  const [selectedImage, setSelectedImage] = useState('');
+  const fileInputRef = useRef('');
   const [uploadProgress, setUploadProgress] = useState(0);
   const pinInputRefs = [useRef(), useRef(), useRef(), useRef()];
   const confirmPinInputRefs = [useRef(), useRef(), useRef(), useRef()];
@@ -146,6 +146,16 @@ const SettingsForm = () => {
     // Check if the document image size is more than 3MB
     else if (documentImage && documentImage.size > 3 * 1024 * 1024) {
       console.error("Document image size exceeds 3MB");
+      // Display an error toast notification
+      addToast("Document image size should not exceed 3MB", {
+        appearance: "error",
+        autoDismiss: true,
+        autoDismissTimeout: 3000, // milliseconds
+      });
+      setLoading(false);
+    }
+    else if (guarantorSelect && guarantorSelect.size > 3 * 1024 * 1024) {
+      console.error("Guarantor file size exceeds 3MB");
       // Display an error toast notification
       addToast("Document image size should not exceed 3MB", {
         appearance: "error",
@@ -605,7 +615,7 @@ const SettingsForm = () => {
                     type="file"
                     id="imageInput"
                     name="image"
-                    accept="image/*"
+                    accept=".pdf, .jpg, .png"
                     onChange={handleImageChange}
                     className=" mb-4"
                     ref={fileInputRef} // Reference to the hidden file input
