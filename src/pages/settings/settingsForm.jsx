@@ -40,7 +40,7 @@ const SettingsForm = () => {
   const [utilityImage, setUtilityImage] = useState('');
   const [docImage, setDocImage] = useState('');
   const [fileUploaded, setFileUploaded] = useState(false);
-  const [guarantorSelect, setGuarantorSelect] = useState(null);
+  const [guarantorSelect, setGuarantorSelect] = useState('');
   const [pin, setPin] = useState([]);
   const [confirmPin, setConfirmPin] = useState([]);
 
@@ -466,7 +466,6 @@ const SettingsForm = () => {
   
       // Send a request to update the user profile
       await axios.post(CONTACT_DETAILS, contactUpdate);
-  
       // Display a success toast notification
       addToast("Profile updated successfully!", {
         appearance: "success",
