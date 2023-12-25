@@ -5,8 +5,7 @@ const token = sessionStorage.getItem('token');
 
 // Define base URLs for different environments
 const baseURLs = {
-  local: 'http://localhost:3000/api', // Replace with your local base URL
-  staging: 'https://staging-api.flexdeals.com.ng/api', // Replace with your staging base URL
+  local: 'https://staging-api.flexdeals.com.ng/api', // Replace with your local base URL
   production: 'https://flexmoney.cico.ng/api', // Replace with your production base URL
 };
 
