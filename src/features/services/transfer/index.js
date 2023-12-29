@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import axios from '../../../utils/axiosInstance';
 import { useToasts } from 'react-toast-notifications';
 
 import { setWalletBalance } from '../../../actions/wallet';
@@ -190,7 +190,7 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
 
 const mapStateToProps = (state) => {
     return {
-        hasSetPin: state.auth.user.hasSetPin,
+        hasSetPin: state.auth.user.transaction_pin,
     };
 };
 

@@ -76,12 +76,46 @@ const SettingsForm = () => {
   }, []);
   const handleDocumentFileChange = (e) => {
     const file = e.target.files[0];
-    setDocumentImage(file);
+  
+    // Check if means of ID has been selected
+    if (!selectedDocument) {
+      addToast("Please select a valid means of ID", {
+        appearance: "error",
+        autoDismiss: true,
+        autoDismissTimeout: 3000,
+      });
+      setDocumentImage(null); // Clear the selected file
+    } else {
+      // Check if the file size exceeds 3MB
+      if (file && file.size > 3 * 1024 * 1024) {
+        addToast("Means of ID image size should not exceed 3MB", {
+          appearance: "error",
+          autoDismiss: true,
+          autoDismissTimeout: 3000,
+        });
+        setDocumentImage(null); // Clear the selected file
+      } else {
+        setDocumentImage(file);
+      }
+    }
   };
+  
   const handleUtilityBillChange = (e) => {
     const file = e.target.files[0];
-    setUtilityImage(file);
+  
+    // Check if the file size exceeds 3MB
+    if (file && file.size > 3 * 1024 * 1024) {
+      addToast("Utility image size should not exceed 3MB", {
+        appearance: "error",
+        autoDismiss: true,
+        autoDismissTimeout: 6000,
+      });
+      setUtilityImage(null); // Clear the selected file
+    } else {
+      setUtilityImage(file);
+    }
   };
+  
   const handleTransactionPin = async () => {
     // Check if pin and confirmPin are not the same
     setLoading(true)
@@ -115,8 +149,7 @@ const SettingsForm = () => {
   
     try {
       let data = await axios.post(TRANSACTION_PIN, transactionPin);
-      console.log(data);
-      addToast("Profile updated successfully!", {
+      addToast("Transaction pin updated successfully!", {
         appearance: "success",
         autoDismiss: true,
         autoDismissTimeout: 3000, // milliseconds
@@ -133,19 +166,9 @@ const SettingsForm = () => {
     setLoading(true);
   
     // Check if the utility image size is more than 3MB
-    if (utilityImage && utilityImage.size > 3 * 1024 * 1024) {
-      console.error("Utility image size exceeds 3MB");
-      // Display an error toast notification
-      addToast("Utility image size should not exceed 3MB", {
-        appearance: "error",
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
-      setLoading(false);
-    }
+    
     // Check if the document image size is more than 3MB
-    else if (documentImage && documentImage.size > 3 * 1024 * 1024) {
-      console.error("Document image size exceeds 3MB");
+     if (documentImage && documentImage.size > 3 * 1024 * 1024) {
       // Display an error toast notification
       addToast("Document image size should not exceed 3MB", {
         appearance: "error",
@@ -153,6 +176,7 @@ const SettingsForm = () => {
         autoDismissTimeout: 3000, // milliseconds
       });
       setLoading(false);
+      return;
     }
     else if (guarantorSelect && guarantorSelect.size > 3 * 1024 * 1024) {
       console.error("Guarantor file size exceeds 3MB");
@@ -203,9 +227,20 @@ const SettingsForm = () => {
 
   const handleGuarantorSelect = (e) => {
     const file = e.target.files[0];
-    setGuarantorSelect(file);
-    setFileUploaded(true); // Reset the fileUploaded state when a new file is selected
+  
+    // Check if the file size exceeds 3MB
+    if (file && file.size > 3 * 1024 * 1024) {
+      addToast("Guarantor form size should not exceed 3MB", {
+        appearance: "error",
+        autoDismiss: true,
+        autoDismissTimeout: 6000,
+      });
+      setGuarantorSelect(null); // Clear the selected file
+    } else {
+      setGuarantorSelect(file);
+    }
   };
+  
   const guarantorUpload = () => {
     // Your file upload logic here
     // After successful upload, setFileUploaded(true);
@@ -768,40 +803,34 @@ const SettingsForm = () => {
                       Upload a signed copy of this form in your profile
                     </p>
                   </div>
-                  <div className="bg-white border border-gray-100 rounded-lg h-14 w-full mb-6 md:p-6 p-3 flex items-center justify-between mt-4 md:w-[300px] lg:w-[500px] relative">
-                    <input
-                      type="file"
-                      id="upload"
-                      name="upload"
-                      onChange={handleGuarantorSelect}
-                      className="outline outline-gray-100 md:p-4 p-2 w-full absolute top-0 left-0 opacity-0 z-10"
-                      required
-                    />
-                    <div className="flex gap-2">
-                      <img src={svg} alt="Upload Icon" className="h-10 w-10" />
-                      <div className="flex flex-col">
-                        <p className="text-2xl text-gray-900">Upload Guarantor Form</p>
-                        <p className="block text-gray-400 text-xs">
-                          Guarantor form | 10MB max.
-                        </p>
+                  <div className="relative">
+                      <div className="border border-gray-300 border-dotted p-2 rounded-md h-full w-full md:w-[350px] lg:w-full ">
+                        <div className=" flex flex-col lg:flex-row  gap-5 items-center justify-between">
+                          <div className='flex gap-2'>
+                            <img
+                              src={svg} // Provide the actual path to your SVG upload icon
+                              alt="Upload Icon"
+                              className="h-10 w-10"
+                            />
+                            <div className='flex flex-col'>
+                              <p className="text-sm text-gray-900">Tap to Upload</p>
+                              <p className="block text-gray-400 text-xs">PNG, JPG | 3MB max</p>
+                            </div>
+
+                          </div>
+                          <div>
+                            <input
+                              type="file"
+                              accept=".pdf, .jpg, .png"
+                              id="guarantor"
+                              name="guarantorForm"
+                              onChange={handleGuarantorSelect}
+                            />
+                          </div>
+                        </div>
+
                       </div>
                     </div>
-                    <div className="mb-2">
-                      {!fileUploaded ? (
-                        <button
-                          type="button"
-                          className="bg-[#ECE9FC] py-3 md:px-6 px-3 mt-2 rounded-md text-deep-green"
-                          onClick={guarantorUpload}
-                        >
-                          Upload
-                        </button>
-                      ) : (
-                        <span className="text-deep-green">
-                          {guarantorSelect ? guarantorSelect.name : ''}
-                        </span>
-                      )}
-                    </div>
-                  </div>
                   <div className="mt-6">
                     <p className="text-gray-700 text-2xl mb-2">
                       Utilities Bill
@@ -882,21 +911,6 @@ const SettingsForm = () => {
 
                     </div>
                   </div>
-
-                  {/* Conditionally render the Upload button based on the state */}
-                  {/* {documentImage && (
-                    <button
-                      type="button"
-                      className="bg-progress-green text-white p-2 mt-2 rounded-md"
-                      onClick={() => {
-                        // Handle the upload logic here
-                        // You may want to include your upload logic or trigger an API call
-                        console.log("Document Uploaded");
-                      }}
-                    >
-                      Upload
-                    </button>
-                  )} */}
                 </div>
               </div>
 
