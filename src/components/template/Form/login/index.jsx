@@ -31,6 +31,11 @@ function Login() {
     event.preventDefault();
     try {
       setLoading(true);
+       // Validate phone number
+    if (phoneNumber.length !== 11) {
+      addToast('Phone Number is less than 11 digits!.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+      return;
+    }
 
       const apiUrl = '/users/signin';
 

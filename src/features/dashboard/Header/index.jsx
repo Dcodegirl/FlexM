@@ -36,7 +36,7 @@ const Header = ({
   bank,
   image,
 }) => {
-  console.log("Current user state:", image);
+  console.log("Current user state:", user);
   const [toggleUser, setToggleUser] = useState(false);
   const name = user ? `${user.first_name} ${user.last_name}` : "User";
   const walletId = user ? user.walletNo : "N/A";
@@ -121,7 +121,6 @@ const [loading, setLoading] = useState(true);
 
         // Set the user info in the state
         setUserInfo(response.data.data);
-        console.log(response.data.data)
 
         // Set loading to false
         setLoading(false);
