@@ -79,11 +79,11 @@ function Document({ nextStep }) {
         setLga(event.target.value);
     };
 
-    const downloadForm = () => {
-        // Replace with the actual URL of the form document to be downloaded
-        const formDocumentURL = '/path-to-your-form-document.pdf';
-        window.open(formDocumentURL);
-    };
+    // const downloadForm = () => {
+    //     // Replace with the actual URL of the form document to be downloaded
+    //     const formDocumentURL = '';
+    //     window.open(formDocumentURL);
+    // };
 
     const handleSubmit = async () => {
         try {
