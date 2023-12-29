@@ -10,7 +10,7 @@ import Down from '../../../assets/icons/down.svg';
 
 import styles from './Sidebar.module.scss';
 
-export const Sidebar = ({ agentType, aggregatorId }) => {
+export const Sidebar = ({ agentType, superAgentId, is_aggregator }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -83,7 +83,7 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
                   )
                   .map((item, index) => {
                     if (item.isAggregator) {
-                      if (aggregatorId !== null) {
+                      if (superAgentId !== null || is_aggregator !== 0) {
                         return (
                           <div key={index}>
                             {item.to ? (
@@ -115,7 +115,7 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
                                       className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
                                     >
                                       {item.items
-                                        .filter((subItem) => subItem.isAggregator ? aggregatorId !== null : true)
+                                        .filter((subItem) => subItem.isAggregator ? superAgentId !== null : true)
                                         .map((subItem, subIndex) => (
                                           <NavLink
                                             key={subIndex}
@@ -168,7 +168,7 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
                                     className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
                                   >
                                     {item.items
-                                      .filter((subItem) => subItem.isAggregator ? aggregatorId !== null : true)
+                                      .filter((subItem) => subItem.isAggregator ? superAgentId !== null : true)
                                       .map((subItem, subIndex) => (
                                         <NavLink
                                           key={subIndex}
@@ -200,7 +200,8 @@ export const Sidebar = ({ agentType, aggregatorId }) => {
 const mapStateToProps = (state) => {
   return {
     agentType: state.auth.user.type,
-    aggregatorId: state.auth.user.aggregator_id,
+    superAgentId: state.auth.user.super_agent_id,
+    is_aggregator: state.auth.user.is_aggregator
   };
 };
 
