@@ -232,7 +232,7 @@ function Document({ nextStep }) {
                                     <button
                                         type="button"
                                         className="bg-[#ECE9FC] py-2 px-4 mt-2 rounded-md text-deep-green"
-                                        onClick={downloadForm}
+                                        // onClick={downloadForm}
                                     >
                                         Download
                                     </button>
