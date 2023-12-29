@@ -115,7 +115,7 @@ export const Sidebar = ({ agentType, superAgentId, is_aggregator }) => {
                                       className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
                                     >
                                       {item.items
-                                        .filter((subItem) => subItem.isAggregator ? superAgentId !== null : true)
+                                        .filter((subItem) => subItem.isAggregator ? superAgentId !== null || is_aggregator !== 0  : true)
                                         .map((subItem, subIndex) => (
                                           <NavLink
                                             key={subIndex}
@@ -168,7 +168,7 @@ export const Sidebar = ({ agentType, superAgentId, is_aggregator }) => {
                                     className={`mt-12  bg-white h-full ml-12 flex flex-col gap-10 `}
                                   >
                                     {item.items
-                                      .filter((subItem) => subItem.isAggregator ? superAgentId !== null : true)
+                                      .filter((subItem) => subItem.isAggregator ? superAgentId !== null || is_aggregator !== 0 : true)
                                       .map((subItem, subIndex) => (
                                         <NavLink
                                           key={subIndex}

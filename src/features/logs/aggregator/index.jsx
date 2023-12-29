@@ -3,10 +3,8 @@ import axios from "../../../utils/axiosInstance";
 import WalletInfo from "../../dashboard/WalletInfo";
 import WalletBreakDown from "../../dashboard/WalleBreakdown";
 import WalletLogs from "../wallet/WalletLog";
-import { useSelector } from 'react-redux';
 
 const Users = () => {
-  const agentId = useSelector((state) => state.auth.user?.id);
 
   const [totalBalance, setTotalBalance] = useState(0);
   const [currentBalance, setCurrentBalance] = useState({ amount: 0, growth_rate: 0 });
@@ -18,12 +16,7 @@ const Users = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "/aggregtorwallet",
-          {
-            params: {
-              agent_id: agentId,
-            },
-          }
+          "/aggregtorwallet"
         );
 
         const data = response.data.data;
@@ -47,7 +40,7 @@ const Users = () => {
     };
 
     fetchData();
-  }, [agentId]);
+  }, []);
 
   const formatAmount = (amount) => {
     return amount?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
