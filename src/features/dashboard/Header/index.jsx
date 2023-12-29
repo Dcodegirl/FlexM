@@ -156,7 +156,7 @@ const [loading, setLoading] = useState(true);
         </div>
         <div className="flex items-center gap-10">
           <div
-            className={styles.notification}
+            className={`${styles.notification} md:block hidden`}
             onClick={handleToggleNotifications}
           >
             <img
@@ -184,7 +184,7 @@ const [loading, setLoading] = useState(true);
                 }
               </div>
 
-              <div className="flex">
+              <div className="flex items-center">
                 <div className="w-36 pl-6 text-[12px] text-icon-purple uppercase md:block hidden">
                   {name}
                 </div>
@@ -204,7 +204,7 @@ const [loading, setLoading] = useState(true);
                 className={`top-28 right-16 w-72 h-[300px] bg-white shadow-md rounded-lg text-center text-lg absolute z-10`}
                 ref={wrapperRef}
               >
-                <div className="h-1/2 bg-purple-800 p-8 text-white rounded-tl-lg rounded-tr-lg">
+                <div className="h-1/2 bg-color1 p-8 text-white rounded-tl-lg rounded-tr-lg">
                   <img
                     src={userInfo.image || pic}
                     alt="user avatar"
