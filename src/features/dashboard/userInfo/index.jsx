@@ -19,7 +19,7 @@ const UserInfo = () => {
     axios.get('/agent/userinfo')
       .then(response => {
         setUserData(response.data.data);
-        console.log(response.data.data)
+        console.log("user info from user info api: ", response.data.data)
       })
       .catch(error => {
         console.error('Error fetching user information:', error);
@@ -32,7 +32,7 @@ const UserInfo = () => {
   }
 
 
-  const isKYCVerified = userData.agent.verified === '0' && userData.image == null;
+  const isKYCVerified = userData.agent.verified === '0' || userData.image == null;
   const isAggregatorVerified = userData.agent.verified === '1';
   const currentHour = currentDate.getHours();
   const isAfter4PM = currentHour >= 16;
