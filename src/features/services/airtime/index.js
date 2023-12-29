@@ -13,7 +13,7 @@ import { EventEmitter } from '../../../utils/event';
 
 // import styles from "./BuyAirtime.module.scss";
 
-export const BuyAirtime = ({ service, has_pin }) => {
+export const BuyAirtime = ({ service, hasSetPin }) => {
     let renderedComponent;
     const TRANSACTION_COST = 0;
     const [componentToRender, setComponentToRender] = useState('form');
@@ -165,7 +165,7 @@ export const BuyAirtime = ({ service, has_pin }) => {
                     loading={loading}
                     transactionCost={TRANSACTION_COST}
                     service={service}
-                    hasSetPin={has_pin}
+                    hasSetPin={hasSetPin}
                     dispatch={dispatch}
                     setComponentToRender={setComponentToRender}
                 />
@@ -195,10 +195,9 @@ export const BuyAirtime = ({ service, has_pin }) => {
 };
 
 const mapStateToProps = (state) => {
-    console.log('has_pin:', state.auth.has_pin);
     return {
         service: state.modal.service,
-        hasSetPin: state.auth.has_pin,
+        hasSetPin: state.auth.user.transaction_pin,
     };
 };
 
