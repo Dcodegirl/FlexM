@@ -15,10 +15,6 @@ function Login() {
   const history = useHistory();
   const { addToast } = useToasts();
 
-  const handleAcceptRemChange = () => {
-    setAcceptRemember(!acceptRemember);
-  };
-
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
