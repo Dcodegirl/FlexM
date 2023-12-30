@@ -9,15 +9,10 @@ function Login() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [acceptRemember, setAcceptRemember] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const history = useHistory();
   const { addToast } = useToasts();
-
-  const handleAcceptRemChange = () => {
-    setAcceptRemember(!acceptRemember);
-  };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
