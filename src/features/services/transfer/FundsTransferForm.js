@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import axios from '../../../utils/axiosInstance';
 import Form from '../../../components/common/Form';
 import FormGroup from '../../../components/common/FormGroup';
 import Input from '../../../components/common/Input';
 import Select from '../../../components/common/Select';
 import Submit from '../../../components/common/Button';
+import logo from '../../../assets/images/flexbycico.svg'
 
 import { VERIFY_ACCOUNT, FETCH_BANK } from '../../../utils/constants';
 import generateBankImageUrl from './generateBankImageUrl';
@@ -154,7 +155,7 @@ export const FundsTransferForm = (props) => {
             title='Funds Transfer'
             caption='Complete your payment information'
             handleOnSubmit={handleOnContinue}
-            logo={bankImageUrl}
+            logo={logo}
         >
             <FormGroup>
                 <Input

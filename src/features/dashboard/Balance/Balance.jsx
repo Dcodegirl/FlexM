@@ -19,8 +19,9 @@ const Balance = ({}) => {
   const [commissionBalance, setCommissionBalance] = useState('');
   const [showCommission, setShowCommission] = useState(false);
   const [showAggregator, setShowAggregator] = useState(false);
-  const aggregatorId = useSelector((state) => state.auth.user.aggregator_id); 
-  console.log('aggregator id: ',aggregatorId)
+  const superAgentId = useSelector((state) => state.auth.user.super_agent_id); 
+  const is_aggregator = useSelector((state) => state.auth.user.is_aggregator); 
+  console.log('super agent id: ',superAgentId)
 
   const toggleWalletVisibility = () => {
     setShowWallet(!showWallet);
@@ -71,7 +72,7 @@ const Balance = ({}) => {
   ) : (
     <span>*********</span>
   );
-  const aggregatorContent = showAggregator && aggregatorId ? (
+  const aggregatorContent = showAggregator && superAgentId ? (
     <span>₦{formatToCurrency(aggregatorBalance)}</span>
   ) : (
     <span>*********</span>
@@ -123,7 +124,7 @@ const Balance = ({}) => {
             </div>
           </div>
         </div>
-        {aggregatorId && ( // Only render the Aggregator Balance card if aggregatorId is not null
+        {superAgentId || is_aggregator === 1 && ( // Only render the Aggregator Balance card if superAgentId is not null
             <div className="p-4 bg-bg-card3 bg-cover bg-no-repeat justify-between flex flex-col gap-10 md:w-full w-[650px] h-[170px] rounded-3xl">
               <div className="flex justify-between relative">
                 <p className="text-[#F5FFFD] font-extrabold text-2xl">Aggregator Balance</p>

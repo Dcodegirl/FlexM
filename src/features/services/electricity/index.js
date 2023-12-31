@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import axios from '../../../utils/axiosInstance';
 import { useToasts } from 'react-toast-notifications';
 import { VEND_ENERGY } from '../../../utils/constants';
 import { setCurrentPage } from '../../../actions/page';
@@ -141,7 +141,7 @@ export const ElectricityPayment = ({ service, hasSetPin }) => {
 const mapStateToProps = (state) => {
     return {
         service: state.modal.service,
-        hasSetPin: state.auth.user.hasSetPin,
+        hasSetPin: state.auth.user.transaction_pin,
     };
 };
 

@@ -4,9 +4,10 @@ import axios from 'axios';
 const token = sessionStorage.getItem('token');
 
 // Define base URLs for different environments
-const baseURLs = 'https://flexmoney.cico.ng/api' // Replace with your production base URL
-// staging: 'https://staging-api.flexdeals.com.ng/api'
+const baseURLs = 'https://flexmoney.cico.ng/api'
 
+// Determine the environment (you can set this dynamically based on your build process or other logic)
+// const environment = process.env.REACT_APP_ENVIRONMENT || 'local';
 
 // Create an Axios instance with the appropriate base URL
 const axiosInstance = axios.create({

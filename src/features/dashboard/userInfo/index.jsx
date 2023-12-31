@@ -19,7 +19,7 @@ const UserInfo = () => {
     axios.get('/agent/userinfo')
       .then(response => {
         setUserData(response.data.data);
-        console.log('user info:',response.data.data)
+        console.log("user info from user info api: ", response.data.data)
       })
       .catch(error => {
         console.error('Error fetching user information:', error);
@@ -32,7 +32,7 @@ const UserInfo = () => {
   }
 
 
-  const isKYCVerified = userData.agent.verified === '0' && userData.image == null;
+  const isKYCVerified = userData.agent.verified === '0' || userData.guarantor == null;
   const isAggregatorVerified = userData.agent.verified === '1';
   const currentHour = currentDate.getHours();
   const isAfter4PM = currentHour >= 16;
@@ -80,7 +80,7 @@ const UserInfo = () => {
 
             <div className='flex flex-col gap-5'>
               <p className='text-[#331E00] font-extrabold'>KYC Update</p>
-              <p className='text-[#111023] text-xl'>You’re yet to finish up your registrations. You will need to update your image and  <span className='font-bold'>upload your guarantor form in biodata</span> to get verified. After which you will be assigned an account number </p>
+              <p className='text-[#111023] text-xl'>You’re yet to finish up your registrations. You will need to upload your <span className='font-bold'>guarantor form in biodata settings</span>, <span className='font-bold'>create a new pin in pin settings</span>  and get verified.</p>
             </div>
           </div>
 

@@ -286,7 +286,7 @@ TransactionPin.propTypes = {
 const mapStateToProps = (state) => {
     return {
         agentData: {
-            hasSetPin: state.auth.user.hasSetPin,
+            hasSetPin: state.auth.user.transaction_pin,
         },
     };
 };
