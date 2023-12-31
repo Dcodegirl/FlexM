@@ -1,4 +1,4 @@
-path = "https://flexmoney.cico.ng/api"
+let path = "https://flexmoney.cico.ng/api"
 ////TRANSACTIONCOST////
 export const TRANSACTION_COST = `${path}/transaction-costs/Transfer/agents/{amount}`
 //////AUTH///////
