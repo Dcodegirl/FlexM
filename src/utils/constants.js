@@ -10,7 +10,7 @@
 //     //production server
 //     path = 'https://stagging-api.flexdeals.com.ng/api';
 // }
-path = 'https://api.cico.ng/api';
+path = 'https://flexmoney.cico.ng/api';
 ////TRANSACTIONCOST////
 export const TRANSACTION_COST = `${path}/transaction-costs/Transfer/agents/{amount}`
 //////AUTH///////
