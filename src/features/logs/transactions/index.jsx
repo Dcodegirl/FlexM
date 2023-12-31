@@ -202,7 +202,7 @@ export const TransactionLog = ({
 
         (async function getTransactionsLog() {
             try {
-                const res = await axios.get(`${AGENT_TRANSACTION_HISTORY}`, {
+                const res = await axios.get('https://api.cico.ng/api/transactions', {
                     params,
                 });
 
