@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { authMiddleware } from './authMiddleware';
+
 
 // Retrieve token from session storage
 const token = sessionStorage.getItem('token');
@@ -23,6 +23,6 @@ const axiosInstance = axios.create({
 if (token) {
   axiosInstance.defaults.headers['Authorization'] = `Token ${token}`;
 }
-authMiddleware();
+
 
 export default axiosInstance;

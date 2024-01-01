@@ -1,7 +1,7 @@
-// auth.js
 import axios from '../utils/axiosInstance';
+import history from '../utils/history';
 import setAuthToken from '../utils/setAuthToken';
-import { setWalletBalance } from './wallet';
+
 
 
 const LOGIN_API = '/users/signin';
@@ -50,6 +50,7 @@ export const startLoginUser = (payload, history) => async (dispatch) => {
 
 
       };
+      setAuthToken(token);
       dispatch(loginUser(authDetails));
       sessionStorage.setItem('user', JSON.stringify(authDetails));
       // Use history.replace instead of history.push to replace the current entry
@@ -71,13 +72,17 @@ export const startLoginUser = (payload, history) => async (dispatch) => {
 
 
 export const startLogout = () => (dispatch) => {
-  // Perform any necessary cleanup or API calls before logging out
+    dispatch({
+        type: 'SET_LOADING',
+        payload: {
+            loading: false,
+            message: undefined,
+        },
+    });
 
-  // Clear session storage
-  sessionStorage.clear('user');
-  sessionStorage.clear('token');
-  sessionStorage.clear('balance');
-
-  // Dispatch action to logout
-  dispatch(logoutUser());
+    sessionStorage.clear('user');
+    sessionStorage.clear('token');
+    sessionStorage.clear('balance');
+    history.push('/');
+    dispatch(logoutUser());
 };
