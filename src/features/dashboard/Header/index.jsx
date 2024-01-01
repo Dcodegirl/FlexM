@@ -231,7 +231,7 @@ const [loading, setLoading] = useState(true);
                 </div>
                 <div className="p-5">
                   <Link
-                    to="/settings#pin"
+                    to="/settings/pin"
                     className="flex items-center relative  text-no-underline text-purple-800 text-lg"
                   >
                     <img
@@ -247,7 +247,7 @@ const [loading, setLoading] = useState(true);
                     />
                   </Link>
                   <Link
-                    to="/settings#biodata"
+                    to="/settings/biodata"
                     className="flex items-center relative  no-underline text-purple-800 text-lg"
                   >
                     <img
@@ -279,7 +279,7 @@ const [loading, setLoading] = useState(true);
                     />
                   </Link>
                   <Link
-                    to="/settings#contact"
+                    to="/settings/contact"
                     className="flex items-center relative  no-underline text-purple-800 text-lg"
                   >
                     <img

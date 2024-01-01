@@ -125,6 +125,7 @@ const TransactionPinSettings = () => {
                 {pinInputRefs.map((ref, index) => (
                   <input
                     key={index}
+                    placeholder="*"
                     type="text"
                     className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                     maxLength="1"
@@ -147,6 +148,7 @@ const TransactionPinSettings = () => {
                 {confirmPinInputRefs.map((ref, index) => (
                   <input
                     key={index}
+                    placeholder="*"
                     type="text"
                     className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                     maxLength="1"

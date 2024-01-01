@@ -31,6 +31,9 @@ import Contact from '../pages/Contact';
 import TransactionDetails from '../components/common/TransactionDetails';
 import Documents from '../features/profile/documents';
 import Settings from '../pages/settings';
+import ContactDetail from '../components/contactDetails/contactDetail';
+import BiodataSettings from '../components/biodatasettings/BiodataSettings';
+import TransactionPinSettings from '../components/transactionpinsettings/TransactionPinSettings';
 
 
 const routes = [
@@ -144,6 +147,19 @@ const routes = [
         exact: true,
         component: Settings,
     },
+    
+    {
+        path: '/settings/contact',
+        component: ContactDetail,
+    },
+    {
+        path: '/settings/biodata',
+        component: BiodataSettings,
+    },
+    {
+        path: '/settings/pin',
+        component: TransactionPinSettings,
+    },
     // {
     //   path: "/activity-log",
     //   component: ActivityLog,
@@ -153,6 +169,7 @@ const routes = [
         path: '/transaction-details/:id',
         component: TransactionDetails,
     },
+    
     {
         path: '/buy-airtime',
         component: BuyAirtime,
