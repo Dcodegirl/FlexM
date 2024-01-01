@@ -21,7 +21,6 @@ const Balance = ({}) => {
   const [showAggregator, setShowAggregator] = useState(false);
   const superAgentId = useSelector((state) => state.auth.user.super_agent_id); 
   const is_aggregator = useSelector((state) => state.auth.user.is_aggregator); 
-  console.log('super agent id: ',superAgentId)
 
   const toggleWalletVisibility = () => {
     setShowWallet(!showWallet);
