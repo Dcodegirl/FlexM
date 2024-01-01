@@ -141,7 +141,7 @@
 
 // export default TransactionLog;
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../../utils/axiosInstance';
 import { ThreeDots } from 'svg-loaders-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -202,7 +202,7 @@ export const TransactionLog = ({
 
         (async function getTransactionsLog() {
             try {
-                const res = await axios.get('https://api.cico.ng/api/transactions', {
+                const res = await axios.get('/transactions', {
                     params,
                 });
 
