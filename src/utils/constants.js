@@ -1,15 +1,4 @@
-let path;
-
-if (
-    window.location.href.indexOf('localhost') >= 0 ||
-    window.location.href.indexOf('dev') >= 0
-) {
-    //development server
-    path = 'https://api.cico.ng/api';
-} else {
-    //production server
-    path = 'https://stagging-api.flexdeals.com.ng/api';
-}
+let path = "https://flexmoney.cico.ng/api"
 ////TRANSACTIONCOST////
 export const TRANSACTION_COST = `${path}/transaction-costs/Transfer/agents/{amount}`
 //////AUTH///////
