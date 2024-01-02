@@ -36,7 +36,7 @@ const Header = ({
   bank,
   image,
 }) => {
-  console.log("Current user state:", image);
+  console.log("Current user state:", user);
   const [toggleUser, setToggleUser] = useState(false);
   const name = user ? `${user.first_name} ${user.last_name}` : "User";
   const walletId = user ? user.walletNo : "N/A";
@@ -121,7 +121,6 @@ const [loading, setLoading] = useState(true);
 
         // Set the user info in the state
         setUserInfo(response.data.data);
-        console.log(response.data.data)
 
         // Set loading to false
         setLoading(false);
@@ -157,7 +156,7 @@ const [loading, setLoading] = useState(true);
         </div>
         <div className="flex items-center gap-10">
           <div
-            className={styles.notification}
+            className={`${styles.notification} md:block hidden`}
             onClick={handleToggleNotifications}
           >
             <img
@@ -185,7 +184,7 @@ const [loading, setLoading] = useState(true);
                 }
               </div>
 
-              <div className="flex">
+              <div className="flex items-center">
                 <div className="w-36 pl-6 text-[12px] text-icon-purple uppercase md:block hidden">
                   {name}
                 </div>
@@ -205,7 +204,7 @@ const [loading, setLoading] = useState(true);
                 className={`top-28 right-16 w-72 h-[300px] bg-white shadow-md rounded-lg text-center text-lg absolute z-10`}
                 ref={wrapperRef}
               >
-                <div className="h-1/2 bg-purple-800 p-8 text-white rounded-tl-lg rounded-tr-lg">
+                <div className="h-1/2 bg-color1 p-8 text-white rounded-tl-lg rounded-tr-lg">
                   <img
                     src={userInfo.image || pic}
                     alt="user avatar"
@@ -232,7 +231,7 @@ const [loading, setLoading] = useState(true);
                 </div>
                 <div className="p-5">
                   <Link
-                    to="/settings#pin"
+                    to="/settings/pin"
                     className="flex items-center relative  text-no-underline text-purple-800 text-lg"
                   >
                     <img
@@ -248,7 +247,7 @@ const [loading, setLoading] = useState(true);
                     />
                   </Link>
                   <Link
-                    to="/settings#biodata"
+                    to="/settings/biodata"
                     className="flex items-center relative  no-underline text-purple-800 text-lg"
                   >
                     <img
@@ -280,7 +279,7 @@ const [loading, setLoading] = useState(true);
                     />
                   </Link>
                   <Link
-                    to="/settings#contact"
+                    to="/settings/contact"
                     className="flex items-center relative  no-underline text-purple-800 text-lg"
                   >
                     <img

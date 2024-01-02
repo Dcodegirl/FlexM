@@ -18,6 +18,10 @@ import ForgotConfirm from '../pages/forgotConfirmation';
 import ErrorHandler from '../components/template/ErrorHandler';
 import ForgotTransactionPin from '../pages/ForgotTransactionPin';
 import Settings from '../pages/settings';
+import ContactDetail from '../components/contactDetails/contactDetail';
+import BiodataSettings from '../components/biodatasettings/BiodataSettings';
+import TransactionPinSettings from '../components/transactionpinsettings/TransactionPinSettings';
+
 
 
 
@@ -44,11 +48,13 @@ export const AppRouter = () => {
                 <PublicRoute path='/forgotConfirmation' component={ForgotConfirm} exact />
                 <PublicRoute path='/otpVerification' component={signInOtp} exact />
                 <PrivateRoute path='/' component={Dashboard} />
-                <PrivateRoute path='/settings#biodata' component={Settings} exact/>
+                <PrivateRoute path='/settings' component={Settings} exact/>
+                <PrivateRoute path='/settings/biodata' component={BiodataSettings} exact/>
+                <PrivateRoute path='/settings/contact' component={ContactDetail} exact/>
+                <PrivateRoute path='/settings/pin' component={TransactionPinSettings} exact/>
 
             </Switch>
         </ErrorHandler>
     );
 };
-
 export default AppRouter;

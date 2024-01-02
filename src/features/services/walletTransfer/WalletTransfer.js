@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useReducer } from "react";
-import axios from "axios";
+import axios from "../../../utils/axiosInstance";
 import transferReducer, { initialState } from "./transfer-reducer";
 import { WALLET_TRANSFER } from "../../../utils/constants";
 import WalletTransferForm from "./WalletTransferForm";

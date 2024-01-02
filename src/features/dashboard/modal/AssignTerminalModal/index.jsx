@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../../../utils/axiosInstance";
+import { useToasts } from 'react-toast-notifications';
 
 const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick, selectedTerminalId, setSelectedTerminalId, selectedSerialNumber, setSelectedSerialNumber }) => {
   
   const [terminals, setTerminals] = useState([]);
   const [serials, setSerials] = useState([]);
+  const { addToast } = useToasts();
 
 
   const handleAssignClick = () => {
-    // Perform assignment logic here
-    console.log("Assigned Terminal ID:", selectedTerminalId);
-    console.log("Assigned Serial Number:", selectedSerialNumber);
+    if (!selectedTerminalId || !selectedSerialNumber) {
+      addToast("Please select both Terminal ID and Serial Number", { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+    } else {
 
-    // Trigger the callback to open the confirmation modal
-    onAssignConfirmClick(selectedTerminalId, selectedSerialNumber);
+      // Trigger the callback to open the confirmation modal
+      onAssignConfirmClick(selectedTerminalId, selectedSerialNumber);
 
-    // Close the assign terminal modal
-    onClose();
+      // Close the assign terminal modal
+      onClose();
+    }
   };
 
   useEffect(() => {
