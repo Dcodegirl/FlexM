@@ -12,7 +12,7 @@ const QuickAction = ({ displayModal }) => {
                     <p className="text-deep-green font-medium my-4 text-3xl">Quick Action</p>
                 </div>
 
-                <div className='flex gap-5 w-full mt-8 justify-between' style={{flexWrap: 'wrap'}}>
+                <div className='flex gap-5 w-full mt-8' style={{flexWrap: 'wrap'}}>
                     {quickActionData.map((item, index) => (
                         item.modal ? ( // Check if a modal should be opened
                             <div

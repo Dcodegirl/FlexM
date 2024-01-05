@@ -125,7 +125,7 @@ const Balance = ({}) => {
           </div>
         </div>
         {superAgentId || is_aggregator === 1 && ( // Only render the Aggregator Balance card if superAgentId is not null
-            <div className="p-4 bg-bg-card3 bg-cover bg-no-repeat justify-between flex flex-col gap-10 md:w-full w-[650px] h-[170px] rounded-3xl">
+            <div className="p-4 bg-bg-card3 bg-cover bg-no-repeat justify-between flex flex-col gap-10 md:w-full w-[300px] h-[170px] rounded-3xl">
               <div className="flex justify-between relative">
                 <p className="text-[#F5FFFD] font-extrabold text-2xl">Aggregator Balance</p>
                 <FontAwesomeIcon
