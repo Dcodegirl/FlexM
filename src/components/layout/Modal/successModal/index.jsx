@@ -24,7 +24,7 @@ function SuccessModal() {
               <img src={success} alt="Mail Icon" />
             </div>
             <div className="mb-2 text-center">
-              <p className=" font-extrabold text-2xl text-[#110D26]">Welcome to Fleex Money</p>
+              <p className=" font-extrabold text-2xl text-[#110D26]">Welcome to Flex Monie</p>
             </div>
             <div>
               <p>Congratulations, Your Profile has been created</p>
