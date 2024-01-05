@@ -6,7 +6,7 @@ import svg from "../../assets/images/Upload.svg";
 
 
 
-const BiodataSettings = () => {
+const BiodataSettings = ({ title }) => {
     const idDocumentInputRef = useRef();
     const utilityBillInputRef = useRef();
     const [documentImage, setDocumentImage] = useState('');
@@ -246,6 +246,7 @@ const BiodataSettings = () => {
   };
   return (
     <div>
+            <h2>{title}</h2>
        <div id="biodata">
         {/* Add your biodata form here */}
           <div className="md:p-20 p-5 text-2xl">

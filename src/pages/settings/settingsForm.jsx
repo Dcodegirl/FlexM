@@ -1,36 +1,68 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import ContactDetail from "../../components/contactDetails/contactDetail";
 import BiodataSettings from "../../components/biodatasettings/BiodataSettings";
 import TransactionPinSettings from "../../components/transactionpinsettings/TransactionPinSettings";
+import { Link, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const SettingsForm = () => {
+  const {step} = useParams();
   const biodataRef = useRef('');
-  const [step, setStep] = useState(1);
+  // const [step, setStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState('contact');
   const [tabIndex, setTabIndex] = useState(1);
+  const location = useLocation();
+  const history = useHistory();
+
+  console.log(currentStep);
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const scrollToBiodata = url.searchParams.get('scrollToBiodata') === 'true' || url.hash === '#biodata';
-
-    if (scrollToBiodata && biodataRef.current) {
-      biodataRef.current.scrollIntoView({ behavior: 'smooth' });
+    if(step) {
+      setCurrentStep(step);
     }
-  }, []);
+  },[step]);
 
-  const formTitles = ["Contact Details", "Biodata", "Transaction Pin"];
 
-  const handleStepChange = (newStep) => {
-    setStep(newStep);
-    setTabIndex(newStep);
-  };
+  // useEffect(() => {
+  //   const url = new URL(window.location.href);
+  //   const scrollToBiodata = url.searchParams.get('scrollToBiodata') === 'true' || url.hash === '#biodata';
+
+  //   if (scrollToBiodata && biodataRef.current) {
+  //     biodataRef.current.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  // }, []);
+
+
+  
+  const formTitles = [
+    {
+    name: 'Contact Details',
+    step: 'contact'
+    },
+    {
+      name: 'Bio Data',
+      step: 'biodata'
+    },
+    {
+      name: 'Transaction Pin',
+      step: 'pin'
+    }
+  ];
+
+
+  // const handleStepChange = (newStep) => {
+  //   setStep(newStep);
+  //   setTabIndex(newStep);
+  // };
   
 
   const components = [
-    <ContactDetail />,
-    <BiodataSettings />,
-    <TransactionPinSettings />,
+    <ContactDetail/>,
+    <BiodataSettings/>,
+    <TransactionPinSettings/>,
   ];
+  
 
   return (
     <div className="rounded-lg mt-10 pt-20">
@@ -38,28 +70,40 @@ const SettingsForm = () => {
         <div className="relative pt-1">
           <div className="flex">
             <div className="flex flex-row w-full gap-2 justify-evenly">
-              {formTitles.map((title, index) => (
-                <NavLink
+                            {formTitles.map((d, index) => (
+                <div
                   key={index}
-                  to={`#${title.toLowerCase().replace(/\s/g, '')}`}
-                  onClick={() => handleStepChange(index + 1)}
-                  className={`cursor-pointer ${index === tabIndex - 1
+                  onClick={() => {
+                    setCurrentStep(d.step);
+                    //history.push(`/settings/${d.step}`);
+                  }}
+                  className={`cursor-pointer ${currentStep == d.step
                     ? "text-color1 font-semibold border-b-2 border-color1 pb-2"
                     : "text-[#1F1F1F]"
                   } transition-all ease-in-out duration-300 text-2xl md:w[200px]`}
                 >
-                  {title}
-                </NavLink>
+                  {d.name}
+                </div>
               ))}
+
             </div>
           </div>
         </div>
       </div>
       <div className="flex justify-between">
         <div className="flex flex-col">
-          {components.map((component, index) =>
+          {
+            currentStep == 'contact' && <ContactDetail />
+          }
+          {
+            currentStep == 'biodata' && <BiodataSettings />
+          }
+          {
+            currentStep == 'pin' && <TransactionPinSettings />
+          }
+          {/* {components.map((component, index) =>
             index + 1 === step ? component : null
-          )}
+          )} */}
         </div>
       </div>
     </div>

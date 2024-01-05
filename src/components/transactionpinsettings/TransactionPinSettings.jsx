@@ -4,7 +4,7 @@ import { useToasts } from "react-toast-notifications";
 
 
 
-const TransactionPinSettings = () => {
+const TransactionPinSettings = ({ title }) => {
     const pinInputRefs = [useRef(), useRef(), useRef(), useRef()];
     const confirmPinInputRefs = [useRef(), useRef(), useRef(), useRef()];
     const [pin, setPin] = useState([]);
@@ -116,7 +116,8 @@ const TransactionPinSettings = () => {
 
   return (
     <div>
-      <div className="flex justify-center" id="pin">
+            <h2>{title}</h2>
+      <div className="flex justify-center align-center" id="pin">
            <div className="md:py-20 md:px-40 px-20 text-2xl">
           <div className="flex md:flex-row flex-col md:gap-20 items-center mb-8">
             <div className="flex flex-col my-4 md:my-0">
