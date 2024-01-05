@@ -85,7 +85,7 @@ const UserInfo = () => {
           </div>
 
           <div>
-            <NavLink to='/settings#biodata'>
+            <NavLink to='/settings/biodata'>
               <div className='cursor-pointer flex items-center'>
                 <p className='text-[#FFAC33] text-2xl font-medium'>Proceed</p>
                 <img src={arrowright} alt="" />
