@@ -149,16 +149,16 @@ const routes = [
     },
     
     {
-        path: '/settings/contact',
-        component: ContactDetail,
+        path: '/settings/:step',
+        component: Settings,
     },
     {
-        path: '/settings/biodata',
-        component: BiodataSettings,
+        path: '/settings/:step',
+        component: Settings,
     },
     {
-        path: '/settings/pin',
-        component: TransactionPinSettings,
+        path: '/settings/:step',
+        component: Settings,
     },
     // {
     //   path: "/activity-log",

@@ -48,10 +48,11 @@ export const AppRouter = () => {
                 <PublicRoute path='/forgotConfirmation' component={ForgotConfirm} exact />
                 <PublicRoute path='/otpVerification' component={signInOtp} exact />
                 <PrivateRoute path='/' component={Dashboard} />
-                <PrivateRoute path='/settings' component={Settings} exact/>
-                <PrivateRoute path='/settings/biodata' component={BiodataSettings} exact/>
+                <PrivateRoute path='/settings' component={Settings} />
+                <PrivateRoute path='/settings/:step' component={Settings} />
+                {/* <PrivateRoute path='/settings/biodata' component={BiodataSettings} exact/>
                 <PrivateRoute path='/settings/contact' component={ContactDetail} exact/>
-                <PrivateRoute path='/settings/pin' component={TransactionPinSettings} exact/>
+                <PrivateRoute path='/settings/pin' component={TransactionPinSettings} exact/> */}
 
             </Switch>
         </ErrorHandler>
