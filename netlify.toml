@@ -4,6 +4,5 @@
   status = 200
 
 [build]
-  command = "react-scripts --openssl-legacy-provider build"
-  command = " CI=false npm run build"
+  command = "CI=false react-scripts --openssl-legacy-provider build"
   publish = "build"
