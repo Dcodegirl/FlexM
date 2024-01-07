@@ -5,4 +5,5 @@
 
 [build]
   command = "react-scripts --openssl-legacy-provider build"
+  command = " CI=false npm run build"
   publish = "build"
