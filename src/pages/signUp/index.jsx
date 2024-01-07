@@ -8,7 +8,7 @@ function SignUp() {
     <>
     <div className="h-screen md:p-16 w-full mx-auto bg-[#Fafffd] bg-bg-pattern bg-cover bg-no-repeat">
       <div>
-      <NavHome theme='dark' signUpContent="Sign up to Fleex Money" />
+      <NavHome theme='dark' signUpContent="Sign up to Flex Monie" />
       </div>
       <div>
         <Multistep/>

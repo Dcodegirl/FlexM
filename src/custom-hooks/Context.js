@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export const GlobalContext = createContext();
 
@@ -12,9 +12,32 @@ export const GlobalProvider = ({ children }) => {
     const [state, setState] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
     const [country, setCountry] = useState('');
-    const [selectedState, setSelectedState] = useState('');
-    const [selectedCountry, setSelectedCountry] = useState('');
+    const [selectedState, setSelectedState] = useState({});
+    const [selectedCountry, setSelectedCountry] = useState({});
     const [successModalOpen, setSuccessModalOpen] = useState(false);
+
+    useEffect(() => {
+        // Retrieve values from localStorage when the component mounts
+        const storedCountry = JSON.parse(localStorage.getItem('selectedCountry'));
+        const storedState = JSON.parse(localStorage.getItem('selectedState'));
+    
+        // Set initial values from localStorage or default values
+        setSelectedCountry(storedCountry || {});
+        setSelectedState(storedState || {});
+      }, []);
+    
+      const updateSelectedCountry = (country) => {
+        setSelectedCountry(country);
+        // Store the selected country in localStorage
+        localStorage.setItem('selectedCountry', JSON.stringify(country));
+      };
+    
+      const updateSelectedState = (state) => {
+        setSelectedState(state);
+        // Store the selected state in localStorage
+        localStorage.setItem('selectedState', JSON.stringify(state));
+      };
+    
 
     return (
         <GlobalContext.Provider
@@ -30,7 +53,9 @@ export const GlobalProvider = ({ children }) => {
                 selectedState, setSelectedState,
                 selectedCountry, setSelectedCountry,
                 country, setCountry,
-                state, setState
+                state, setState,
+                updateSelectedCountry,
+               updateSelectedState,
                 }}>
             {children}
         </GlobalContext.Provider>

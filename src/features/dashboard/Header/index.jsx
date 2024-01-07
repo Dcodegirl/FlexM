@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import { startLogout } from "../../../actions/auth";
@@ -174,7 +174,7 @@ const [loading, setLoading] = useState(true);
                 {
 
                   <img
-                    className="w-[30px] h-[30px] top-8 ml-2"
+                    className="w-[30px] h-[30px] top-8 ml-2 rounded-full"
                     src={userInfo.image || pic}
                     alt="User silhoutte"
                     onClick={() => {
@@ -204,11 +204,11 @@ const [loading, setLoading] = useState(true);
                 className={`top-28 right-16 w-72 h-[300px] bg-white shadow-md rounded-lg text-center text-lg absolute z-10`}
                 ref={wrapperRef}
               >
-                <div className="h-1/2 bg-color1 p-8 text-white rounded-tl-lg rounded-tr-lg">
+                <div className="h-1/2 bg-color1 p-8 text-white rounded-tl-lg rounded-tr-lg ">
                   <img
                     src={userInfo.image || pic}
                     alt="user avatar"
-                    className="block mx-auto w-10 rounded-full"
+                    className="block mx-auto w-10 h-10 rounded-full"
                   />
                   {/* <span className='my-4 flex items-center justify-center'>
                                         {name}
@@ -231,7 +231,7 @@ const [loading, setLoading] = useState(true);
                 </div>
                 <div className="p-5">
                   <Link
-                    to="/settings"
+                    to="/settings/pin"
                     className="flex items-center relative  text-no-underline text-purple-800 text-lg"
                   >
                     <img
@@ -247,7 +247,7 @@ const [loading, setLoading] = useState(true);
                     />
                   </Link>
                   <Link
-                    to="/settings"
+                    to="/settings/biodata"
                     className="flex items-center relative  no-underline text-purple-800 text-lg"
                   >
                     <img
@@ -279,7 +279,7 @@ const [loading, setLoading] = useState(true);
                     />
                   </Link>
                   <Link
-                    to="settings"
+                    to="/settings/contact"
                     className="flex items-center relative  no-underline text-purple-800 text-lg"
                   >
                     <img
@@ -314,9 +314,9 @@ const [loading, setLoading] = useState(true);
           </div>
           {/* welcome */}
           <div className="md:hidden flex gap-9">
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
               <div>
-              <img src={userInfo.image || pic} alt="" className='w-20 rounded-full' />
+              <img src={userInfo.image || pic} alt="" className='w-20 h-20 rounded-full' />
 
                 <img src={image} alt="user pic" className="w-[20px] md:hidden lg:block hidden" />
               </div>
