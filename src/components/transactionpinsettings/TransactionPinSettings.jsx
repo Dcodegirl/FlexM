@@ -115,8 +115,8 @@ const TransactionPinSettings = ({ title }) => {
   };
 
   return (
-    <div>
-            <h2>{title}</h2>
+    <div className="flex md:flex-row flex-col">
+              <div className="md:w-[200px] w-0"></div>
       <div className="flex justify-center align-center" id="pin">
            <div className="md:py-20 md:px-40 px-20 text-2xl">
           <div className="flex md:flex-row flex-col md:gap-20 items-center mb-8">

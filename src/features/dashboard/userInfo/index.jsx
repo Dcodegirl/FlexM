@@ -41,7 +41,7 @@ const UserInfo = () => {
       <div className='justify-between w-full md:flex hidden'>
         <div className='flex gap-2 items-center'>
           <div>
-            <img src={userData?.image || profile} alt="" className='w-20 rounded-full' />
+            <img src={userData?.image || profile} alt="" className='w-20 h-20 rounded-full' />
           </div>
           <div className='flex flex-col'>
             <div className='flex gap-3 items-center p-2 rounded-3xl'>
@@ -85,7 +85,7 @@ const UserInfo = () => {
           </div>
 
           <div>
-            <NavLink to='/settings#biodata'>
+            <NavLink to='/settings/biodata'>
               <div className='cursor-pointer flex items-center'>
                 <p className='text-[#FFAC33] text-2xl font-medium'>Proceed</p>
                 <img src={arrowright} alt="" />
