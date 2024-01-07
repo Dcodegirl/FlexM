@@ -18,7 +18,7 @@ export const PrivateRoute = ({
         });
     });
 
-    //authMiddleware();
+    authMiddleware();
 
     return (
         <Route

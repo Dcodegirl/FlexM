@@ -70,7 +70,7 @@ const ViewAgent = () => {
     const fetchData = async () => {
         try {
             // Replace 'searchInput' with the actual state or variable containing the search value
-            const data = await AgentTransactionData(agent_id, "");
+            const data = await AgentTransactionData();
             setTransactions(data);
             setNoResults(data.length === 0);  // Set noResults state based on data length
             setLoading(false)
@@ -182,7 +182,7 @@ const ViewAgent = () => {
                         </div>
 
                         {transactions.length === 0 ? (
-                            <p className="text-red-500 text-center mt-4 text-xl">No agents found with the specified business name.</p>
+                            <p className="text-red-500 text-center mt-4 text-xl">No transactions.</p>
                         ) : (
                             transactions.map((transaction, index) => (
                                 <div key={index} className={`grid grid-cols-8 grid-rows-1 p-8 font-medium text-xl ${index % 2 === 0 ? 'bg-white' : 'bg-[#F1F1F1]'}`}>
