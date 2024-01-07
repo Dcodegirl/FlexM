@@ -24,67 +24,7 @@ const SettingsForm = () => {
   },[step]);
 
 
-  const handleUserBioData = async () => {
-    setLoading(true);
-  
-    // Check if the utility image size is more than 3MB
-    
-    // Check if the document image size is more than 3MB
-     if (documentImage && documentImage.size > 3 * 1024 * 1024) {
-      // Display an error toast notification
-      addToast("Document image size should not exceed 3MB", {
-        appearance: "error",
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
-      setLoading(false);
-      return;
-    }
-     // Check if selectedDocument is empty when documentImage is uploaded
-  else if (!selectedDocument && documentImage) {
-    addToast("Means of ID type is required to change Means of ID", {
-      appearance: "error",
-      autoDismiss: true,
-      autoDismissTimeout: 3000, // milliseconds
-    });
-    setLoading(false);
-    return;
-  }
-    // If neither utilityImage nor documentImage exceeds 3MB, proceed with the API request
-    else {
-      const bio = new FormData();
-      bio.append("business_address", docUploadPayload);
-      bio.append("guarantor_file", guarantorSelect || '');
-      bio.append("utility_image", utilityImage || '');
-      bio.append("document_type", selectedDocument);
-      bio.append("document_image", documentImage || '');
-      bio.append("country", selectedCountry || '');
-      bio.append("state", selectedState || '');
-  
-      try {
-
-        let data = await axios.post("/agent/bio-data", bio);
-        if (data.status === 200) {
-          addToast("Biodata updated successfully!", {
-            appearance: "success",
-            autoDismiss: true,
-            autoDismissTimeout: 3000, // milliseconds
-          });
-          setLoading(false);
-        }
-      } catch (error) {
-        addToast("An error occurred", {
-          appearance: "error",
-          autoDismiss: true,
-          autoDismissTimeout: 3000, // milliseconds
-        });
-        setLoading(false);
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
+ 
   
 
   

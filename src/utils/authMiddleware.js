@@ -1,8 +1,9 @@
+// authMiddleware.js
 import axios from './axiosInstance';
 import { startLogout } from '../actions/auth';
 import store from '../store/configureStore';
 import history from '../utils/history';
-// import addToast from './toastUtils';// Import the addToast function from the utility file
+import SessionExpired from '../components/template/sessionExpired';
 
 const { dispatch } = store();
 
@@ -14,12 +15,9 @@ export const authMiddleware = () => {
     (error) => {
       if (error.response && error.response.status === 401) {
         dispatch(startLogout());
-        // addToast("Active Session expired, please log in to continue", {
-        //   appearance: 'error',
-        //   autoDismiss: true,
-        //   autoDismissTimeout: 3000,
-        // });
-        window.location.replace('/login');
+        // Redirect to SessionExpired component
+        history.push('/session-expired');
+        return Promise.resolve({ data: {} }); // Resolve the promise to prevent the default error handling
       }
       return Promise.reject(error);
     }
