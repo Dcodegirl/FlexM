@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useToasts } from 'react-toast-notifications';
 import axios from "../../../../utils/axiosInstance";
+import MockAdapter from 'axios-mock-adapter';
 
 const PersonalDetails = () => {
   const { addToast } = useToasts();
@@ -145,7 +146,21 @@ const PersonalDetails = () => {
     }
   };
 
+  // const mock = new MockAdapter(axios);
 
+  // const simulateError = async () => {
+  //   // Mock a 401 error for the specified route
+  //   mock.onGet('/api/data').reply(401);
+
+  //   try {
+  //     // Make a request to the route that will now trigger a simulated 401 error
+  //     const response = await axios.get('/api/data');
+  //     console.log('Simulated Error Response:', response);
+  //   } catch (error) {
+  //     console.error('Simulated Error:', error);
+  //     // Your middleware should handle the 401 error here
+  //   }
+  // };
   return (
     <div>
       <form >

@@ -24,15 +24,8 @@ const SettingsForm = () => {
   },[step]);
 
 
-  // useEffect(() => {
-  //   const url = new URL(window.location.href);
-  //   const scrollToBiodata = url.searchParams.get('scrollToBiodata') === 'true' || url.hash === '#biodata';
-
-  //   if (scrollToBiodata && biodataRef.current) {
-  //     biodataRef.current.scrollIntoView({ behavior: 'smooth' });
-  //   }
-  // }, []);
-
+ 
+  
 
   
   const formTitles = [

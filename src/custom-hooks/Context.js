@@ -11,6 +11,7 @@ export const GlobalProvider = ({ children }) => {
     const [lga, setLga] = useState('');
     const [state, setState] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
+    const [userInfoArray, setUserInfoArray] = useState([]);
     const [country, setCountry] = useState('');
     const [selectedState, setSelectedState] = useState({});
     const [selectedCountry, setSelectedCountry] = useState({});
@@ -37,6 +38,10 @@ export const GlobalProvider = ({ children }) => {
         // Store the selected state in localStorage
         localStorage.setItem('selectedState', JSON.stringify(state));
       };
+      const updateUserInfoArray = (userInfo) => {
+        // Update the user information array in the state
+        setUserInfoArray(userInfo);
+    };
     
 
     return (
@@ -54,6 +59,7 @@ export const GlobalProvider = ({ children }) => {
                 selectedCountry, setSelectedCountry,
                 country, setCountry,
                 state, setState,
+                userInfoArray, updateUserInfoArray,
                 updateSelectedCountry,
                updateSelectedState,
                 }}>
