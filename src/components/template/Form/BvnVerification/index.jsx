@@ -95,7 +95,7 @@ function BvnVerifi({ nextStep }) {
                     className="h-10 w-10"
                   />
                   <div className='flex'>
-                    <p className="block text-deep-green text-sm">Dial *342*0# on your registered phone number to get your BVN</p>
+                    <p className="block text-deep-green text-sm">Dial *565*0# on your registered phone number to get your BVN</p>
                   </div>
                 </div>
               </div>
