@@ -1,16 +1,20 @@
+
 import React from 'react';
-import { NavLink, useHistory} from "react-router-dom";
-import { useGlobalContext } from '../../../../custom-hooks/Context'; 
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import { useGlobalContext } from '../../../../custom-hooks/Context';
 import mail from '../../../../assets/images/mailIcon.svg';
 
 function ForgotConfirmation() {
-    const { email, setEmail } = useGlobalContext();
+    const { email: globalEmail } = useGlobalContext();
     const history = useHistory();
-
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const email = queryParams.get('email') || globalEmail
+    
     const handleResetBtn = async () => {
         try {
             // Assuming the API request is successful, navigate to otpVerification
-            history.push('/resetPassword');
+            history.push('/forgotPassword');
         } catch (error) {
             // Handle API request error here
             console.error('API request error:', error);
@@ -34,14 +38,14 @@ function ForgotConfirmation() {
                                     <p>We sent a password reset link to <span className='text-deep-green font-semibold'>{email}</span></p>
                                 </div>
                                 <div className='flex justify-center mt-4'>
-                                    <button
+                                    {/* <button
                                         className="bg-color1  border rounded-lg h-14 w-full text-white mx-auto"
                                     >
                                         Check Email
-                                    </button>
+                                    </button> */}
                                 </div>
                                 <div className="flex justify-center mt-4">
-                                    <p>Didn’t receive the email?<span className="text-color1">  Click to resend</span></p>
+                                    <p>Didn’t receive the email?  <span className="text-color1 px-3" onClick={handleResetBtn}> Click to resend</span></p>
                                 </div>
                                 <div className='flex justify-center mt-6'>
                                     <NavLink to="/signin"><p className='text-gray-500 text-xl font-xl'><i className="fa-solid fa-left-long px-4"></i>Back to Login</p></NavLink>

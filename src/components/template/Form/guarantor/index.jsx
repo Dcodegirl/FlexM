@@ -10,7 +10,7 @@ function Guarantor() {
 
     const downloadForm = () => {
         // Replace with the actual URL of the form document to be downloaded
-        const formDocumentURL = '/path-to-your-form-document.pdf';
+        const formDocumentURL = '../../Form/GUARANTOR form.pdf';
         window.open(formDocumentURL);
       };
     const handleFileChange = (event) => {
@@ -62,6 +62,7 @@ function Guarantor() {
                                     className="bg-[#BEFEE9] py-2 px-4 mt-2 rounded-md text-deep-green"
                                     onClick={downloadForm}
                                 >
+                                    
                                     Download
                                 </button>
                                 </div>

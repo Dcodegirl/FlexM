@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { RESET_PASSWORD, FORGOT_PASSWORD } from '../utils/constants';
 import { useToasts } from 'react-toast-notifications';
-import appLogo from '../assets/images/cico-logo.svg';
+import appLogo from '../assets/images/flexbycico.svg';
 
 import styles from './ForgotPassword.module.scss';
 import { NavLink } from 'react-router-dom';

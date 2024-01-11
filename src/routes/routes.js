@@ -2,6 +2,7 @@ import AddUser from '../features/users/AddUser';
 import Users from '../features/users/index';
 import FundWallet from '../features/services/fundWallet/FundWallet';
 import FundsTransfer from '../features/services/transfer/index';
+import MainFundTransferPage from '../features/services/transfer/MainFundTransferPage';
 import BuyAirtime from '../features/services/airtime/index';
 import ElectricityPayment from '../features/services/electricity/index';
 import BuyData from '../features/services/data/index';
@@ -192,6 +193,7 @@ const routes = [
     },
     {
         path: '/transfer',
+        // component: MainFundTransferPage,
         component: FundsTransfer,
     },
     {
