@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ThreeDots } from 'svg-loaders-react';
 import { useToasts } from 'react-toast-notifications';
 import { connect } from 'react-redux';
-import logo from '../../assets/images/cico-logo.svg';
+import logo from '../../assets/images/flexbycico.svg';
 import Form from '../../components/common/Form';
 import FormGroup from '../../components/common/FormGroup';
 import Input from '../../components/common/Input';

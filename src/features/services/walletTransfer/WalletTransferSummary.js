@@ -4,7 +4,7 @@ import { ThreeDots } from "svg-loaders-react";
 import formatToCurrency from "../../../utils/formatToCurrency";
 import Submit from "../../../components/common/Button";
 
-import logo from "../../../assets/images/cico-logo.svg";
+import logo from "../../../assets/images/flexbycico.svg";
 
 import back from "../../../assets/images/left-arrow.svg";
 import info from "../../../assets/images/tooltip-icon.svg";

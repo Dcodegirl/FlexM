@@ -14,6 +14,7 @@ export const quickActionData = [
       icon: transfer,
       text: 'Transfer',
       bg: '#efeafb',
+      // modal: null
       modal: 'fundsTransfer',
     },
     {

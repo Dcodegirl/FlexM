@@ -45,7 +45,6 @@ export const FundsTransferForm = (props) => {
                     const res = await axios.post(VERIFY_ACCOUNT, payload);
 
                     const accountName = res.data.data.Data.name;
-
                     if (accountName == 'ERROR') throw new Error();
 
                     dispatch({

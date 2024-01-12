@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { RESET_TRANSACTION_PIN, FORGOT_TRANSACTION_PIN, REGENERATE_TRANSACTION_PIN } from '../utils/constants';
 import { useToasts } from 'react-toast-notifications';
-import appLogo from '../assets/images/cico-logo.svg';
+import appLogo from '../assets/images/flexbycico.svg';
 import styles from './ForgotTransactionPin.module.scss';
 import { NavLink } from 'react-router-dom';
 
