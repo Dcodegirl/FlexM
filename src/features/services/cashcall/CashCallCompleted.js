@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import formatToCurrency from "../../../../util/formatToCurrency";
 import check from "../../../../assets/images/check.svg";
-import logo from "../../../../assets/images/cico-logo.svg";
+import logo from "../../../../assets/images/flexbycico.svg";
 
 import styles from "./CashCallCompleted.module.scss";
 

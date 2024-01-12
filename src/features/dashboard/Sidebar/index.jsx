@@ -42,7 +42,7 @@ export const Sidebar = ({ agentType, superAgentId, is_aggregator }) => {
             setIsOpen(!isOpen);
           }}
         >
-          <img src={toggleIcon} alt="" className='h-12 w-12' />
+          <img src={toggleIcon} alt="" className='h-12 w-12 mt-6' />
         </div>
         {isOpen && (
           <div

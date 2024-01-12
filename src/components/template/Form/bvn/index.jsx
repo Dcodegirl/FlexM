@@ -4,13 +4,15 @@ import { useGlobalContext } from '../../../../custom-hooks/Context';
 import { useToasts } from 'react-toast-notifications';
 
 function Contact({ nextStep }) {
-  const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, phoneNum } = useGlobalContext();
+  const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, updateBvnPhoneNum } = useGlobalContext();
   const { addToast } = useToasts();
 
   const [timeLeft, setTimeLeft] = useState(600);
   const [bvn, setBvn] = useState(["", "", "", "", "", ""]);
   const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  
+  const updatedBvnPhoneNum = updateBvnPhoneNum();
 
   const handleBvnChange = (index, value) => {
     if (value >= 0 && value <= 9) {
@@ -119,7 +121,7 @@ function Contact({ nextStep }) {
   const handleResendOtp = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('/onboarding/resend', { phone: phoneNum });
+      const response = await axios.post('/onboarding/resend', { phone: updatedBvnPhoneNum });
       const responseData = response.data;
 
       if (responseData.status === 'Successful') {
@@ -144,7 +146,7 @@ function Contact({ nextStep }) {
         <div className="md:p-16 py-16 px-8 md:bg-bg-green md:border-border-primary bg-white border-white rounded-3xl border">
           <div className="text-deep-green font-bold text-center">
             <p className='text-2xl'>Verify your BVN</p>
-            <p className="text-gray-500 text-xl font-thin w-[360px]">we sent OTP to the number attached to your BVN {phoneNum}</p>
+            <p className="text-gray-500 text-xl font-thin w-[360px]">we sent OTP to the number attached to your BVN {updatedBvnPhoneNum}</p>
           </div>
           <div className='w-[350px] mt-6 flex items-center justify-center'>
             <form onSubmit={handleSubmit} className=''>

@@ -23,7 +23,8 @@ module.exports = {
         'btn-purple': '#173C68',
         'color1': '#1F1474',
         'color2': '#800D8E',
-        'border-primary': '#B640EE1F'
+        'border-primary': '#B640EE1F',
+        'global-light': '#ECE9FC'
       },
       backgroundImage: {
         'bg-pattern': "url('https://ik.imagekit.io/jumzeey/pattern%20blue_UXHEh5VMB.svg?updatedAt=1701854252935')",

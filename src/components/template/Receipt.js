@@ -1,6 +1,6 @@
 import formatToCurrency from "../../../utils/formatToCurrency";
 
-import logo from "../../../assets/images/cico-logo.svg";
+import logo from "../../../assets/images/flexbycico.svg";
 import success from "../../../assets/images/circle-check.svg";
 import printIcon from "../../../assets/images/printer-print.svg";
 import whatsappIcon from "../../../assets/images/whatsapp.svg";

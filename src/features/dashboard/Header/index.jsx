@@ -363,7 +363,7 @@ const Header = ({
             <div className="">
               <img
                 src={arrowdown}
-                className="w-4 cursor-pointer"
+                className="w-4 cursor-pointer mt-4"
                 onClick={() => {
                   setToggleUser(!toggleUser);
                 }}
