@@ -10,6 +10,7 @@ export const GlobalProvider = ({ children }) => {
     const [address, setAddress] = useState('');
     const [lga, setLga] = useState('');
     const [state, setState] = useState('');
+    const [bvnPhoneNum, setBvnPhoneNum] = useState('')
     const [phoneNum, setPhoneNum] = useState('');
     const [country, setCountry] = useState('');
     const [selectedState, setSelectedState] = useState({});
@@ -37,6 +38,10 @@ export const GlobalProvider = ({ children }) => {
         // Store the selected state in localStorage
         localStorage.setItem('selectedState', JSON.stringify(state));
       };
+      const updateBvnPhoneNum = (newBvnPhoneNum) => {
+        setBvnPhoneNum(newBvnPhoneNum);
+    };
+
     
 
     return (
@@ -49,6 +54,7 @@ export const GlobalProvider = ({ children }) => {
                 lastname, setLastname,
                 lga, setLga,
                 address, setAddress,
+                bvnPhoneNum, updateBvnPhoneNum,
                 phoneNum, setPhoneNum,
                 selectedState, setSelectedState,
                 selectedCountry, setSelectedCountry,

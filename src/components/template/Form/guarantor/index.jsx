@@ -9,9 +9,14 @@ function Guarantor() {
     const [uploadProgress, setUploadProgress] = useState(0);
 
     const downloadForm = () => {
-        // Replace with the actual URL of the form document to be downloaded
-        const formDocumentURL = '../../Form/GUARANTOR form.pdf';
-        window.open(formDocumentURL);
+        const fileUrl = process.env.PUBLIC_URL + '/GUARANTOR form.pdf';
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = 'GUARANTOR form.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    
       };
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];

@@ -14,6 +14,8 @@ const MainFundTransferPage = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [suggestedBanks, setSuggestedBanks] = useState([]);
   const [selectedBank, setSelectedBank] = useState("");
+  const [bankSelected, setBankSelected] = useState(false);
+
 
 
 
@@ -32,13 +34,26 @@ const MainFundTransferPage = () => {
     }
   };
 
+ 
   const handleBankSelected = (bankCode) => {
-    // Set the selected bank
-    setSelectedBank(bankCode);
+  // Set the selected bank
+  setSelectedBank(bankCode);
 
-    // Move to the next step
-    handleNextButtonClick();
-  };
+  // Close the popup
+  setPopupVisible(false);
+
+  // Set the bankSelected state to true
+  setBankSelected(true);
+};
+
+
+  useEffect(() => {
+    if (bankSelected) {
+      // Move to the next step
+      handleNextButtonClick();
+    }
+  }, [bankSelected]);
+
   useEffect(() => {
     if (step === 1 && userInput.length === 10) {
       // Fetch banks and show popup

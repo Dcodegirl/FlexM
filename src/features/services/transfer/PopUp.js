@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import bank from "../../../assets/images/mdi_bank.png";
+import SearchInputPopup from "./SearchInputPopup";
 
-const Popup = ({ isVisible, suggestedBanks, onClose, onBankSelected }) => {
+const Popup = ({ isVisible, suggestedBanks, onClose, onBankSelected, onSearch }) => {
   const [selectedBank, setSelectedBank] = useState("");
+  const [searchPopupVisible, setSearchPopupVisible] = useState(false);
 
   const handleCheckboxChange = (bankCode) => {
     setSelectedBank(bankCode);
@@ -11,6 +13,10 @@ const Popup = ({ isVisible, suggestedBanks, onClose, onBankSelected }) => {
   const handleBankSelection = () => {
     onBankSelected(selectedBank);
     onClose();
+  };
+
+  const handleSearchButtonClick = () => {
+    setSearchPopupVisible(true);
   };
 
   return (
@@ -23,7 +29,7 @@ const Popup = ({ isVisible, suggestedBanks, onClose, onBankSelected }) => {
 
             <ul>
               {suggestedBanks.map((bank) => (
-                <li key={bank.bankcode} className="mb-2">
+                <li key={bank.bankcode} className="mb-2 cursor-pointer">
                   <label className="flex justify-between items-center">
                     {bank.bankName}
                     <input
@@ -37,6 +43,14 @@ const Popup = ({ isVisible, suggestedBanks, onClose, onBankSelected }) => {
                 </li>
               ))}
             </ul>
+
+            <button
+              onClick={handleSearchButtonClick}
+              className="bg-color1 text-white rounded-lg h-12 w-full mt-4"
+            >
+              Search Banks
+            </button>
+
             <button
               onClick={handleBankSelection}
               className="flex gap-4 items-center bg-global-gray rounded-lg p-4 m-6 text-center"
@@ -47,6 +61,12 @@ const Popup = ({ isVisible, suggestedBanks, onClose, onBankSelected }) => {
           </div>
         </div>
       )}
+
+      <SearchInputPopup
+        isVisible={searchPopupVisible}
+        onClose={() => setSearchPopupVisible(true)}
+        onSearch={onSearch}
+      />
     </div>
   );
 };
