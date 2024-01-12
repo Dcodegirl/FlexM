@@ -25,6 +25,7 @@ import profile from "../../../assets/images/profileImage.png";
 import moon from "../../../assets/icons/moon.svg";
 import styles from "./Header.module.scss";
 import axios from "../../../utils/axiosInstance";
+import { useGlobalContext } from "../../../custom-hooks/Context";
 
 const Header = ({
   currentPage,
@@ -45,6 +46,7 @@ const Header = ({
   const wrapperRef = useRef(null);
   const { addToast } = useToasts();
   const currentDate = new Date();
+  const { updateUserInfoArray } = useGlobalContext();
 
   const currentHour = currentDate.getHours();
 
@@ -82,7 +84,8 @@ const Header = ({
 
   // },[])
   const [userInfo, setUserInfo] = useState('');
-const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+
 
   const handleToggleNotifications = () => {
     notifications.forEach((notification) => {
@@ -121,6 +124,8 @@ const [loading, setLoading] = useState(true);
 
         // Set the user info in the state
         setUserInfo(response.data.data);
+        updateUserInfoArray(response.data.data);
+        
 
         // Set loading to false
         setLoading(false);
@@ -135,7 +140,6 @@ const [loading, setLoading] = useState(true);
     // Call the fetchUserInfo function
     fetchUserInfo();
   }, []);
-
   return (
     <header className={`flex md:justify-end bg-white h-full justify-between py-6 md:my-0`}>
       <div
@@ -316,7 +320,7 @@ const [loading, setLoading] = useState(true);
           <div className="md:hidden flex gap-9">
             <div className="flex gap-3 items-center">
               <div>
-              <img src={userInfo.image || pic} alt="" className='w-20 h-20 rounded-full' />
+                <img src={userInfo.image || pic} alt="" className='w-20 h-20 rounded-full' />
 
                 <img src={image} alt="user pic" className="w-[20px] md:hidden lg:block hidden" />
               </div>

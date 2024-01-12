@@ -11,6 +11,7 @@ import Register from '../pages/createAgent/index';
 import SignUp from '../pages/signUp'
 import signIn from '../pages/signIn';
 import ForgotWord from '../pages/forgotPass';
+import SessionExpired from '../components/template/sessionExpired';
 import PasswordSet from '../pages/PasswordSet';
 import signInOtp from '../pages/signInOtp';
 import Pin from '../pages/Pin';
@@ -47,6 +48,7 @@ export const AppRouter = () => {
                 <PublicRoute path='/passwordSet' component={PasswordSet} exact />
                 <PublicRoute path='/forgotConfirmation' component={ForgotConfirm} exact />
                 <PublicRoute path='/otpVerification' component={signInOtp} exact />
+                <PublicRoute path='/session-expired' component={SessionExpired} exact />
                 <PrivateRoute path='/' component={Dashboard} />
                 <PrivateRoute path='/settings' component={Settings} />
                 <PrivateRoute path='/settings/:step' component={Settings} />

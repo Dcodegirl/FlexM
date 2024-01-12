@@ -10,6 +10,7 @@ const Users = () => {
   const [totalCashout, setTotalCashout] = useState({ amount: 0, growth_rate: 0 });
   const [totalDeposit, setTotalDeposit] = useState({ amount: 0, growth_rate: 0 });
   const [transactions, setTransactions] = useState([]);
+  const [currentPage, setCurrentPage] = useState('commissionWallet');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +55,7 @@ const Users = () => {
         currentGrowthRate={currentBalance.growth_rate}
         totalCashoutGrowthRate={totalCashout.growth_rate}
         totalDepositGrowthRate={totalDeposit.growth_rate}
+        currentPage={currentPage}
       />
       <WalletLogs transactions={transactions} />
     </div>

@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from "../../../utils/axiosInstance";
 import { useSelector } from 'react-redux';
+import { useGlobalContext } from "../../../custom-hooks/Context";
 // import styles from "./Balance.module.scss";
 
 
@@ -21,7 +22,7 @@ const Balance = ({}) => {
   const [showAggregator, setShowAggregator] = useState(false);
   const superAgentId = useSelector((state) => state.auth.user.super_agent_id); 
   const is_aggregator = useSelector((state) => state.auth.user.is_aggregator); 
-  console.log('super agent id: ',superAgentId)
+  const { userInfoArray } = useGlobalContext();
 
   const toggleWalletVisibility = () => {
     setShowWallet(!showWallet);
@@ -35,32 +36,46 @@ const Balance = ({}) => {
     setShowAggregator(!showAggregator);
   };
 
-  useEffect(() => {
-    // Fetch wallet balance
-    const fetchWalletBalance = async () => {
-      try {
-        const response = await axios.get("/main/balance");
-        setWalletBalance(response.data.data);
-      } catch (error) {
-        console.error("Error fetching wallet balance:", error);
-      }
-    };
+  // useEffect(() => {
+  //   // Fetch wallet balance
+  //   const fetchWalletBalance = async () => {
+  //     try {
+  //       const response = await axios.get("/main/balance");
+  //       setWalletBalance(response.data.data);
+  //     } catch (error) {
+  //       console.error("Error fetching wallet balance:", error);
+  //     }
+  //   };
 
-    // Fetch commission balance
-    const fetchCommissionBalance = async () => {
-      try {
-        const response = await axios.get("/commission/balance");
-        setCommissionBalance(response.data.data);
-      } catch (error) {
-        console.error("Error fetching commission balance:", error);
-      }
-    };
+  //   // Fetch commission balance
+  //   const fetchCommissionBalance = async () => {
+  //     try {
+  //       const response = await axios.get("/commission/balance");
+  //       setCommissionBalance(response.data.data);
+  //     } catch (error) {
+  //       console.error("Error fetching commission balance:", error);
+  //     }
+  //   };
 
-    // Call the functions to fetch balances
-    fetchWalletBalance();
-    fetchCommissionBalance();
-  }, []); 
+  //   // Call the functions to fetch balances
+  //   fetchWalletBalance();
+  //   fetchCommissionBalance();
+  // }, []); 
  
+  useEffect(() => {
+    // Fetch wallet balance and commission balance from userInfoArray
+    const fetchBalancesFromUserInfo = () => {
+      const walletBalanceFromInfo = userInfoArray?.wallet?.current_bal;
+      const commissionBalanceFromInfo = userInfoArray?.commission?.current_commission;
+  
+      setWalletBalance(walletBalanceFromInfo);
+      setCommissionBalance(commissionBalanceFromInfo);
+    };
+  
+    // Call the function to fetch balances from userInfoArray
+    fetchBalancesFromUserInfo();
+  }, [userInfoArray]);
+  
  
   const balanceContent = showWallet ? (
     <span>₦{formatToCurrency(walletBalance)}</span>
@@ -79,7 +94,7 @@ const Balance = ({}) => {
   );
 
   
-
+console.log('user info array context', userInfoArray)
   return (
     <>
     <div>

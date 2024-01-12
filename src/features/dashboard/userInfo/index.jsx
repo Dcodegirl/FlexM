@@ -80,7 +80,7 @@ const UserInfo = () => {
 
             <div className='flex flex-col gap-5'>
               <p className='text-[#331E00] font-extrabold'>KYC Update</p>
-              <p className='text-[#111023] text-xl'>You’re yet to finish up your registrations. You will need to update your image, biodata and get verified.</p>
+              <p className='text-[#111023] text-xl'>You’re yet to finish up your registrations. You will need to upload your <span className='font-bold'>guarantor form in biodata settings</span>, <span className='font-bold'>create a new pin in pin settings</span>  and get verified.</p>
             </div>
           </div>
 
