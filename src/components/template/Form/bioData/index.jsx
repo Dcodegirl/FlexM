@@ -110,14 +110,55 @@ function Document({ nextStep }) {
             console.log('BioData submitted successfully:', response.data);
             setSuccessModalOpen(true);
         } catch (error) {
-            console.error('Error submitting BioData:', error);
+        console.error('Error submitting BioData:', error);
+
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            const { data, status } = error.response;
+
+            if (status === 400) {
+                // Specific error handling for bad requests (status code 400)
+                addToast(`Bad Request: ${data.message}`, {
+                    appearance: 'error',
+                    autoDismiss: true,
+                    autoDismissTimeout: 3000,
+                });
+            } else if (status === 401) {
+                // Specific error handling for unauthorized requests (status code 401)
+                addToast('Unauthorized: Please log in and try again.', {
+                    appearance: 'error',
+                    autoDismiss: true,
+                    autoDismissTimeout: 3000,
+                });
+            } else {
+                // Generic error message for other status codes
+                addToast('Error submitting BioData. Please try again.', {
+                    appearance: 'error',
+                    autoDismiss: true,
+                    autoDismissTimeout: 3000,
+                });
+            }
+        } else if (error.request) {
+            // The request was made but no response was received
+            console.error('API request made, but no response received:', error.request);
             addToast('Error submitting BioData. Please try again.', {
                 appearance: 'error',
                 autoDismiss: true,
-                autoDismissTimeout: 3000, // milliseconds
-              });
+                autoDismissTimeout: 3000,
+            });
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error setting up the API request:', error.message);
+            addToast('Error submitting BioData. Please try again.', {
+                appearance: 'error',
+                autoDismiss: true,
+                autoDismissTimeout: 3000,
+            });
         }
-    };
+    } finally {
+        setLoading(false);
+    }
+};
 
     return (
         <>

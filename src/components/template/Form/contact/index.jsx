@@ -96,9 +96,9 @@ const Contact = ({ nextStep }) => {
               addToast(`${errorMessage}`, { appearance: 'error', autoDismiss: true,
               autoDismissTimeout: 3000, });
             });
-          } else {
+          } else if(status === 400 && data && data.message) {
             // If the error response does not contain 'errors' field, display a generic error message
-            addToast(`An unexpected error occurred.`, 
+            addToast(`${data.message}`, 
             { 
               appearance: 'error',
               autoDismiss: true,
