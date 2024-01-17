@@ -49,12 +49,50 @@ export const Profile = ({ agentData, changeCurrentPage, displayModal }) => {
                         autoDismissTimeout: 3000 
                     });
                 }
-            } catch (e) {
-                addToast('An error occurred', {
-                    appearance: 'error',
-                    autoDismiss: true, 
-                    autoDismissTimeout: 3000 
-                });
+            } catch (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    const { data, status } = error.response;
+    
+                    if (data && data.errors) {
+                        // If the error response contains 'errors' field, display each error in a separate toast
+                        Object.values(data.errors).flat().forEach(errorMessage => {
+                            addToast(`${errorMessage}`, {
+                                appearance: 'error',
+                                autoDismiss: true,
+                                autoDismissTimeout: 3000,
+                            });
+                        });
+                    } else if (data && data.message) {
+                        // If the error response does not contain 'errors' field, display the message in the toast
+                        addToast(`${data.message}`, {
+                            appearance: 'error',
+                            autoDismiss: true,
+                            autoDismissTimeout: 3000,
+                        });
+                    } else {
+                        // If the error response does not contain 'errors' or 'message' field, display a generic error message
+                        addToast(`An unexpected error occurred.`, {
+                            appearance: 'error',
+                            autoDismiss: true,
+                            autoDismissTimeout: 3000,
+                        });
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    addToast('No response from the server. Please try again.', {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                    });
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    addToast('An unexpected error occurred. Please try again.', {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                    });
+                }
             } finally {
                 setLoading(false);
             }
