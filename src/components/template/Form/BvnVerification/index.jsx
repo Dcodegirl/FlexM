@@ -49,25 +49,62 @@ function BvnVerifi({ nextStep }) {
       // Move to the next step in your component logic
       nextStep();
     } catch (error) {
-      console.error('API Error:', error);
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        
-        // that falls out of the range of 2xx
-        const { status, data } = error.response;
-        addToast(` ${data.message}`, { appearance: 'error', autoDismiss: true,
-        autoDismissTimeout: 3000, });
-      } else if (error.request) {
-        // The request was made but no response was received
-        addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+    console.error('API Error:', error);
+
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      const { status, data } = error.response;
+
+      if (status === 400) {
+        // Specific error handling for bad requests (status code 400)
+        addToast(` ${data.message}`, {
+          appearance: 'error',
+          autoDismiss: true,
+          autoDismissTimeout: 3000,
+        });
+      } 
+      // else if (status === 401) {
+      //   // Specific error handling for unauthorized requests (status code 401)
+      //   addToast('Unauthorized: Please log in and try again.', {
+      //     appearance: 'error',
+      //     autoDismiss: true,
+      //     autoDismissTimeout: 3000,
+      //   });
+       else if (status === 422) {
+        // Specific error handling for validation errors (status code 422)
+        addToast(`${data.message}`, {
+          appearance: 'error',
+          autoDismiss: true,
+          autoDismissTimeout: 3000,
+        });
       } else {
-        // Something happened in setting up the request that triggered an error
-        addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+        // Generic error message for other status codes
+        addToast('Error submitting BVN. Please try again.', {
+          appearance: 'error',
+          autoDismiss: true,
+          autoDismissTimeout: 3000,
+        });
       }
-    } finally {
-      setLoading(false);
+    } else if (error.request) {
+      // The request was made but no response was received
+      addToast('No response from the server. Please try again.', {
+        appearance: 'error',
+        autoDismiss: true,
+        autoDismissTimeout: 3000,
+      });
+    } else {
+      // Something happened in setting up the request that triggered an error
+      addToast('An unexpected error occurred. Please try again.', {
+        appearance: 'error',
+        autoDismiss: true,
+        autoDismissTimeout: 3000,
+      });
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <>

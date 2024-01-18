@@ -40,35 +40,76 @@ export const AddUser = ({ changeCurrentPage, displayModal }) => {
     const handleOnSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-
+    
         (async function fetchWalletBalance() {
             try {
                 const res = await Axios.post(CREATE_SUB_USER, formState);
-
+    
                 addToast('User created successfully', {
                     appearance: 'success',
-                    autoDismiss: false,
+                    autoDismiss: true,
+                    autoDismissTimeout: 3000,
                 });
-
+    
                 displayModal({
                     overlay: false,
                     modal: '',
                     service: '',
                     modalIsUpdated: res.data.data.email,
                 });
-
+    
+            } catch (error) {
                 setLoading(false);
-            } catch (e) {
+    
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    const { data, status } = error.response;
+    
+                    if (status === 400 && data && data.errors) {
+                        // Handle specific validation errors
+                        Object.values(data.errors).flat().forEach(errorMessage => {
+                            addToast(`${errorMessage}`, {
+                                appearance: 'error',
+                                autoDismiss: true,
+                                autoDismissTimeout: 3000,
+                            });
+                        });
+                    } else if (status === 401) {
+                        // Handle unauthorized error
+                        addToast('Unauthorized. Please log in again.', {
+                            appearance: 'error',
+                            autoDismiss: true,
+                            autoDismissTimeout: 3000,
+                        });
+                    } else {
+                        // Handle other error cases
+                        addToast('An unexpected error occurred. Please try again.', {
+                            appearance: 'error',
+                            autoDismiss: true,
+                            autoDismissTimeout: 3000,
+                        });
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    addToast('No response from the server. Please try again.', {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                    });
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    addToast('An unexpected error occurred. Please try again.', {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                    });
+                }
+            } finally {
                 setLoading(false);
-
-                addToast('An error occured', {
-                    appearance: 'error',
-                    autoDismiss: false,
-                });
             }
         })();
     };
-
+    
     return (
         <Form
             autoComplete='off'

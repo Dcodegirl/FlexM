@@ -48,35 +48,74 @@ export const Password = ({ displayModal }) => {
     const submit = () => {
         const payload = formState;
         setLoading(true);
-
+    
         (async function changePassword() {
             try {
                 const res = await axios.put(UPDATE_USER_PASSWORD, payload);
-
+    
                 if (res) {
                     addToast('Password changed successfully', {
                         appearance: 'success',
-                        autoDismiss: true, 
-                        autoDismissTimeout: 3000 
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000
                     });
-
+    
                     displayModal({
                         overlay: false,
                         modal: false,
                         service: null,
                     });
                 }
-            } catch (e) {
-                addToast('An error occurred', {
-                    appearance: 'error',
-                    autoDismiss: true, 
-                    autoDismissTimeout: 3000 
-                });
+            } catch (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    const { status, data } = error.response;
+    
+                    if (data && data.errors) {
+                        // If the error response contains 'errors' field, display each error in a separate toast
+                        Object.values(data.errors).flat().forEach(errorMessage => {
+                            addToast(`${errorMessage}`, {
+                                appearance: 'error',
+                                autoDismiss: true,
+                                autoDismissTimeout: 3000,
+                            });
+                        });
+                    } else if (data && data.message) {
+                        // If the error response does not contain 'errors' field, display the message in the toast
+                        addToast(`${data.message}`, {
+                            appearance: 'error',
+                            autoDismiss: true,
+                            autoDismissTimeout: 3000,
+                        });
+                    } else {
+                        // If the error response does not contain 'errors' or 'message' field, display a generic error message
+                        addToast(`An unexpected error occurred.`, {
+                            appearance: 'error',
+                            autoDismiss: true,
+                            autoDismissTimeout: 3000,
+                        });
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    addToast('No response from the server. Please try again.', {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                    });
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    addToast('An unexpected error occurred. Please try again.', {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                    });
+                }
             } finally {
                 setLoading(false);
             }
         })();
     };
+    
 
     const handleSetFormState = ({ target }) => {
         setValidationErrors({ ...validationErrors, [target.name]: false });
