@@ -24,22 +24,32 @@ const ViewSingleAgent = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-
-            const response = await SingleAgentTransactionData(agentId, selectedTransactionType,  startDate, endDate);
+    
+            const response = await SingleAgentTransactionData(agentId, selectedTransactionType, startDate, endDate);
             const data = response;
-
+    
             if (response.status === 404) {
                 throw new Error('Transactions not found');
             } else if (response.status === 400 || response.status === 422) {
-                throw new Error('Invalid request. Please check your parameters.');
+                // Handle specific validation errors
+                if (data && data.errors) {
+                    Object.values(data.errors).flat().forEach(errorMessage => {
+                        addToast(`${errorMessage}`, {
+                            appearance: 'error',
+                            autoDismiss: true,
+                            autoDismissTimeout: 3000,
+                        });
+                    });
+                } else {
+                    throw new Error('Invalid request. Please check your parameters.');
+                }
             } else if (response.status >= 500) {
                 throw new Error('Internal server error. Please try again later.');
             }
-
+    
             setTransactions(data);
             setNoResults(data.length === 0);
             addToast('Transactions fetched successfully!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 });
-            setLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
             addToast(`Error fetching transactions: ${error.message || 'Unknown error'}`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 });
@@ -47,6 +57,7 @@ const ViewSingleAgent = () => {
             setLoading(false);
         }
     };
+    
 
     const handleSearch = () => {
         if (startDate && endDate) {
