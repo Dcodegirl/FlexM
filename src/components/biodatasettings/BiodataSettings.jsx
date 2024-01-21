@@ -31,6 +31,7 @@ const BiodataSettings = ({ title }) => {
     image: "",
   });
   const [docUploadPayload, setDocUploadPayload] = useState("");
+  const [currentAddressPayload, setCurrentAddressPayload] = useState("");
   const handleDocumentFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -127,6 +128,7 @@ const BiodataSettings = ({ title }) => {
         });
 
         setDocUploadPayload(response.data.data.agent.business_address);
+        setCurrentAddressPayload(response.data.data.agent.current_address)
         setSelectedCountry(response.data.data.agent.country_id || '');
         if (response.data.data.agent.country_id) {
           fetchStates(response.data.data.agent.country_id, response.data.data.agent.state_id)
@@ -141,14 +143,7 @@ const BiodataSettings = ({ title }) => {
   const handleUserBioData = async () => {
     setLoading(true);
 
-    if (!isValidDocumentType(selectedDocument)) {
-      addToast('Invalid document type. Please choose a valid document type.', {
-        appearance: 'error',
-        autoDismiss: true,
-        autoDismissTimeout: 3000,
-      });
-      return;
-    }
+    
     // Check if the utility image size is more than 3MB
 
     // Check if the document image size is more than 3MB
@@ -176,6 +171,7 @@ const BiodataSettings = ({ title }) => {
     else {
       const bio = new FormData();
       bio.append("business_address", docUploadPayload);
+      bio.append("current_address", currentAddressPayload);
       bio.append("guarantor_file", guarantorSelect || '');
       bio.append("utility_image", utilityImage || '');
       bio.append("document_type", selectedDocument);
@@ -275,12 +271,6 @@ const BiodataSettings = ({ title }) => {
       }
       
     }
-  };
-  const isValidDocumentType = (documentType) => {
-    // Add your document type validation logic here
-    // For example, check if it's one of the expected types
-    const expectedDocumentTypes = ['drivers-license', 'nin-id', 'int-passport'];
-    return expectedDocumentTypes.includes(documentType);
   };
   
 
@@ -411,6 +401,25 @@ const BiodataSettings = ({ title }) => {
                   ))}
                 </select>
               </div>
+            </div>
+            <div className="flex md:flex-row flex-col md:gap-3 lg:justify-between md:items-center my-8 ">
+              <div className="flex flex-col">
+                <label htmlFor="address" className="my-3">
+                 Current  Address
+                </label>
+                <div className="password-input">
+                  <input
+                    id="currentAddress"
+                    name="currentAddress"
+                    value={currentAddressPayload}
+                    onChange={(e) => setCurrentAddressPayload(e.target.value)}
+                    placeholder="Type Current Address"
+                    className="outline outline-gray-100 md:p-4 p-2 md:w-[300px] lg:w-[500px] w-full"
+                    required
+                  />
+                </div>
+              </div>
+
             </div>
             <div className="flex md:flex-row flex-col md:justify-between md:items-center my-8 ">
               <div className="flex flex-col">
