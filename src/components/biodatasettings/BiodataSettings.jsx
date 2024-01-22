@@ -32,6 +32,18 @@ const BiodataSettings = ({ title }) => {
   });
   const [docUploadPayload, setDocUploadPayload] = useState("");
   const [currentAddressPayload, setCurrentAddressPayload] = useState("");
+
+  
+  const downloadForm = () => {
+    const fileUrl = process.env.PUBLIC_URL + '/GUARANTOR form.pdf';
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = 'GUARANTOR form.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+  };
   const handleDocumentFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -360,13 +372,32 @@ const BiodataSettings = ({ title }) => {
                     name="address"
                     onChange={(e) => setDocUploadPayload(e.target.value)}
                     placeholder="Type Address"
-                    className="outline outline-gray-100 md:p-4 p-2 md:w-[300px] lg:w-[500px] w-full"
+                    className="outline outline-gray-100 md:p-3 p-2 md:w-[300px] lg:w-[500px] w-full"
                     value={docUploadPayload}
                     required
                   />
                 </div>
               </div>
               <div className="flex flex-col">
+                <label htmlFor="address" className="my-3">
+                 Current  Address
+                </label>
+                <div className="password-input">
+                  <input
+                    id="currentAddress"
+                    name="currentAddress"
+                    value={currentAddressPayload}
+                    onChange={(e) => setCurrentAddressPayload(e.target.value)}
+                    placeholder="Type Current Address"
+                    className="outline outline-gray-100 md:p-4 p-2 md:w-[300px] lg:w-[500px] w-full"
+                    required
+                  />
+                </div>
+              </div>
+              
+            </div>
+            <div className="flex md:flex-row flex-col md:gap-3 lg:gap-8 md:items-center my-8 ">
+            <div className="flex flex-col">
                 <label htmlFor="countrySelect" className="my-3">
                   Country:
                 </label>
@@ -401,32 +432,28 @@ const BiodataSettings = ({ title }) => {
                   ))}
                 </select>
               </div>
-            </div>
-            <div className="flex md:flex-row flex-col md:gap-3 lg:justify-between md:items-center my-8 ">
-              <div className="flex flex-col">
-                <label htmlFor="address" className="my-3">
-                 Current  Address
-                </label>
-                <div className="password-input">
-                  <input
-                    id="currentAddress"
-                    name="currentAddress"
-                    value={currentAddressPayload}
-                    onChange={(e) => setCurrentAddressPayload(e.target.value)}
-                    placeholder="Type Current Address"
-                    className="outline outline-gray-100 md:p-4 p-2 md:w-[300px] lg:w-[500px] w-full"
-                    required
-                  />
-                </div>
-              </div>
 
             </div>
             <div className="flex md:flex-row flex-col md:justify-between md:items-center my-8 ">
               <div className="flex flex-col">
                 <div className="text-deep-green font-bold text-left gap-2 mb-2 flex flex-col">
                   <p className="text-2xl">Guarantor Form</p>
+                  <div className='flex justify-between items-center'>
                   <p className="text-gray-700 text-2xl font-thin w-[360px]">
-                    Upload a signed copy of this form in your profile
+                    Download  guarantor's form
+                  </p>
+                  <button
+                    type="button"
+                    className="bg-[#ECE9FC] py-2 px-4 mt-2 rounded-md"
+                    onClick={downloadForm}
+                >
+                    
+                    Download
+                </button>
+                  </div>
+
+                  <p className="text-gray-700 text-2xl font-thin w-[360px]">
+                    Upload a signed copy of the downloaded guarantor's form
                   </p>
                 </div>
                 <div className="relative">
@@ -444,6 +471,7 @@ const BiodataSettings = ({ title }) => {
                         </div>
 
                       </div>
+                     
                       <div>
                         <input
                           type="file"

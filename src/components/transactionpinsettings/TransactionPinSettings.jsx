@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "../../utils/axiosInstance";
 import { useToasts } from "react-toast-notifications";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
 
@@ -11,6 +12,7 @@ const TransactionPinSettings = ({ title }) => {
     const [confirmPin, setConfirmPin] = useState([]);
     const [loading, setLoading] = useState('');
     const { addToast } = useToasts();
+    const history = useHistory();
 
 
     const [pinPayload, setPinPayload] = useState({
@@ -181,6 +183,7 @@ const TransactionPinSettings = ({ title }) => {
       } finally {
       setLoading(false); // This ensures that setLoading(false) is executed regardless of success or failure
     }
+    history.push('/overview')
   };
 
   return (

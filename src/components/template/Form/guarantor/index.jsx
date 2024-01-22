@@ -64,7 +64,7 @@ function Guarantor() {
                                 <div className='mb-2'>
                                 <button
                                     type="button"
-                                    className="bg-[#BEFEE9] py-2 px-4 mt-2 rounded-md text-deep-green"
+                                    className="bg-[#ECE9FC] py-2 px-4 mt-2 rounded-md text-deep-green"
                                     onClick={downloadForm}
                                 >
                                     
