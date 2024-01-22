@@ -47,7 +47,7 @@ function Login() {
       addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 });
       history.push('/otpVerification');
     } catch (error) {
-      addToast( error.response.data.message, { appearance: 'error' });
+      addToast( error.response.data.message, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 });
     } finally {
       setLoading(false);
     }

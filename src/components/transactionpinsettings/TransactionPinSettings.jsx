@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "../../utils/axiosInstance";
 import { useToasts } from "react-toast-notifications";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
 
@@ -11,6 +12,7 @@ const TransactionPinSettings = ({ title }) => {
     const [confirmPin, setConfirmPin] = useState([]);
     const [loading, setLoading] = useState('');
     const { addToast } = useToasts();
+    const history = useHistory();
 
 
     const [pinPayload, setPinPayload] = useState({
@@ -108,10 +110,80 @@ const TransactionPinSettings = ({ title }) => {
         autoDismissTimeout: 3000, // milliseconds
       });
     } catch (error) {
-      console.log(error);
-    } finally {
+      console.error("Error saving changes:", error);
+  
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const { data, status } = error.response;
+        console.error(`HTTP error! Status: ${status}, Message: ${data.message}`);
+        
+        // Handle different status codes
+        switch (status) {
+          case 400:
+            // Bad Request (400)
+            if (data && data.errors) {
+              Object.values(data.errors).flat().forEach(errorMessage => {
+                addToast(`${errorMessage}`, {
+                  appearance: 'error',
+                  autoDismiss: true,
+                  autoDismissTimeout: 3000,
+                });
+              });
+            } else if (status && data && data.message) {
+              addToast(`${data.message}`, {
+                appearance: 'error',
+                autoDismiss: true,
+                autoDismissTimeout: 3000,
+              });
+            } else {
+              addToast('Bad Request. Please check your input.', {
+                appearance: 'error',
+                autoDismiss: true,
+                autoDismissTimeout: 3000,
+              });
+            }
+            break;
+          case 500:
+            // Internal Server Error (500)
+            addToast('Internal Server Error. Please try again later.', {
+              appearance: 'error',
+              autoDismiss: true,
+              autoDismissTimeout: 3000,
+            });
+            break;
+          // Add more cases for other status codes as needed
+          default:
+            // Display an error toast with the API response message
+            addToast(data.message || 'An unexpected error occurred.', {
+              appearance: "error",
+              autoDismiss: true,
+              autoDismissTimeout: 3000,
+            });
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received from the server.");
+  
+        addToast("No response from the server. Please try again.", {
+          appearance: "error",
+          autoDismiss: true,
+          autoDismissTimeout: 3000,
+        });
+      } else {
+        // Something happened in setting up the request that triggered an error
+        console.error("An unexpected error occurred:", error.message);
+  
+        // Display an error toast with the API response message if available
+        addToast(error.message || 'An unexpected error occurred.', {
+          appearance: "error",
+          autoDismiss: true,
+          autoDismissTimeout: 3000,
+        });
+      }
+      } finally {
       setLoading(false); // This ensures that setLoading(false) is executed regardless of success or failure
     }
+    history.push('/overview')
   };
 
   return (
