@@ -84,6 +84,17 @@ function Document({ nextStep }) {
     //     const formDocumentURL = '';
     //     window.open(formDocumentURL);
     // };
+    
+    const downloadForm = () => {
+        const fileUrl = process.env.PUBLIC_URL + '/GUARANTOR form.pdf';
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = 'GUARANTOR form.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    
+      };
 
     const handleSubmit = async () => {
         try {
@@ -298,7 +309,7 @@ function Document({ nextStep }) {
                                     <button
                                         type="button"
                                         className="bg-[#ECE9FC] py-2 px-4 mt-2 rounded-md text-deep-green"
-                                        // onClick={downloadForm}
+                                         onClick={downloadForm}
                                     >
                                         Download
                                     </button>
