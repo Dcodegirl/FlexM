@@ -4,8 +4,9 @@ import axios from '../../../../utils/axiosInstance';
 import { useToasts } from 'react-toast-notifications';
 import warning from '../../../../assets/images/warning.svg';
 
-function BvnVerifi({ nextStep }) {
-  const { userId, setUserId, updateBvnPhoneNum   } = useGlobalContext();
+function BvnVerifi() {
+  const { userId, updateBvnPhoneNum   } = useGlobalContext();
+
   const { addToast } = useToasts();
 
   const [bvn, setBvn] = useState('');

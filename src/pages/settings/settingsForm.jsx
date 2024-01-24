@@ -94,9 +94,6 @@ const SettingsForm = () => {
           {
             currentStep == 'pin' && <TransactionPinSettings />
           }
-          {/* {components.map((component, index) =>
-            index + 1 === step ? component : null
-          )} */}
         </div>
       </div>
     </div>
