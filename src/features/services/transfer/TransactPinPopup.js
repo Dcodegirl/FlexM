@@ -25,7 +25,7 @@ const handleCancel=() =>{
     <div>
       {isVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 text-center">
-          <div className="bg-white py-6 px-12 rounded-md md:w-[400px] h-[250px] md:w-[400px] absolute md:top-4/5 top-[200px] md:left-3/5 left-2/5">
+          <div className="bg-white py-6 px-12 rounded-md md:w-[400px] h-[250px] md:w-[400px] absolute md:top-4/5 top-[200px] md:left-[45%] left-2/5">
             <h2 className="text-3xl font-bold my-4">Enter Transaction Pin</h2>
             <p className="my-3 mx-8 text-2xl text-center">To complete this transfer, please enter your 4-Digit Transaction  PIN</p>
             <div className="relative mb-4">

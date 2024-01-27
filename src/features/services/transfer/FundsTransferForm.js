@@ -12,6 +12,7 @@ import { VERIFY_ACCOUNT, FETCH_BANK } from '../../../utils/constants';
 import generateBankImageUrl from './generateBankImageUrl';
 import validateFormData from '../../../validation/validateFormData';
 import banksList from '../../../utils/listOfBanks';
+import { useToasts } from 'react-toast-notifications';
 
 import styles from './FundsTransferForm.module.scss';
 
@@ -27,6 +28,8 @@ export const FundsTransferForm = (props) => {
         useState(false);
     const [validationErrors, setValidationErrors] = useState({});
     const [banks, setBanks]=useState([]);
+    const { addToast } = useToasts();
+
 
     useEffect(() => {
         const { accountNumber, beneficiaryBankCode } = state;
@@ -65,6 +68,14 @@ export const FundsTransferForm = (props) => {
                         ...validationErrors,
                         accountName: true,
                     });
+                    addToast({
+                        ...validationErrors,
+                        accountName: true,
+                    }, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000, // milliseconds
+                      });
                     setAccountValidationLoading(false);
                 }
             })();

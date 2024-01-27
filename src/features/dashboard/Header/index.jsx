@@ -146,7 +146,7 @@ const Header = ({
         className={` flex justify-between h-full items-center md:gap-3 w-[450px]  md:px-12 px-3`}
       >
         {/* serchbar */}
-        <div className="relative md:block hidden">
+        {/* <div className="relative md:block hidden">
           <img
             src={searchIcon}
             alt="Search"
@@ -157,7 +157,7 @@ const Header = ({
             placeholder="Search transactions"
             className="pl-10 pr-2 border w-72 border-[#E5E5E5] text-[#C4C4C4] rounded-md p-2"
           />
-        </div>
+        </div> */}
         <div className="flex items-center gap-10">
           <div
             className={`${styles.notification} md:block hidden`}

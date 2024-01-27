@@ -14,8 +14,8 @@ export const quickActionData = [
       icon: transfer,
       text: 'Transfer',
       bg: '#efeafb',
-      // modal: null
-      modal: 'fundsTransfer',
+      modal: null
+      // modal: 'fundsTransfer',
     },
     {
       to: '/cable-payment',
