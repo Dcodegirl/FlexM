@@ -193,8 +193,8 @@ const routes = [
     },
     {
         path: '/transfer',
-        component: MainFundTransferPage,
-        // component: FundsTransfer,
+        // component: MainFundTransferPage,
+        component: FundsTransfer,
     },
     
     {
