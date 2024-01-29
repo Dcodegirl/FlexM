@@ -110,7 +110,7 @@ export const WalletTransfer = () => {
           summary: (
             <WalletTransferSummary
               handleWalletTransfer={handleWalletTransfer}
-              loading={loading}
+              isLoading={loading}
               state={transferDetails}
             />
           ),
