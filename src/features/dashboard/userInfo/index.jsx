@@ -33,8 +33,8 @@ const UserInfo = () => {
 
 
   const isKYCVerified = userData?.image || userData.agent.documents.length < 3 ;
-  const isAggregatorVerified = (userData.agent.bvn_status === 1) && (userData.wallet.status !== 1 || userData.wallet.status !== 'Active');
-
+  const isAggregatorVerified = (userData.agent.bvn_status === "1") && (userData.agent.status === "1" || userData.agent.status === 'Active');
+console.log('is verified: ', isAggregatorVerified, userData.agent.bvn_status,  userData.agent.status)
   const currentHour = currentDate.getHours();
   const isAfter4PM = currentHour >= 16;
   return (
