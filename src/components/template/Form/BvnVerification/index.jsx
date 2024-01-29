@@ -5,7 +5,7 @@ import { useToasts } from 'react-toast-notifications';
 import warning from '../../../../assets/images/warning.svg';
 
 function BvnVerifi({ nextStep }) {
-  const { userId, setUserId, updateBvnPhoneNum   } = useGlobalContext();
+  const { userId, setUserId, setBvnPhoneNum } = useGlobalContext();
   const { addToast } = useToasts();
 
   const [bvn, setBvn] = useState('');
@@ -40,7 +40,7 @@ function BvnVerifi({ nextStep }) {
       // Handle the response as needed
       const responseData = response.data;
       console.log('API Response:', responseData);
-      updateBvnPhoneNum(responseData.data)
+      setBvnPhoneNum(responseData.data)
       addToast('BVN validation successful!', {
         appearance: 'success',
         autoDismiss: true,

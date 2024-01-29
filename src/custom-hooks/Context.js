@@ -40,9 +40,9 @@ export const GlobalProvider = ({ children }) => {
         localStorage.setItem('selectedState', JSON.stringify(state));
       };
 
-      const updateBvnPhoneNum = (newBvnPhoneNum) => {
-        setBvnPhoneNum(newBvnPhoneNum);
-    };
+    //   const updateBvnPhoneNum = (newBvnPhoneNum) => {
+    //     setBvnPhoneNum(newBvnPhoneNum);
+    // };
 
 
       const updateUserInfoArray = (userInfo) => {
@@ -62,7 +62,7 @@ export const GlobalProvider = ({ children }) => {
                 lastname, setLastname,
                 lga, setLga,
                 address, setAddress,
-                bvnPhoneNum, updateBvnPhoneNum,
+                bvnPhoneNum, setBvnPhoneNum,
                 phoneNum, setPhoneNum,
                 selectedState, setSelectedState,
                 selectedCountry, setSelectedCountry,

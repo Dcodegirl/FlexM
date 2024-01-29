@@ -12,6 +12,7 @@ const ErrorPage = ({}) => {
         dispatch(startLogout());
         // Redirect to SessionExpired component
         history.push('/login');
+        window.location.reload();
     }
     return (
         <main className={styles.errorContainer}>

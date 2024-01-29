@@ -4,15 +4,13 @@ import { useGlobalContext } from '../../../../custom-hooks/Context';
 import { useToasts } from 'react-toast-notifications';
 
 function Contact({ nextStep }) {
-  const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, updateBvnPhoneNum } = useGlobalContext();
+  const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, bvnPhoneNum } = useGlobalContext();
   const { addToast } = useToasts();
 
   const [timeLeft, setTimeLeft] = useState(600);
   const [bvn, setBvn] = useState(["", "", "", "", "", ""]);
   const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-
-  const updatedBvnPhoneNum = updateBvnPhoneNum();
 
   const handleBvnChange = (index, value) => {
     if (value >= 0 && value <= 9) {
@@ -184,7 +182,7 @@ function Contact({ nextStep }) {
   const handleResendOtp = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('/onboarding/resend', { phone: updatedBvnPhoneNum });
+      const response = await axios.post('/onboarding/resend', { phone: bvnPhoneNum });
       const responseData = response.data;
 
       if (responseData.status === 'Successful') {
@@ -202,7 +200,8 @@ function Contact({ nextStep }) {
       setLoading(false);
     }
   };
-  const updatedBvnPhoneNumToShow = `${updatedBvnPhoneNum.substring(0, 3)} *** ${updatedBvnPhoneNum.substring(updatedBvnPhoneNum.length - 3)}`;
+  const updatedBvnPhoneNumToShow = `${bvnPhoneNum.substring(0, 3)} *** ${bvnPhoneNum.substring(bvnPhoneNum.length - 3)}`;
+  
 
   return (
     <>
