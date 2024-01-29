@@ -6,7 +6,7 @@ import warning from '../../assets/images/warning.svg';
 import BvnVerificationPopup from './BvnVerificationPopup';
 
 function BvnSettings() {
-  const { updateBvnPhoneNum   } = useGlobalContext();
+  const { setBvnPhoneNum   } = useGlobalContext();
   const { userInfoArray } = useGlobalContext();
   const [userId, setUserId] = useState('')
   const [popupVisible, setPopupVisible] = useState(false);
@@ -58,7 +58,7 @@ function BvnSettings() {
       // Handle the response as needed
       const responseData = response.data;
       console.log('API Response:', responseData);
-      updateBvnPhoneNum(responseData.data)
+      setBvnPhoneNum(responseData.data)
       addToast('BVN validation successful!', {
         appearance: 'success',
         autoDismiss: true,

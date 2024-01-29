@@ -4,7 +4,7 @@ import { useGlobalContext } from '../../custom-hooks/Context';
 import { useToasts } from 'react-toast-notifications';
 
 const BvnVerificationPopup = ({isVisible}) => {
-    const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, updateBvnPhoneNum } = useGlobalContext();
+    const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, bvnPhoneNum } = useGlobalContext();
     const { addToast } = useToasts();
   
     const [timeLeft, setTimeLeft] = useState(600);
@@ -12,7 +12,7 @@ const BvnVerificationPopup = ({isVisible}) => {
     const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
   
-    const updatedBvnPhoneNum = updateBvnPhoneNum();
+    const updatedBvnPhoneNum = bvnPhoneNum;
   
     const handleBvnChange = (index, value) => {
       if (value >= 0 && value <= 9) {
