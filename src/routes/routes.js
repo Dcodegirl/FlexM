@@ -196,6 +196,7 @@ const routes = [
         // component: MainFundTransferPage,
         component: FundsTransfer,
     },
+    
     {
         path: '/cable-payment',
         component: CablePayment,

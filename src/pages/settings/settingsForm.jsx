@@ -5,6 +5,7 @@ import BiodataSettings from "../../components/biodatasettings/BiodataSettings";
 import TransactionPinSettings from "../../components/transactionpinsettings/TransactionPinSettings";
 import { Link, useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import BvnSettings from "../../components/bvnSettings/BvnSettings";
 
 const SettingsForm = () => {
   const {step} = useParams();
@@ -38,9 +39,14 @@ const SettingsForm = () => {
       step: 'biodata'
     },
     {
+      name: 'BVN Verification',
+      step: 'bvn'
+    },
+    {
       name: 'Transaction Pin',
       step: 'pin'
-    }
+    },
+    
   ];
 
 
@@ -53,7 +59,7 @@ const SettingsForm = () => {
   const components = [
     <ContactDetail/>,
     <BiodataSettings/>,
-    <TransactionPinSettings/>,
+    <TransactionPinSettings/>
   ];
   
 
@@ -92,8 +98,12 @@ const SettingsForm = () => {
             currentStep == 'biodata' && <BiodataSettings />
           }
           {
+            currentStep == 'bvn' && <BvnSettings />
+          }
+          {
             currentStep == 'pin' && <TransactionPinSettings />
           }
+          
           {/* {components.map((component, index) =>
             index + 1 === step ? component : null
           )} */}
