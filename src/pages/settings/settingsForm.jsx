@@ -63,7 +63,7 @@ const SettingsForm = () => {
         <div className="relative pt-1">
           <div className="flex">
             <div className="flex flex-row w-full gap-2 justify-evenly">
-                            {formTitles.map((d, index) => (
+                {formTitles.map((d, index) => (
                 <div
                   key={index}
                   onClick={() => {
