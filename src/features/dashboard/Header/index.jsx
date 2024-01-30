@@ -143,7 +143,7 @@ const Header = ({
   return (
     <header className={`flex md:justify-end bg-white h-full justify-between py-6 md:my-0`}>
       <div
-        className={` flex justify-between h-full items-center md:gap-3 w-[450px]  md:px-12 px-3`}
+        className={` flex justify-between h-full items-center md:gap-3 md:w-[300px] w-[450px]  md:px-12 px-3`}
       >
         {/* serchbar */}
         {/* <div className="relative md:block hidden">
@@ -189,12 +189,12 @@ const Header = ({
               </div>
 
               <div className="flex items-center">
-                <div className="w-36 pl-6 text-[12px] text-icon-purple uppercase md:block hidden">
+                <div className="w-36 md:w-full pl-6 text-[12px] text-icon-purple uppercase md:block hidden">
                   {name}
                 </div>
                 <img
                   src={arrowdown}
-                  className={`${styles.profileToggle}`}
+                  className={`${styles.profileToggle} md:mx-6 cursor-pointer`}
                   onClick={() => {
                     setToggleUser(!toggleUser);
                   }}

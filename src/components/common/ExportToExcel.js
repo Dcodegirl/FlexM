@@ -27,9 +27,9 @@ const Download = (props) => {
   return (
     <ExcelFile
       element={
-        <button className={styles.button}>
+        <button className={`${styles.button} flex justify-center items-center`}>
           <img src={excel} alt="" />
-          Export
+          <div>Export</div>
         </button>
       }
     >

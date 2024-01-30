@@ -3,6 +3,7 @@ import axios from "../../../utils/axiosInstance";
 import WalletInfo from "../../dashboard/WalletInfo";
 import WalletBreakDown from "../../dashboard/WalleBreakdown";
 import WalletLogs from "../wallet/WalletLog";
+import { ThreeDots } from "svg-loaders-react";
 
 const Users = () => {
   const [totalBalance, setTotalBalance] = useState(0);
@@ -10,6 +11,7 @@ const Users = () => {
   const [totalCashout, setTotalCashout] = useState({ amount: 0, growth_rate: 0 });
   const [totalDeposit, setTotalDeposit] = useState({ amount: 0, growth_rate: 0 });
   const [transactions, setTransactions] = useState([]);
+  const [isWalletLogsLoading, setIsWalletLogsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState('commissionWallet');
 
   useEffect(() => {
@@ -32,6 +34,10 @@ const Users = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
       }
+      finally {
+        setIsWalletLogsLoading(false);
+      }
+      
     };
 
     fetchData();
@@ -57,7 +63,13 @@ const Users = () => {
         totalDepositGrowthRate={totalDeposit.growth_rate}
         currentPage={currentPage}
       />
-      <WalletLogs transactions={transactions} />
+       <div className="flex justify-center items-center mt-10">
+      {isWalletLogsLoading ? (
+        <ThreeDots fill='#1F1474'/> 
+      ) : (
+        <WalletLogs transactions={transactions} />
+      )}
+      </div>
     </div>
   );
 };

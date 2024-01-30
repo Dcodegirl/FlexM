@@ -102,13 +102,14 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
             } catch (err) {
                 console.log(err)
                 if(err.response === undefined){
-                    addToast("Unable to process your request", {
+                    addToast("You cannot transfer below the transfer limit", {
                         appearance: 'error',
                         autoDismiss: true,
                     }); 
+                    setLoading(false)
                     return
                 }
-                if (err.response && err.response.status === 401) {
+                if (err.response && err.response.status === 401 ) {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
