@@ -14,7 +14,7 @@ function ForgotConfirmation() {
     const handleResetBtn = async () => {
         try {
             // Assuming the API request is successful, navigate to otpVerification
-            history.push('/forgotPassword');
+            history.push('/ResetPassword');
         } catch (error) {
             // Handle API request error here
             console.error('API request error:', error);
@@ -33,19 +33,20 @@ function ForgotConfirmation() {
                                 </div>
                                 <div className='mb-2 text-center'>
                                     <p className='font-bold text-xl text-[#110D26]'>
-                                        Check your email
+                                        Check your Phone
                                     </p>
-                                    <p>We sent a password reset link to <span className='text-deep-green font-semibold'>{email}</span></p>
+                                    <p>We sent a password reset code to <span className='text-deep-green font-semibold'>{email}</span></p>
                                 </div>
                                 <div className='flex justify-center mt-4'>
-                                    {/* <button
+                                     <button
                                         className="bg-color1  border rounded-lg h-14 w-full text-white mx-auto"
+                                        onClick={handleResetBtn}
                                     >
-                                        Check Email
-                                    </button> */}
+                                        Reset Your Password Here
+                                    </button> 
                                 </div>
                                 <div className="flex justify-center mt-4">
-                                    <p>Didn’t receive the email?  <span className="text-color1 px-3" onClick={handleResetBtn}> Click to resend</span></p>
+                                    <p>Didn’t receive the otp?  <span className="text-color1 px-3" onClick={handleResetBtn}> Click to resend</span></p>
                                 </div>
                                 <div className='flex justify-center mt-6'>
                                     <NavLink to="/signin"><p className='text-gray-500 text-xl font-xl'><i className="fa-solid fa-left-long px-4"></i>Back to Login</p></NavLink>

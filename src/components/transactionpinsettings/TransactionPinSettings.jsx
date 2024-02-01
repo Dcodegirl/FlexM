@@ -209,7 +209,7 @@ const TransactionPinSettings = ({ title }) => {
                   <input
                     key={index}
                     placeholder="*"
-                    type="text"
+                    type="password"
                     id={`pin-input-${index}`}
                     className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                     maxLength="1"
@@ -235,7 +235,7 @@ const TransactionPinSettings = ({ title }) => {
                     key={index}
                     id={`confirmPin-input-${index}`}
                     placeholder="*"
-                    type="text"
+                    type="password"
                     className="md:w-[66px] w-[40px] md:h-[69px] h-[53px] border border-gray-300 rounded text-center md:text-4xl text-2xl"
                     maxLength="1"
                     onChange={(e) => handleConfirmPinInputChange(index, e)}

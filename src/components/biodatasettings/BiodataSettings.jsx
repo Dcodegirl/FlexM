@@ -21,6 +21,12 @@ const BiodataSettings = ({ title }) => {
   const [utilityImage, setUtilityImage] = useState('');
   const [selectedDocument, setSelectedDocument] = useState("");
   const [loading, setLoading] = useState('');
+  const [alldoc, setAllDoc]= useState({
+    guarantor: '',
+    utilityBills: '',
+    meansOfId: ''
+
+  })
   const [payload, setPayload] = useState({
     email: "",
     password: {
@@ -86,7 +92,7 @@ const BiodataSettings = ({ title }) => {
       addToast("Utility image size should not exceed 3MB", {
         appearance: "error",
         autoDismiss: true,
-        autoDismissTimeout: 6000,
+        autoDismissTimeout: 3000,
       });
       setUtilityImage(null); // Clear the selected file
     } else {
@@ -140,7 +146,24 @@ const BiodataSettings = ({ title }) => {
         });
 
         setDocUploadPayload(response.data.data.agent.business_address);
-        setCurrentAddressPayload(response.data.data.agent.current_address)
+        // setUtilityImage(response.data.data.agent.documents.image);
+        // setSelectedDocument(response.data.data.agent.documents.image);
+        let allMyDoc = response?.data?.data?.agent.documents.map((d,index) => {
+          let newLength = response?.data?.data?.agent.documents.length;
+          let getImgName = d.image.split('/');
+          console.log(newLength);
+          console.log(getImgName);
+          getImgName = getImgName[getImgName.length - 1];
+          console.log(getImgName);
+          if(d?.type == 'guarantor') {
+            setAllDoc({
+              ...alldoc,
+              guarantor: getImgName
+            });
+          }
+        })
+       console.log("documents", allMyDoc)
+        setCurrentAddressPayload(response.data.data.agent.current_address);
         setSelectedCountry(response.data.data.agent.country_id || '');
         if (response.data.data.agent.country_id) {
           fetchStates(response.data.data.agent.country_id, response.data.data.agent.state_id)
@@ -152,6 +175,7 @@ const BiodataSettings = ({ title }) => {
         console.error("Error fetching user information:", error);
       });
   }, []);
+  console.log(alldoc);
   const handleUserBioData = async () => {
     setLoading(true);
 
@@ -210,75 +234,47 @@ const BiodataSettings = ({ title }) => {
           });
         }
       } catch (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          const { data, status } = error.response;
-          console.error(`HTTP error! Status: ${status}, Message: ${data.message}`);
-          
-          // Handle different status codes
-          switch (status) {
-            case 400:
-              // Bad Request (400)
-              if (data && data.errors) {
-                Object.values(data.errors).flat().forEach(errorMessage => {
-                  addToast(`${errorMessage}`, {
-                    appearance: 'error',
-                    autoDismiss: true,
-                    autoDismissTimeout: 3000,
-                  });
-                });
-              } else if (data && data.message) {
-                addToast(`${data.message}`, {
-                  appearance: 'error',
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
-              } else {
-                addToast('Bad Request. Please check your input.', {
-                  appearance: 'error',
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
-              }
-              break;
-            case 500:
-              // Internal Server Error (500)
-              addToast('Internal Server Error. Please try again later.', {
+        console.error("Error saving changes:", error);
+         const {status, data}= error.response
+        if (status === 400 || status === 404 || status === 422) {
+          // Bad Request (400)
+          if (data && data.errors) {
+            Object.values(data.errors).flat().forEach(errorMessage => {
+              addToast(`${errorMessage}`, {
                 appearance: 'error',
                 autoDismiss: true,
                 autoDismissTimeout: 3000,
               });
-              break;
-            // Add more cases for other status codes as needed
-            default:
-              // Display an error toast with the API response message
-              addToast(data.message || 'An unexpected error occurred.', {
-                appearance: "error",
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+            });
+          } else if (status && data && data.message) {
+            addToast(`${data.message}`, {
+              appearance: 'error',
+              autoDismiss: true,
+              autoDismissTimeout: 3000,
+            });
+          } else {
+            addToast('Bad Request. Please check your input.', {
+              appearance: 'error',
+              autoDismiss: true,
+              autoDismissTimeout: 3000,
+            });
           }
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.error("No response received from the server.");
-      
-          addToast("No response from the server. Please try again.", {
-            appearance: "error",
+        } else if (status === 500) {
+          // Internal Server Error (500)
+          addToast('Internal Server Error. Please try again later.', {
+            appearance: 'error',
             autoDismiss: true,
             autoDismissTimeout: 3000,
           });
         } else {
-          // Something happened in setting up the request that triggered an error
-          console.error("An unexpected error occurred:", error.message);
-      
-          // Display an error toast with the API response message if available
-          addToast(error.message || 'An unexpected error occurred.', {
-            appearance: "error",
+          // Display an error toast with the API response message for other status codes
+          addToast(data.message || 'An unexpected error occurred.', {
+            appearance: 'error',
             autoDismiss: true,
             autoDismissTimeout: 3000,
           });
         }
-      } finally {
+         } finally {
         setLoading(false);
       }
       
@@ -474,6 +470,7 @@ const BiodataSettings = ({ title }) => {
                      
                       <div>
                         <input
+                        value={alldoc[0]}
                           type="file"
                           accept=".pdf, .jpg, .png"
                           id="guarantor"

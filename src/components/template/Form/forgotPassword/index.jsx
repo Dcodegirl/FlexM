@@ -1,33 +1,127 @@
 import React, { useState } from 'react';
 import { useGlobalContext } from '../../../../custom-hooks/Context'; 
 import { NavLink, useHistory } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 import axios from '../../../../utils/axiosInstance';
 
 function ForgotPass() {
-    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const history = useHistory();
+    const { addToast } = useToasts();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 
         try {
-            const response = await axios.post("/user/pass", { email: email });
+            const response = await axios.post("/user/pass", { phone: phone });
             console.log(response);
 
             // Check the API response and perform necessary actions
             if (response.status === 201) {
                 setSuccessMessage(response.data.message);
                 // Assuming the API request is successful, navigate to otpVerification
-                history.push(`/forgotConfirmation?email=${email}`);
+                history.push("/ResetPassword");
               } else {
                 setSuccessMessage(''); // Reset success message if not successful
             }
-        } catch (error) {
-            // Handle API request error here
-            console.error('API request error:', error);
-            setSuccessMessage(''); // Reset success message on error
         }
+        catch (error) {
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              const { data, status } = error.response;
+              console.error(`HTTP error! Status: ${status}, Message: ${data.message}`);
+             
+              // Handle different status codes
+              switch (status) {
+                case 400:
+                  // Bad Request (400)
+                  if (data && data.errors) {
+                    Object.values(data.errors).flat().forEach(errorMessage => {
+                      addToast(`${errorMessage}`, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                      });
+                    });
+                  } else if (data && data.message) {
+                    addToast(`${data.message}`, {
+                      appearance: 'error',
+                      autoDismiss: true,
+                      autoDismissTimeout: 3000,
+                    });
+                  } else {
+                    addToast('Bad Request. Please check your input.', {
+                      appearance: 'error',
+                      autoDismiss: true,
+                      autoDismissTimeout: 3000,
+                    });
+                  }
+                  break;
+                  case 422:
+                  // Bad Request (400)
+                  if (data && data.errors) {
+                    Object.values(data.errors).flat().forEach(errorMessage => {
+                      addToast(`${errorMessage}`, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                      });
+                    });
+                  } else if (status && data && data.message) {
+                    addToast(`${data.message}`, {
+                      appearance: 'error',
+                      autoDismiss: true,
+                      autoDismissTimeout: 3000,
+                    });
+                  } else {
+                    addToast('Bad Request. Please check your input.', {
+                      appearance: 'error',
+                      autoDismiss: true,
+                      autoDismissTimeout: 3000,
+                    });
+                  }
+                  break;
+                case 500:
+                  // Internal Server Error (500)
+                  addToast('Internal Server Error. Please try again later.', {
+                    appearance: 'error',
+                    autoDismiss: true,
+                    autoDismissTimeout: 3000,
+                  });
+                  break;
+                // Add more cases for other status codes as needed
+                default:
+                  // Display an error toast with the API response message
+                  addToast(data.message || 'An unexpected error occurred.', {
+                    appearance: "error",
+                    autoDismiss: true,
+                    autoDismissTimeout: 3000,
+                  });
+              }
+            } else if (error.request) {
+              // The request was made but no response was received
+              console.error("No response received from the server.");
+          
+              addToast("No response from the server. Please try again.", {
+                appearance: "error",
+                autoDismiss: true,
+                autoDismissTimeout: 3000,
+              });
+            } else {
+              // Something happened in setting up the request that triggered an error
+              console.error("An unexpected error occurred:", error.message);
+          
+              // Display an error toast with the API response message if available
+              addToast(error.message || 'An unexpected error occurred.', {
+                appearance: "error",
+                autoDismiss: true,
+                autoDismissTimeout: 3000,
+              });
+            }
+            setSuccessMessage('');
+          } 
     };
 
     return (
@@ -36,13 +130,13 @@ function ForgotPass() {
                 <div className="md:p-16 py-16 px-8  md:bg-bg-green md:border-[#00BD7A40] bg-white border-white rounded-3xl border">
                     <div className='w-[350px] mt-6'>
                         <form>
-                            <p className='text-gray-700 text-sm mb-2'>Email</p>
+                            <p className='text-gray-700 text-sm mb-2'>Phone</p>
                             <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                type="number"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
                                 required
-                                placeholder='Enter your email'
+                                placeholder='Enter your phone number'
                                 className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                             />
                             <div className='flex justify-center'>
