@@ -74,7 +74,6 @@ const SettingsForm = () => {
                   key={index}
                   onClick={() => {
                     setCurrentStep(d.step);
-                    //history.push(`/settings/${d.step}`);
                   }}
                   className={`cursor-pointer ${currentStep == d.step
                     ? "text-color1 font-semibold border-b-2 border-color1 pb-2"

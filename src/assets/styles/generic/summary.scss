@@ -14,7 +14,7 @@
   font-size: 1.4rem;
 
   @include respond(phone-large) {
-    width: 95%;
+    width: 40rem;
   }
 
   @include respond(phone) {

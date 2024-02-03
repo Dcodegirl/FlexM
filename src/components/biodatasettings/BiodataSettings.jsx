@@ -21,10 +21,15 @@ const BiodataSettings = ({ title }) => {
   const [utilityImage, setUtilityImage] = useState('');
   const [selectedDocument, setSelectedDocument] = useState("");
   const [loading, setLoading] = useState('');
+  const [guarantorFileName, setGuarantorFileName] = useState("");
+  const [utilityFileName, setUtilityFileName] = useState("")
+  const [ninFileName, setNinFileName] = useState("")
+  
+  
   const [alldoc, setAllDoc]= useState({
     guarantor: '',
-    utilityBills: '',
-    meansOfId: ''
+    utility: '',
+    nin_id: ''
 
   })
   const [payload, setPayload] = useState({
@@ -72,6 +77,8 @@ const BiodataSettings = ({ title }) => {
         setDocumentImage(null); // Clear the selected file
       } else {
         setDocumentImage(file);
+        localStorage.setItem("nin", file.name)
+
       }
     }
   };
@@ -97,6 +104,8 @@ const BiodataSettings = ({ title }) => {
       setUtilityImage(null); // Clear the selected file
     } else {
       setUtilityImage(file);
+      localStorage.setItem("utility", file.name)
+
     }
   };
 
@@ -113,8 +122,21 @@ const BiodataSettings = ({ title }) => {
       setGuarantorSelect(null); // Clear the selected file
     } else {
       setGuarantorSelect(file);
+      console.log(file)
+      localStorage.setItem("guarantor", file.name)
     }
   };
+  useEffect(()=>{
+    const guarantorFile = localStorage.getItem('guarantor')
+    const utilityFile = localStorage.getItem('utility')
+    const ninFile = localStorage.getItem('nin')
+
+    if(guarantorFile !== null || guarantorFile !== undefined ){
+      setGuarantorFileName(guarantorFile);
+      setUtilityFileName(utilityFile);
+      setNinFileName(ninFile);
+    }
+  }, [])
 
   const guarantorUpload = () => {
     // Your file upload logic here
@@ -146,8 +168,9 @@ const BiodataSettings = ({ title }) => {
         });
 
         setDocUploadPayload(response.data.data.agent.business_address);
-        // setUtilityImage(response.data.data.agent.documents.image);
-        // setSelectedDocument(response.data.data.agent.documents.image);
+        // setUtilityImage(response.data.data.agent.documents.utility);
+        // setSelectedDocument(response.data.data.agent.documents.nin_id);
+        // setGuarantorSelect(response.data.data.agent.documents.guarantor)
         let allMyDoc = response?.data?.data?.agent.documents.map((d,index) => {
           let newLength = response?.data?.data?.agent.documents.length;
           let getImgName = d.image.split('/');
@@ -159,6 +182,21 @@ const BiodataSettings = ({ title }) => {
             setAllDoc({
               ...alldoc,
               guarantor: getImgName
+
+            });
+          }
+          if(d?.type == 'utility') {
+            setAllDoc({
+              ...alldoc,
+              utility: getImgName
+
+            });
+          }
+          if(d?.type == 'nin_id') {
+            setAllDoc({
+              ...alldoc,
+              nin_id: getImgName
+
             });
           }
         })
@@ -430,12 +468,12 @@ const BiodataSettings = ({ title }) => {
               </div>
 
             </div>
-            <div className="flex md:flex-row flex-col md:justify-between md:items-center my-8 ">
+            <div className="flex md:flex-col lg:flex-row flex-col md:justify-between md:items-center my-8 ">
               <div className="flex flex-col">
                 <div className="text-deep-green font-bold text-left gap-2 mb-2 flex flex-col">
                   <p className="text-2xl">Guarantor Form</p>
-                  <div className='flex justify-between items-center'>
-                  <p className="text-gray-700 text-2xl font-thin w-[360px]">
+                  <div className='flex justify-between items-center md:px-4'>
+                  <p className="text-gray-700 text-2xl font-thin md:w-[360px]">
                     Download  guarantor's form
                   </p>
                   <button
@@ -468,9 +506,10 @@ const BiodataSettings = ({ title }) => {
 
                       </div>
                      
-                      <div>
+                      <div className='relative'>
+                      <p className='absolute top-0 right-0 bg-white p-2'>{guarantorFileName}</p>
                         <input
-                        value={alldoc[0]}
+                        
                           type="file"
                           accept=".pdf, .jpg, .png"
                           id="guarantor"
@@ -501,7 +540,8 @@ const BiodataSettings = ({ title }) => {
                           </div>
 
                         </div>
-                        <div>
+                        <div className='relative'>
+                          <p className='absolute top-0 right-0 bg-white p-2'>{utilityFileName}</p>
                           <input
                             type="file"
                             accept=".pdf, .jpg, .png"
@@ -518,9 +558,9 @@ const BiodataSettings = ({ title }) => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <div className="text-deep-green font-bold text-left gap-2 mb-2 my-4 md:my-0">
+                <div className="text-deep-green font-bold text-left gap-2 mb-2 my-4 md:my-6 lg:my-0">
                   <p className="text-2xl">Means of ID</p>
-                  <p className="text-gray-700 text-sm font-thin w[360px]">Download and Upload a signed copy of this form in your profile</p>
+                  <p className="text-gray-700 text-sm font-thin w[360px]">Upload a signed copy of this form in your profile</p>
                 </div>
                 <select
                   className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-18 w-full mb-6 md:p-4 p-2 my-6"
@@ -547,7 +587,8 @@ const BiodataSettings = ({ title }) => {
                         </div>
 
                       </div>
-                      <div>
+                      <div className='relative'>
+                      <p className='absolute top-0 right-0 bg-white p-2'>{ninFileName}</p>
                         <input
                           type="file"
                           accept=".pdf, .jpg, .png"
