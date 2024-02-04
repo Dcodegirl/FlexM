@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import { startLogout } from "../../../actions/auth";
@@ -83,9 +83,8 @@ const Header = ({
   //     get_user ();
 
   // },[])
-  const [userInfo, setUserInfo] = useState('');
+  const [userInfo, setUserInfo] = useState("");
   const [loading, setLoading] = useState(true);
-
 
   const handleToggleNotifications = () => {
     notifications.forEach((notification) => {
@@ -115,22 +114,20 @@ const Header = ({
   }
   useClickOutside(wrapperRef);
 
-
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         // Make the API call
-        const response = await axios.get('/agent/userinfo');
+        const response = await axios.get("/agent/userinfo");
 
         // Set the user info in the state
         setUserInfo(response.data.data);
         updateUserInfoArray(response.data.data);
-        
 
         // Set loading to false
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching user info:', error);
+        console.error("Error fetching user info:", error);
 
         // Set loading to false even if there's an error
         setLoading(false);
@@ -141,7 +138,9 @@ const Header = ({
     fetchUserInfo();
   }, []);
   return (
-    <header className={`flex md:justify-end bg-white h-full justify-between py-6 md:my-0`}>
+    <header
+      className={`flex md:justify-end bg-white h-full justify-between py-6 md:my-0`}
+    >
       <div
         className={` flex justify-between h-full items-center md:gap-3 md:w-[300px] w-[450px]  md:px-12 px-3`}
       >
@@ -176,7 +175,6 @@ const Header = ({
             <div className="flex items-center">
               <div className="md:block hidden">
                 {
-
                   <img
                     className="w-[30px] h-[30px] top-8 ml-2 rounded-full"
                     src={userInfo.image || pic}
@@ -227,10 +225,10 @@ const Header = ({
                     Wallet ID: {userInfo.agent.wallet_no}
                   </span>
                   <span className="block w-70 bg-white rounded-md p-2 mx-auto my-2 text-purple-800 text-base">
-                    Account No: {userInfo.agent.virtual_account_number || 'N/A'}
+                    Account No: {userInfo.agent.virtual_account_number || "N/A"}
                   </span>
                   <span className="block w-70 bg-white rounded-md p-2 mx-auto my-2 text-purple-800 text-base">
-                    Bank Name : {userInfo.agent.virtual_account_bank || 'N/A'}
+                    Bank Name : {userInfo.agent.virtual_account_bank || "N/A"}
                   </span>
                 </div>
                 <div className="p-5">
@@ -320,9 +318,17 @@ const Header = ({
           <div className="md:hidden flex gap-9">
             <div className="flex gap-3 items-center">
               <div>
-                <img src={userInfo.image || pic} alt="" className='w-20 h-20 rounded-full' />
+                <img
+                  src={userInfo.image || pic}
+                  alt=""
+                  className="w-20 h-20 rounded-full"
+                />
 
-                <img src={image} alt="user pic" className="w-[20px] md:hidden lg:block hidden" />
+                <img
+                  src={image}
+                  alt="user pic"
+                  className="w-[20px] md:hidden lg:block hidden"
+                />
               </div>
               <div className="">
                 <div className="flex gap-2">
@@ -378,7 +384,6 @@ const Header = ({
   );
 };
 
-
 const mapStateToProps = (state) => {
   return {
     currentPage: state?.page,
@@ -398,7 +403,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logout: () => dispatch(startLogout()),
+    logout: () => {
+      localStorage.removeItem("guarantor");
+      localStorage.removeItem("utility");
+      localStorage.removeItem("nin");
+    console.log("hey local storage");
+      dispatch(startLogout());
+    
+      return;
+    },
     createNotification: (payload) => dispatch(createNotification(payload)),
   };
 };

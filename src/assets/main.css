@@ -661,8 +661,8 @@ video {
   right: 1.5rem;
 }
 
-.right-\[2px\] {
-  right: 2px;
+.top-0 {
+  top: 0px;
 }
 
 .top-1\/2 {
@@ -685,56 +685,8 @@ video {
   top: 2rem;
 }
 
-.top-\[-10px\] {
-  top: -10px;
-}
-
-.top-\[-20px\] {
-  top: -20px;
-}
-
 .top-\[200px\] {
   top: 200px;
-}
-
-.right-\[px\] {
-  right: px;
-}
-
-.right-\[5px\] {
-  right: 5px;
-}
-
-.top-\[-05px\] {
-  top: -05px;
-}
-
-.right-\[6px\] {
-  right: 6px;
-}
-
-.right-\[8px\] {
-  right: 8px;
-}
-
-.right-\[10px\] {
-  right: 10px;
-}
-
-.right-\[0\] {
-  right: 0;
-}
-
-.right-\[0px\] {
-  right: 0px;
-}
-
-.top-\[0px\] {
-  top: 0px;
-}
-
-.top-0 {
-  top: 0px;
 }
 
 .z-10 {
@@ -1113,6 +1065,10 @@ video {
 
 .w-\[20px\] {
   width: 20px;
+}
+
+.w-\[20rem\] {
+  width: 20rem;
 }
 
 .w-\[30\%\] {

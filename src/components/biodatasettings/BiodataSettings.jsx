@@ -1,37 +1,33 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import React from "react";
+import { useState, useEffect, useRef } from "react";
 import { useToasts } from "react-toast-notifications";
 import axios from "../../utils/axiosInstance";
 import svg from "../../assets/images/Upload.svg";
 
-
-
 const BiodataSettings = ({ title }) => {
   const idDocumentInputRef = useRef();
   const utilityBillInputRef = useRef();
-  const [documentImage, setDocumentImage] = useState('');
+  const [documentImage, setDocumentImage] = useState("");
   const { addToast } = useToasts();
-  const [userData, setUserData] = useState('');
-  const [guarantorSelect, setGuarantorSelect] = useState('');
+  const [userData, setUserData] = useState("");
+  const [guarantorSelect, setGuarantorSelect] = useState("");
   const [fileUploaded, setFileUploaded] = useState(false);
   const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState("");
   const [states, setStates] = useState([]);
-  const [selectedState, setSelectedState] = useState('');
-  const [utilityImage, setUtilityImage] = useState('');
+  const [selectedState, setSelectedState] = useState("");
+  const [utilityImage, setUtilityImage] = useState("");
   const [selectedDocument, setSelectedDocument] = useState("");
-  const [loading, setLoading] = useState('');
+  const [loading, setLoading] = useState("");
   const [guarantorFileName, setGuarantorFileName] = useState("");
-  const [utilityFileName, setUtilityFileName] = useState("")
-  const [ninFileName, setNinFileName] = useState("")
-  
-  
-  const [alldoc, setAllDoc]= useState({
-    guarantor: '',
-    utility: '',
-    nin_id: ''
+  const [utilityFileName, setUtilityFileName] = useState("");
+  const [ninFileName, setNinFileName] = useState("");
 
-  })
+  const [alldoc, setAllDoc] = useState({
+    guarantor: "",
+    utility: "",
+    nin_id: "",
+  });
   const [payload, setPayload] = useState({
     email: "",
     password: {
@@ -44,16 +40,14 @@ const BiodataSettings = ({ title }) => {
   const [docUploadPayload, setDocUploadPayload] = useState("");
   const [currentAddressPayload, setCurrentAddressPayload] = useState("");
 
-  
   const downloadForm = () => {
-    const fileUrl = process.env.PUBLIC_URL + '/GUARANTOR form.pdf';
-    const link = document.createElement('a');
+    const fileUrl = process.env.PUBLIC_URL + "/GUARANTOR form.pdf";
+    const link = document.createElement("a");
     link.href = fileUrl;
-    link.download = 'GUARANTOR form.pdf';
+    link.download = "GUARANTOR form.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
   };
   const handleDocumentFileChange = (e) => {
     const file = e.target.files[0];
@@ -77,8 +71,7 @@ const BiodataSettings = ({ title }) => {
         setDocumentImage(null); // Clear the selected file
       } else {
         setDocumentImage(file);
-        localStorage.setItem("nin", file.name)
-
+        localStorage.setItem("nin", file.name);
       }
     }
   };
@@ -87,9 +80,6 @@ const BiodataSettings = ({ title }) => {
     setSelectedDocument(event.target.value);
     setFileUploaded(true);
   };
-
-
-
 
   const handleUtilityBillChange = (e) => {
     const file = e.target.files[0];
@@ -104,8 +94,7 @@ const BiodataSettings = ({ title }) => {
       setUtilityImage(null); // Clear the selected file
     } else {
       setUtilityImage(file);
-      localStorage.setItem("utility", file.name)
-
+      localStorage.setItem("utility", file.name);
     }
   };
 
@@ -122,21 +111,26 @@ const BiodataSettings = ({ title }) => {
       setGuarantorSelect(null); // Clear the selected file
     } else {
       setGuarantorSelect(file);
-      console.log(file)
-      localStorage.setItem("guarantor", file.name)
+      console.log(file);
+      localStorage.setItem("guarantor", file.name);
     }
   };
-  useEffect(()=>{
-    const guarantorFile = localStorage.getItem('guarantor')
-    const utilityFile = localStorage.getItem('utility')
-    const ninFile = localStorage.getItem('nin')
+  useEffect(() => {
+    const guarantorFile = localStorage.getItem("guarantor");
+    const utilityFile = localStorage.getItem("utility");
+    const ninFile = localStorage.getItem("nin");
 
-    if(guarantorFile !== null || guarantorFile !== undefined ){
+    if (guarantorFile !== null || guarantorFile !== undefined) {
       setGuarantorFileName(guarantorFile);
+
+    }
+    if (utilityFile !== null || utilityFile !== undefined) {
       setUtilityFileName(utilityFile);
+    }
+    if (ninFile !== null || ninFile !== undefined) {
       setNinFileName(ninFile);
     }
-  }, [])
+  }, [guarantorSelect, utilityImage, documentImage]);
 
   const guarantorUpload = () => {
     // Your file upload logic here
@@ -145,10 +139,12 @@ const BiodataSettings = ({ title }) => {
   };
   const fetchStates = async (expectedCountryId, secondParameter) => {
     try {
-      const response = await axios.get(`/countries/all-states/${expectedCountryId}`);
+      const response = await axios.get(
+        `/countries/all-states/${expectedCountryId}`
+      );
       setStates(response.data.data);
-      if (secondParameter !== '') {
-        setSelectedState(secondParameter)
+      if (secondParameter !== "") {
+        setSelectedState(secondParameter);
       }
     } catch (error) {
       console.error("Error fetching countries:", error);
@@ -164,50 +160,44 @@ const BiodataSettings = ({ title }) => {
         setPayload({
           ...payload,
           email: response.data.data.agent.email,
-
         });
 
         setDocUploadPayload(response.data.data.agent.business_address);
         // setUtilityImage(response.data.data.agent.documents.utility);
         // setSelectedDocument(response.data.data.agent.documents.nin_id);
         // setGuarantorSelect(response.data.data.agent.documents.guarantor)
-        let allMyDoc = response?.data?.data?.agent.documents.map((d,index) => {
+        let allMyDoc = response?.data?.data?.agent.documents.map((d, index) => {
           let newLength = response?.data?.data?.agent.documents.length;
-          let getImgName = d.image.split('/');
+          let getImgName = d.image.split("/");
           console.log(newLength);
           console.log(getImgName);
           getImgName = getImgName[getImgName.length - 1];
           console.log(getImgName);
-          if(d?.type == 'guarantor') {
-            setAllDoc({
-              ...alldoc,
-              guarantor: getImgName
+          if (d?.type == "guarantor") {
+            // setAllDoc({
+            //   ...alldoc,
+            //   guarantor: getImgName
 
-            });
+            // });
+            setGuarantorFileName(getImgName);
           }
-          if(d?.type == 'utility') {
-            setAllDoc({
-              ...alldoc,
-              utility: getImgName
-
-            });
+          if (d?.type == "utility") {
+            setUtilityFileName(getImgName);
           }
-          if(d?.type == 'nin_id') {
-            setAllDoc({
-              ...alldoc,
-              nin_id: getImgName
-
-            });
+          if (d?.type == "nin-id") {
+            setNinFileName(getImgName);
           }
-        })
-       console.log("documents", allMyDoc)
+        });
+        console.log("documents", allMyDoc);
         setCurrentAddressPayload(response.data.data.agent.current_address);
-        setSelectedCountry(response.data.data.agent.country_id || '');
+        setSelectedCountry(response.data.data.agent.country_id || "");
         if (response.data.data.agent.country_id) {
-          fetchStates(response.data.data.agent.country_id, response.data.data.agent.state_id)
+          fetchStates(
+            response.data.data.agent.country_id,
+            response.data.data.agent.state_id
+          );
         }
         // setSelectedState(response.data.data.agent.state_id || '');
-
       })
       .catch((error) => {
         console.error("Error fetching user information:", error);
@@ -217,7 +207,6 @@ const BiodataSettings = ({ title }) => {
   const handleUserBioData = async () => {
     setLoading(true);
 
-    
     // Check if the utility image size is more than 3MB
 
     // Check if the document image size is more than 3MB
@@ -230,8 +219,7 @@ const BiodataSettings = ({ title }) => {
       });
       setLoading(false);
       return;
-    }
-    else if (guarantorSelect && guarantorSelect.size > 3 * 1024 * 1024) {
+    } else if (guarantorSelect && guarantorSelect.size > 3 * 1024 * 1024) {
       console.error("Guarantor file size exceeds 3MB");
       // Display an error toast notification
       addToast("Document image size should not exceed 3MB", {
@@ -246,25 +234,25 @@ const BiodataSettings = ({ title }) => {
       const bio = new FormData();
       bio.append("business_address", docUploadPayload);
       bio.append("current_address", currentAddressPayload);
-      bio.append("guarantor_file", guarantorSelect || '');
-      bio.append("utility_image", utilityImage || '');
+      bio.append("guarantor_file", guarantorSelect || "");
+      bio.append("utility_image", utilityImage || "");
       bio.append("document_type", selectedDocument);
-      bio.append("document_image", documentImage || '');
+      bio.append("document_image", documentImage || "");
 
-      const countryId = selectedCountry.id || '';
-      const stateId = selectedState.id || '';
+      const countryId = selectedCountry.id || "";
+      const stateId = selectedState.id || "";
 
       bio.append("country_id", selectedCountry);
       bio.append("state_id", selectedState);
 
       try {
         let data = await axios.post("/agent/bio-data", bio);
-      
+
         if (data.status === 200) {
           const userInfoResponse = await axios.get("/agent/userinfo");
-          
+
           setUserData(userInfoResponse.data.data.agent);
-      
+
           addToast("Biodata updated successfully!", {
             appearance: "success",
             autoDismiss: true,
@@ -273,58 +261,60 @@ const BiodataSettings = ({ title }) => {
         }
       } catch (error) {
         console.error("Error saving changes:", error);
-         const {status, data}= error.response
+        const { status, data } = error.response;
         if (status === 400 || status === 404 || status === 422) {
           // Bad Request (400)
           if (data && data.errors) {
-            Object.values(data.errors).flat().forEach(errorMessage => {
-              addToast(`${errorMessage}`, {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
+            Object.values(data.errors)
+              .flat()
+              .forEach((errorMessage) => {
+                addToast(`${errorMessage}`, {
+                  appearance: "error",
+                  autoDismiss: true,
+                  autoDismissTimeout: 3000,
+                });
               });
-            });
           } else if (status && data && data.message) {
             addToast(`${data.message}`, {
-              appearance: 'error',
+              appearance: "error",
               autoDismiss: true,
               autoDismissTimeout: 3000,
             });
           } else {
-            addToast('Bad Request. Please check your input.', {
-              appearance: 'error',
+            addToast("Bad Request. Please check your input.", {
+              appearance: "error",
               autoDismiss: true,
               autoDismissTimeout: 3000,
             });
           }
         } else if (status === 500) {
           // Internal Server Error (500)
-          addToast('Internal Server Error. Please try again later.', {
-            appearance: 'error',
+          addToast("Internal Server Error. Please try again later.", {
+            appearance: "error",
             autoDismiss: true,
             autoDismissTimeout: 3000,
           });
         } else {
           // Display an error toast with the API response message for other status codes
-          addToast(data.message || 'An unexpected error occurred.', {
-            appearance: 'error',
+          addToast(data.message || "An unexpected error occurred.", {
+            appearance: "error",
             autoDismiss: true,
             autoDismissTimeout: 3000,
           });
         }
-         } finally {
+      } finally {
         setLoading(false);
       }
-      
     }
   };
-  
 
   const handleStateChange = (event) => {
     const selectedStateId = event.target.value;
 
     // Find the selected state object
-    const selectedStateObject = states.find(state => state.id === selectedStateId);
+    const selectedStateObject = states.find(
+      (state) => state.id === selectedStateId
+    );
 
     // Update selectedState state with the entire state object
 
@@ -347,16 +337,17 @@ const BiodataSettings = ({ title }) => {
     const selectedCountryId = event.target.value;
 
     // Find the selected country object
-    const selectedCountryObject = countries.find(country => country.id === selectedCountryId);
+    const selectedCountryObject = countries.find(
+      (country) => country.id === selectedCountryId
+    );
 
     // Update selectedCountry state with the entire country object
     setSelectedCountry(selectedCountryObject.id);
 
     // Fetch states based on the selected country
-    fetchStates(selectedCountryObject.id, '')
+    fetchStates(selectedCountryObject.id, "");
   };
 
-  
   return (
     <div>
       <h2>{title}</h2>
@@ -414,7 +405,7 @@ const BiodataSettings = ({ title }) => {
               </div>
               <div className="flex flex-col">
                 <label htmlFor="address" className="my-3">
-                 Current  Address
+                  Current Address
                 </label>
                 <div className="password-input">
                   <input
@@ -428,15 +419,14 @@ const BiodataSettings = ({ title }) => {
                   />
                 </div>
               </div>
-              
             </div>
             <div className="flex md:flex-row flex-col md:gap-3 lg:gap-8 md:items-center my-8 ">
-            <div className="flex flex-col">
+              <div className="flex flex-col">
                 <label htmlFor="countrySelect" className="my-3">
                   Country:
                 </label>
                 <select
-                  className=' bg-white border-[#D0D5DD] border rounded-lg h-18 md:w-[150px] lg:w-[244px] w-full mb-6 md:p-4 p-2'
+                  className=" bg-white border-[#D0D5DD] border rounded-lg h-18 md:w-[150px] lg:w-[244px] w-full mb-6 md:p-4 p-2"
                   value={selectedCountry}
                   onChange={handleCountryChange}
                 >
@@ -454,7 +444,7 @@ const BiodataSettings = ({ title }) => {
                   State
                 </label>
                 <select
-                  className=' bg-white border-[#D0D5DD] border rounded-lg h-18 md:w-[150px] lg:w-[244px] w-full mb-6 md:p-4 p-2'
+                  className=" bg-white border-[#D0D5DD] border rounded-lg h-18 md:w-[150px] lg:w-[244px] w-full mb-6 md:p-4 p-2"
                   value={selectedState}
                   onChange={handleStateChange}
                 >
@@ -466,24 +456,22 @@ const BiodataSettings = ({ title }) => {
                   ))}
                 </select>
               </div>
-
             </div>
             <div className="flex md:flex-col lg:flex-row flex-col md:justify-between md:items-center my-8 ">
               <div className="flex flex-col">
                 <div className="text-deep-green font-bold text-left gap-2 mb-2 flex flex-col">
                   <p className="text-2xl">Guarantor Form</p>
-                  <div className='flex justify-between items-center md:px-4'>
-                  <p className="text-gray-700 text-2xl font-thin md:w-[360px]">
-                    Download  guarantor's form
-                  </p>
-                  <button
-                    type="button"
-                    className="bg-[#ECE9FC] py-2 px-4 mt-2 rounded-md"
-                    onClick={downloadForm}
-                >
-                    
-                    Download
-                </button>
+                  <div className="flex justify-between items-center md:px-4">
+                    <p className="text-gray-700 text-2xl font-thin md:w-[360px]">
+                      Download guarantor's form
+                    </p>
+                    <button
+                      type="button"
+                      className="bg-[#ECE9FC] py-2 px-4 mt-2 rounded-md"
+                      onClick={downloadForm}
+                    >
+                      Download
+                    </button>
                   </div>
 
                   <p className="text-gray-700 text-2xl font-thin w-[360px]">
@@ -493,23 +481,27 @@ const BiodataSettings = ({ title }) => {
                 <div className="relative">
                   <div className="border border-gray-300 border-dotted p-2 rounded-md h-full w-full md:w-[350px] lg:w-full ">
                     <div className=" flex flex-col lg:flex-row  gap-5 items-center justify-between">
-                      <div className='flex gap-2'>
+                      <div className="flex gap-2">
                         <img
                           src={svg} // Provide the actual path to your SVG upload icon
                           alt="Upload Icon"
                           className="h-10 w-10"
                         />
-                        <div className='flex flex-col'>
+                        <div className="flex flex-col">
                           <p className="text-sm text-gray-900">Tap to Upload</p>
-                          <p className="block text-gray-400 text-xs">PNG, JPG | 3MB max</p>
+                          <p className="block text-gray-400 text-xs">
+                            PNG, JPG | 3MB max
+                          </p>
                         </div>
-
                       </div>
-                     
-                      <div className='relative'>
-                      <p className='absolute top-0 right-0 bg-white p-2'>{guarantorFileName}</p>
+
+                      <div className="relative">
+                        {guarantorFileName && (
+                          <p className="absolute top-0 right-0 bg-white w-[20rem] p-2">
+                            {guarantorFileName}
+                          </p>
+                        )}
                         <input
-                        
                           type="file"
                           accept=".pdf, .jpg, .png"
                           id="guarantor"
@@ -518,30 +510,34 @@ const BiodataSettings = ({ title }) => {
                         />
                       </div>
                     </div>
-
                   </div>
                 </div>
                 <div className="mt-6">
-                  <p className="text-gray-700 text-2xl mb-2">
-                    Utilities Bill
-                  </p>
+                  <p className="text-gray-700 text-2xl mb-2">Utilities Bill</p>
                   <div className="relative">
                     <div className="border border-gray-300 border-dotted p-2 rounded-md h-full w-full md:w-[350px] lg:w-full ">
                       <div className=" flex flex-col lg:flex-row  gap-5 items-center justify-between">
-                        <div className='flex gap-2'>
+                        <div className="flex gap-2">
                           <img
                             src={svg} // Provide the actual path to your SVG upload icon
                             alt="Upload Icon"
                             className="h-10 w-10"
                           />
-                          <div className='flex flex-col'>
-                            <p className="text-sm text-gray-900">Tap to Upload</p>
-                            <p className="block text-gray-400 text-xs">PNG, JPG | 3MB max</p>
+                          <div className="flex flex-col">
+                            <p className="text-sm text-gray-900">
+                              Tap to Upload
+                            </p>
+                            <p className="block text-gray-400 text-xs">
+                              PNG, JPG | 3MB max
+                            </p>
                           </div>
-
                         </div>
-                        <div className='relative'>
-                          <p className='absolute top-0 right-0 bg-white p-2'>{utilityFileName}</p>
+                        <div className="relative">
+                         {utilityFileName && (
+                          <p className="absolute top-0 right-0 bg-white w-[20rem] p-2">
+                            {utilityFileName}
+                          </p>
+                        )}
                           <input
                             type="file"
                             accept=".pdf, .jpg, .png"
@@ -552,7 +548,6 @@ const BiodataSettings = ({ title }) => {
                           />
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -560,7 +555,9 @@ const BiodataSettings = ({ title }) => {
               <div className="flex flex-col">
                 <div className="text-deep-green font-bold text-left gap-2 mb-2 my-4 md:my-6 lg:my-0">
                   <p className="text-2xl">Means of ID</p>
-                  <p className="text-gray-700 text-sm font-thin w[360px]">Upload a signed copy of this form in your profile</p>
+                  <p className="text-gray-700 text-sm font-thin w[360px]">
+                    Upload a signed copy of this form in your profile
+                  </p>
                 </div>
                 <select
                   className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-18 w-full mb-6 md:p-4 p-2 my-6"
@@ -575,20 +572,26 @@ const BiodataSettings = ({ title }) => {
                 <div className="relative">
                   <div className="border border-gray-300 border-dotted p-2 rounded-md h-full w-full md:w-[350px] lg:w-full my-6">
                     <div className=" flex flex-col lg:flex-row gap-5 items-center justify-between">
-                      <div className='flex gap-2'>
+                      <div className="flex gap-2">
                         <img
                           src={svg} // Provide the actual path to your SVG upload icon
                           alt="Upload Icon"
                           className="h-10 w-10"
                         />
-                        <div className='flex flex-col'>
+                        <div className="flex flex-col">
                           <p className="text-sm text-gray-900">Tap to Upload</p>
-                          <p className="block text-gray-400 text-xs">PNG, JPG | 3MB max</p>
+                          <p className="block text-gray-400 text-xs">
+                            PNG, JPG | 3MB max
+                          </p>
                         </div>
-
                       </div>
-                      <div className='relative'>
-                      <p className='absolute top-0 right-0 bg-white p-2'>{ninFileName}</p>
+                      <div className="relative">
+                      {ninFileName && (
+                          <p className="absolute top-0 right-0 bg-white w-[20rem] p-2">
+                            {ninFileName}
+                          </p>
+                        )}
+                        
                         <input
                           type="file"
                           accept=".pdf, .jpg, .png"
@@ -598,20 +601,18 @@ const BiodataSettings = ({ title }) => {
                           onChange={handleDocumentFileChange}
                         />
                       </div>
-
                     </div>
-
                   </div>
                 </div>
               </div>
             </div>
 
-
             <button
               type="submit"
               onClick={handleUserBioData}
-              className={`bg-color1  rounded-lg h-14 w-full text-white mx-auto relative ${loading ? 'opacity-50 pointer-events-none' : ''
-                }`}
+              className={`bg-color1  rounded-lg h-14 w-full text-white mx-auto relative ${
+                loading ? "opacity-50 pointer-events-none" : ""
+              }`}
               disabled={loading}
             >
               {loading && (
@@ -619,13 +620,13 @@ const BiodataSettings = ({ title }) => {
                   <div className="loader"></div>
                 </div>
               )}
-              {loading ? 'Saving...' : 'Save'}
+              {loading ? "Saving..." : "Save"}
             </button>
           </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BiodataSettings
+export default BiodataSettings;
