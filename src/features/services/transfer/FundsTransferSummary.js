@@ -17,11 +17,11 @@ export const FundsTransferSummary = (props) => {
     const [transactionCost, setTransactionCost] = useState([]);
     const [transactionTypeFilter, setTransactionTypeFilter] = useState('');
     const [TransactionCostChange,setTransactionCostChange] = useState(false);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [currentTransactionCost, setCurrentTransactionCost] = useState("");
     const {
         FundsTransferFormState: state,
-        // loading,
+        loading,
         dispatch,
         hasSetPin,
         setComponentToRender,
@@ -51,13 +51,13 @@ export const FundsTransferSummary = (props) => {
        
         if(!isCancelled){
             setTransactionCost(transactionCost);
-            setLoading(false);
+            // setLoading(false);
         }
     })
         .catch((err)=>{
             if(!isCancelled) {
                 setTransactionCostChange(false);
-                setLoading(false); 
+                // setLoading(false); 
                 setTransactionCost([]) 
             }
         });
@@ -163,7 +163,7 @@ export const FundsTransferSummary = (props) => {
                 </div>
             </div>
             <Submit onClick={handleOnSubmit} disabled={!hasSetPin}>
-                {loading ? <ThreeDots fill='white' /> : 'Proceed'}
+                {loading ? <ThreeDots fill='white'  /> : 'Proceed'}
             </Submit>
         </div>
     );

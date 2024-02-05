@@ -39,14 +39,14 @@ export const Main = ({ history , overlay}) => {
                 <section className={styles.contentContainer}>
                     <div className={styles.content}>
                         <div className={styles.contentMain}>
-                            <span
+                            {/* <span
                                 className={`styles.back md:block hidden md:mt-12 w-24 bg-[#EAF2FA] text-xl cursor-pointer border rounded-lg p-3 mb-4`}
                                 onClick={() => {
                                     history.goBack();
                                 }}
                             >
                                 &#8592; back
-                            </span>
+                            </span> */}
                             <Switch>
                                 <Route path='/profile' component={Profile} />
                                 {routes.map((route, index) => (

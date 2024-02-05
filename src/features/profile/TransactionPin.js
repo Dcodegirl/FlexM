@@ -160,7 +160,8 @@ const PinConfirmation = ({ formState, handleChange, loading, setPin }) => {
                 </div>
             </div>
             <button type='submit' className={styles.button}>
-                {loading ? <ThreeDots /> : 'Proceed'}
+             {loading ? "Loading" : "Proceed"}
+
             </button>
         </form>
     );

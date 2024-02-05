@@ -3,7 +3,7 @@ import React from 'react';
 const WalletLog = ({ transactions }) => {
   return (
     <div className="bg-white p-8 rounded-md mt-8 overflow-x-auto md:overflow-x-hidden">
-      <div className="md:w-full w-[1100px]">
+      <div className=" w-[1200px]">
         <p className="text-deep-green font-medium my-4 text-3xl">Recent Transactions</p>
 
         {transactions && transactions.length > 0 ? (
@@ -35,7 +35,7 @@ const WalletLog = ({ transactions }) => {
             </div>
           </div>
         ) : (
-          <div className="text-center text-gray-500 mt-4">No transactions found</div>
+          <div className="text-center text-gray-500 mt-4 mx-10 text-lg">No transactions found</div>
         )}
       </div>
     </div>

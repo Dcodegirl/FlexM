@@ -4,16 +4,27 @@ import { useGlobalContext } from '../../../../custom-hooks/Context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import lock from '../../../../assets/images/padlock.svg';
+import axios from '../../../../utils/axiosInstance';
+import { useToasts } from 'react-toast-notifications';
 
 function ForgotConfirmation() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [showToken, setShowToken ] = useState(false);
+    const [token, setToken] = useState('');
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [passwordMatch, setPasswordMatch] = useState(true);
     const [isPasswordValid, setIsPasswordValid] = useState(false);
     const [isSpecialCharacterValid, setIsSpecialCharacterValid] = useState(false);
     const history = useHistory();
+    const {addToast}= useToasts()
+    const payload = {
+        token: token,
+        password: password,
+    }
+
+    const RESET_PASSWORD = "/user/resetpasss"
 
     const handlePasswordChange = (event) => {
         const newPassword = event.target.value;
@@ -26,7 +37,10 @@ function ForgotConfirmation() {
         setIsPasswordValid(newPassword.length >= 8);
     };
 
-
+const handleTokenChange=(event)=>{
+    const tokenSent= event.target.value;
+    setToken(tokenSent)
+}
     const handleConfirmPasswordChange = (event) => {
         const newConfirmPassword = event.target.value;
         setConfirmPassword(newConfirmPassword);
@@ -35,6 +49,9 @@ function ForgotConfirmation() {
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
+    };
+    const toggleTokenVisibility = () => {
+        setShowToken(!showToken);
     };
 
     const toggleConfirmPasswordVisibility = () => {
@@ -56,11 +73,53 @@ function ForgotConfirmation() {
         if (isPasswordValid && isSpecialCharacterValid) {
             try {
                 // Assuming the API request is successful, navigate to otpVerification
+                console.log(payload)
+                const response = await axios.post(RESET_PASSWORD, payload);
+                
+                console.log(response.data)
                 history.push('/passwordSet');
             } catch (error) {
-                // Handle API request error here
-                console.error('API request error:', error);
-            }
+                console.error("Error saving changes:", error);
+                 const {status, data}= error.response
+                if (status === 400 || status === 404 || status === 422) {
+                  // Bad Request (400)
+                  if (data && data.errors) {
+                    Object.values(data.errors).flat().forEach(errorMessage => {
+                      addToast(`${errorMessage}`, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                      });
+                    });
+                  } else if (status && data && data.message) {
+                    addToast(`${data.message}`, {
+                      appearance: 'error',
+                      autoDismiss: true,
+                      autoDismissTimeout: 3000,
+                    });
+                  } else {
+                    addToast('Bad Request. Please check your input.', {
+                      appearance: 'error',
+                      autoDismiss: true,
+                      autoDismissTimeout: 3000,
+                    });
+                  }
+                } else if (status === 500) {
+                  // Internal Server Error (500)
+                  addToast('Internal Server Error. Please try again later.', {
+                    appearance: 'error',
+                    autoDismiss: true,
+                    autoDismissTimeout: 3000,
+                  });
+                } else {
+                  // Display an error toast with the API response message for other status codes
+                  addToast(data.message || 'An unexpected error occurred.', {
+                    appearance: 'error',
+                    autoDismiss: true,
+                    autoDismissTimeout: 3000,
+                  });
+                }
+                 }
         }
     };
 
@@ -82,6 +141,22 @@ function ForgotConfirmation() {
                                 </div>
                                 <div className='mt-4 w-full'>
                                     <form>
+                                    <div className="relative">
+                                            <p className='text-gray-700 text-sm mb-2'>Token</p>
+                                            <input
+                                                type={showToken ? 'text' : 'password'}
+                                                value={token}
+                                                onChange={handleTokenChange}
+                                                required
+                                                placeholder='**********'
+                                                className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
+                                            />
+                                            <FontAwesomeIcon
+                                                icon={showToken ? faEye : faEyeSlash}
+                                                className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
+                                                onClick={toggleTokenVisibility}
+                                            />
+                                        </div>
                                         <div className="relative">
                                             <p className='text-gray-700 text-sm mb-2'>Password</p>
                                             <input
