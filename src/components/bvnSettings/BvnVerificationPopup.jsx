@@ -3,7 +3,7 @@ import axios from '../../utils/axiosInstance';
 import { useGlobalContext } from '../../custom-hooks/Context';
 import { useToasts } from 'react-toast-notifications';
 
-const BvnVerificationPopup = ({isVisible}) => {
+const BvnVerificationPopup = ({isVisible, closeModal}) => {
     const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, updateBvnPhoneNum } = useGlobalContext();
     const { addToast } = useToasts();
   
@@ -13,7 +13,7 @@ const BvnVerificationPopup = ({isVisible}) => {
     const [loading, setLoading] = useState(false);
   
     const updatedBvnPhoneNum = updateBvnPhoneNum();
-  
+    
     const handleBvnChange = (index, value) => {
       if (value >= 0 && value <= 9) {
         // Ensure the value is within the range 0-9
@@ -72,7 +72,7 @@ const BvnVerificationPopup = ({isVisible}) => {
         if (isBvnComplete) {
           try {
             setLoading(true);
-    
+            
             const enteredBvn = bvn.join("");
             const payload = {
               code: enteredBvn,
@@ -100,6 +100,9 @@ const BvnVerificationPopup = ({isVisible}) => {
               autoDismiss: true,
               autoDismissTimeout: 3000, // milliseconds
             });
+
+            closeModal()
+            console.log(closeModal)
         
           }  catch (error) {
             console.error("Error saving changes:", error);
@@ -158,7 +161,8 @@ const BvnVerificationPopup = ({isVisible}) => {
           setLoading(true);
           const response = await axios.post('/onboarding/resend', { phone: updatedBvnPhoneNum });
           const responseData = response.data;
-    
+
+
           if (responseData.status === 'Successful') {
             // Reset the timer and disable the Resend button
             setTimeLeft(600);
@@ -167,6 +171,7 @@ const BvnVerificationPopup = ({isVisible}) => {
           } else {
             addToast('Failed to resend OTP. Please try again.', { appearance: 'error' });
           }
+          closeModal()
         } catch (error) {
           console.error('API Error:', error);
           addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });

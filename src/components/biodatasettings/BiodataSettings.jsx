@@ -71,7 +71,7 @@ const BiodataSettings = ({ title }) => {
         setDocumentImage(null); // Clear the selected file
       } else {
         setDocumentImage(file);
-        localStorage.setItem("nin", file.name);
+        setNinFileName(file.name);
       }
     }
   };
@@ -94,7 +94,7 @@ const BiodataSettings = ({ title }) => {
       setUtilityImage(null); // Clear the selected file
     } else {
       setUtilityImage(file);
-      localStorage.setItem("utility", file.name);
+      setUtilityFileName(file.name);
     }
   };
 
@@ -112,25 +112,25 @@ const BiodataSettings = ({ title }) => {
     } else {
       setGuarantorSelect(file);
       console.log(file);
-      localStorage.setItem("guarantor", file.name);
+      setGuarantorFileName(file.name);
     }
   };
-  useEffect(() => {
-    const guarantorFile = localStorage.getItem("guarantor");
-    const utilityFile = localStorage.getItem("utility");
-    const ninFile = localStorage.getItem("nin");
+  // useEffect(() => {
+  //   const guarantorFile = localStorage.getItem("guarantor");
+  //   const utilityFile = localStorage.getItem("utility");
+  //   const ninFile = localStorage.getItem("nin");
 
-    if (guarantorFile !== null || guarantorFile !== undefined) {
-      setGuarantorFileName(guarantorFile);
+  //   if (guarantorFile !== null || guarantorFile !== undefined) {
+  //     setGuarantorFileName(guarantorFile);
 
-    }
-    if (utilityFile !== null || utilityFile !== undefined) {
-      setUtilityFileName(utilityFile);
-    }
-    if (ninFile !== null || ninFile !== undefined) {
-      setNinFileName(ninFile);
-    }
-  }, [guarantorSelect, utilityImage, documentImage]);
+  //   }
+  //   if (utilityFile !== null || utilityFile !== undefined) {
+  //     setUtilityFileName(utilityFile);
+  //   }
+  //   if (ninFile !== null || ninFile !== undefined) {
+  //     setNinFileName(ninFile);
+  //   }
+  // }, [guarantorSelect, utilityImage, documentImage ]);
 
   const guarantorUpload = () => {
     // Your file upload logic here

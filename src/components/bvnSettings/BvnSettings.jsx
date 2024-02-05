@@ -179,7 +179,7 @@ function BvnSettings() {
           </div>
         </div>
       </div>
-      {popupVisible &&  (<BvnVerificationPopup isVisible={popupVisible}/>) 
+      {popupVisible &&  (<BvnVerificationPopup isVisible={popupVisible} closeModal={setPopupVisible}/>) 
 }
 
     </>

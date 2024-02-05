@@ -91,7 +91,7 @@ const Header = ({
       addToast(notification.body, {
         appearance: "info",
         autoDismiss: true,
-        autoDismissTimeout: 3000,
+        autoDismissTimeout: 10000,
       });
     });
   };
