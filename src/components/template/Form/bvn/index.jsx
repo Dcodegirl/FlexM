@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../../../utils/axiosInstance';
 import { useGlobalContext } from '../../../../custom-hooks/Context';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../toast/useCustomToast';
 
 function Contact({ nextStep }) {
   const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, updateBvnPhoneNum } = useGlobalContext();
-  const { addToast } = useToasts();
+  const showToast = useCustomToast()
 
   const [timeLeft, setTimeLeft] = useState(600);
   const [bvn, setBvn] = useState(["", "", "", "", "", ""]);
@@ -93,11 +93,7 @@ function Contact({ nextStep }) {
         setState(responseData.data.state);
         setCountry(responseData.data.country);
 
-        addToast('BVN verification successful!', {
-          appearance: 'success',
-          autoDismiss: true,
-          autoDismissTimeout: 3000, // milliseconds
-        });
+        showToast('BVN verification successful!', 'success');
         nextStep();
       } catch (error) {
         console.error("Error saving changes:", error);
@@ -113,72 +109,40 @@ function Contact({ nextStep }) {
               // Bad Request (400)
               if (data && data.errors) {
                 Object.values(data.errors).flat().forEach(errorMessage => {
-                  addToast(`${errorMessage}`, {
-                    appearance: 'error',
-                    autoDismiss: true,
-                    autoDismissTimeout: 3000,
-                  });
+                  showToast(`${errorMessage}`, 'error');
                 });
               } else if (status && data && data.message) {
-                addToast(`${data.message}`, {
-                  appearance: 'error',
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
+                showToast(`${data.message}`, 'error');
               } else {
-                addToast('Bad Request. Please check your input.', {
-                  appearance: 'error',
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
+                showToast('Bad Request. Please check your input.', 'error');
               }
               break;
             case 500:
               // Internal Server Error (500)
-              addToast('Internal Server Error. Please try again later.', {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast('Internal Server Error. Please try again later.', 'error');
               break;
             // Add more cases for other status codes as needed
             default:
               // Display an error toast with the API response message
-              addToast(data.message || 'An unexpected error occurred.', {
-                appearance: "error",
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast(data.message || 'An unexpected error occurred.', 'error');
           }
         } else if (error.request) {
           // The request was made but no response was received
           console.error("No response received from the server.");
     
-          addToast("No response from the server. Please try again.", {
-            appearance: "error",
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
-          });
+          showToast("No response from the server. Please try again.", 'error');
         } else {
           // Something happened in setting up the request that triggered an error
           console.error("An unexpected error occurred:", error.message);
     
           // Display an error toast with the API response message if available
-          addToast(error.message || 'An unexpected error occurred.', {
-            appearance: "error",
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
-          });
+          showToast(error.message || 'An unexpected error occurred.', 'error');
         }
         } finally {
         setLoading(false);
       }
     } else {
-      addToast('Please enter all 6 BVN digits.', {
-        appearance: 'error',
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
+      showToast('Please enter all 6 BVN digits.', 'error');
     }
   };
   const handleResendOtp = async () => {
@@ -191,13 +155,13 @@ function Contact({ nextStep }) {
         // Reset the timer and disable the Resend button
         setTimeLeft(600);
         setResendButtonDisabled(true);
-        addToast('OTP has been resent successfully!', { appearance: 'success' });
+        showToast('OTP has been resent successfully!', 'success' );
       } else {
-        addToast('Failed to resend OTP. Please try again.', { appearance: 'error' });
+        showToast('Failed to resend OTP. Please try again.', 'error' );
       }
     } catch (error) {
       console.error('API Error:', error);
-      addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+      showToast('An unexpected error occurred. Please try again.', 'error' );
     } finally {
       setLoading(false);
     }

@@ -3,12 +3,13 @@ import { useState, useEffect, useRef } from "react";
 import { useToasts } from "react-toast-notifications";
 import axios from "../../utils/axiosInstance";
 import svg from "../../assets/images/Upload.svg";
+import { useCustomToast } from "../toast/useCustomToast";
 
 const BiodataSettings = ({ title }) => {
   const idDocumentInputRef = useRef();
   const utilityBillInputRef = useRef();
   const [documentImage, setDocumentImage] = useState("");
-  const { addToast } = useToasts();
+  const showToast = useCustomToast();
   const [userData, setUserData] = useState("");
   const [guarantorSelect, setGuarantorSelect] = useState("");
   const [fileUploaded, setFileUploaded] = useState(false);
@@ -54,20 +55,12 @@ const BiodataSettings = ({ title }) => {
 
     // Check if means of ID has been selected
     if (!selectedDocument) {
-      addToast("Please select a valid means of ID", {
-        appearance: "error",
-        autoDismiss: true,
-        autoDismissTimeout: 3000,
-      });
+      showToast("Please select a valid means of ID", "error");
       setDocumentImage(null); // Clear the selected file
     } else {
       // Check if the file size exceeds 3MB
       if (file && file.size > 3 * 1024 * 1024) {
-        addToast("Means of ID image size should not exceed 3MB", {
-          appearance: "error",
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast("Means of ID image size should not exceed 3MB", "error");
         setDocumentImage(null); // Clear the selected file
       } else {
         setDocumentImage(file);
@@ -86,11 +79,7 @@ const BiodataSettings = ({ title }) => {
 
     // Check if the file size exceeds 3MB
     if (file && file.size > 3 * 1024 * 1024) {
-      addToast("Utility image size should not exceed 3MB", {
-        appearance: "error",
-        autoDismiss: true,
-        autoDismissTimeout: 3000,
-      });
+      showToast("Utility image size should not exceed 3MB", "error");
       setUtilityImage(null); // Clear the selected file
     } else {
       setUtilityImage(file);
@@ -103,11 +92,7 @@ const BiodataSettings = ({ title }) => {
 
     // Check if the file size exceeds 3MB
     if (file && file.size > 3 * 1024 * 1024) {
-      addToast("Guarantor form size should not exceed 3MB", {
-        appearance: "error",
-        autoDismiss: true,
-        autoDismissTimeout: 6000,
-      });
+      showToast("Guarantor form size should not exceed 3MB", "error");
       setGuarantorSelect(null); // Clear the selected file
     } else {
       setGuarantorSelect(file);
@@ -212,21 +197,13 @@ const BiodataSettings = ({ title }) => {
     // Check if the document image size is more than 3MB
     if (documentImage && documentImage.size > 3 * 1024 * 1024) {
       // Display an error toast notification
-      addToast("Document image size should not exceed 3MB", {
-        appearance: "error",
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
+      showToast("Document image size should not exceed 3MB", "error");
       setLoading(false);
       return;
     } else if (guarantorSelect && guarantorSelect.size > 3 * 1024 * 1024) {
       console.error("Guarantor file size exceeds 3MB");
       // Display an error toast notification
-      addToast("Document image size should not exceed 3MB", {
-        appearance: "error",
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
+      showToast("Document image size should not exceed 3MB", "error");
       setLoading(false);
     }
     // If neither utilityImage nor documentImage exceeds 3MB, proceed with the API request
@@ -253,11 +230,7 @@ const BiodataSettings = ({ title }) => {
 
           setUserData(userInfoResponse.data.data.agent);
 
-          addToast("Biodata updated successfully!", {
-            appearance: "success",
-            autoDismiss: true,
-            autoDismissTimeout: 3000, // milliseconds
-          });
+          showToast("Biodata updated successfully!", "success");
         }
       } catch (error) {
         console.error("Error saving changes:", error);
@@ -268,39 +241,19 @@ const BiodataSettings = ({ title }) => {
             Object.values(data.errors)
               .flat()
               .forEach((errorMessage) => {
-                addToast(`${errorMessage}`, {
-                  appearance: "error",
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
+                showToast(`${errorMessage}`, "error");
               });
           } else if (status && data && data.message) {
-            addToast(`${data.message}`, {
-              appearance: "error",
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast(`${data.message}`, "error");
           } else {
-            addToast("Bad Request. Please check your input.", {
-              appearance: "error",
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast("Bad Request. Please check your input.", "error");
           }
         } else if (status === 500) {
           // Internal Server Error (500)
-          addToast("Internal Server Error. Please try again later.", {
-            appearance: "error",
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
-          });
+          showToast("Internal Server Error. Please try again later.", "error");
         } else {
           // Display an error toast with the API response message for other status codes
-          addToast(data.message || "An unexpected error occurred.", {
-            appearance: "error",
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
-          });
+          showToast(data.message || "An unexpected error occurred.", "error");
         }
       } finally {
         setLoading(false);
