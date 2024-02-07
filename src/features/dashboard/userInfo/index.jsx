@@ -20,10 +20,12 @@ const UserInfo = () => {
       .then(response => {
         setUserData(response.data.data);
         console.log('user info:',"user info from user info api: ", response.data.data)
+        
       })
       .catch(error => {
         console.error('Error fetching user information:', error);
       });
+
   }, []);
 
   if (!userData) {

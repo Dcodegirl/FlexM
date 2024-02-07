@@ -3,16 +3,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useHistory } from 'react-router-dom';
 import axios from '../../../../utils/axiosInstance';
-import { useToasts } from 'react-toast-notifications';
+// import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../toast/useCustomToast';
+
 
 function Login() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const showToast = useCustomToast();
+
 
   const history = useHistory();
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -28,7 +32,7 @@ function Login() {
       setLoading(true);
        // Validate phone number
     if (phoneNumber.length !== 11) {
-      addToast('Phone Number is less than 11 digits!.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+      showToast('Phone Number is less than 11 digits!.', 'error');
       return;
     }
 
@@ -45,7 +49,7 @@ function Login() {
       const response = await axios.post(apiUrl, requestBody);
       console.log('logged in successfully and otp sent:', response.data);
 
-      addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 });
+      showToast('Contact Info Passed successfully and otp sent!', 'success');
       history.push('/otpVerification');
     } catch (error) {
       if (error.response) {
@@ -59,62 +63,34 @@ function Login() {
             // Bad Request (400)
             if (data && data.errors) {
               Object.values(data.errors).flat().forEach(errorMessage => {
-                addToast(`${errorMessage}`, {
-                  appearance: 'error',
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
+                showToast(`${errorMessage}`, 'error');
               });
             } else if (data && data.message) {
-              addToast(`${data.message}`, {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast(`${data.message}`, 'error');
             } else {
-              addToast('Bad Request. Please check your input.', {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast('Bad Request. Please check your input.', 'error');
             }
             break;
           case 500:
             // Internal Server Error (500)
-            addToast('Internal Server Error. Please try again later.', {
-              appearance: 'error',
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast('Internal Server Error. Please try again later.', 'error');
             break;
           // Add more cases for other status codes as needed
           default:
             // Display an error toast with the API response message
-            addToast(data.message || 'An unexpected error occurred.', {
-              appearance: "error",
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast(data.message || 'An unexpected error occurred.', 'error');
         }
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received from the server.");
     
-        addToast("No response from the server. Please try again.", {
-          appearance: "error",
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast("No response from the server. Please try again.", 'error');
       } else {
         // Something happened in setting up the request that triggered an error
         console.error("An unexpected error occurred:", error.message);
     
         // Display an error toast with the API response message if available
-        addToast(error.message || 'An unexpected error occurred.', {
-          appearance: "error",
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast(error.message || 'An unexpected error occurred.', 'error');
       }
     } finally {
       setLoading(false);

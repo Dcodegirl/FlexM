@@ -4,8 +4,8 @@ import svg from "../../assets/images/Upload.svg";
 import axios from "../../utils/axiosInstance";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { useToasts } from "react-toast-notifications";
-
+// import { useToasts } from "react-toast-notifications";
+import { useCustomToast } from "../toast/useCustomToast";
 
 const ContactDetail = () => {
     const [userData, setUserData] = useState('');
@@ -16,7 +16,8 @@ const ContactDetail = () => {
     const [fileUploaded, setFileUploaded] = useState(false);
     const [loading, setLoading] = useState('');
     const [uploadProgress, setUploadProgress] = useState(0);
-    const { addToast } = useToasts();
+    // const { addToast } = useToasts();
+    const showToast = useCustomToast();
 
 
     const [payload, setPayload] = useState({
@@ -30,7 +31,6 @@ const ContactDetail = () => {
       });
       const [docUploadPayload, setDocUploadPayload] = useState("");
 
-      console.log(userData);
 
       const handleTogglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -71,11 +71,7 @@ const ContactDetail = () => {
           if (selectedImage && selectedImage.size > 3 * 1024 * 1024) {
             console.error("Image size exceeds 3MB");
             // Display an error toast notification
-            addToast("Image size should not exceed 3MB", {
-              appearance: "error",
-              autoDismiss: true,
-              autoDismissTimeout: 3000, // milliseconds
-            });
+            showToast("Image size should not exceed 3MB", 'error');
             return; // Stop further processing
           }
       
@@ -91,11 +87,7 @@ const ContactDetail = () => {
           // Send a request to update the user profile
           await axios.post(CONTACT_DETAILS, contactUpdate);
           // Display a success toast notification
-          addToast("Profile updated successfully!", {
-            appearance: "success",
-            autoDismiss: true,
-            autoDismissTimeout: 3000, // milliseconds
-          });
+          showToast("Profile updated successfully!", 'success');
         } catch (error) {
           console.error("Error saving changes:", error);
       
@@ -110,85 +102,67 @@ const ContactDetail = () => {
                 // Bad Request (400)
                 if (data && data.errors) {
                   Object.values(data.errors).flat().forEach(errorMessage => {
-                    addToast(`${errorMessage}`, {
-                      appearance: 'error',
-                      autoDismiss: true,
-                      autoDismissTimeout: 3000,
-                    });
+                    showToast(`${errorMessage}`, 'error');
                   });
                 } else if (data && data.message) {
-                  addToast(`${data.message}`, {
-                    appearance: 'error',
-                    autoDismiss: true,
-                    autoDismissTimeout: 3000,
-                  });
+                  showToast(`${data.message}`, 'error');
                 } else {
-                  addToast('Bad Request. Please check your input.', {
-                    appearance: 'error',
-                    autoDismiss: true,
-                    autoDismissTimeout: 3000,
-                  });
+                  showToast('Bad Request. Please check your input.', 'error');
                 }
                 break;
               case 500:
                 // Internal Server Error (500)
-                addToast('Internal Server Error. Please try again later.', {
-                  appearance: 'error',
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
+                showToast('Internal Server Error. Please try again later.', 'error');
                 break;
               // Add more cases for other status codes as needed
               default:
                 // Display an error toast with the API response message
-                addToast(data.message || 'An unexpected error occurred.', {
-                  appearance: "error",
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
+                showToast(data.message || 'An unexpected error occurred.', 'error');
             }
           } else if (error.request) {
             // The request was made but no response was received
             console.error("No response received from the server.");
       
-            addToast("No response from the server. Please try again.", {
-              appearance: "error",
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast("No response from the server. Please try again.", 'error');
           } else {
             // Something happened in setting up the request that triggered an error
             console.error("An unexpected error occurred:", error.message);
       
             // Display an error toast with the API response message if available
-            addToast(error.message || 'An unexpected error occurred.', {
-              appearance: "error",
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast(error.message || 'An unexpected error occurred.', 'error');
           }
         } finally {
           setLoading(false); // Set loading to false regardless of success or error
         }
       };
       
-  useEffect(() => {
-    // Make API call to fetch user information
-    axios
-      .get("/agent/userinfo")
-      .then((response) => {
-        setUserData(response.data.data.agent);
-        setPayload({
-          ...payload,
-          email: response.data.data.agent.email,
-
-        });
-
-      })
-      .catch((error) => {
-        console.error("Error fetching user information:", error);
-      });
-  }, []);
+      useEffect(() => {
+        let isMounted = true; // Flag to track if the component is mounted
+    
+        axios.get("/agent/userinfo")
+             .then((response) => {
+                if (isMounted) {
+                    setUserData(response.data.data.agent);
+                    setPayload({
+                        ...payload,
+                        email: response.data.data.agent.email,
+                    });
+                    // Set selected image URL if available in user data
+                    if (response.data.data.agent.image) {
+                        setSelectedImage(response.data.data.agent.image);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching user information:", error);
+            });
+    
+        // Cleanup function to cancel any ongoing tasks when component unmounts
+        return () => {
+            isMounted = false; // Set the flag to indicate unmounting
+        };
+    }, []);
+    
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -211,7 +185,66 @@ const ContactDetail = () => {
   return (
     <div className="md:p-20 p-5 text-2xl" id="contact">
           {/* Replace the following comment with your actual contact details form */}
+          
           <form className="flex flex-col">
+          <div className="flex gap-10 items-center my-8 justify-center align-center mx-auto">
+              {/* Display the selected image (if any) */}
+              <div className="flex flex-col">
+                {/* {selectedImage && (
+                  <img
+                    src={}
+                    alt="Selected"
+                    className="mb-4 rounded-lg"
+                    style={{ maxWidth: "300px", maxHeight: "300px" }}
+                  />
+                )} */}
+
+                {/* Image upload input */}
+                <label htmlFor="imageInput" className="mb-2">
+                  Image:
+                </label>
+
+                <div className="flex flex-col border border-gray-100 items-center p-6">
+                  <input
+                    type="file"
+                    id="imageInput"
+                    name="image"
+                    accept=".pdf, .jpg, .png"
+                    onChange={handleImageChange}
+                    className=" mb-4"
+                    ref={fileInputRef} // Reference to the hidden file input
+                    style={{ display: "none" }}
+                  />
+                  <div className="h-20 w-20 overflow-hidden rounded-full">
+                    <img
+                      alt=""
+                      src={
+                        selectedImage
+                          ? URL.createObjectURL(selectedImage)
+                          : profileAvatar
+                      }
+                      className="w-full h-full"
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    className="bg-white text-white px-4 py-2 rounded"
+                    onClick={handleUploadButtonClick}
+                  >
+                    <img src={svg} alt="" />
+                  </button>
+                  <p className="w-1/2 text-center">
+                    Click to upload or drag and drop SVG, PNG, JPG (max,
+                    3mb)
+                  </p>
+                </div>
+              </div>
+
+              {/* Additional form elements or buttons can be added here */}
+
+              <div className="flex gap-10 items-center my-8"></div>
+            </div>
             <div className="flex gap-10 items-center my-8">
               <div className="flex flex-col text-xl">
                 <label htmlFor="phone number" className="my-3">
@@ -310,64 +343,7 @@ const ContactDetail = () => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-10 items-center my-8">
-              {/* Display the selected image (if any) */}
-              <div className="flex flex-col">
-                {/* {selectedImage && (
-                  <img
-                    src={}
-                    alt="Selected"
-                    className="mb-4 rounded-lg"
-                    style={{ maxWidth: "300px", maxHeight: "300px" }}
-                  />
-                )} */}
-
-                {/* Image upload input */}
-                <label htmlFor="imageInput" className="mb-2">
-                  Image:
-                </label>
-
-                <div className="flex flex-col border border-gray-100 items-center p-6">
-                  <input
-                    type="file"
-                    id="imageInput"
-                    name="image"
-                    accept=".pdf, .jpg, .png"
-                    onChange={handleImageChange}
-                    className=" mb-4"
-                    ref={fileInputRef} // Reference to the hidden file input
-                    style={{ display: "none" }}
-                  />
-                  <div className="h-20 w-20 overflow-hidden rounded-full">
-                    <img
-                      alt=""
-                      src={
-                        selectedImage
-                          ? URL.createObjectURL(selectedImage)
-                          : profileAvatar
-                      }
-                      className="w-full h-full"
-                    />
-                  </div>
-
-                  <button
-                    type="button"
-                    className="bg-white text-white px-4 py-2 rounded"
-                    onClick={handleUploadButtonClick}
-                  >
-                    <img src={svg} alt="" />
-                  </button>
-                  <p className="w-1/2 text-center">
-                    Click to upload or drag and drop SVG, PNG, JPG (max,
-                    3mb)
-                  </p>
-                </div>
-              </div>
-
-              {/* Additional form elements or buttons can be added here */}
-
-              <div className="flex gap-10 items-center my-8"></div>
-            </div>
+            
 
             <button
               type="submit"

@@ -36,7 +36,7 @@ export const Overview = ({
             <UserInfo/>
              <Balance/>
             <QuickAction displayModal={displayModal}/>
-            <div className="flex md:gap-10 md:flex-row flex-col">
+            <div className="flex md:gap-10 md:flex-col lg:flex-row flex-col">
             <BarChart/>
             <PieChart/>
             </div>

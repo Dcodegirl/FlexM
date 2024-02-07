@@ -4,6 +4,7 @@ import axios from '../../utils/axiosInstance';
 import { useToasts } from 'react-toast-notifications';
 import warning from '../../assets/images/warning.svg';
 import BvnVerificationPopup from './BvnVerificationPopup';
+import { useCustomToast } from '../toast/useCustomToast';
 
 function BvnSettings() {
   const { updateBvnPhoneNum   } = useGlobalContext();
@@ -12,7 +13,7 @@ function BvnSettings() {
   const [popupVisible, setPopupVisible] = useState(false);
 
 
-  const { addToast } = useToasts();
+  const showToast  = useCustomToast();
 
   const [bvn, setBvn] = useState('');
   const [dob, setDob] = useState('');
@@ -38,11 +39,7 @@ function BvnSettings() {
 
       // Validation: Ensure BVN is 11 digits
       if (bvn.length !== 11) {
-        addToast('BVN must be 11 digits.', {
-          appearance: 'error',
-          autoDismiss: true,
-          autoDismissTimeout: 3000, // milliseconds
-        });
+        showToast('BVN must be 11 digits.', 'error');
         return;
       }
 
@@ -59,11 +56,7 @@ function BvnSettings() {
       const responseData = response.data;
       console.log('API Response:', responseData);
       updateBvnPhoneNum(responseData.data)
-      addToast('BVN validation successful!', {
-        appearance: 'success',
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
+      showToast('BVN validation successful!', 'success');
       setPopupVisible(true);
       // Move to the next step in your component logic
 
@@ -77,39 +70,19 @@ function BvnSettings() {
         // Bad Request (400)
         if (data && data.errors) {
           Object.values(data.errors).flat().forEach(errorMessage => {
-            addToast(`${errorMessage}`, {
-              appearance: 'error',
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast(`${errorMessage}`, 'error');
           });
         } else if (status && data && data.message) {
-          addToast(`${data.message}`, {
-            appearance: 'error',
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
-          });
+          showToast(`${data.message}`, 'error');
         } else {
-          addToast('Bad Request. Please check your input.', {
-            appearance: 'error',
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
-          });
+          showToast('Bad Request. Please check your input.', 'error');
         }
       } else if (status === 500) {
         // Internal Server Error (500)
-        addToast('Internal Server Error. Please try again later.', {
-          appearance: 'error',
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast('Internal Server Error. Please try again later.', 'error');
       } else {
         // Display an error toast with the API response message for other status codes
-        addToast(data.message || 'An unexpected error occurred.', {
-          appearance: 'error',
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast(data.message || 'An unexpected error occurred.', 'error');
       }
        } finally {
     setLoading(false);
@@ -179,7 +152,7 @@ function BvnSettings() {
           </div>
         </div>
       </div>
-      {popupVisible &&  (<BvnVerificationPopup isVisible={popupVisible}/>) 
+      {popupVisible &&  (<BvnVerificationPopup isVisible={popupVisible} closeModal={setPopupVisible}/>) 
 }
 
     </>

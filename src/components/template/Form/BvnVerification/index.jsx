@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useGlobalContext } from '../../../../custom-hooks/Context';
 import axios from '../../../../utils/axiosInstance';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../toast/useCustomToast';
 import warning from '../../../../assets/images/warning.svg';
 
 function BvnVerifi({ nextStep }) {
   const { userId, setUserId, updateBvnPhoneNum   } = useGlobalContext();
-  const { addToast } = useToasts();
+  const showToast  = useCustomToast();
 
   const [bvn, setBvn] = useState('');
   const [dob, setDob] = useState('');
@@ -20,11 +20,7 @@ function BvnVerifi({ nextStep }) {
 
       // Validation: Ensure BVN is 11 digits
       if (bvn.length !== 11) {
-        addToast('BVN must be 11 digits.', {
-          appearance: 'error',
-          autoDismiss: true,
-          autoDismissTimeout: 3000, // milliseconds
-        });
+        showToast('BVN must be 11 digits.', 'error');
         return;
       }
 
@@ -41,11 +37,7 @@ function BvnVerifi({ nextStep }) {
       const responseData = response.data;
       console.log('API Response:', responseData);
       updateBvnPhoneNum(responseData.data)
-      addToast('BVN validation successful!', {
-        appearance: 'success',
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
+      showToast('BVN validation successful!', "success");
       // Move to the next step in your component logic
       nextStep();
     } catch (error) {
@@ -57,48 +49,28 @@ function BvnVerifi({ nextStep }) {
 
       if (status === 400) {
         // Specific error handling for bad requests (status code 400)
-        addToast(` ${data.message}`, {
-          appearance: 'error',
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast(` ${data.message}`, 'error');
       } 
       // else if (status === 401) {
       //   // Specific error handling for unauthorized requests (status code 401)
-      //   addToast('Unauthorized: Please log in and try again.', {
+      //   showToast('Unauthorized: Please log in and try again.', {
       //     appearance: 'error',
       //     autoDismiss: true,
       //     autoDismissTimeout: 3000,
       //   });
        else if (status === 422) {
         // Specific error handling for validation errors (status code 422)
-        addToast(`${data.message}`, {
-          appearance: 'error',
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast(`${data.message}`, 'error');
       } else {
         // Generic error message for other status codes
-        addToast('Error submitting BVN. Please try again.', {
-          appearance: 'error',
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast('Error submitting BVN. Please try again.', 'error');
       }
     } else if (error.request) {
       // The request was made but no response was received
-      addToast('No response from the server. Please try again.', {
-        appearance: 'error',
-        autoDismiss: true,
-        autoDismissTimeout: 3000,
-      });
+      showToast('No response from the server. Please try again.', 'error');
     } else {
       // Something happened in setting up the request that triggered an error
-      addToast('An unexpected error occurred. Please try again.', {
-        appearance: 'error',
-        autoDismiss: true,
-        autoDismissTimeout: 3000,
-      });
+      showToast('An unexpected error occurred. Please try again.', 'error');
     }
   } finally {
     setLoading(false);

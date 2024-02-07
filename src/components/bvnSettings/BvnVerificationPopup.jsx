@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from '../../utils/axiosInstance';
 import { useGlobalContext } from '../../custom-hooks/Context';
 import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../toast/useCustomToast';
 
-const BvnVerificationPopup = ({isVisible}) => {
+const BvnVerificationPopup = ({isVisible, closeModal}) => {
     const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, updateBvnPhoneNum } = useGlobalContext();
-    const { addToast } = useToasts();
+    const  showToast  = useCustomToast();
   
     const [timeLeft, setTimeLeft] = useState(600);
     const [bvn, setBvn] = useState(["", "", "", "", "", ""]);
@@ -13,7 +14,7 @@ const BvnVerificationPopup = ({isVisible}) => {
     const [loading, setLoading] = useState(false);
   
     const updatedBvnPhoneNum = updateBvnPhoneNum();
-  
+    
     const handleBvnChange = (index, value) => {
       if (value >= 0 && value <= 9) {
         // Ensure the value is within the range 0-9
@@ -72,7 +73,7 @@ const BvnVerificationPopup = ({isVisible}) => {
         if (isBvnComplete) {
           try {
             setLoading(true);
-    
+            
             const enteredBvn = bvn.join("");
             const payload = {
               code: enteredBvn,
@@ -95,11 +96,10 @@ const BvnVerificationPopup = ({isVisible}) => {
             setState(responseData.data.state);
             setCountry(responseData.data.country);
     
-            addToast('BVN verification successful!', {
-              appearance: 'success',
-              autoDismiss: true,
-              autoDismissTimeout: 3000, // milliseconds
-            });
+            showToast('BVN verification successful!', 'success');
+
+            closeModal()
+            console.log(closeModal)
         
           }  catch (error) {
             console.error("Error saving changes:", error);
@@ -108,49 +108,25 @@ const BvnVerificationPopup = ({isVisible}) => {
               // Bad Request (400)
               if (data && data.errors) {
                 Object.values(data.errors).flat().forEach(errorMessage => {
-                  addToast(`${errorMessage}`, {
-                    appearance: 'error',
-                    autoDismiss: true,
-                    autoDismissTimeout: 3000,
-                  });
+                  showToast(`${errorMessage}`, 'error');
                 });
               } else if (status && data && data.message) {
-                addToast(`${data.message}`, {
-                  appearance: 'error',
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
+                showToast(`${data.message}`, 'error');
               } else {
-                addToast('Bad Request. Please check your input.', {
-                  appearance: 'error',
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
+                showToast('Bad Request. Please check your input.', 'error');
               }
             } else if (status === 500) {
               // Internal Server Error (500)
-              addToast('Internal Server Error. Please try again later.', {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast('Internal Server Error. Please try again later.', 'error');
             } else {
               // Display an error toast with the API response message for other status codes
-              addToast(data.message || 'An unexpected error occurred.', {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast(data.message || 'An unexpected error occurred.', 'error');
             }
              } finally {
             setLoading(false);
           }
         } else {
-          addToast('Please enter all 6 BVN digits.', {
-            appearance: 'error',
-            autoDismiss: true,
-            autoDismissTimeout: 3000, // milliseconds
-          });
+          showToast('Please enter all 6 BVN digits.', 'error');
         }
       };
       const handleResendOtp = async () => {
@@ -158,18 +134,20 @@ const BvnVerificationPopup = ({isVisible}) => {
           setLoading(true);
           const response = await axios.post('/onboarding/resend', { phone: updatedBvnPhoneNum });
           const responseData = response.data;
-    
+
+
           if (responseData.status === 'Successful') {
             // Reset the timer and disable the Resend button
             setTimeLeft(600);
             setResendButtonDisabled(true);
-            addToast('OTP has been resent successfully!', { appearance: 'success' });
+            showToast('OTP has been resent successfully!', 'success' );
           } else {
-            addToast('Failed to resend OTP. Please try again.', { appearance: 'error' });
+            showToast('Failed to resend OTP. Please try again.', 'error' );
           }
+          closeModal()
         } catch (error) {
           console.error('API Error:', error);
-          addToast('An unexpected error occurred. Please try again.', { appearance: 'error' });
+          showToast('An unexpected error occurred. Please try again.', 'error' );
         } finally {
           setLoading(false);
         }
