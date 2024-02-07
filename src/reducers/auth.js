@@ -2,6 +2,7 @@ let initialState;
 
 const loginDetails = JSON.parse(sessionStorage.getItem("user"));
 
+
 if (loginDetails) {
   initialState = loginDetails;
 } else {

@@ -1,15 +1,5 @@
-let path;
-
-if (
-    window.location.href.indexOf('localhost') >= 0 ||
-    window.location.href.indexOf('dev') >= 0
-) {
-    //development server
-    path = 'https://api.cico.ng/api';
-} else {
-    //production server
-    path = 'https://api.cico.ng/api';
-}
+// let path = "https://flexmoney.cico.ng/api"
+let path = "https://stagging-api.flexdeals.com.ng/api"
 ////TRANSACTIONCOST////
 export const TRANSACTION_COST = `${path}/transaction-costs/Transfer/agents/{amount}`
 //////AUTH///////
@@ -178,13 +168,13 @@ export const ACTIVITY_LOGS = `${path}/logs`;
 export const GET_TELCOS = `${path}/airtime/telcos`;
 
 //get data plans - POST
-export const GET_DATA_PLANS = `${path}/airtime-data/data/bundle`;
+export const GET_DATA_PLANS = `/airtime-data/data/bundle`;
 
 //vend data - POST
 export const VEND_DATA = `${path}/airtime-data/data/vend`;
 
 //vend airtime - POST
-export const VEND_AIRTIME = `${path}/airtime-data/airtime/vend`;
+export const VEND_AIRTIME = `/airtime-data/airtime/vend`;
 
 /////CABLE TV//////////
 //Validate multichoice smart card number

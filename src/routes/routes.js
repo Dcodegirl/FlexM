@@ -2,6 +2,7 @@ import AddUser from '../features/users/AddUser';
 import Users from '../features/users/index';
 import FundWallet from '../features/services/fundWallet/FundWallet';
 import FundsTransfer from '../features/services/transfer/index';
+import MainFundTransferPage from '../features/services/transfer/MainFundTransferPage';
 import BuyAirtime from '../features/services/airtime/index';
 import ElectricityPayment from '../features/services/electricity/index';
 import BuyData from '../features/services/data/index';
@@ -9,19 +10,32 @@ import RechargeCable from '../features/services/cable/index';
 import BuyInsurance from '../features/services/insurance/BuyInsurance';
 import WalletLog from '../features/logs/wallet/index';
 import CommissionLogs from '../features/logs/commissions/index';
-import TransactionLog from '../features/logs/transactions/TransactionLog';
+import AggregatorLogs from '../features/logs/aggregator/index';
+import viewAgents from '../pages/viewAgents'
+import ViewSingleAgent from '../pages/viewSingleAgent';
+import CreateAgent from '../features/aggregator/createAgent';
+import AgentPerfomance from '../pages/agentPerformance';
+import TransactionLog from '../features/logs/transactions';
 import Profile from '../features/profile/Profile';
+import Support from '../pages/support';
 import WalletTransfer from '../features/services/walletTransfer/WalletTransfer';
 import CommissionTransfer from '../features/services/commissionTransfer/CommissionTransfer';
 import BillPayment from '../pages/BillPayment';
+import CablePayment from '../pages/CablePayment';
 import AirtimeData from '../pages/AirtimeData';
+import Airtimeairtime from '../pages/Airtimeairtime';
 import LoanPage from '../pages/Loan';
 import LoanHistory from '../features/services/loan/LoanHistory';
 import RepaymentHistory from '../features/services/loan/RepaymentHistory';
-import Overview from '../pages/Overview';
+import Overview from '../pages/Overview/Overview';
 import Contact from '../pages/Contact';
 import TransactionDetails from '../components/common/TransactionDetails';
 import Documents from '../features/profile/documents';
+import Settings from '../pages/settings';
+import ContactDetail from '../components/contactDetails/contactDetail';
+import BiodataSettings from '../components/biodatasettings/BiodataSettings';
+import TransactionPinSettings from '../components/transactionpinsettings/TransactionPinSettings';
+
 
 const routes = [
     {
@@ -73,6 +87,26 @@ const routes = [
         component: Profile,
     },
     {
+        path: '/create-agent',
+        component: CreateAgent,
+    },
+    {
+        path: '/support',
+        component: Support,
+    },
+    {
+        path: '/agents-performance',
+        component: AgentPerfomance,
+    },
+    {
+        path: '/view-agents',
+        component: viewAgents,
+    },
+    {
+        path: '/agent/view',
+        component: ViewSingleAgent,
+    },
+    {
         path: '/wallet',
         exact: true,
         component: WalletLog,
@@ -97,12 +131,36 @@ const routes = [
         exact: true,
         component: CommissionLogs,
     },  
+    {
+        path: '/aggregator',
+        exact: true,
+        component: AggregatorLogs,
+    },
 
     {
         path: '/commission/transfer',
         exact: true,
         component: CommissionTransfer,
     },  
+    
+    {
+        path: '/settings',
+        exact: true,
+        component: Settings,
+    },
+    
+    {
+        path: '/settings/:step',
+        component: Settings,
+    },
+    {
+        path: '/settings/:step',
+        component: Settings,
+    },
+    {
+        path: '/settings/:step',
+        component: Settings,
+    },
     // {
     //   path: "/activity-log",
     //   component: ActivityLog,
@@ -112,6 +170,7 @@ const routes = [
         path: '/transaction-details/:id',
         component: TransactionDetails,
     },
+    
     {
         path: '/buy-airtime',
         component: BuyAirtime,
@@ -134,7 +193,13 @@ const routes = [
     },
     {
         path: '/transfer',
+        // component: MainFundTransferPage,
         component: FundsTransfer,
+    },
+    
+    {
+        path: '/cable-payment',
+        component: CablePayment,
     },
     {
         path: '/bill-payment',
@@ -143,6 +208,10 @@ const routes = [
     {
         path: '/airtime-data',
         component: AirtimeData,
+    },
+    {
+        path: '/airtime-airtime',
+        component: Airtimeairtime,
     },
     {
         path: '/loan',

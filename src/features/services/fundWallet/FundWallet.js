@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../../utils/axiosInstance";
 import { connect } from "react-redux";
 import { setCurrentPage } from "../../../actions/page";
 import { FUND_WALLET_REQUEST } from "../../../utils/constants";

@@ -55,11 +55,50 @@ const Document = ({ agent_code, displayModal }) => {
                     }
                 });
                 setOverlayActive(false);
-            } catch (e) {
-                addToast('An error occured, kindly reload', {
-                    appearance: 'error',
-                    autoDismiss: true,
-                });
+            } catch (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    const { data, status } = error.response;
+    
+                    if (data && data.errors) {
+                        // If the error response contains 'errors' field, display each error in a separate toast
+                        Object.values(data.errors).flat().forEach(errorMessage => {
+                            addToast(`${errorMessage}`, {
+                                appearance: 'error',
+                                autoDismiss: true,
+                                autoDismissTimeout: 3000,
+                            });
+                        });
+                    } else if (data && data.message) {
+                        // If the error response does not contain 'errors' field, display the message in the toast
+                        addToast(`${data.message}`, {
+                            appearance: 'error',
+                            autoDismiss: true,
+                            autoDismissTimeout: 3000,
+                        });
+                    } else {
+                        // If the error response does not contain 'errors' or 'message' field, display a generic error message
+                        addToast(`An unexpected error occurred.`, {
+                            appearance: 'error',
+                            autoDismiss: true,
+                            autoDismissTimeout: 3000,
+                        });
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    addToast('No response from the server. Please try again.', {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                    });
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    addToast('An unexpected error occurred. Please try again.', {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000,
+                    });
+                }
                 setOverlayActive(false);
             }
         })();
@@ -91,6 +130,7 @@ const Document = ({ agent_code, displayModal }) => {
                 addToast('The documents field is required.', {
                     appearance: 'error',
                     autoDismiss: true,
+                    autoDismissTimeout: 3000
                 });
                 setLoading(false);
                 return;
@@ -110,25 +150,29 @@ const Document = ({ agent_code, displayModal }) => {
                     setLoading(false);
                     addToast(err.response.statusText, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                 } else if (err.response && err.response.status === 401) {
                     setLoading(false);
                     addToast(err.response.statusText, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                 } else if (err.response && err.response.status === 500) {
                     setLoading(false);
                     addToast(err.response.statusText, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                 } else if (err.response && err.response.status === 412) {
                     setLoading(false);
                     addToast(err.response.data.error[0], {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                 } else {
                     setTimeout(() => {

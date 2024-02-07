@@ -25,9 +25,9 @@ const User = ({ handleDeleteUser, loading, users }) => {
 
   return (
     <>
-      <div className={styles.users}>
+      <div className={`styles.users overflow-x-auto md:overflow-x-hidden`}>
         {users.length > 0 && !loading ? (
-          <div className={styles.transactions}>
+          <div className={`styles.transactions w-[800px] md:w-full`}>
             <h3 className={styles.transactionsHeading}>Users</h3>
             {/* <div className={styles.filter}>
               <div className={styles.filterToggle}>

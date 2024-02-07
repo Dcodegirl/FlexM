@@ -1,7 +1,7 @@
 import React, { useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import axios from '../../../utils/axiosInstance';
 import RechargeCableReducer, { initialFormState } from './cable-reducer';
 import { setCurrentPage } from '../../../actions/page';
 import { VEND_STARTIMES, VEND_MULTICHOICE } from '../../../utils/constants';
@@ -139,7 +139,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
 const mapStateToProps = (state) => {
     return {
         service: state.modal.service,
-        hasSetPin: state.auth.user.hasSetPin,
+        hasSetPin: state.auth.user.transaction_pin,
     };
 };
 

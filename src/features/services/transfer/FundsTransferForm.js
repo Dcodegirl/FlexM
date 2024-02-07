@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import axios from '../../../utils/axiosInstance';
 import Form from '../../../components/common/Form';
 import FormGroup from '../../../components/common/FormGroup';
 import Input from '../../../components/common/Input';
 import Select from '../../../components/common/Select';
 import Submit from '../../../components/common/Button';
+import logo from '../../../assets/images/flexbycico.svg'
 
 import { VERIFY_ACCOUNT, FETCH_BANK } from '../../../utils/constants';
 import generateBankImageUrl from './generateBankImageUrl';
 import validateFormData from '../../../validation/validateFormData';
 import banksList from '../../../utils/listOfBanks';
+import { useToasts } from 'react-toast-notifications';
 
 import styles from './FundsTransferForm.module.scss';
 
@@ -26,6 +28,8 @@ export const FundsTransferForm = (props) => {
         useState(false);
     const [validationErrors, setValidationErrors] = useState({});
     const [banks, setBanks]=useState([]);
+    const { addToast } = useToasts();
+
 
     useEffect(() => {
         const { accountNumber, beneficiaryBankCode } = state;
@@ -44,7 +48,6 @@ export const FundsTransferForm = (props) => {
                     const res = await axios.post(VERIFY_ACCOUNT, payload);
 
                     const accountName = res.data.data.Data.name;
-
                     if (accountName == 'ERROR') throw new Error();
 
                     dispatch({
@@ -65,6 +68,14 @@ export const FundsTransferForm = (props) => {
                         ...validationErrors,
                         accountName: true,
                     });
+                    addToast({
+                        ...validationErrors,
+                        accountName: true,
+                    }, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        autoDismissTimeout: 3000, // milliseconds
+                      });
                     setAccountValidationLoading(false);
                 }
             })();
@@ -154,7 +165,7 @@ export const FundsTransferForm = (props) => {
             title='Funds Transfer'
             caption='Complete your payment information'
             handleOnSubmit={handleOnContinue}
-            logo={bankImageUrl}
+            logo={logo}
         >
             <FormGroup>
                 <Input

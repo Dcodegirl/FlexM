@@ -23,65 +23,6 @@ export const AirtimeData = ({ changeCurrentPage, displayModal }) => {
     <div className={styles.container}>
       <div className={styles.section}>
         <div className={styles.card}>
-          <h3 className={styles.sectionHeading}>Airtime</h3>
-          <div className={styles.services}>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "airtimeRecharge",
-                  service: "mtn",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={mtn} alt="" />
-              <p className={styles.serviceText}>MTN</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "airtimeRecharge",
-                  service: "airtel",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={airtel} alt="" />
-              <p className={styles.serviceText}>Airtel</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "airtimeRecharge",
-                  service: "glo",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={glo} alt="" />
-              <p className={styles.serviceText}>Glo</p>
-            </div>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "airtimeRecharge",
-                  service: "9mobile",
-                });
-              }}
-            >
-              <img className={styles.serviceLogo} src={nineMobile} alt="" />
-              <p className={styles.serviceText}>9mobile</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className={styles.section}>
-        <div className={styles.card}>
           <h3 className={styles.sectionHeading}>Data</h3>
           <div className={styles.services}>
             <div
