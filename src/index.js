@@ -8,6 +8,7 @@ import setAuthToken from './utils/setAuthToken';
 import setAxiosDefaults from './utils/setAxiosDefaults';
 import configureStore from './store/configureStore';
 import App from './App';
+import './assets/main.css';
 import * as serviceWorker from './serviceWorker';
 
 import './index.scss';

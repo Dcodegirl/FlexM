@@ -6,6 +6,7 @@ export const initialState = {
 };
 
 const modalReducer = (state = initialState, { type, payload }) => {
+  console.log('Initial State:', state);
   switch (type) {
     case DISPLAY_MODAL:
       return { ...state, ...payload };

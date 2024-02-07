@@ -1,45 +1,65 @@
-import React from "react";
-import { connect } from "react-redux";
-import { setCurrentPage } from "../../../actions/page";
-import { setDisplayModal } from "../../../actions/modal";
-import CommissionLogs from "./CommissionLogs";
-import userGroup from "../../../assets/icons/users.svg";
-import styles from "./index.module.scss";
+import React, { useEffect, useState } from "react";
+import axios from "../../../utils/axiosInstance";
+import WalletInfo from "../../dashboard/WalletInfo";
+import WalletBreakDown from "../../dashboard/WalleBreakdown";
+import WalletLogs from "../wallet/WalletLog";
 
-export const Users= ({ changeCurrentPage, displayModal }) => {
+const Users = () => {
+  const [totalBalance, setTotalBalance] = useState(0);
+  const [currentBalance, setCurrentBalance] = useState({ amount: 0, growth_rate: 0 });
+  const [totalCashout, setTotalCashout] = useState({ amount: 0, growth_rate: 0 });
+  const [totalDeposit, setTotalDeposit] = useState({ amount: 0, growth_rate: 0 });
+  const [transactions, setTransactions] = useState([]);
+  const [currentPage, setCurrentPage] = useState('commissionWallet');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseTotalBalance = await axios.get('/commission/balance');
+        setTotalBalance(responseTotalBalance.data.data);
+
+        const responseCurrentBalance = await axios.get('/commission/current');
+        setCurrentBalance(responseCurrentBalance.data.data);
+
+        const responseTotalCashout = await axios.get('/commission/withdrawal');
+        setTotalCashout(responseTotalCashout.data.data);
+
+        const responseTotalDeposit = await axios.get('/commission/deposit');
+        setTotalDeposit(responseTotalDeposit.data.data);
+      
+      const responseTransactions = await axios.get('/commission/transactions');
+        setTransactions(responseTransactions.data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  const formatAmount = (amount) => {
+    return amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+  const walletInfoProps = {
+    title: "Commission's Wallet Balance",
+    amount: `NGN ${formatAmount(totalBalance)}`,
+  };
+
   return (
-    <div className={styles.container}>
-      <div className={styles.menu}>
-        <div className={styles.card}>
-          <h3 className={styles.sectionHeading}>Commission Logs</h3>
-          <div className={styles.services}>
-            <div
-              className={styles.service}
-              onClick={() => {
-                displayModal({
-                  overlay: true,
-                  modal: "commissionTransfer",
-                  service: "",
-                });
-               
-              }}
-            >
-              <img className={styles.serviceLogo} src={userGroup} alt="" />
-              <p className={styles.serviceText}>Commission Transfer</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <CommissionLogs />
+    <div className=''>
+      <WalletInfo walletInfoProp={walletInfoProps} />
+      <WalletBreakDown
+        walletBalance={formatAmount(totalBalance)}
+        currentBalance={formatAmount(currentBalance.amount)}
+        totalCashout={formatAmount(totalCashout.amount)}
+        totalDeposit={formatAmount(totalDeposit.amount)}
+        currentGrowthRate={currentBalance.growth_rate}
+        totalCashoutGrowthRate={totalCashout.growth_rate}
+        totalDepositGrowthRate={totalDeposit.growth_rate}
+        currentPage={currentPage}
+      />
+      <WalletLogs transactions={transactions} />
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    changeCurrentPage: (payload) => dispatch(setCurrentPage(payload)),
-    displayModal: (payload) => dispatch(setDisplayModal(payload)),
-  };
-};
-
-export default connect(undefined, mapDispatchToProps)(Users);
+export default Users;

@@ -35,7 +35,8 @@ const CurrentPin = ({ formState, setStatus, handleChange }) => {
             } catch (err) {
                 addToast(err.response && err.response.data.message, {
                     appearance: 'error',
-                    autoDismiss: true,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000 
                 });
             }
         })();
@@ -205,7 +206,8 @@ export const TransactionPin = ({ displayModal, agentData }) => {
                 if (res) {
                     addToast('Pin set successfully', {
                         appearance: 'success',
-                        autoDismiss: false,
+                        autoDismiss: true, 
+                        autoDismissTimeout: 3000 
                     });
 
                     displayModal({
@@ -216,7 +218,8 @@ export const TransactionPin = ({ displayModal, agentData }) => {
             } catch (e) {
                 addToast('Pin set unsuccessfully', {
                     appearance: 'error',
-                    autoDismiss: false,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000 
                 });
             } finally {
                 setLoading(false);
@@ -283,7 +286,7 @@ TransactionPin.propTypes = {
 const mapStateToProps = (state) => {
     return {
         agentData: {
-            hasSetPin: state.auth.user.hasSetPin,
+            hasSetPin: state.auth.user.transaction_pin,
         },
     };
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import axios from '../../../utils/axiosInstance';
 import { useToasts } from 'react-toast-notifications';
 import { VEND_ENERGY } from '../../../utils/constants';
 import { setCurrentPage } from '../../../actions/page';
@@ -65,7 +65,8 @@ export const ElectricityPayment = ({ service, hasSetPin }) => {
                 setSuccessData(res.data.data);
                 addToast(message, {
                     appearance: 'success',
-                    autoDismiss: true,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000
                 });
                 setComponentToRender('success');
             } catch (err) {
@@ -73,14 +74,16 @@ export const ElectricityPayment = ({ service, hasSetPin }) => {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 400) {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                     setComponentToRender('failed');
                 } else {
@@ -138,7 +141,7 @@ export const ElectricityPayment = ({ service, hasSetPin }) => {
 const mapStateToProps = (state) => {
     return {
         service: state.modal.service,
-        hasSetPin: state.auth.user.hasSetPin,
+        hasSetPin: state.auth.user.transaction_pin,
     };
 };
 

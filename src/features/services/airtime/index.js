@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import axios from 'axios';
+import axios from '../../../utils/axiosInstance';
 import { connect } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 import { setCurrentPage } from '../../../actions/page';
@@ -100,7 +100,8 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                 setLoading(false);
                 addToast(message, {
                     appearance: 'success',
-                    autoDismiss: true,
+                    autoDismiss: true, 
+                    autoDismissTimeout: 3000
                 });
                 setSuccessData({ ...successData, date: date.toDateString() });
                 setComponentToRender('success');
@@ -119,7 +120,8 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
@@ -127,7 +129,8 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                     setLoading(false);
                     addToast(err.response.data.message, {
                         appearance: 'error',
-                        autoDismiss: true,
+                        autoDismiss: true, 
+                    autoDismissTimeout: 3000
                     });
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
@@ -194,7 +197,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
 const mapStateToProps = (state) => {
     return {
         service: state.modal.service,
-        hasSetPin: state.auth.user.hasSetPin,
+        hasSetPin: state.auth.user.transaction_pin,
     };
 };
 

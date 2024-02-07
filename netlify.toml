@@ -1,0 +1,8 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build]
+  command = "CI=false react-scripts --openssl-legacy-provider build"
+  publish = "build"

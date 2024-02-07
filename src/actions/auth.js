@@ -13,6 +13,8 @@ const loginUser = ({
     walletBalance,
     commissionBalance,
     transactionSettings,
+    virtualAccountNumber,
+    virtualAccountBank,
 }) => {
     return {
         type: 'START_LOGIN_USER',
@@ -22,6 +24,8 @@ const loginUser = ({
             walletBalance,
             commissionBalance,
             transactionSettings,
+            virtualAccountNumber,
+            virtualAccountBank,
         },
     };
 };
@@ -30,17 +34,24 @@ export const startLoginUser = (payload) => (dispatch) => {
     return axios
         .post(LOGIN_API, payload)
         .then((res) => {
+            // console.log("API Response:", res?.data?.data.agent.virtual_account_number);
             const user = res?.data?.data.user;
             const token = res?.data?.data.token;
             const walletBalance = res?.data?.data.wallet.current_bal;
             const commissionBalance = res?.data?.data.commission.current_commission;
             const transactionSettings = res?.data?.data.settings;
             const agentClassification = res?.data?.data.class;
-            const agent = res?.data?.data.data?.user?.agent
-                ? res?.data?.data?.user?.agent
-                : res?.data?.data.agent;
+            const agent = res?.data?.data.agent;
+            const virtualAccountNumber = agent?.virtual_account_number;
+            const virtualAccountBank = agent?.virtual_account_bank;
+            
+
+            // Extract virtual_account_number and virtual_account_bank from the agent object
+            // const { virtual_account_number: virtualAccountNumber, virtual_account_bank: virtualAccountBank } = agent;
+
             const proprietor = res?.data?.data.user.proprietor;
             const hasSetPin = res?.data?.data.has_set_pin;
+           
 
             const { id, username, phone, email, is_default } = user;
             const {
@@ -50,7 +61,6 @@ export const startLoginUser = (payload) => (dispatch) => {
                 business_name: businessName,
                 wallet_no: walletNo,
                 uuid,
-                vfd_account_number,
                 gender,
                 business_address,
                 date_of_birth,
@@ -65,7 +75,7 @@ export const startLoginUser = (payload) => (dispatch) => {
                 agent_code,
             } = agent;
 
-            if (!isEmpty(user)) {
+            if (!isEmpty(token)) {
                 const authDetails = {
                     isAuthenticated: true,
                     user: {
@@ -88,7 +98,8 @@ export const startLoginUser = (payload) => (dispatch) => {
                         bvn,
                         firstName,
                         lastName,
-                        vfd_account_number,
+                        virtualAccountNumber: virtualAccountNumber,
+                        virtualAccountBank: virtualAccountBank,
                         agentClassification,
                         userId,
                         date_of_birth,
@@ -130,7 +141,9 @@ export const startLoginUser = (payload) => (dispatch) => {
                 }, 4000);
             }
         });
+        
 };
+
 
 export const logoutUser = () => {
     return {

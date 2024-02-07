@@ -1,7 +1,7 @@
 import React from "react";
 import formatToCurrency from "../../../utils/formatToCurrency";
 
-import logo from "../../../assets/images/cico-logo.svg";
+import logo from "../../../assets/images/flexbycico.svg";
 import failed from "../../../assets/images/circle-cross.svg";
 import printIcon from "../../../assets/images/printer-print.svg";
 import whatsappIcon from "../../../assets/images/whatsapp.svg";

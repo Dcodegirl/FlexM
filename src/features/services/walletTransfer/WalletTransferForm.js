@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { VALIDATE_AGENT } from "../../../utils/constants";
-import logo from "../../../assets/images/cico-logo.svg";
+import logo from "../../../assets/images/flexbycico.svg";
 import Form from "../../../components/common/Form";
 import FormGroup from "../../../components/common/FormGroup";
 import Input from "../../../components/common/Input";

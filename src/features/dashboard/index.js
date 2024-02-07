@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Sidebar from './Sidebar';
 import { setDisplayModal } from '../../actions/modal';
-import Main from './Main';
+import Main from './Main/Main';
 import { useToasts } from 'react-toast-notifications';
 
 import styles from './index.module.scss';
@@ -25,11 +25,8 @@ const Dashboard = ({ overlay, displayModal, hasSetPin }) => {
     useEffect(() => {
         if (!hasSetPin) {
             addToast(
-                'You currently dont have transaction pin yet, Kindly navigate to profile settings to set one',
-                {
-                    appearance: 'warning',
-                    autoDismiss: false,
-                }
+                "You currently don't have transaction pin yet, Kindly navigate to  settings to set one",
+                { appearance: 'warning', autoDismiss: true, autoDismissTimeout: 6000  }
             );
         }
     }, []);
@@ -45,7 +42,7 @@ const Dashboard = ({ overlay, displayModal, hasSetPin }) => {
 const mapStateToProps = (state) => {
     return {
         overlay: state.modal.overlay,
-        hasSetPin: state.auth.user.hasSetPin,
+        hasSetPin: state.auth.user.transaction_pin,
     };
 };
 

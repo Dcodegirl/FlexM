@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import { ThreeDots } from "svg-loaders-react";
 
 import formatToCurrency from "../../../utils/formatToCurrency";
 import Submit from "../../../components/common/Button";
 
-import logo from "../../../assets/images/cico-logo.svg";
+import logo from "../../../assets/images/flexbycico.svg";
 
 import back from "../../../assets/images/left-arrow.svg";
 import info from "../../../assets/images/tooltip-icon.svg";
@@ -13,12 +13,23 @@ import styles from "./WalletTransferSummary.module.scss";
 
 export const WalletTransferSummary = ({
   state,
-  loading,
+  isLoading,
   handleWalletTransfer,
   setStatus,
 }) => {
   const { amount, wallet_id, agent_name } = state;
+  const [loading, setLoading] = useState(false);
 
+const handleClick = async (e) => {
+    e.preventDefault();
+    setLoading(true)
+    try {
+      await handleWalletTransfer();
+      // If the transfer is successful, you can perform any additional actions here
+    } finally {
+      setLoading(false)
+    }
+  };
   return (
     <div className={styles.container}>
       <div
@@ -73,15 +84,10 @@ export const WalletTransferSummary = ({
           </span>
         </div>
       </div>
-      <Submit
-        disabled={false}
-        onClick={(e) => {
-          e.preventDefault();
-          handleWalletTransfer();
-        }}
-      >
-        {loading ? <ThreeDots fill="white" /> : "Proceed"}
+      <Submit disabled={loading} onClick={handleClick}>
+        {isLoading && loading ? <ThreeDots fill="white" /> : "Proceed"}
       </Submit>
+
     </div>
   );
 };

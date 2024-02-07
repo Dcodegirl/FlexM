@@ -1,5 +1,5 @@
 import React, { useState, useReducer } from 'react';
-import axios from 'axios';
+import axios from '../../../utils/axiosInstance';
 import { connect } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 
@@ -173,7 +173,7 @@ export const BuyData = ({ service, hasSetPin }) => {
 const mapStateToProps = (state) => {
     return {
         service: state.modal.service,
-        hasSetPin: state.auth.user.hasSetPin,
+        hasSetPin: state.auth.user.transaction_pin,
     };
 };
 
