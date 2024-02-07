@@ -16,6 +16,8 @@ const ContactDetail = () => {
     const [fileUploaded, setFileUploaded] = useState(false);
     const [loading, setLoading] = useState('');
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [imageUpdate, setImageUpdate] = useState("");
+    const [newImage, setNewImage] = useState(false);
     // const { addToast } = useToasts();
     const showToast = useCustomToast();
 
@@ -41,8 +43,12 @@ const ContactDetail = () => {
       };
       const handleImageChange = (event) => {
         const file = event.target.files[0];
+        setNewImage(true);
         setSelectedImage(file);
+      
         console.log(file)
+        console.log(selectedImage);
+        
       };
 
       const CONTACT_DETAILS = "/agent/contact";
@@ -137,30 +143,26 @@ const ContactDetail = () => {
       };
       
       useEffect(() => {
-        let isMounted = true; // Flag to track if the component is mounted
+         // Flag to track if the component is mounted
     
         axios.get("/agent/userinfo")
              .then((response) => {
-                if (isMounted) {
                     setUserData(response.data.data.agent);
                     setPayload({
                         ...payload,
                         email: response.data.data.agent.email,
                     });
                     // Set selected image URL if available in user data
-                    if (response.data.data.agent.image) {
-                        setSelectedImage(response.data.data.agent.image);
-                    }
-                }
+                    setNewImage(false);
+                  setSelectedImage(response.data.data.image);
+                
             })
             .catch((error) => {
                 console.error("Error fetching user information:", error);
             });
     
         // Cleanup function to cancel any ongoing tasks when component unmounts
-        return () => {
-            isMounted = false; // Set the flag to indicate unmounting
-        };
+       
     }, []);
     
 
@@ -219,9 +221,9 @@ const ContactDetail = () => {
                     <img
                       alt=""
                       src={
-                        selectedImage
-                          ? URL.createObjectURL(selectedImage)
-                          : profileAvatar
+                        (selectedImage && newImage)
+                          ? URL.createObjectURL(selectedImage) 
+                          : (selectedImage && !newImage) ? selectedImage : profileAvatar
                       }
                       className="w-full h-full"
                     />

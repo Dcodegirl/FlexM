@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../../../utils/axiosInstance";
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from "../../../../components/toast/useCustomToast";
 
 const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick, selectedTerminalId, setSelectedTerminalId, selectedSerialNumber, setSelectedSerialNumber }) => {
   
   const [terminals, setTerminals] = useState([]);
   const [serials, setSerials] = useState([]);
-  const { addToast } = useToasts();
+  const showToast  = useCustomToast();
 
 
   const handleAssignClick = () => {
     if (!selectedTerminalId || !selectedSerialNumber) {
-      addToast("Please select both Terminal ID and Serial Number", { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+      showToast("Please select both Terminal ID and Serial Number", 'error');
     } else {
 
       // Trigger the callback to open the confirmation modal

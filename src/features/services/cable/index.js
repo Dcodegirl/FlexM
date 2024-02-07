@@ -9,7 +9,7 @@ import RechargeCableForm from './RechargeCableForm';
 import RechargeCableStatus from './RechargeCableStatus';
 import RechargeCableSummary from './RechargeCableSummary';
 import FailedTransaction from '../../../components/common/FailedTransaction';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../components/toast/useCustomToast';
 
 export const RechargeCable = ({ service, hasSetPin }) => {
     const TRANSACTION_COST = 0;
@@ -21,7 +21,7 @@ export const RechargeCable = ({ service, hasSetPin }) => {
     );
     const [successData, setSuccessData] = useState(null);
     const [loading, setLoading] = useState(false);
-    const { addToast } = useToasts();
+    const showToast= useCustomToast();
     const [failedErrorMessage, setFailedErrorMessage] = useState('');
 
     const getTransactionDate = (date) => {
@@ -71,17 +71,11 @@ export const RechargeCable = ({ service, hasSetPin }) => {
 
                 setLoading(false);
                 setSuccessData({ ...successData, date: transactionDate });
-                addToast(message, {
-                    appearance: 'success',
-                    autoDismiss: true,
-                });
+                showToast(message, 'success');
                 setComponentToRender('success');
             } catch (e) {
                 setLoading(false);
-                addToast(e.response.data.data, {
-                    appearance: 'error',
-                    autoDismiss: true,
-                });
+                showToast(e.response.data.data, 'error');
                 setFailedErrorMessage(e.response.data.message || undefined);
                 setComponentToRender('failed');
             }

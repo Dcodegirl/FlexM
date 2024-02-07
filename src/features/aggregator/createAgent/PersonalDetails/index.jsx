@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from "../../../../components/toast/useCustomToast";
 import axios from "../../../../utils/axiosInstance";
 import MockAdapter from 'axios-mock-adapter';
 
 const PersonalDetails = () => {
-  const { addToast } = useToasts();
+  const showToast = useCustomToast();
   const [errors, setErrors] = useState(false);
   const [firstname, setFirstname] = useState('');
   const [email, setEmail] = useState('');
@@ -115,8 +115,7 @@ const PersonalDetails = () => {
       const responseData = response.data;
       console.log('API Response:', responseData);
 
-      addToast("Agent Invite sent successfully", { appearance: 'success', autoDismiss: true, 
-      autoDismissTimeout: 3000});
+      showToast("Agent Invite sent successfully", 'success');
       resetForm();
     } catch (error) {
       console.error('API Error:', error);
@@ -127,19 +126,15 @@ const PersonalDetails = () => {
 
         if (data && data.errors) {
           Object.values(data.errors).flat().forEach(errorMessage => {
-            addToast(` ${errorMessage}`, { appearance: 'error', autoDismiss: true, 
-            autoDismissTimeout: 3000 });
+            showToast(` ${errorMessage}`, 'error');
           });
         } else {
-          addToast(`An unexpected error occurred.`, { appearance: 'error', autoDismiss: true, 
-          autoDismissTimeout: 3000 });
+          showToast(`An unexpected error occurred.`, 'error');
         }
       } else if (error.request) {
-        addToast('No response from the server. Please try again.', { appearance: 'error', autoDismiss: true, 
-        autoDismissTimeout: 3000 });
+        showToast('No response from the server. Please try again.', 'error');
       } else {
-        addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true, 
-        autoDismissTimeout: 3000 });
+        showToast('An unexpected error occurred. Please try again.', 'error');
       }
     } finally {
       setLoading(false);

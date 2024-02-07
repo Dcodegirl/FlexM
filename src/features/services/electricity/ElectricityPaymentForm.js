@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../components/toast/useCustomToast';
 import generateServiceProviderImageUrl from './generateServiceProviderImageUrl';
 import Form from '../../../components/common/Form';
 import FormGroup from '../../../components/common/FormGroup';
@@ -22,7 +22,7 @@ const ElectricityPaymentForm = (props) => {
     const [validationErrors, setValidationErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const { addToast } = useToasts();
+    const showToast = useCustomToast();
     let serviceImageUrl = generateServiceProviderImageUrl(props.service);
 
     useEffect(() => {
@@ -60,11 +60,7 @@ const ElectricityPaymentForm = (props) => {
 
                     if (err.response && err.response.status === 400) {
                         setLoading(false);
-                        addToast(err.response.data.data[0], {
-                            appearance: 'error',
-                            autoDismiss: true, 
-                            autoDismissTimeout: 3000
-                        });
+                        showToast(err.response.data.data[0], 'error');
                     } else {
                         setValidationErrors({
                             ...validationErrors,

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../../../utils/axiosInstance';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../toast/useCustomToast';
 import { useGlobalContext } from '../../../../custom-hooks/Context';
 
 function Contact({ nextStep }) {
-  const { addToast } = useToasts();
+  const showToast  = useCustomToast();
   const { setUserId } = useGlobalContext();
   const { phoneNum } = useGlobalContext();
   const [timeLeft, setTimeLeft] = useState(600);
@@ -46,7 +46,7 @@ function Contact({ nextStep }) {
       const responseData = response.data;
       setUserId(responseData.data.id);
 
-      addToast('OTP verification successful!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 });
+      showToast('OTP verification successful!', 'success');
       nextStep();
     } catch (error) {
       console.error("Error saving changes:", error);
@@ -62,62 +62,34 @@ function Contact({ nextStep }) {
             // Bad Request (400)
             if (data && data.errors) {
               Object.values(data.errors).flat().forEach(errorMessage => {
-                addToast(`${errorMessage}`, {
-                  appearance: 'error',
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
+                showToast(`${errorMessage}`, 'error');
               });
             } else if (data && data.message) {
-              addToast(`${data.message}`, {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast(`${data.message}`, 'error');
             } else {
-              addToast('Bad Request. Please check your input.', {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast('Bad Request. Please check your input.', 'error');
             }
             break;
           case 500:
             // Internal Server Error (500)
-            addToast('Internal Server Error. Please try again later.', {
-              appearance: 'error',
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast('Internal Server Error. Please try again later.', 'error');
             break;
           // Add more cases for other status codes as needed
           default:
             // Display an error toast with the API response message
-            addToast(data.message || 'An unexpected error occurred.', {
-              appearance: "error",
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast(data.message || 'An unexpected error occurred.', 'error');
         }
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received from the server.");
   
-        addToast("No response from the server. Please try again.", {
-          appearance: "error",
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast("No response from the server. Please try again.", 'error');
       } else {
         // Something happened in setting up the request that triggered an error
         console.error("An unexpected error occurred:", error.message);
   
         // Display an error toast with the API response message if available
-        addToast(error.message || 'An unexpected error occurred.', {
-          appearance: "error",
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast(error.message || 'An unexpected error occurred.', 'error');
       }
     } finally {
       setLoading(false);
@@ -160,16 +132,13 @@ function Contact({ nextStep }) {
         // Reset the timer and disable the Resend button
         setTimeLeft(600);
         setResendButtonDisabled(true);
-        addToast('OTP has been resent successfully!', { appearance: 'success', autoDismiss: true,
-        autoDismissTimeout: 3000, });
+        showToast('OTP has been resent successfully!', 'success');
       } else {
-        addToast('Failed to resend OTP. Please try again.', { appearance: 'error', autoDismiss: true,
-        autoDismissTimeout: 3000, });
+        showToast('Failed to resend OTP. Please try again.', 'error');
       }
     } catch (error) {
       console.error('API Error:', error);
-      addToast('An unexpected error occurred. Please try again.', { appearance: 'error', autoDismiss: true,
-      autoDismissTimeout: 3000, });
+      showToast('An unexpected error occurred. Please try again.', 'error');
     } finally {
       setLoading(false);
     }

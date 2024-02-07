@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "../../utils/axiosInstance";
-import { useToasts } from "react-toast-notifications";
+import { useCustomToast } from "../toast/useCustomToast";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
@@ -11,7 +11,7 @@ const TransactionPinSettings = ({ title }) => {
     const [pin, setPin] = useState([]);
     const [confirmPin, setConfirmPin] = useState([]);
     const [loading, setLoading] = useState('');
-    const { addToast } = useToasts();
+    const showToast = useCustomToast();
     const history = useHistory();
 
 
@@ -86,22 +86,14 @@ const TransactionPinSettings = ({ title }) => {
     setLoading(true)
     if (pin.join("") !== confirmPin.join("")) {
       // Display an error toast if pin and confirmPin do not match
-      addToast("PIN and Confirm PIN do not match!", {
-        appearance: "error",
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
+      showToast("PIN and Confirm PIN do not match!", "error");
       setLoading(false)
       return; // Stop further processing
     }
   
     // Check if either pin or confirmPin is empty
     if (pin.join("") === "" || confirmPin.join("") === "") {
-      addToast("Please enter both PIN and Confirm PIN", {
-        appearance: "error",
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
+      showToast("Please enter both PIN and Confirm PIN", "error");
       setLoading(false)
       return; // Stop further processing
     }
@@ -114,11 +106,7 @@ const TransactionPinSettings = ({ title }) => {
   
     try {
       let data = await axios.post(TRANSACTION_PIN, transactionPin);
-      addToast("Transaction pin updated successfully!", {
-        appearance: "success",
-        autoDismiss: true,
-        autoDismissTimeout: 3000, // milliseconds
-      });
+      showToast("Transaction pin updated successfully!", "success");
     } catch (error) {
       console.error("Error saving changes:", error);
   
@@ -133,62 +121,34 @@ const TransactionPinSettings = ({ title }) => {
             // Bad Request (400)
             if (data && data.errors) {
               Object.values(data.errors).flat().forEach(errorMessage => {
-                addToast(`${errorMessage}`, {
-                  appearance: 'error',
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
-                });
+                showToast(`${errorMessage}`, "error");
               });
             } else if (status && data && data.message) {
-              addToast(`${data.message}`, {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast(`${data.message}`, "error");
             } else {
-              addToast('Bad Request. Please check your input.', {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast('Bad Request. Please check your input.', "error");
             }
             break;
           case 500:
             // Internal Server Error (500)
-            addToast('Internal Server Error. Please try again later.', {
-              appearance: 'error',
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast('Internal Server Error. Please try again later.', "error");
             break;
           // Add more cases for other status codes as needed
           default:
             // Display an error toast with the API response message
-            addToast(data.message || 'An unexpected error occurred.', {
-              appearance: "error",
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast(data.message || 'An unexpected error occurred.', "error");
         }
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received from the server.");
   
-        addToast("No response from the server. Please try again.", {
-          appearance: "error",
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast("No response from the server. Please try again.", "error");
       } else {
         // Something happened in setting up the request that triggered an error
         console.error("An unexpected error occurred:", error.message);
   
         // Display an error toast with the API response message if available
-        addToast(error.message || 'An unexpected error occurred.', {
-          appearance: "error",
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
+        showToast(error.message || 'An unexpected error occurred.', "error");
       }
       } finally {
       setLoading(false); // This ensures that setLoading(false) is executed regardless of success or failure

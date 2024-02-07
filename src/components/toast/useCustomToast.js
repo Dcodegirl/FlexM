@@ -4,7 +4,7 @@ import { useToasts } from "react-toast-notifications";
 export const useCustomToast = () => {
   const { addToast } = useToasts();
 
-  const showToast = (message, appearance, autoDismiss = true, autoDismissTimeout = 3000) => {
+  const showToast = (message, appearance, autoDismiss = true, autoDismissTimeout = 5000) => {
     addToast(message, {
       appearance,
       autoDismiss,

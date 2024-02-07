@@ -3,7 +3,7 @@ import person from '../../assets/icons/personWhite.svg';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom';
 import { SingleAgentTransactionData } from "../../features/dashboard/data/transactionData";
 import { useLocation } from 'react-router-dom';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from "../../components/toast/useCustomToast";
 
 const ViewSingleAgent = () => {
     const [transactions, setTransactions] = useState([]);
@@ -19,7 +19,7 @@ const ViewSingleAgent = () => {
     const [loading, setLoading] = useState(true);
     const [noResults, setNoResults] = useState(false);
     const [selectedTransactionType, setSelectedTransactionType] = useState('Transfer');
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
 
     const fetchData = async () => {
         try {
@@ -34,11 +34,7 @@ const ViewSingleAgent = () => {
                 // Handle specific validation errors
                 if (data && data.errors) {
                     Object.values(data.errors).flat().forEach(errorMessage => {
-                        addToast(`${errorMessage}`, {
-                            appearance: 'error',
-                            autoDismiss: true,
-                            autoDismissTimeout: 3000,
-                        });
+                        showToast(`${errorMessage}`, 'error');
                     });
                 } else {
                     throw new Error('Invalid request. Please check your parameters.');
@@ -49,10 +45,10 @@ const ViewSingleAgent = () => {
     
             setTransactions(data);
             setNoResults(data.length === 0);
-            addToast('Transactions fetched successfully!', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 });
+            showToast('Transactions fetched successfully!', 'success');
         } catch (error) {
             console.error('Error fetching data:', error);
-            addToast(`Error fetching transactions: ${error.message || 'Unknown error'}`, { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 });
+            showToast(`Error fetching transactions: ${error.message || 'Unknown error'}`, 'error');
         } finally {
             setLoading(false);
         }
@@ -64,7 +60,7 @@ const ViewSingleAgent = () => {
             fetchData();
         } else {
             // Show an error message or handle the case where start and end dates are not selected
-            addToast('Please select a start and end date', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 });
+            showToast('Please select a start and end date', 'error');
         }
     };
 

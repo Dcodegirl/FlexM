@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { ThreeDots } from 'svg-loaders-react';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../components/toast/useCustomToast';
 import { connect } from 'react-redux';
 import logo from '../../assets/images/flexbycico.svg';
 import Form from '../../components/common/Form';
@@ -22,7 +22,7 @@ export const Password = ({ displayModal }) => {
     });
     const [validationErrors, setValidationErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const { addToast } = useToasts();
+    const showToast = useCustomToast();
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
@@ -54,11 +54,7 @@ export const Password = ({ displayModal }) => {
                 const res = await axios.put(UPDATE_USER_PASSWORD, payload);
     
                 if (res) {
-                    addToast('Password changed successfully', {
-                        appearance: 'success',
-                        autoDismiss: true,
-                        autoDismissTimeout: 3000
-                    });
+                    showToast('Password changed successfully', 'success');
     
                     displayModal({
                         overlay: false,
@@ -74,41 +70,21 @@ export const Password = ({ displayModal }) => {
                     if (data && data.errors) {
                         // If the error response contains 'errors' field, display each error in a separate toast
                         Object.values(data.errors).flat().forEach(errorMessage => {
-                            addToast(`${errorMessage}`, {
-                                appearance: 'error',
-                                autoDismiss: true,
-                                autoDismissTimeout: 3000,
-                            });
+                            showToast(`${errorMessage}`, 'error');
                         });
                     } else if (data && data.message) {
                         // If the error response does not contain 'errors' field, display the message in the toast
-                        addToast(`${data.message}`, {
-                            appearance: 'error',
-                            autoDismiss: true,
-                            autoDismissTimeout: 3000,
-                        });
+                        showToast(`${data.message}`, 'error');
                     } else {
                         // If the error response does not contain 'errors' or 'message' field, display a generic error message
-                        addToast(`An unexpected error occurred.`, {
-                            appearance: 'error',
-                            autoDismiss: true,
-                            autoDismissTimeout: 3000,
-                        });
+                        showToast(`An unexpected error occurred.`, 'error');
                     }
                 } else if (error.request) {
                     // The request was made but no response was received
-                    addToast('No response from the server. Please try again.', {
-                        appearance: 'error',
-                        autoDismiss: true,
-                        autoDismissTimeout: 3000,
-                    });
+                    showToast('No response from the server. Please try again.', 'error');
                 } else {
                     // Something happened in setting up the request that triggered an error
-                    addToast('An unexpected error occurred. Please try again.', {
-                        appearance: 'error',
-                        autoDismiss: true,
-                        autoDismissTimeout: 3000,
-                    });
+                    showToast('An unexpected error occurred. Please try again.', 'error');
                 }
             } finally {
                 setLoading(false);

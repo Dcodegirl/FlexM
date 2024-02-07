@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { setCurrentPage } from '../../actions/page';
 import { setDisplayModal } from '../../actions/modal';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../components/toast/useCustomToast';
 
 import userGroup from '../../assets/icons/users.svg';
 
@@ -17,7 +17,7 @@ export const Users = ({ changeCurrentPage, displayModal, modalIsUpdated }) => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
 
     useEffect(() => {
         let isCancelled;
@@ -55,10 +55,7 @@ export const Users = ({ changeCurrentPage, displayModal, modalIsUpdated }) => {
                     const res = await axios.delete(`${DELETE_USER}/${id}`);
 
                     if (res) {
-                        addToast('User deleted successfully', {
-                            appearance: 'success',
-                            autoDismiss: true,
-                        });
+                        showToast('User deleted successfully', 'success');
 
                         (async function listUsers() {
                             setLoading(true);
@@ -75,10 +72,7 @@ export const Users = ({ changeCurrentPage, displayModal, modalIsUpdated }) => {
                         })();
                     }
                 } catch (e) {
-                    addToast('User not deleted', {
-                        appearance: 'error',
-                        autoDismiss: true,
-                    });
+                    showToast('User not deleted', 'error');
                 } finally {
                     setIsUpdated(id);
                 }

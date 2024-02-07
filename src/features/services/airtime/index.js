@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import axios from '../../../utils/axiosInstance';
 import { connect } from 'react-redux';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../components/toast/useCustomToast';
 import { setCurrentPage } from '../../../actions/page';
 import { VEND_AIRTIME } from '../../../utils/constants';
 import AirtimePurchaseReducer, { initialState } from './airtime-reducer';
@@ -30,7 +30,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
         { code: 'A04E', id: 4, name: 'MTN', type: 'Airtime' },
     ];
     const [selectedNetworkName, setSelectedNetworkName] = useState('');
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
     const [failedErrorMessage, setFailedErrorMessage] = useState('');
 
    
@@ -98,11 +98,7 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
                 const date = new Date();
 
                 setLoading(false);
-                addToast(message, {
-                    appearance: 'success',
-                    autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                });
+                showToast(message, 'success');
                 setSuccessData({ ...successData, date: date.toDateString() });
                 setComponentToRender('success');
                 EventEmitter.dispatch('refresh-wallet-balance', {});
@@ -110,28 +106,17 @@ export const BuyAirtime = ({ service, hasSetPin }) => {
             .catch((err) => {
                 if (err.response && err.response.status === 403) {
                     setLoading(false);
-                    addToast(err.response.data.message, {
-                        appearance: 'error',
-                        autoDismiss: true,
-                    });
+                    showToast(err.response.data.message, 'error');
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 401) {
                     setLoading(false);
-                    addToast(err.response.data.message, {
-                        appearance: 'error',
-                        autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                    });
+                    showToast(err.response.data.message, 'error');
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 400) {
                     setLoading(false);
-                    addToast(err.response.data.message, {
-                        appearance: 'error',
-                        autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                    });
+                    showToast(err.response.data.message, 'error');
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 } else {

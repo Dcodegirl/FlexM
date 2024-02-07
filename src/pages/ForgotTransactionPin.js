@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { RESET_TRANSACTION_PIN, FORGOT_TRANSACTION_PIN, REGENERATE_TRANSACTION_PIN } from '../utils/constants';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../components/toast/useCustomToast';
 import appLogo from '../assets/images/flexbycico.svg';
 import styles from './ForgotTransactionPin.module.scss';
 import { NavLink } from 'react-router-dom';
@@ -14,7 +14,7 @@ export const ForgotTransactionPin = ({ history }) => {
     const [phone_number, setPhone] = useState('');
     const [hasError, setHasError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
 
     useEffect(() => {
         if (pin.length && pin_confirmation !== pin) {
@@ -49,28 +49,16 @@ export const ForgotTransactionPin = ({ history }) => {
                 const res = await axios.post(FORGOT_TRANSACTION_PIN, req);
 
                 if (res.status === 200) {
-                    addToast(res.data.message, {
-                        appearance: 'success',
-                        autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                    });
+                    showToast(res.data.message, 'success');
                     setLoading(false);
                     setStatus('verification');
                 }
             } catch (e) {
                 if (!e.response) {
-                    addToast("Please Check Internet Connection", {
-                        appearance: 'error',
-                        autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                    });
+                    showToast("Please Check Internet Connection", 'error');
                   }else{
                 const { message } = e.response.data.errors;
-                addToast(message, {
-                    appearance: 'error',
-                    autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                });
+                showToast(message, 'error');
                   }
 
                 setLoading(false);
@@ -90,11 +78,7 @@ export const ForgotTransactionPin = ({ history }) => {
                     const res = await axios.post(REGENERATE_TRANSACTION_PIN, req);
                    
                     if (res.status === 200) {
-                        addToast(res.data.message, {
-                            appearance: 'success',
-                            autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                        });
+                        showToast(res.data.message, 'success');
                         setLoading(false);
                         setStatus('verification');
                     }
@@ -102,11 +86,7 @@ export const ForgotTransactionPin = ({ history }) => {
                    
                 } catch (e) {
                     const { message } = e.response.data.errors;
-                    addToast(message, {
-                        appearance: 'error',
-                        autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                    });
+                    showToast(message, 'error');
 
                     setLoading(false);
                 }
@@ -130,20 +110,12 @@ export const ForgotTransactionPin = ({ history }) => {
                     const res = await axios.post(RESET_TRANSACTION_PIN, req);
 
                     if (res.status === 200) {
-                        addToast(res.data.message, {
-                            appearance: 'success',
-                            autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                        });
+                        showToast(res.data.message, 'success');
                         setLoading(false);
                     }
                 } catch (e) {
                     const { message } = e.response.data;
-                    addToast(message, {
-                        appearance: 'error',
-                        autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                    });
+                    showToast(message, 'error');
 
                     setLoading(false);
                 }

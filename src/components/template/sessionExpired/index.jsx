@@ -3,23 +3,23 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { startLogout } from '../../../actions/auth';
-import { useToasts } from 'react-toast-notifications';
+import {useCustomToast} from '../../toast/useCustomToast'
 import store from "../../../store/configureStore"
 
 
 const SessionExpired = () => {
   const history = useHistory();
-  const { addToast } = useToasts();
+  const showToast  = useCustomToast();
   const { dispatch } = store();
 
   useEffect(() => {
     // Show toast when component mounts
-    addToast('Your session has expired. Please log in again to continue.', {
+    showToast('Your session has expired. Please log in again to continue.', {
       appearance: 'error',
       autoDismiss: true,
       autoDismissTimeout: 3000,
     });
-  }, [addToast]);
+  }, [showToast]);
 
   const handleLoginAgain = () => {
     // Dispatch logout action and redirect to login

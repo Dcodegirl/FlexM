@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { ThreeDots } from "svg-loaders-react";
-import { useToasts } from "react-toast-notifications";
+import { useCustomToast } from "../components/toast/useCustomToast";
 import whitecircle from "../assets/images/whitecircle.svg"
 import greencircle from "../assets/images/greencircle.svg"
 import mobilephone from "../assets/images/mobilephone.svg"
@@ -18,15 +18,11 @@ export const Landing = ({ dispatch, message, loading, startLoginUser }) => {
     password: "",
   });
   const [passwordShown, setPasswordShown] = useState(false);
-  const { addToast } = useToasts();
+  const showToast = useCustomToast();
 
   useEffect(() => {
     if (loading === false && message) {
-      addToast(message, {
-        appearance: "error",
-        autoDismiss: true, 
-        autoDismissTimeout: 3000
-      });
+      showToast(message, "error");
 
       dispatch({
         type: "SET_LOADING",

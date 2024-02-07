@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { RESET_PASSWORD, FORGOT_PASSWORD } from '../utils/constants';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../components/toast/useCustomToast';
 import appLogo from '../assets/images/flexbycico.svg';
 
 import styles from './ForgotPassword.module.scss';
@@ -16,7 +16,7 @@ export const ForgotPassword = ({ history }) => {
     const [phone, setPhone] = useState('');
     const [hasError, setHasError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
 
     useEffect(() => {
         if (password.length && confirmPassword !== password) {
@@ -51,25 +51,16 @@ export const ForgotPassword = ({ history }) => {
                 const res = await axios.post(FORGOT_PASSWORD, req);
 
                 if (res.status === 200) {
-                    addToast(res.data.message, {
-                        appearance: 'success',
-                        autoDismiss: true,
-                    });
+                    showToast(res.data.message, 'success');
                     setLoading(false);
                     setStatus('verification');
                 }
             } catch (e) {
                 if (!e.response) {
-                    addToast("Please Check Internet Connection", {
-                        appearance: 'error',
-                        autoDismiss: true,
-                    });
+                    showToast("Please Check Internet Connection", 'error');
                   }else{
                 const { message } = e.response.data;
-                addToast(message, {
-                    appearance: 'error',
-                    autoDismiss: true,
-                });
+                showToast(message, 'error');
                   }
 
                 setLoading(false);
@@ -93,18 +84,12 @@ export const ForgotPassword = ({ history }) => {
                     const res = await axios.post(RESET_PASSWORD, req);
 
                     if (res.status === 200) {
-                        addToast(res.data.message, {
-                            appearance: 'success',
-                            autoDismiss: true,
-                        });
+                        showToast(res.data.message, 'success');
                         setLoading(false);
                     }
                 } catch (e) {
                     const { message } = e.response.data;
-                    addToast(message, {
-                        appearance: 'error',
-                        autoDismiss: true,
-                    });
+                    showToast(message, 'error');
 
                     setLoading(false);
                 }

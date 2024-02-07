@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import money from '../../../../assets/icons/Money.svg'
 import axios from "../../../../utils/axiosInstance";
 import { useSelector } from 'react-redux';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from "../../../../components/toast/useCustomToast";
 
 
 const ConfirmTerminalModal = ({ isOpen, onConfirm, onCancel, selectedTerminalId, selectedSerialNumber , agentName, agentId }) => {
   // const agentId = useSelector((state) => state.auth.user?.id);
-  const { addToast } = useToasts();
+  const showToast = useCustomToast();
   const [loading, setLoading] = useState('');
 const handleConfirmClick = async () => {
   try {
@@ -23,11 +23,7 @@ const handleConfirmClick = async () => {
     if (response.status === 201) {
       // Handle the response as needed
       console.log("API Response:", response.data);
-      addToast("Terminal assigned successfully", {
-        appearance: 'success',
-        autoDismiss: true,
-        autoDismissTimeout: 3000
-      });
+      showToast("Terminal assigned successfully", 'success');
       setLoading(false);
 
       // Trigger the onConfirm callback
@@ -50,28 +46,16 @@ const handleApiError = (error) => {
     // The request was made and the server responded with a status code
     const { status, data } = error.response;
     if (status === 400 && data && data.message === "Terminal already assigned") {
-      addToast("Terminal already assigned", {
-        appearance: 'error',
-        autoDismiss: true,
-        autoDismissTimeout: 3000
-      });
+      showToast("Terminal already assigned", 'error');
       setLoading(false);
     } else {
       // Handle other types of errors
-      addToast("Error assigning terminal. Please try again.", {
-        appearance: 'error',
-        autoDismiss: true,
-        autoDismissTimeout: 3000
-      });
+      showToast("Error assigning terminal. Please try again.", 'error');
       setLoading(false);
     }
   } else {
     // Handle other types of errors
-    addToast("Error assigning terminal. Please try again.", {
-      appearance: 'error',
-      autoDismiss: true,
-      autoDismissTimeout: 3000
-    });
+    showToast("Error assigning terminal. Please try again.", 'error');
   }
   setLoading(false);
   // Trigger the onConfirm callback

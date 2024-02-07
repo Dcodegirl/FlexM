@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import lock from '../../../../assets/images/padlock.svg';
 import axios from '../../../../utils/axiosInstance';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../toast/useCustomToast';
 
 function ForgotConfirmation() {
     const [password, setPassword] = useState('');
@@ -18,7 +18,7 @@ function ForgotConfirmation() {
     const [isPasswordValid, setIsPasswordValid] = useState(false);
     const [isSpecialCharacterValid, setIsSpecialCharacterValid] = useState(false);
     const history = useHistory();
-    const {addToast}= useToasts()
+    const showToast = useCustomToast()
     const payload = {
         token: token,
         password: password,
@@ -85,39 +85,19 @@ const handleTokenChange=(event)=>{
                   // Bad Request (400)
                   if (data && data.errors) {
                     Object.values(data.errors).flat().forEach(errorMessage => {
-                      addToast(`${errorMessage}`, {
-                        appearance: 'error',
-                        autoDismiss: true,
-                        autoDismissTimeout: 3000,
-                      });
+                      showToast(`${errorMessage}`, 'error');
                     });
                   } else if (status && data && data.message) {
-                    addToast(`${data.message}`, {
-                      appearance: 'error',
-                      autoDismiss: true,
-                      autoDismissTimeout: 3000,
-                    });
+                    showToast(`${data.message}`, 'error');
                   } else {
-                    addToast('Bad Request. Please check your input.', {
-                      appearance: 'error',
-                      autoDismiss: true,
-                      autoDismissTimeout: 3000,
-                    });
+                    showToast('Bad Request. Please check your input.', 'error');
                   }
                 } else if (status === 500) {
                   // Internal Server Error (500)
-                  addToast('Internal Server Error. Please try again later.', {
-                    appearance: 'error',
-                    autoDismiss: true,
-                    autoDismissTimeout: 3000,
-                  });
+                  showToast('Internal Server Error. Please try again later.', 'error');
                 } else {
                   // Display an error toast with the API response message for other status codes
-                  addToast(data.message || 'An unexpected error occurred.', {
-                    appearance: 'error',
-                    autoDismiss: true,
-                    autoDismissTimeout: 3000,
-                  });
+                  showToast(data.message || 'An unexpected error occurred.', 'error');
                 }
                  }
         }

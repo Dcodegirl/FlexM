@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import Sidebar from './Sidebar';
 import { setDisplayModal } from '../../actions/modal';
 import Main from './Main/Main';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../components/toast/useCustomToast';
 
 import styles from './index.module.scss';
 
 const Dashboard = ({ overlay, displayModal, hasSetPin }) => {
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
 
     useEffect(() => {
         const body = document.getElementsByTagName('body')[0];
@@ -24,9 +24,9 @@ const Dashboard = ({ overlay, displayModal, hasSetPin }) => {
 
     useEffect(() => {
         if (!hasSetPin) {
-            addToast(
+            showToast(
                 "You currently don't have transaction pin yet, Kindly navigate to  settings to set one",
-                { appearance: 'warning', autoDismiss: true, autoDismissTimeout: 6000  }
+                'warning'
             );
         }
     }, []);

@@ -13,10 +13,10 @@ import {
 import { setDisplayModal } from '../../actions/modal';
 
 import styles from './TransactionPin.module.scss';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../components/toast/useCustomToast';
 
 const CurrentPin = ({ formState, setStatus, handleChange }) => {
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
 
     const onSubmitHandler = () => {
         const { current_pin } = formState;
@@ -33,11 +33,7 @@ const CurrentPin = ({ formState, setStatus, handleChange }) => {
                 )
                     setStatus('pin');
             } catch (err) {
-                addToast(err.response && err.response.data.message, {
-                    appearance: 'error',
-                    autoDismiss: true, 
-                    autoDismissTimeout: 3000 
-                });
+                showToast(err.response && err.response.data.message, 'error');
             }
         })();
     };
@@ -175,7 +171,7 @@ export const TransactionPin = ({ displayModal, agentData }) => {
         current_pin: '',
     });
     const [loading, setLoading] = useState(false);
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
 
     useEffect(() => {
         if (agentData.hasSetPin) setStatus('current');
@@ -205,11 +201,7 @@ export const TransactionPin = ({ displayModal, agentData }) => {
                 );
 
                 if (res) {
-                    addToast('Pin set successfully', {
-                        appearance: 'success',
-                        autoDismiss: true, 
-                        autoDismissTimeout: 3000 
-                    });
+                    showToast('Pin set successfully', 'success');
 
                     displayModal({
                         overlay: false,
@@ -217,11 +209,7 @@ export const TransactionPin = ({ displayModal, agentData }) => {
                     });
                 }
             } catch (e) {
-                addToast('Pin set unsuccessfully', {
-                    appearance: 'error',
-                    autoDismiss: true, 
-                    autoDismissTimeout: 3000 
-                });
+                showToast('Pin set unsuccessfully', 'error');
             } finally {
                 setLoading(false);
             }

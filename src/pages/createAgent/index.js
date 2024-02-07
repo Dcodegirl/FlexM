@@ -1,6 +1,6 @@
 import React, { useState, useReducer, useEffect } from 'react';
 import axios from 'axios';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../components/toast/useCustomToast';
 import { withRouter } from 'react-router-dom';
 import agentDataReducer, { initialState } from './agent-reducer';
 import { REGISTER_AGENT, REGISTRATION_SELECT } from '../../utils/constants';
@@ -13,7 +13,7 @@ import NavHome from '../../components/layout/HomeNavBar';
 import styles from './index.module.scss';
 
 const CreateAgent = ({ history }) => {
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
     const [agentData, dispatch] = useReducer(agentDataReducer, initialState);
     const [status, setStatus] = useState('personal');
     const [loading, setLoading] = useState(false);
@@ -60,13 +60,9 @@ const CreateAgent = ({ history }) => {
                     
                     setLoading(false);
                  
-                    addToast(
+                    showToast(
                         message,
-                        {
-                            appearance: 'success',
-                            autoDismiss: true, 
-                            autoDismissTimeout: 3000
-                        }
+                        'success'
                     );
 
                     history.push('/login');
@@ -74,11 +70,7 @@ const CreateAgent = ({ history }) => {
             } catch (e) {
                 
                 setLoading(false);
-                addToast(e.response.data.data, {
-                    appearance: 'error',
-                    autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                });
+                showToast(e.response.data.data, 'error');
             }
         })();
     };

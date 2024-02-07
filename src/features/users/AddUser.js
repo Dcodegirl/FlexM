@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { ThreeDots } from 'svg-loaders-react';
 import Axios from 'axios';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../components/toast/useCustomToast';
 import { setDisplayModal } from '../../actions/modal';
 
 import logo from '../../assets/images/flexbycico.svg';
@@ -16,7 +16,7 @@ import Input from '../../components/common/Input';
 import Submit from '../../components/common/Button';
 
 export const AddUser = ({ changeCurrentPage, displayModal }) => {
-    const { addToast } = useToasts();
+    const showToast = useCustomToast();
     changeCurrentPage({
         heading: 'Add User',
         search: false,
@@ -45,11 +45,7 @@ export const AddUser = ({ changeCurrentPage, displayModal }) => {
             try {
                 const res = await Axios.post(CREATE_SUB_USER, formState);
     
-                addToast('User created successfully', {
-                    appearance: 'success',
-                    autoDismiss: true,
-                    autoDismissTimeout: 3000,
-                });
+                showToast('User created successfully', 'success');
     
                 displayModal({
                     overlay: false,
@@ -68,41 +64,21 @@ export const AddUser = ({ changeCurrentPage, displayModal }) => {
                     if (status === 400 && data && data.errors) {
                         // Handle specific validation errors
                         Object.values(data.errors).flat().forEach(errorMessage => {
-                            addToast(`${errorMessage}`, {
-                                appearance: 'error',
-                                autoDismiss: true,
-                                autoDismissTimeout: 3000,
-                            });
+                            showToast(`${errorMessage}`, 'error');
                         });
                     } else if (status === 401) {
                         // Handle unauthorized error
-                        addToast('Unauthorized. Please log in again.', {
-                            appearance: 'error',
-                            autoDismiss: true,
-                            autoDismissTimeout: 3000,
-                        });
+                        showToast('Unauthorized. Please log in again.', 'error');
                     } else {
                         // Handle other error cases
-                        addToast('An unexpected error occurred. Please try again.', {
-                            appearance: 'error',
-                            autoDismiss: true,
-                            autoDismissTimeout: 3000,
-                        });
+                        showToast('An unexpected error occurred. Please try again.', 'error');
                     }
                 } else if (error.request) {
                     // The request was made but no response was received
-                    addToast('No response from the server. Please try again.', {
-                        appearance: 'error',
-                        autoDismiss: true,
-                        autoDismissTimeout: 3000,
-                    });
+                    showToast('No response from the server. Please try again.', 'error');
                 } else {
                     // Something happened in setting up the request that triggered an error
-                    addToast('An unexpected error occurred. Please try again.', {
-                        appearance: 'error',
-                        autoDismiss: true,
-                        autoDismissTimeout: 3000,
-                    });
+                    showToast('An unexpected error occurred. Please try again.', 'error');
                 }
             } finally {
                 setLoading(false);

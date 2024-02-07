@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { ThreeDots } from 'svg-loaders-react';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../components/toast/useCustomToast';
 import { UPDATE_AGENT_PROFILE } from '../../utils/constants';
 import { setCurrentPage } from '../../actions/page';
 import { startLogout } from '../../actions/auth';
@@ -21,7 +21,7 @@ export const Profile = ({ agentData, changeCurrentPage, displayModal }) => {
     const [formState, setFormState] = useState(agentData);
     const [errors, setErrors] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { addToast } = useToasts();
+    const showToast = useCustomToast();
 
     useEffect(() => {
         changeCurrentPage({
@@ -43,11 +43,7 @@ export const Profile = ({ agentData, changeCurrentPage, displayModal }) => {
                 const res = await axios.put(UPDATE_AGENT_PROFILE, payload);
 
                 if (res) {
-                    addToast('Profile updated successfully', {
-                        appearance: 'success',
-                        autoDismiss: true, 
-                        autoDismissTimeout: 3000 
-                    });
+                    showToast('Profile updated successfully', 'success');
                 }
             } catch (error) {
                 if (error.response) {
@@ -57,41 +53,21 @@ export const Profile = ({ agentData, changeCurrentPage, displayModal }) => {
                     if (data && data.errors) {
                         // If the error response contains 'errors' field, display each error in a separate toast
                         Object.values(data.errors).flat().forEach(errorMessage => {
-                            addToast(`${errorMessage}`, {
-                                appearance: 'error',
-                                autoDismiss: true,
-                                autoDismissTimeout: 3000,
-                            });
+                            showToast(`${errorMessage}`, 'error');
                         });
                     } else if (data && data.message) {
                         // If the error response does not contain 'errors' field, display the message in the toast
-                        addToast(`${data.message}`, {
-                            appearance: 'error',
-                            autoDismiss: true,
-                            autoDismissTimeout: 3000,
-                        });
+                        showToast(`${data.message}`, 'error');
                     } else {
                         // If the error response does not contain 'errors' or 'message' field, display a generic error message
-                        addToast(`An unexpected error occurred.`, {
-                            appearance: 'error',
-                            autoDismiss: true,
-                            autoDismissTimeout: 3000,
-                        });
+                        showToast(`An unexpected error occurred.`, 'error');
                     }
                 } else if (error.request) {
                     // The request was made but no response was received
-                    addToast('No response from the server. Please try again.', {
-                        appearance: 'error',
-                        autoDismiss: true,
-                        autoDismissTimeout: 3000,
-                    });
+                    showToast('No response from the server. Please try again.', 'error');
                 } else {
                     // Something happened in setting up the request that triggered an error
-                    addToast('An unexpected error occurred. Please try again.', {
-                        appearance: 'error',
-                        autoDismiss: true,
-                        autoDismissTimeout: 3000,
-                    });
+                    showToast('An unexpected error occurred. Please try again.', 'error');
                 }
             } finally {
                 setLoading(false);

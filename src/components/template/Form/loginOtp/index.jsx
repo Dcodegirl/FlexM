@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from '../../../../utils/axiosInstance';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../toast/useCustomToast';
 import { startLoginUser } from '../../../../actions/auth2';
 import { useGlobalContext } from '../../../../custom-hooks/Context';
 
@@ -13,7 +13,7 @@ function Contact() {
   const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
   const history = useHistory();
   const dispatch = useDispatch();
-  const { addToast } = useToasts();
+  const showToast  = useCustomToast();
   const [loading, setLoading] = useState(false);
 
   const handleOtpChange = (index, value) => {
@@ -82,45 +82,25 @@ function Contact() {
           // Bad Request (400)
           if (data && data.errors) {
             Object.values(data.errors).flat().forEach(errorMessage => {
-              addToast(`${errorMessage}`, {
-                appearance: 'error',
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
+              showToast(`${errorMessage}`, 'error');
             });
           } else if (status && data && data.message) {
-            addToast(`${data.message}`, {
-              appearance: 'error',
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast(`${data.message}`, 'error');
           } else {
-            addToast('Bad Request. Please check your input.', {
-              appearance: 'error',
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
+            showToast('Bad Request. Please check your input.', 'error');
           }
         } else if (status === 500) {
           // Internal Server Error (500)
-          addToast('Internal Server Error. Please try again later.', {
-            appearance: 'error',
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
-          });
+          showToast('Internal Server Error. Please try again later.', 'error');
         } else {
           // Display an error toast with the API response message for other status codes
-          addToast(data.message || 'An unexpected error occurred.', {
-            appearance: 'error',
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
-          });
+          showToast(data.message || 'An unexpected error occurred.', 'error');
         }
          } finally {
         setLoading(false);
       }
     } else {
-      addToast('Please enter all 6 OTP digits.', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000  });
+      showToast('Please enter all 6 OTP digits.', 'error');
     }
   };
 

@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { ThreeDots } from "svg-loaders-react";
 import { connect } from "react-redux";
-import { useToasts } from "react-toast-notifications";
-
+import { useCustomToast } from "../../../components/toast/useCustomToast";
 import Form from "../../../components/common/Form";
 import FormGroup from "../../../components/common/FormGroup";
 import Input from "../../../components/common/Input";
@@ -20,7 +19,7 @@ export const AgentLoan = ({ agentUuid }) => {
   const [validationErrors, setValidationErrors] = useState({ errors: true });
   const [formState, setFormState] = useState({ loanAmount: "", duration: "" });
   const [loading, setLoading] = useState(false);
-  const { addToast } = useToasts();
+  const showToast = useCustomToast()
 
   const handleOnChange = ({ target }) => {
     setFormState({ ...formState, [target.name]: target.value });
@@ -52,18 +51,12 @@ export const AgentLoan = ({ agentUuid }) => {
 
         // setComponentToRender("status")
 
-        addToast("Loan application was successful", {
-          appearance: "error",
-          autoDismiss: true,
-        });
+        showToast("Loan application was successful", "error");
       } catch (e) {
         const message =
           e.response.data?.errors[0] || "Loan application was unsuccessful";
 
-        addToast(message, {
-          appearance: "error",
-          autoDismiss: true,
-        });
+        showToast(message, "error");
       } finally {
         setLoading(false);
       }

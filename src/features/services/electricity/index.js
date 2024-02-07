@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { connect } from 'react-redux';
 import axios from '../../../utils/axiosInstance';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../components/toast/useCustomToast';
 import { VEND_ENERGY } from '../../../utils/constants';
 import { setCurrentPage } from '../../../actions/page';
 import ElectricityPaymentForm from './ElectricityPaymentForm';
@@ -22,7 +22,7 @@ export const ElectricityPayment = ({ service, hasSetPin }) => {
     const [loading, setLoading] = useState(false);
     const [successData, setSuccessData] = useState(null);
     const [agentLocation, setAgentLocation] = useState(null);
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
 
     useEffect(() => {
         if ('geolocation' in navigator) {
@@ -63,28 +63,16 @@ export const ElectricityPayment = ({ service, hasSetPin }) => {
 
                 setLoading(false);
                 setSuccessData(res.data.data);
-                addToast(message, {
-                    appearance: 'success',
-                    autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                });
+                showToast(message, 'success');
                 setComponentToRender('success');
             } catch (err) {
                 if (err.response && err.response.status === 403) {
                     setLoading(false);
-                    addToast(err.response.data.message, {
-                        appearance: 'error',
-                        autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                    });
+                    showToast(err.response.data.message, 'error');
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 400) {
                     setLoading(false);
-                    addToast(err.response.data.message, {
-                        appearance: 'error',
-                        autoDismiss: true, 
-                    autoDismissTimeout: 3000
-                    });
+                    showToast(err.response.data.message, 'error');
                     setComponentToRender('failed');
                 } else {
                     setLoading(false);

@@ -6,7 +6,7 @@ import WalletTransferForm from "./WalletTransferForm";
 import WalletTransferStatus from "./WalletTransferStatus";
 import WalletTransferSummary from "./WalletTransferSummary";
 import FailedTransaction from "../../../components/common/FailedTransaction";
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from "../../../components/toast/useCustomToast";
 import styles from "./WalletTransfer.module.scss";
 
 export const WalletTransfer = () => {
@@ -17,7 +17,7 @@ export const WalletTransfer = () => {
   const [transactionDate, setTransactionDate] = useState(null);
   const [agentLocation, setAgentLocation] = useState(null);
   const [failedErrorMessage, setFailedErrorMessage] = useState('');
-  const { addToast } = useToasts();
+  const showToast = useCustomToast();
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -49,10 +49,7 @@ export const WalletTransfer = () => {
       try {
         const res = await axios.post(WALLET_TRANSFER, req);
         const message = res.data.message;
-        addToast(message, {
-          appearance: 'success',
-          autoDismiss: true,
-      });
+        showToast(message, 'success');
      
         const date = new Date();
         const transactionDate = getTransactionDate(date);
@@ -64,32 +61,20 @@ export const WalletTransfer = () => {
       } catch (error) {
         if (error.response && error.response.data.status_code === 429) {
           setLoading(false);
-          addToast(error.response.data.message, {
-              appearance: 'error',
-              autoDismiss: true,
-          });
+          showToast(error.response.data.message, 'error');
           setFailedErrorMessage(error.response.data.message || undefined);
       } else if (error.response && error.response.status === 403) {
           setLoading(false);
-          addToast(error.response.data.message, {
-              appearance: 'error',
-              autoDismiss: true,
-          });
+          showToast(error.response.data.message,'error');
           setFailedErrorMessage(error.response.data.message || undefined);
       }else if (error.response && error.response.status === 401) {
         setLoading(false);
-        addToast(error.response.data.message, {
-            appearance: 'error',
-            autoDismiss: true,
-        });
+        showToast(error.response.data.message, 'error');
         setFailedErrorMessage(error.response.data.message || undefined);
     }else{
         setTimeout(()=>{
           setStatus('failed');
-          addToast(error.response.data.message, {
-            appearance: 'error',
-            autoDismiss: true,
-        });
+          showToast(error.response.data.message, 'error');
         setFailedErrorMessage(error.response.data.message || undefined);
         },3000);
       }}

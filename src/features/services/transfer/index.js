@@ -2,8 +2,7 @@ import React, { useEffect, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from '../../../utils/axiosInstance';
-import { useToasts } from 'react-toast-notifications';
-
+import { useCustomToast } from '../../../components/toast/useCustomToast';
 import { setWalletBalance } from '../../../actions/wallet';
 import FundsTransferReducer, { initialFormState } from './transfer-reducer';
 import { setCurrentPage } from '../../../actions/page';
@@ -28,7 +27,7 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
     const [loading, setLoading] = useState(false);
     const [agentLocation, setAgentLocation] = useState(null);
     const [failedErrorMessage, setFailedErrorMessage] = useState('');
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
 
     useEffect(() => {
         if ('geolocation' in navigator) {
@@ -93,36 +92,24 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
                 });
 
                 setLoading(false);
-                addToast(message, {
-                    appearance: 'success',
-                    autoDismiss: true,
-                });
+                showToast(message, 'success');
                 setComponentToRender('completed');
                 EventEmitter.dispatch('refresh-wallet-balance', {});
             } catch (err) {
                 console.log(err)
                 if(err.response === undefined){
-                    addToast("You cannot transfer below the transfer limit", {
-                        appearance: 'error',
-                        autoDismiss: true,
-                    }); 
+                    showToast("You cannot transfer below the transfer limit", 'error'); 
                     setLoading(false)
                     return
                 }
                 if (err.response && err.response.status === 401 ) {
                     setLoading(false);
-                    addToast(err.response.data.message, {
-                        appearance: 'error',
-                        autoDismiss: true,
-                    });
+                    showToast(err.response.data.message, 'error');
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 403) {
                     setLoading(false);
-                    addToast(err.response.data.message, {
-                        appearance: 'error',
-                        autoDismiss: true,
-                    });
+                    showToast(err.response.data.message, 'error');
                     setComponentToRender('failed');
                     setFailedErrorMessage(err.response.data.message || undefined);
                 }
@@ -130,10 +117,7 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
                     setTimeout(() => {
                         setLoading(false);
                        
-                        addToast(err.response.data.message, {
-                            appearance: 'error',
-                            autoDismiss: true,
-                        });
+                        showToast(err.response.data.message, 'error');
                         setFailedErrorMessage(
                             err.response.data.message || undefined
                         );

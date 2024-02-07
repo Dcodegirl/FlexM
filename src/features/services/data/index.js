@@ -1,7 +1,7 @@
 import React, { useState, useReducer } from 'react';
 import axios from '../../../utils/axiosInstance';
 import { connect } from 'react-redux';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../components/toast/useCustomToast';
 
 import { setCurrentPage } from '../../../actions/page';
 import { VEND_DATA } from '../../../utils/constants';
@@ -23,7 +23,7 @@ export const BuyData = ({ service, hasSetPin }) => {
     );
     const [successData, setSuccessData] = useState(null);
     const [loading, setLoading] = useState(false);
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
     const [failedErrorMessage, setFailedErrorMessage] = useState('');
 
     const handleOnSubmit = () => {
@@ -82,36 +82,24 @@ export const BuyData = ({ service, hasSetPin }) => {
 
                 setLoading(false);
                 setSuccessData({ ...successData, date: date.toDateString() });
-                addToast(message, {
-                    appearance: 'success',
-                    autoDismiss: true,
-                });
+                showToast(message, 'success');
                 setComponentToRender('success');
                 EventEmitter.dispatch('refresh-wallet-balance', {});
             })
             .catch((err) => {
                 if (err.response && err.response.status === 403) {
                     setLoading(false);
-                    addToast(err.response.data.message, {
-                        appearance: 'error',
-                        autoDismiss: true,
-                    });
+                    showToast(err.response.data.message, 'error');
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 400) {
                     setLoading(false);
-                    addToast(err.response.data.message, {
-                        appearance: 'error',
-                        autoDismiss: true,
-                    });
+                    showToast(err.response.data.message, 'error');
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 } else if (err.response && err.response.status === 401) {
                     setLoading(false);
-                    addToast(err.response.data.message, {
-                        appearance: 'error',
-                        autoDismiss: true,
-                    });
+                    showToast(err.response.data.message, 'error');
                     setFailedErrorMessage(err.response.data.message || undefined);
                     setComponentToRender('failed');
                 }else {

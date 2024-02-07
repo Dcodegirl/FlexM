@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { useToasts } from "react-toast-notifications";
+import { useCustomToast } from "../../../components/toast/useCustomToast";
 import { startLogout } from "../../../actions/auth";
 import { createNotification } from "../../../actions/notification";
 import imagebg from "../../../assets/icons/Ellipse 179.png";
@@ -44,7 +44,7 @@ const Header = ({
   const virtualAccountNumber = user ? user.account_number : "N/A";
   const virtualAccountBank = bank ? bank.name : "N/A";
   const wrapperRef = useRef(null);
-  const { addToast } = useToasts();
+  const showToast  = useCustomToast();
   const currentDate = new Date();
   const { updateUserInfoArray } = useGlobalContext();
 
@@ -88,11 +88,7 @@ const Header = ({
 
   const handleToggleNotifications = () => {
     notifications.forEach((notification) => {
-      addToast(notification.body, {
-        appearance: "info",
-        autoDismiss: true,
-        autoDismissTimeout: 10000,
-      });
+      showToast(notification.body, "info");
     });
   };
 

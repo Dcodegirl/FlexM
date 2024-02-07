@@ -12,7 +12,7 @@ import { VERIFY_ACCOUNT, FETCH_BANK } from '../../../utils/constants';
 import generateBankImageUrl from './generateBankImageUrl';
 import validateFormData from '../../../validation/validateFormData';
 import banksList from '../../../utils/listOfBanks';
-import { useToasts } from 'react-toast-notifications';
+import { useCustomToast } from '../../../components/toast/useCustomToast';
 
 import styles from './FundsTransferForm.module.scss';
 
@@ -28,7 +28,7 @@ export const FundsTransferForm = (props) => {
         useState(false);
     const [validationErrors, setValidationErrors] = useState({});
     const [banks, setBanks]=useState([]);
-    const { addToast } = useToasts();
+    const showToast  = useCustomToast();
 
 
     useEffect(() => {
@@ -68,14 +68,10 @@ export const FundsTransferForm = (props) => {
                         ...validationErrors,
                         accountName: true,
                     });
-                    addToast({
+                    showToast({
                         ...validationErrors,
                         accountName: true,
-                    }, {
-                        appearance: 'error',
-                        autoDismiss: true,
-                        autoDismissTimeout: 3000, // milliseconds
-                      });
+                    }, 'error');
                     setAccountValidationLoading(false);
                 }
             })();
