@@ -72,7 +72,7 @@ console.log('is verified: ', isAggregatorVerified, userData.agent.bvn_status,  u
           </div>
         </div>
       </div>
-      {isKYCVerified && (
+      {!isKYCVerified && (
         <div className='bg-light-orange w-full py-4 px-8 rounded-md flex gap-3 items-center justify-between'>
           <div className='flex gap-3 items-center'>
             <div>
