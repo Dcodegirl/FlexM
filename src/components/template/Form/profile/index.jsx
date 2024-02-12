@@ -57,7 +57,7 @@ const [username, setUsername] = useState('');
                     </div>
                     <div className='w-[350px] mt-6'>
                         <form onSubmit={handleSubmit}>
-                            <p className='text-gray-700 text-sm mb-2'>Type a username...</p>
+                            <p className='text-gray-700 text-lg mb-2'>Type a username...</p>
                             <input
                                 type="text"
                                 value={username}
@@ -67,7 +67,7 @@ const [username, setUsername] = useState('');
                                 className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                             />
                             <div className="relative">
-                                <p className='text-gray-700 text-sm mb-2'>Password</p>
+                                <p className='text-gray-700 text-lg mb-2'>Password</p>
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     value={password}
@@ -82,7 +82,7 @@ const [username, setUsername] = useState('');
                                 />
                             </div>
                             <div className="relative">
-                                <p className='text-gray-700 text-sm mb-2'>Confirm Password</p>
+                                <p className='text-gray-700 text-lg mb-2'>Confirm Password</p>
                                 <input
                                     type={showConfirmPassword ? 'text' : 'password'}
                                     value={confirmPassword}

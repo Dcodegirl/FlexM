@@ -80,7 +80,7 @@ function Guarantor() {
                                         className="h-10 w-10"
                                     />
                                     <div className='flex'>
-                                        <p className="block text-deep-green text-sm">Make sure the form is fill and sign to be the person you know and trusted </p>
+                                        <p className="block text-deep-green text-sm">Make sure the form is filled and signed by someone you know and trusted </p>
                                     </div>
 
                                 </div>

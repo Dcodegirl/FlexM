@@ -255,7 +255,7 @@ const PersonalDetails = () => {
           </div>
           <div className="flex md:flex-row flex-col gap-5 w-full">
             <div>
-            <p className='text-gray-700 text-sm mb-2'>Date of Birth*</p>
+            <p className='text-gray-700 text-lg mb-2'>Date of Birth*</p>
             <input
               type="date"
               value={dob}
@@ -266,7 +266,7 @@ const PersonalDetails = () => {
             />
           </div>
           <div>
-            <p className='text-gray-700 text-sm mb-2'>Local Govt*</p>
+            <p className='text-gray-700 text-lg mb-2'>Local Govt*</p>
             <input
               type="text"
               value={lga}

@@ -155,8 +155,8 @@ function Contact({ nextStep }) {
             </p>
           </div>
           <div className='w-[350px] mt-6 flex items-center justify-center'>
-            <form onSubmit={handleSubmit} className=''>
-              <p className='text-gray-700 text-sm mb-2'>Your 6-Digit Code</p>
+            <form onSubmit={handleSubmit} className='text-lg'>
+              <p className='text-gray-700 mb-2'>Your 6-Digit Code</p>
               {otp.map((value, index) => (
                 <input
                   key={index}
@@ -170,7 +170,7 @@ function Contact({ nextStep }) {
                   required
                   id={`otp-input-${index}`}
                   tabIndex={index + 1}
-                  className='border md:bg-bg-green bg-white border-[#D0D5DD] h-16 w-14 text-center m-2 rounded-lg p-4'
+                  className='border md:bg-bg-green bg-white border-[#D0D5DD] h-16 w-14 text-center m-2 rounded-lg p-4 font-bold'
                 />
               ))}
             </form>

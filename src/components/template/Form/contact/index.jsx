@@ -127,15 +127,15 @@ const Contact = ({ nextStep }) => {
       <div className="md:m-8 my-8 overflow-hidden">
         <div className="md:p-16 py-16 px-8 md:bg-bg-green md:border-border-primary bg-white border-white rounded-3xl border">
           <div className="text-color1 font-bold text-center">
-            <p className="text-2xl">Contact Information</p>
+            <p className="text-2xl font-bold">Contact Information</p>
             <p className="text-gray-500 text-xl font-thin w-[360px]">
               Enter your contact details to get started
             </p>
           </div>
           <div className="w-[350px] mt-6">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="text-lg">
               <div className="mb-6">
-                <label htmlFor="phoneNumber" className="text-gray-700 text-sm mb-2">
+                <label htmlFor="phoneNumber" className="text-gray-700 mb-2">
                   Phone Number
                 </label>
                 <input
@@ -149,7 +149,7 @@ const Contact = ({ nextStep }) => {
                 />
               </div>
               <div className="mb-6">
-                <label htmlFor="businessName" className="text-gray-700 text-sm mb-2">
+                <label htmlFor="businessName" className="text-gray-700 mb-2">
                   Business Name
                 </label>
                 <input
@@ -163,7 +163,7 @@ const Contact = ({ nextStep }) => {
                 />
               </div>
               <div className="mb-6">
-                <label htmlFor="businessType" className="text-gray-700 text-sm mb-2">
+                <label htmlFor="businessType" className="text-gray-700 mb-2">
                   Select Business Type:
                 </label>
                 <select
@@ -177,7 +177,7 @@ const Contact = ({ nextStep }) => {
                 </select>
               </div>
               <div className="mb-6">
-                <label htmlFor="gender" className="text-gray-700 text-sm mb-2">
+                <label htmlFor="gender" className="text-gray-700 mb-2">
                   Gender:
                 </label>
                 <select
@@ -191,7 +191,7 @@ const Contact = ({ nextStep }) => {
                 </select>
               </div>
               <div className="mb-6">
-                <label htmlFor="email" className="text-gray-700 text-sm mb-2">
+                <label htmlFor="email" className="text-gray-700 mb-2">
                   Email
                 </label>
                 <input
@@ -205,7 +205,7 @@ const Contact = ({ nextStep }) => {
                 />
               </div>
               <div className="relative mb-6">
-                <label htmlFor="password" className="text-gray-700 text-sm mb-2">
+                <label htmlFor="password" className="text-gray-700 mb-2">
                   Password
                 </label>
                 <input
@@ -224,7 +224,7 @@ const Contact = ({ nextStep }) => {
                 />
               </div>
               <div className="relative mb-6">
-                <label htmlFor="confirmPassword" className="text-gray-700 text-sm mb-2">
+                <label htmlFor="confirmPassword" className="text-gray-700 mb-2">
                   Confirm Password
                 </label>
                 <input

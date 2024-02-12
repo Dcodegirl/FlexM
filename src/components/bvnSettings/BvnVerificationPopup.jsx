@@ -165,7 +165,7 @@ const BvnVerificationPopup = ({isVisible, closeModal}) => {
         </div>
         <div className='w-[350px] mt-6 flex items-center justify-center'>
           <form onSubmit={handleSubmit} className=''>
-            <p className='text-gray-700 text-sm mb-2'>Your 6-Digit Code</p>
+            <p className='text-gray-700 text-lg mb-2'>Your 6-Digit Code</p>
             {bvn.map((value, index) => (
               <input
                 key={index}

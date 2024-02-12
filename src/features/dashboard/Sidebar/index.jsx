@@ -35,7 +35,7 @@ export const Sidebar = ({ agentType, superAgentId, is_aggregator }) => {
 
   return (
     <>
-      <div className='md:w-96 '>
+      <div className='md:w-96'>
         <div
           className={styles.toggle}
           onClick={() => {
@@ -89,7 +89,7 @@ export const Sidebar = ({ agentType, superAgentId, is_aggregator }) => {
                             {item.to ? (
                               <NavLink
                                 to={item.to}
-                                className='flex gap-5 items-center'
+                                className='flex gap-5 items-center p-4 w-full'
                                 activeClassName={styles.active}
                               >
                                 <img src={item.icon} alt="" className='navItemImage' />
@@ -120,7 +120,7 @@ export const Sidebar = ({ agentType, superAgentId, is_aggregator }) => {
                                           <NavLink
                                             key={subIndex}
                                             to={subItem.to}
-                                            className='block text-gray-700 py-1'
+                                            className='block text-gray-700 py-1 p-4'
                                             activeClassName={styles.active}
                                           >
                                             <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>
@@ -142,7 +142,7 @@ export const Sidebar = ({ agentType, superAgentId, is_aggregator }) => {
                           {item.to ? (
                             <NavLink
                               to={item.to}
-                              className='flex gap-5 items-center'
+                              className='flex gap-5 items-center p-4'
                               activeClassName={styles.active}
                             >
                               <img src={item.icon} alt="" className='navItemImage' />
@@ -173,7 +173,7 @@ export const Sidebar = ({ agentType, superAgentId, is_aggregator }) => {
                                         <NavLink
                                           key={subIndex}
                                           to={subItem.to}
-                                          className='block text-gray-700 py-1'
+                                          className='block text-gray-700 py-1  p-4'
                                           activeClassName={styles.active}
                                         >
                                           <span className='text-gray-700 font-normal text-xl w-64'>{subItem.text}</span>

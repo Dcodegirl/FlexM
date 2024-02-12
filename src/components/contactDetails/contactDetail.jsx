@@ -189,7 +189,7 @@ const ContactDetail = () => {
           {/* Replace the following comment with your actual contact details form */}
           
           <form className="flex flex-col">
-          <div className="flex gap-10 items-center my-8 justify-center align-center mx-auto">
+          <div className="flex gap-10 items-center my-8 justify-center mx-auto">
               {/* Display the selected image (if any) */}
               <div className="flex flex-col">
                 {/* {selectedImage && (

@@ -190,7 +190,7 @@ function Document({ nextStep }) {
             <form>
               <div className="flex gap-5">
                 <div className=" w-full">
-                  <p className="text-gray-700 text-sm mb-2">Legal First Name</p>
+                  <p className="text-gray-700 text-lg mb-2">Legal First Name</p>
                   <input
                     type="text"
                     value={firstname}
@@ -202,7 +202,7 @@ function Document({ nextStep }) {
                   />
                 </div>
                 <div className=" w-full">
-                  <p className="text-gray-700 text-sm mb-2">Legal Last Name</p>
+                  <p className="text-gray-700 text-lg mb-2">Legal Last Name</p>
                   <input
                     type="text"
                     value={lastname}
@@ -216,7 +216,7 @@ function Document({ nextStep }) {
               </div>
               <div className="flex gap-5">
                 <div className=" w-full">
-                  <p className="text-gray-700 text-sm mb-2">Address</p>
+                  <p className="text-gray-700 text-lg mb-2">Address</p>
                   <input
                     type="text"
                     value={address}
@@ -228,7 +228,7 @@ function Document({ nextStep }) {
                   />
                 </div>
                 <div className=" w-full">
-                  <p className="text-gray-700 text-sm mb-2">Local Govt</p>
+                  <p className="text-gray-700 text-lg mb-2">Local Govt</p>
                   <input
                     type="text"
                     value={lga}
@@ -242,7 +242,7 @@ function Document({ nextStep }) {
               </div>
               <div className="flex gap-5">
                 <div className=" w-full">
-                  <p className="text-gray-700 text-sm mb-2">Country</p>
+                  <p className="text-gray-700 text-lg mb-2">Country</p>
                   <select
                     className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4"
                     value={selectedCountry}
@@ -255,7 +255,7 @@ function Document({ nextStep }) {
                   </select>
                 </div>
                 <div className=" w-full">
-                  <p className="text-gray-700 text-sm mb-2">State</p>
+                  <p className="text-gray-700 text-lg mb-2">State</p>
                   <select
                     className="md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4"
                     value={selectedState}
@@ -270,7 +270,7 @@ function Document({ nextStep }) {
               </div>
 
               <div className="text-deep-green font-bold text-left gap-2 mb-2 flex flex-col">
-                <p className="text-sm">Guarantor Form</p>
+                <p className="text-lg">Guarantor Form</p>
                 <p className="text-gray-700 text-sm font-thin w-[360px]">
                   Download and Upload a signed copy of this form in your profile
                 </p>
@@ -303,7 +303,7 @@ function Document({ nextStep }) {
               </div>
 
               <div className="text-deep-green font-bold text-left gap-2 mb-2">
-                <p className="text-sm">Means of ID</p>
+                <p className="text-lg">Means of ID</p>
                 <p className="text-gray-700 text-sm font-thin w[360px]">
                   Download and Upload a signed copy of this form in your profile
                 </p>
@@ -372,7 +372,7 @@ function Document({ nextStep }) {
                                 </div>
                             )} */}
               <div className="mt-6">
-                <p className="text-gray-700 text-sm mb-2">Utilities Bill</p>
+                <p className="text-gray-700 text-lg mb-2">Utilities Bill</p>
                 <div className="relative">
                   <div className="border border-gray-300 border-dotted p-2 rounded-md h-16 w-full ">
                     <div className=" flex gap-5 items-center justify-between">

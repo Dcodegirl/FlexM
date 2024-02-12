@@ -82,7 +82,7 @@ function Contact() {
           </div>
           <div className='w-[350px] mt-6 flex items-center justify-center'>
             <form onSubmit={handleSubmit} className=''>
-              <p className='text-gray-700 text-sm mb-2 mx-8'>Enter PIN</p>
+              <p className='text-gray-700 text-lg mb-2 mx-8'>Enter PIN</p>
               {pin.map((value, index) => (
                 <input
                   key={index}

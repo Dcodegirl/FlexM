@@ -74,7 +74,7 @@ const MultiStepForm = () => {
                     } rounded-lg transition-all ease-in-out duration-300`}
                 >
                   <div
-                    className={`text-sm md:font-semibold capitalize ${index < tabIndex - 1
+                    className={`text-lg md:font-semibold capitalize ${index < tabIndex - 1
                         ? 'text-black'
                         : index === tabIndex - 1
                           ? 'text-black'

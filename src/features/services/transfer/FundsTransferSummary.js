@@ -9,6 +9,7 @@ import back from '../../../assets/images/left-arrow.svg';
 import info from '../../../assets/images/tooltip-icon.svg';
 import generateBankImageUrl from './generateBankImageUrl';
 import formatToCurrency from '../../../utils/formatToCurrency';
+import { useCustomToast } from '../../../components/toast/useCustomToast';
 
 import styles from './FundsTransferSummary.module.scss';
 import Axios from 'axios';
@@ -19,6 +20,7 @@ export const FundsTransferSummary = (props) => {
     const [TransactionCostChange,setTransactionCostChange] = useState(false);
     // const [loading, setLoading] = useState(true);
     const [currentTransactionCost, setCurrentTransactionCost] = useState("");
+    const showToast = useCustomToast()
     const {
         FundsTransferFormState: state,
         loading,
@@ -55,6 +57,16 @@ export const FundsTransferSummary = (props) => {
         }
     })
         .catch((err)=>{
+            const { data } = err.response
+            if (data && data.errors) {
+                Object.values(data.errors).flat().forEach(errorMessage => {
+                  showToast(`${errorMessage}`, 'error');
+                });
+              } else if (data && data.message) {
+                showToast(`${data.message}`, 'error');
+              } else {
+                showToast('Bad Request. Please check your input.', 'error');
+              }
             if(!isCancelled) {
                 setTransactionCostChange(false);
                 // setLoading(false); 

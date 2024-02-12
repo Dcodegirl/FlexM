@@ -40,7 +40,7 @@ function Document() {
                     </div>
                     <div className='w-[350px] mt-6'>
                         <form>
-                            <p className='text-gray-700 text-sm mb-2'>Select Document Type:</p>
+                            <p className='text-gray-700 text-lg mb-2'>Select Document Type:</p>
                             <select
                                 className='bg-bg-green border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
                                 value={selectedDocument}

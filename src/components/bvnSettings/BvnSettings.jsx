@@ -20,7 +20,6 @@ function BvnSettings() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Fetch wallet balance and commission balance from userInfoArray
     const fetchBalancesFromUserInfo = () => {
       const userId = userInfoArray?.agent.user_id;
   
@@ -103,7 +102,7 @@ function BvnSettings() {
           </div>
           <div className='w-[350px] mt-6'>
             <form>
-              <p className='text-gray-700 text-sm mb-2'>BVN</p>
+              <p className='text-gray-700 text-lg mb-2'>BVN</p>
               <input
                 type="tel"
                 value={bvn}
@@ -124,7 +123,7 @@ function BvnSettings() {
                   </div>
                 </div>
               </div>
-              <p className='text-gray-700 text-sm mb-2'>Date of Birth</p>
+              <p className='text-gray-700 text-lg mb-2'>Date of Birth</p>
               <input
                 type="date"
                 value={dob}

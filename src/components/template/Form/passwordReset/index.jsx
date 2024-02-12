@@ -122,7 +122,7 @@ const handleTokenChange=(event)=>{
                                 <div className='mt-4 w-full'>
                                     <form>
                                     <div className="relative">
-                                            <p className='text-gray-700 text-sm mb-2'>Token</p>
+                                            <p className='text-gray-700 text-lg mb-2'>Token</p>
                                             <input
                                                 type={showToken ? 'text' : 'password'}
                                                 value={token}
@@ -138,7 +138,7 @@ const handleTokenChange=(event)=>{
                                             />
                                         </div>
                                         <div className="relative">
-                                            <p className='text-gray-700 text-sm mb-2'>Password</p>
+                                            <p className='text-gray-700 text-lg mb-2'>Password</p>
                                             <input
                                                 type={showPassword ? 'text' : 'password'}
                                                 value={password}

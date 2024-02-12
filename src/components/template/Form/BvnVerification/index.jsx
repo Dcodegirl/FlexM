@@ -87,8 +87,8 @@ function BvnVerifi({ nextStep }) {
             <p className="text-gray-700 text-xl font-thin w-[360px]">Enter your 11 Digit BVN</p>
           </div>
           <div className='w-[350px] mt-6'>
-            <form>
-              <p className='text-gray-700 text-sm mb-2'>BVN</p>
+            <form className="text-lg">
+              <p className='text-gray-700 mb-2'>BVN</p>
               <input
                 type="tel"
                 value={bvn}
@@ -109,7 +109,7 @@ function BvnVerifi({ nextStep }) {
                   </div>
                 </div>
               </div>
-              <p className='text-gray-700 text-sm mb-2'>Date of Birth</p>
+              <p className='text-gray-700 mb-2'>Date of Birth</p>
               <input
                 type="date"
                 value={dob}

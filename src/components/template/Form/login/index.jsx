@@ -106,8 +106,8 @@ function Login() {
             <p className="text-gray-500 text-xl font-thin w[360px]">Enter your contact details to sign in.</p>
           </div>
           <div className='w-[350px] mt-6'>
-            <form>
-              <p className='text-gray-700 text-sm mb-2'>Phone Number</p>
+            <form className='text-lg'>
+              <p className='text-gray-700 mb-2'>Phone Number</p>
               <input
                 type="tel"
                 value={phoneNumber}
@@ -117,7 +117,7 @@ function Login() {
                 className='md:bg-bg-green bg-white border-[#D0D5DD] border rounded-lg h-14 w-full mb-6 p-4'
               />
               <div className="relative">
-                <p className='text-gray-700 text-sm mb-2'>Password</p>
+                <p className='text-gray-700 mb-2'>Password</p>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
