@@ -14,7 +14,6 @@ const Tranx = () => {
             const response = await TransactionData(selectedPeriod, agentId);
             const dataa = response.data;
             setTransactions(dataa);
-            console.log('the data for transaction: ', dataa);
         } catch (error) {
             console.error('Error fetching transaction data:', error);
         } finally {

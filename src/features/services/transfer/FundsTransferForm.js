@@ -17,7 +17,7 @@ import { useToasts } from 'react-toast-notifications';
 import styles from './FundsTransferForm.module.scss';
 
 export const FundsTransferForm = (props) => {
-   
+
     const {
         FundsTransferFormState: state,
         dispatch,
@@ -27,7 +27,7 @@ export const FundsTransferForm = (props) => {
     const [accountValidationLoading, setAccountValidationLoading] =
         useState(false);
     const [validationErrors, setValidationErrors] = useState({});
-    const [banks, setBanks]=useState([]);
+    const [banks, setBanks] = useState([]);
     const { addToast } = useToasts();
 
 
@@ -68,14 +68,20 @@ export const FundsTransferForm = (props) => {
                         ...validationErrors,
                         accountName: true,
                     });
-                    addToast({
-                        ...validationErrors,
-                        accountName: true,
-                    }, {
+                    // addToast({
+                    //     ...validationErrors,
+                    //     accountName: true,
+                    // }, {
+                    //     appearance: 'error',
+                    //     autoDismiss: true,
+                    //     autoDismissTimeout: 3000, // milliseconds
+                    //   });
+                    const errorMessage = e.response ? e.response.data.message : 'An error occurred during account verification';
+                    addToast(errorMessage, {
                         appearance: 'error',
                         autoDismiss: true,
                         autoDismissTimeout: 3000, // milliseconds
-                      });
+                    });
                     setAccountValidationLoading(false);
                 }
             })();
@@ -103,20 +109,20 @@ export const FundsTransferForm = (props) => {
         let isCancelled = false;
 
         (async function getBankList() {
-          try {
-            const res = await axios.get(FETCH_BANK);
-            
-            const banks = res.data.data;
-          
-            
-            if (!isCancelled) {
-              setBanks(banks);
+            try {
+                const res = await axios.get(FETCH_BANK);
+
+                const banks = res.data.data;
+
+
+                if (!isCancelled) {
+                    setBanks(banks);
+                }
+            } catch (e) {
             }
-          } catch (e) {
-          }
         })();
-      }, []);
-      
+    }, []);
+
     //update bank name on bank code change
     useEffect(() => {
         if (state.beneficiaryBankCode) {
@@ -156,7 +162,7 @@ export const FundsTransferForm = (props) => {
         });
     };
 
-   
+
     let bankImageUrl = generateBankImageUrl(state.beneficiaryBankCode);
 
     return (
@@ -187,10 +193,10 @@ export const FundsTransferForm = (props) => {
                     <option value=''>Select Bank</option>
                     {banks.map((bank, index) => {
                         return (
-                        <option key={index} value={bank.code}>{bank.name}</option>
+                            <option key={index} value={bank.code}>{bank.name}</option>
                         )
                     })
-                           
+
                     }
                 </Select>
             </FormGroup>

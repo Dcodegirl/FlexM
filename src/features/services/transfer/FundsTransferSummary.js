@@ -17,11 +17,11 @@ export const FundsTransferSummary = (props) => {
     const [transactionCost, setTransactionCost] = useState([]);
     const [transactionTypeFilter, setTransactionTypeFilter] = useState('');
     const [TransactionCostChange,setTransactionCostChange] = useState(false);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(false);
     const [currentTransactionCost, setCurrentTransactionCost] = useState("");
     const {
         FundsTransferFormState: state,
-        // loading,
+        loading,
         dispatch,
         hasSetPin,
         setComponentToRender,
@@ -48,16 +48,13 @@ export const FundsTransferSummary = (props) => {
         .get(`${TRANSACTION_COST}`)
         .then((res)=>{
             const transactionCost = res.data.data.cost;
-       
         if(!isCancelled){
             setTransactionCost(transactionCost);
-            setLoading(false);
         }
     })
         .catch((err)=>{
             if(!isCancelled) {
                 setTransactionCostChange(false);
-                setLoading(false); 
                 setTransactionCost([]) 
             }
         });

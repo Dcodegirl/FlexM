@@ -19,7 +19,7 @@ const UserInfo = () => {
     axios.get('/agent/userinfo')
       .then(response => {
         setUserData(response.data.data);
-        console.log('user info:',"user info from user info api: ", response.data.data)
+        console.log('user info:', "user info from user info api: ", response.data.data)
       })
       .catch(error => {
         console.error('Error fetching user information:', error);
@@ -32,9 +32,10 @@ const UserInfo = () => {
   }
 
 
-  const isKYCVerified = userData?.image || userData.agent.documents.length < 3 ;
+  const isKYCVerified = userData?.image || userData.agent.documents.length < 3;
   const isAggregatorVerified = (userData.agent.bvn_status === "1") && (userData.agent.status === "1" || userData.agent.status === 'Active');
-console.log('is verified: ', isAggregatorVerified, userData.agent.bvn_status,  userData.agent.status)
+  const isAggregatorActive = userData.agent.status == null || userData.agent.status == 0;
+  console.log('is verified: ', isAggregatorVerified, userData.agent.bvn_status, userData.agent.status)
   const currentHour = currentDate.getHours();
   const isAfter4PM = currentHour >= 16;
   return (
@@ -47,13 +48,27 @@ console.log('is verified: ', isAggregatorVerified, userData.agent.bvn_status,  u
           <div className='flex flex-col'>
             <div className='flex gap-3 items-center p-2 rounded-3xl'>
               <div className='font-semibold text-deep-green text-2xl'>{`Hi, ${userData?.agent?.first_name}!`}</div>
-              <div className={`flex gap-3  ${!isAggregatorVerified ? 'bg-[#FEF8F0]' : 'bg-[#FCFDFC]'} items-center p-4 rounded-3xl`} >
-                <p className={`text-${isAggregatorVerified ? 'light-deep-green' : 'red-500'}`}>
-                  {isAggregatorVerified ? 'Agent Verified' : 'Agent Not Verified'}
-                </p>
-                <img src={isAggregatorVerified ? mark : smallwarn} alt="" />
-              </div>
+
+              {!isAggregatorActive && isAggregatorVerified && (
+                <div className={`flex gap-3 ${!isAggregatorVerified ? 'bg-[#FEF8F0]' : 'bg-[#FCFDFC]'} items-center p-4 rounded-3xl`} >
+                  <p className={`text-${isAggregatorVerified ? 'light-deep-green' : 'red-500'}`}>
+                    {isAggregatorVerified ? 'Agent Verified' : 'Agent Not Verified'}
+                  </p>
+                  <img src={isAggregatorVerified ? mark : smallwarn} alt="" />
+                </div>
+              )}
+
+              {isAggregatorActive && (
+                <div className="bg-[#FEF8F0] flex gap-3 items-center p-2 px-4 rounded-3xl">
+                  <img src={smallwarn} alt="" />
+                  <div className='flex flex-col text-red-500'>
+                    <p>Agent Inactive</p>
+                    <p>Your account is not yet active. Please contact support for assistance.</p>
+                  </div>
+                </div>
+              )}
             </div>
+
             <div className='flex gap-3 items-center -mt-2'>
               <span><img src={isAfter4PM ? moon : sun} alt="" /></span>
               <span className=''><img src={Ellipse} alt="" /></span>
@@ -68,7 +83,7 @@ console.log('is verified: ', isAggregatorVerified, userData.agent.bvn_status,  u
             <span className='text-[#748274]'>Account Number: </span><span className='font-extrabold text-deep-green'> {userData.agent.virtual_account_number || 'N/A'}</span>
           </div>
           <div className='text-[14px]'>
-            <span className='text-[#748274]'>Bank Name: </span><span className='font-extrabold text-deep-green'> {userData.agent.virtual_account_bank|| 'N/A'}</span>
+            <span className='text-[#748274]'>Bank Name: </span><span className='font-extrabold text-deep-green'> {userData.agent.virtual_account_bank || 'N/A'}</span>
           </div>
         </div>
       </div>
