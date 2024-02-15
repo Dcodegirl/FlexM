@@ -69,14 +69,14 @@ const SettingsForm = () => {
         <div className="relative pt-1">
           <div className="flex">
             <div className="flex flex-row w-full gap-2 justify-evenly">
-                            {formTitles.map((d, index) => (
+                {formTitles.map((d, index) => (
                 <div
                   key={index}
                   onClick={() => {
                     setCurrentStep(d.step);
                   }}
                   className={`cursor-pointer ${currentStep == d.step
-                    ? "text-color1 font-semibold border-b-2 border-color1 pb-2"
+                    ? "text-color1 font-semibold border-b-2 border-color1 pb-2 "
                     : "text-[#1F1F1F]"
                   } transition-all ease-in-out duration-300 text-2xl md:w[200px]`}
                 >

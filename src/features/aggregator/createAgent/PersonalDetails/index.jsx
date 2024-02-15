@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useCustomToast } from "../../../../components/toast/useCustomToast";
 import axios from "../../../../utils/axiosInstance";
 import MockAdapter from 'axios-mock-adapter';
+import { POST_CREATE_AGENT } from "../../../../utils/constants";
+import { GET_ALL_COUNTRIES } from "../../../../utils/constants";
 
 const PersonalDetails = () => {
   const showToast = useCustomToast();
@@ -70,7 +72,7 @@ const PersonalDetails = () => {
     // Fetch the list of countries when the component mounts
     const fetchCountries = async () => {
       try {
-        const response = await axios.get("/countries/all-countries");
+        const response = await axios.get(GET_ALL_COUNTRIES);
         setCountries(response.data.data);
       } catch (error) {
         console.error("Error fetching countries:", error);
@@ -109,7 +111,7 @@ const PersonalDetails = () => {
         date_of_birth: dob,
       };
       // Call the API with Axios
-      const response = await axios.post('/agent/create', payload);
+      const response = await axios.post(POST_CREATE_AGENT, payload);
 
       // Handle the response as needed
       const responseData = response.data;

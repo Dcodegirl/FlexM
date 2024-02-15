@@ -5,14 +5,13 @@ import { useToasts } from 'react-toast-notifications';
 import warning from '../../assets/images/warning.svg';
 import BvnVerificationPopup from './BvnVerificationPopup';
 import { useCustomToast } from '../toast/useCustomToast';
+import { POST_ONBOARDING_VALIDATION } from '../../utils/constants';
 
 function BvnSettings() {
-  const { updateBvnPhoneNum   } = useGlobalContext();
+  const { setBvnPhoneNum   } = useGlobalContext();
   const { userInfoArray } = useGlobalContext();
   const [userId, setUserId] = useState('')
   const [popupVisible, setPopupVisible] = useState(false);
-
-
   const showToast  = useCustomToast();
 
   const [bvn, setBvn] = useState('');
@@ -49,14 +48,17 @@ function BvnSettings() {
       };
 
       // Make the Axios request
-      const response = await axios.post('/onboarding/validation', payload);
+      const response = await axios.post(POST_ONBOARDING_VALIDATION, payload);
 
       // Handle the response as needed
       const responseData = response.data;
       console.log('API Response:', responseData);
-      updateBvnPhoneNum(responseData.data)
-      showToast('BVN validation successful!', 'success');
-      setPopupVisible(true);
+      setBvnPhoneNum(responseData.data)
+      showToast('BVN validation successful!', {
+        appearance: 'success',
+        autoDismiss: true,
+        autoDismissTimeout: 3000, // milliseconds
+      });
       // Move to the next step in your component logic
 
       if (response.status === 200) {

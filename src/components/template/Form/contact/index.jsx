@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useCustomToast } from '../../../toast/useCustomToast';
 import { useGlobalContext } from '../../../../custom-hooks/Context';
+import { POST_ONBOARDING_CONTACTINFO } from '../../../../utils/constants';
 
 const Contact = ({ nextStep }) => {
   const showToast  = useCustomToast();
@@ -72,7 +73,7 @@ const Contact = ({ nextStep }) => {
           business_type: businessType,
         };
         // Call the API with Axios
-        const response = await axios.post('/onboarding/contactInfo', payload);
+        const response = await axios.post(POST_ONBOARDING_CONTACTINFO, payload);
   
         // Handle the response as needed
         const responseData = response.data;

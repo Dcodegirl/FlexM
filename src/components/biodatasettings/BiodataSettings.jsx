@@ -4,6 +4,9 @@ import { useToasts } from "react-toast-notifications";
 import axios from "../../utils/axiosInstance";
 import svg from "../../assets/images/Upload.svg";
 import { useCustomToast } from "../toast/useCustomToast";
+import { GET_USER_INFO } from "../../utils/constants";
+import { POST_BIO_DATA } from "../../utils/constants";
+import { GET_ALL_COUNTRIES } from "../../utils/constants";
 
 const BiodataSettings = ({ title }) => {
   const idDocumentInputRef = useRef();
@@ -139,7 +142,7 @@ const BiodataSettings = ({ title }) => {
   useEffect(() => {
     // Make API call to fetch user information
     axios
-      .get("/agent/userinfo")
+      .get(GET_USER_INFO)
       .then((response) => {
         setUserData(response.data.data.agent);
         setPayload({
@@ -223,10 +226,10 @@ const BiodataSettings = ({ title }) => {
       bio.append("state_id", selectedState);
 
       try {
-        let data = await axios.post("/agent/bio-data", bio);
+        let data = await axios.post(POST_BIO_DATA, bio);
 
         if (data.status === 200) {
-          const userInfoResponse = await axios.get("/agent/userinfo");
+          const userInfoResponse = await axios.get(GET_USER_INFO);
 
           setUserData(userInfoResponse.data.data.agent);
 
@@ -277,7 +280,7 @@ const BiodataSettings = ({ title }) => {
     // Fetch the list of countries when the component mounts
     const fetchCountries = async () => {
       try {
-        const response = await axios.get("/countries/all-countries");
+        const response = await axios.get(GET_ALL_COUNTRIES);
         setCountries(response.data.data);
       } catch (error) {
         console.error("Error fetching countries:", error);

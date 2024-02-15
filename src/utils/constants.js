@@ -1,4 +1,5 @@
 let path = "https://flexmoney.cico.ng/api"
+// let path = "https://stagging-api.flexdeals.com.ng/api"
 ////TRANSACTIONCOST////
 export const TRANSACTION_COST = `${path}/transaction-costs/Transfer/agents/{amount}`
 //////AUTH///////
@@ -14,12 +15,90 @@ export const POST_REGISTER_API = `${path}/users/`;
 
 //get current user - GET
 export const GET_CURRENT_USER = `${path}/user`;
+ 
+//get user info - GET 
+export const GET_USER_INFO = '/agent/userinfo'; 
+
+//post bio data - POST 
+export const POST_BIO_DATA = '/agent/bio-data';
+
+//POST contact details - POST 
+export const CONTACT_DETAILS = '/agent/contact';
+
+//PATCH agent TERMINAL- PATCH 
+export const PATCH_AGENT_TERMINAL = '/agent/terminal';
+
+//POST create agent - POST 
+export const POST_CREATE_AGENT = '/agent/create'; 
+
+//POST onboarding validation - POST 
+export const POST_ONBOARDING_VALIDATION = '/onboarding/validation'; 
+
+//POST onboarding CONFIRM - POST 
+export const POST_ONBOARDING_CONFIRM = '/onboarding/confirm';
+
+//POST onboarding verify - POST 
+export const POST_ONBOARDING_VERIFY = '/onboarding/verify'; 
+
+//POST onboarding resend - POST 
+export const POST_ONBOARDING_RESEND = '/onboarding/resend'; 
+
+//POST onboarding contact info - POST 
+export const POST_ONBOARDING_CONTACTINFO = '/onboarding/contactInfo'; 
+
+//POST Password - POST 
+export const FORGOT_PASSWORDS = '/user/pass';
 
 //Create user/sub agent - POST;
-export const CREATE_SUB_USER = `${path}/agents/create-sub`;
+export const CREATE_SUB_USER = `${path}/agents/create-sub`; 
 
 //get user - GET
 export const GET_USER = `${path}/user`;
+
+//get countries - GET
+export const GET_ALL_COUNTRIES = '/countries/all-countries'; 
+
+//get terminals - GET
+export const GET_TERMINALS = '/terminals/terminal'; 
+
+//get terminals serial - GET
+export const GET_TERMINALS_SERIAL = '/terminals/serial'; 
+
+//get COMISSION BALANCE - GET
+export const GET_COMMISSION_BALANCE = '/commission/balance'; 
+
+//get COMISSION CURRENT - GET
+export const GET_COMMISSION_CURRENT = '/commission/current'; 
+
+//get COMISSION WITHDRAWAL - GET
+export const GET_COMMISSION_WITHDRAWAL = '/commission/withdrawal'; 
+
+//get COMISSION DEPOSIT - GET
+export const GET_COMMISSION_DEPOSIT = '/commission/deposit'; 
+
+//get COMISSION transactionS - GET
+export const GET_COMMISSION_TRANSACTIONS = '/commission/transactions'; 
+
+//get MAIN BALANCE - GET
+export const GET_MAIN_BALANCE = '/main/balance'; 
+
+//get MAIN CURRENT - GET
+export const GET_MAIN_CURRENT = '/main/current'; 
+
+//get MAIN WITHDRAWAL - GET
+export const GET_MAIN_WITHDRAWAL = '/main/withdrawal'; 
+
+//get main DEPOSIT - GET
+export const GET_MAIN_DEPOSIT = '/main/deposit'; 
+
+//get MAIN transactionS - GET
+export const GET_MAIN_TRANSACTIONS = '/main/transactions'; 
+
+//get aggregator wallet 2 - GET
+export const GET_AGGREGATORWALLET = '/aggregtorwallet';
+
+//get Aggregator wallet - GET
+export const GET_AGGREGATOR_WALLET = '/aggregator/wallet';
 
 //update user - PUT
 export const UPDATE_USER = `${path}/user`;

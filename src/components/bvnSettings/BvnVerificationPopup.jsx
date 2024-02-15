@@ -3,9 +3,11 @@ import axios from '../../utils/axiosInstance';
 import { useGlobalContext } from '../../custom-hooks/Context';
 import { useToasts } from 'react-toast-notifications';
 import { useCustomToast } from '../toast/useCustomToast';
+import { POST_ONBOARDING_VERIFY } from '../../utils/constants';
+import { POST_ONBOARDING_RESEND } from '../../utils/constants';
 
 const BvnVerificationPopup = ({isVisible, closeModal}) => {
-    const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, updateBvnPhoneNum } = useGlobalContext();
+    const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, bvnPhoneNum } = useGlobalContext();
     const  showToast  = useCustomToast();
   
     const [timeLeft, setTimeLeft] = useState(600);
@@ -13,8 +15,8 @@ const BvnVerificationPopup = ({isVisible, closeModal}) => {
     const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
   
-    const updatedBvnPhoneNum = updateBvnPhoneNum();
-    
+    const updatedBvnPhoneNum = bvnPhoneNum;
+  
     const handleBvnChange = (index, value) => {
       if (value >= 0 && value <= 9) {
         // Ensure the value is within the range 0-9
@@ -80,7 +82,7 @@ const BvnVerificationPopup = ({isVisible, closeModal}) => {
             };
     
             // Call the API with Axios
-            const response = await axios.post('/onboarding/verify', payload);
+            const response = await axios.post(POST_ONBOARDING_VERIFY, payload);
     
             // Handle the response as needed
             const responseData = response.data;
@@ -132,7 +134,7 @@ const BvnVerificationPopup = ({isVisible, closeModal}) => {
       const handleResendOtp = async () => {
         try {
           setLoading(true);
-          const response = await axios.post('/onboarding/resend', { phone: updatedBvnPhoneNum });
+          const response = await axios.post(POST_ONBOARDING_RESEND, { phone: updatedBvnPhoneNum });
           const responseData = response.data;
 
 

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import axios from '../../../../utils/axiosInstance';
 import { useGlobalContext } from '../../../../custom-hooks/Context';
 import { useCustomToast } from '../../../toast/useCustomToast';
+import { POST_ONBOARDING_VERIFY } from '../../../../utils/constants';
+import { POST_ONBOARDING_RESEND } from '../../../../utils/constants';
 
 function Contact({ nextStep }) {
-  const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, updateBvnPhoneNum } = useGlobalContext();
+  const { setUserId, setFirstname, setLastname, setAddress, setSelectedState, setSelectedCountry, setState, setCountry, setLga, bvnPhoneNum } = useGlobalContext();
   const showToast = useCustomToast()
 
   const [timeLeft, setTimeLeft] = useState(600);
   const [bvn, setBvn] = useState(["", "", "", "", "", ""]);
   const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-
-  const updatedBvnPhoneNum = updateBvnPhoneNum();
 
   const handleBvnChange = (index, value) => {
     if (value >= 0 && value <= 9) {
@@ -77,7 +77,7 @@ function Contact({ nextStep }) {
         };
 
         // Call the API with Axios
-        const response = await axios.post('/onboarding/verify', payload);
+        const response = await axios.post(POST_ONBOARDING_VERIFY, payload);
 
         // Handle the response as needed
         const responseData = response.data;
@@ -148,7 +148,7 @@ function Contact({ nextStep }) {
   const handleResendOtp = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('/onboarding/resend', { phone: updatedBvnPhoneNum });
+      const response = await axios.post(POST_ONBOARDING_RESEND, { phone: bvnPhoneNum });
       const responseData = response.data;
 
       if (responseData.status === 'Successful') {
@@ -166,7 +166,8 @@ function Contact({ nextStep }) {
       setLoading(false);
     }
   };
-  const updatedBvnPhoneNumToShow = `${updatedBvnPhoneNum.substring(0, 3)} *** ${updatedBvnPhoneNum.substring(updatedBvnPhoneNum.length - 3)}`;
+  const updatedBvnPhoneNumToShow = `${bvnPhoneNum.substring(0, 3)} *** ${bvnPhoneNum.substring(bvnPhoneNum.length - 3)}`;
+  
 
   return (
     <>

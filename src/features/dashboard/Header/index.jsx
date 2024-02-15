@@ -26,6 +26,7 @@ import moon from "../../../assets/icons/moon.svg";
 import styles from "./Header.module.scss";
 import axios from "../../../utils/axiosInstance";
 import { useGlobalContext } from "../../../custom-hooks/Context";
+import { GET_USER_INFO } from "../../../utils/constants";
 
 const Header = ({
   currentPage,
@@ -114,7 +115,7 @@ const Header = ({
     const fetchUserInfo = async () => {
       try {
         // Make the API call
-        const response = await axios.get("/agent/userinfo");
+        const response = await axios.get(GET_USER_INFO);
 
         // Set the user info in the state
         setUserInfo(response.data.data);

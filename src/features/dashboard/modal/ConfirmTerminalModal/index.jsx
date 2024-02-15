@@ -3,6 +3,7 @@ import money from '../../../../assets/icons/Money.svg'
 import axios from "../../../../utils/axiosInstance";
 import { useSelector } from 'react-redux';
 import { useCustomToast } from "../../../../components/toast/useCustomToast";
+import { PATCH_AGENT_TERMINAL } from "../../../../utils/constants";
 
 
 const ConfirmTerminalModal = ({ isOpen, onConfirm, onCancel, selectedTerminalId, selectedSerialNumber , agentName, agentId }) => {
@@ -13,7 +14,7 @@ const handleConfirmClick = async () => {
   try {
     setLoading(true);
     // Make the API call to /agent/terminal with the selected values
-    const response = await axios.patch("/agent/terminal", {
+    const response = await axios.patch(PATCH_AGENT_TERMINAL, {
       agent_id: agentId,
       terminal_id: selectedTerminalId,
       terminal_serial: selectedSerialNumber,

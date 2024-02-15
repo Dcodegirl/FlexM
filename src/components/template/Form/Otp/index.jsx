@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from '../../../../utils/axiosInstance';
 import { useCustomToast } from '../../../toast/useCustomToast';
 import { useGlobalContext } from '../../../../custom-hooks/Context';
+import { POST_ONBOARDING_CONFIRM } from '../../../../utils/constants';
+import { POST_ONBOARDING_RESEND } from '../../../../utils/constants';
 
 function Contact({ nextStep }) {
   const showToast  = useCustomToast();
@@ -41,7 +43,7 @@ function Contact({ nextStep }) {
         code: enteredOtp,
       };
 
-      const response = await axios.post('/onboarding/confirm', payload);
+      const response = await axios.post(POST_ONBOARDING_CONFIRM, payload);
 
       const responseData = response.data;
       setUserId(responseData.data.id);
@@ -125,7 +127,7 @@ function Contact({ nextStep }) {
   const handleResendOtp = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('/onboarding/resend', { phone: phoneNum });
+      const response = await axios.post(POST_ONBOARDING_RESEND, { phone: phoneNum });
       const responseData = response.data;
 
       if (responseData.status === 'Successful') {

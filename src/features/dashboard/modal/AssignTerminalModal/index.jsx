@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../../../utils/axiosInstance";
 import { useCustomToast } from "../../../../components/toast/useCustomToast";
+import { GET_TERMINALS } from "../../../../utils/constants";
+import { GET_TERMINALS_SERIAL } from "../../../../utils/constants";
 
 const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick, selectedTerminalId, setSelectedTerminalId, selectedSerialNumber, setSelectedSerialNumber }) => {
   
@@ -25,7 +27,7 @@ const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick, selectedTe
   useEffect(() => {
     const fetchTerminals = async () => {
       try {
-        const response = await axios.get("/terminals/terminal");
+        const response = await axios.get(GET_TERMINALS);
         setTerminals(response.data.data);
       } catch (error) {
         console.error("Error fetching terminals:", error);
@@ -34,7 +36,7 @@ const AssignTerminalModal = ({ isOpen, onClose, onAssignConfirmClick, selectedTe
 
     const fetchSerials = async () => {
       try {
-        const response = await axios.get("/terminals/serial");
+        const response = await axios.get(GET_TERMINALS_SERIAL);
         setSerials(response.data.data);
       } catch (error) {
         console.error("Error fetching serials:", error);

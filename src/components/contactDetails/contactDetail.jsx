@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 // import { useToasts } from "react-toast-notifications";
 import { useCustomToast } from "../toast/useCustomToast";
+import { GET_USER_INFO } from "../../utils/constants";
+import { CONTACT_DETAILS } from "../../utils/constants";
 
 const ContactDetail = () => {
     const [userData, setUserData] = useState('');
@@ -51,7 +53,7 @@ const ContactDetail = () => {
         
       };
 
-      const CONTACT_DETAILS = "/agent/contact";
+    
 
       const handleUpload = () => {
         // Perform upload logic
@@ -145,7 +147,7 @@ const ContactDetail = () => {
       useEffect(() => {
          // Flag to track if the component is mounted
     
-        axios.get("/agent/userinfo")
+        axios.get(GET_USER_INFO)
              .then((response) => {
                     setUserData(response.data.data.agent);
                     setPayload({

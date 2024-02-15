@@ -3,6 +3,7 @@ import { useGlobalContext } from '../../../../custom-hooks/Context';
 import { NavLink, useHistory } from "react-router-dom";
 import { useCustomToast } from '../../../toast/useCustomToast';
 import axios from '../../../../utils/axiosInstance';
+import { FORGOT_PASSWORDS } from '../../../../utils/constants';
 
 function ForgotPass() {
     const [phone, setPhone] = useState('');
@@ -15,7 +16,7 @@ function ForgotPass() {
         e.preventDefault(); // Prevent the default form submission behavior
 
         try {
-            const response = await axios.post("/user/pass", { phone: phone });
+            const response = await axios.post(FORGOT_PASSWORDS, { phone: phone });
             console.log(response);
 
             // Check the API response and perform necessary actions

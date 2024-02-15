@@ -10,12 +10,13 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from "../../../utils/axiosInstance";
 import { useSelector } from 'react-redux';
 import { useGlobalContext } from "../../../custom-hooks/Context";
+import { GET_AGGREGATOR_WALLET } from "../../../utils/constants";
 // import styles from "./Balance.module.scss";
 
 
 const Balance = ({}) => {
   const [showWallet, setShowWallet] = useState(false);
-  const [aggregatorBalance, setAggregatorBalance] = useState('');
+  const [aggregatorBalance, setAggregatorBalance] = useState(null);
   const [walletBalance, setWalletBalance] = useState('');
   const [commissionBalance, setCommissionBalance] = useState('');
   const [showCommission, setShowCommission] = useState(false);
@@ -36,31 +37,22 @@ const Balance = ({}) => {
     setShowAggregator(!showAggregator);
   };
 
-  // useEffect(() => {
-  //   // Fetch wallet balance
-  //   const fetchWalletBalance = async () => {
-  //     try {
-  //       const response = await axios.get("/main/balance");
-  //       setWalletBalance(response.data.data);
-  //     } catch (error) {
-  //       console.error("Error fetching wallet balance:", error);
-  //     }
-  //   };
-
-  //   // Fetch commission balance
-  //   const fetchCommissionBalance = async () => {
-  //     try {
-  //       const response = await axios.get("/commission/balance");
-  //       setCommissionBalance(response.data.data);
-  //     } catch (error) {
-  //       console.error("Error fetching commission balance:", error);
-  //     }
-  //   };
-
-  //   // Call the functions to fetch balances
-  //   fetchWalletBalance();
-  //   fetchCommissionBalance();
-  // }, []); 
+  useEffect(() => {
+    const fetchAggregatorWalletBalance = async () => {
+      try {
+        const response = await axios.get(GET_AGGREGATOR_WALLET);
+        const data = response.data.data;
+        setAggregatorBalance(data.current_bal.current_bal);
+      } catch (error) {
+        console.error("Error fetching wallet balance:", error);
+      }
+    };
+  
+    if (showAggregator) {
+      fetchAggregatorWalletBalance();
+    }
+  }, [showAggregator]);
+  
  
   useEffect(() => {
     // Fetch wallet balance and commission balance from userInfoArray
@@ -87,11 +79,12 @@ const Balance = ({}) => {
   ) : (
     <span>*********</span>
   );
-  const aggregatorContent = showAggregator && superAgentId ? (
+  const aggregatorContent = showAggregator ? (
     <span>₦{formatToCurrency(aggregatorBalance)}</span>
   ) : (
     <span>*********</span>
   );
+  
 
   
 console.log('user info array context', userInfoArray)
@@ -164,13 +157,5 @@ console.log('user info array context', userInfoArray)
    </>
   );
 };
-
-// const mapStateToProps = (state) => {
-//   return {
-//     walletBalance: state.wallet.balance,
-   
-//     agentClassification: state.auth.user.agentClassification,
-//   };
-// };
 
 export default Balance;

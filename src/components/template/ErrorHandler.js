@@ -9,7 +9,7 @@ class ErrorHandler extends Component {
     componentDidCatch(error, info) {
         this.setState({ hasError: true });
 
-        console.log(error, info);
+        console.log("this is the error that caused the oops scrren: ", error, info);
     }
 
     render() {

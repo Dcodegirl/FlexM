@@ -4,6 +4,11 @@ import WalletInfo from "../../dashboard/WalletInfo";
 import WalletBreakDown from "../../dashboard/WalleBreakdown";
 import WalletLogs from "./WalletLog";
 import { ThreeDots } from 'svg-loaders-react';
+import { GET_MAIN_BALANCE } from "../../../utils/constants";
+import { GET_MAIN_CURRENT } from "../../../utils/constants";
+import { GET_MAIN_DEPOSIT } from "../../../utils/constants";
+import { GET_MAIN_WITHDRAWAL } from "../../../utils/constants";
+import { GET_MAIN_TRANSACTIONS } from "../../../utils/constants";
 
 const Users = () => {
   const [totalBalance, setTotalBalance] = useState(0);
@@ -17,20 +22,20 @@ const Users = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseTotalBalance = await axios.get('/main/balance');
+        const responseTotalBalance = await axios.get(GET_MAIN_BALANCE);
         setTotalBalance(responseTotalBalance.data.data);
         
 
-        const responseCurrentBalance = await axios.get('/main/current');
+        const responseCurrentBalance = await axios.get(GET_MAIN_CURRENT);
         setCurrentBalance(responseCurrentBalance.data.data);
 
-        const responseTotalCashout = await axios.get('/main/withdrawal');
+        const responseTotalCashout = await axios.get(GET_MAIN_WITHDRAWAL);
         setTotalCashout(responseTotalCashout.data.data);
 
-        const responseTotalDeposit = await axios.get('/main/deposit');
+        const responseTotalDeposit = await axios.get(GET_MAIN_DEPOSIT);
         setTotalDeposit(responseTotalDeposit.data.data);
       
-      const responseTransactions = await axios.get('/main/transactions');
+      const responseTransactions = await axios.get(GET_MAIN_TRANSACTIONS);
         setTransactions(responseTransactions.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);

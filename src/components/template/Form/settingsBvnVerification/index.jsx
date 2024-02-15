@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useGlobalContext } from '../../../../custom-hooks/Context';
 import axios from '../../../../utils/axiosInstance';
-import { useCustomToast } from '../../../toast/useCustomToast';
+import { useToasts } from 'react-toast-notifications';
 import warning from '../../../../assets/images/warning.svg';
 import { POST_ONBOARDING_VALIDATION } from '../../../../utils/constants';
 
-function BvnVerifi({ nextStep }) {
-  const { userId, setUserId, setBvnPhoneNum } = useGlobalContext();
-  const showToast  = useCustomToast();
+function BvnVerifi() {
+  const { userId, updateBvnPhoneNum   } = useGlobalContext();
+
+  const { addToast } = useToasts();
 
   const [bvn, setBvn] = useState('');
   const [dob, setDob] = useState('');
@@ -21,7 +22,11 @@ function BvnVerifi({ nextStep }) {
 
       // Validation: Ensure BVN is 11 digits
       if (bvn.length !== 11) {
-        showToast('BVN must be 11 digits.', 'error');
+        addToast('BVN must be 11 digits.', {
+          appearance: 'error',
+          autoDismiss: true,
+          autoDismissTimeout: 3000, // milliseconds
+        });
         return;
       }
 
@@ -37,12 +42,14 @@ function BvnVerifi({ nextStep }) {
       // Handle the response as needed
       const responseData = response.data;
       console.log('API Response:', responseData);
-      setBvnPhoneNum(responseData.data)
-      showToast('BVN validation successful!', {
+      updateBvnPhoneNum(responseData.data)
+      addToast('BVN validation successful!', {
         appearance: 'success',
+        autoDismiss: true,
+        autoDismissTimeout: 3000, // milliseconds
       });
       // Move to the next step in your component logic
-      nextStep();
+      // nextStep()
     } catch (error) {
     console.error('API Error:', error);
 
@@ -52,21 +59,41 @@ function BvnVerifi({ nextStep }) {
 
       if (status === 400) {
         // Specific error handling for bad requests (status code 400)
-        showToast(` ${data.message}`, 'error');
+        addToast(` ${data.message}`, {
+          appearance: 'error',
+          autoDismiss: true,
+          autoDismissTimeout: 3000,
+        });
       } 
        else if (status === 422) {
         // Specific error handling for validation errors (status code 422)
-        showToast(`${data.message}`, 'error');
+        addToast(`${data.message}`, {
+          appearance: 'error',
+          autoDismiss: true,
+          autoDismissTimeout: 3000,
+        });
       } else {
         // Generic error message for other status codes
-        showToast('Error submitting BVN. Please try again.', 'error');
+        addToast('Error submitting BVN. Please try again.', {
+          appearance: 'error',
+          autoDismiss: true,
+          autoDismissTimeout: 3000,
+        });
       }
     } else if (error.request) {
       // The request was made but no response was received
-      showToast('No response from the server. Please try again.', 'error');
+      addToast('No response from the server. Please try again.', {
+        appearance: 'error',
+        autoDismiss: true,
+        autoDismissTimeout: 3000,
+      });
     } else {
       // Something happened in setting up the request that triggered an error
-      showToast('An unexpected error occurred. Please try again.', 'error');
+      addToast('An unexpected error occurred. Please try again.', {
+        appearance: 'error',
+        autoDismiss: true,
+        autoDismissTimeout: 3000,
+      });
     }
   } finally {
     setLoading(false);
@@ -83,8 +110,8 @@ function BvnVerifi({ nextStep }) {
             <p className="text-gray-700 text-xl font-thin w-[360px]">Enter your 11 Digit BVN</p>
           </div>
           <div className='w-[350px] mt-6'>
-            <form className="text-lg">
-              <p className='text-gray-700 mb-2'>BVN</p>
+            <form>
+              <p className='text-gray-700 text-sm mb-2'>BVN</p>
               <input
                 type="tel"
                 value={bvn}
@@ -105,7 +132,7 @@ function BvnVerifi({ nextStep }) {
                   </div>
                 </div>
               </div>
-              <p className='text-gray-700 mb-2'>Date of Birth</p>
+              <p className='text-gray-700 text-sm mb-2'>Date of Birth</p>
               <input
                 type="date"
                 value={dob}

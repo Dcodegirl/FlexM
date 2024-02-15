@@ -1,4 +1,5 @@
 import axios from "../../../utils/axiosInstance";
+import { GET_AGGREGATORWALLET } from "../../../utils/constants";
 
 export const TransactionData = async (period, agentId) => {
   try {
@@ -17,7 +18,7 @@ export const TransactionData = async (period, agentId) => {
 
 export const fetchTransactionsData = async (agentId) => {
   try {
-    const response = await axios.get('/aggregtorwallet', {
+    const response = await axios.get(GET_AGGREGATORWALLET, {
       params: {
         'agent_id': agentId, // Include 'agent-id' as a parameter
       },

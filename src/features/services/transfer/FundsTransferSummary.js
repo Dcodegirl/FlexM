@@ -18,7 +18,7 @@ export const FundsTransferSummary = (props) => {
     const [transactionCost, setTransactionCost] = useState([]);
     const [transactionTypeFilter, setTransactionTypeFilter] = useState('');
     const [TransactionCostChange,setTransactionCostChange] = useState(false);
-    // const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(false);
     const [currentTransactionCost, setCurrentTransactionCost] = useState("");
     const showToast = useCustomToast()
     const {
@@ -50,10 +50,8 @@ export const FundsTransferSummary = (props) => {
         .get(`${TRANSACTION_COST}`)
         .then((res)=>{
             const transactionCost = res.data.data.cost;
-       
         if(!isCancelled){
             setTransactionCost(transactionCost);
-            // setLoading(false);
         }
     })
         .catch((err)=>{
@@ -69,14 +67,13 @@ export const FundsTransferSummary = (props) => {
               }
             if(!isCancelled) {
                 setTransactionCostChange(false);
-                // setLoading(false); 
                 setTransactionCost([]) 
             }
         });
         return () => {
             isCancelled = false;
         };
-    }, [currentTransactionCost])
+    }, [currentTransactionCost, showToast, transactionTypeFilter])
     return (
         <div className={styles.container}>
             <div

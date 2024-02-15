@@ -3,7 +3,6 @@ import axios from './axiosInstance';
 import { startLogout } from '../actions/auth';
 import store from '../store/configureStore';
 import history from '../utils/history';
-import SessionExpired from '../components/template/sessionExpired';
 
 const { dispatch } = store();
 

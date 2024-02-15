@@ -4,6 +4,7 @@ import WalletInfo from "../../dashboard/WalletInfo";
 import WalletBreakDown from "../../dashboard/WalleBreakdown";
 import WalletLogs from "../wallet/WalletLog";
 import { ThreeDots } from "svg-loaders-react";
+import { GET_AGGREGATORWALLET } from "../../../utils/constants";
 
 const Users = () => {
 
@@ -20,7 +21,7 @@ const Users = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "/aggregtorwallet"
+          GET_AGGREGATORWALLET
         );
 
         const data = response.data.data;

@@ -57,7 +57,7 @@ function Document() {
                                     <div className=" flex gap-5 items-center">
                                         <div className='flex gap-2'>
                                             <img
-                                                src={svg} // Provide the actual path to your SVG upload icon
+                                                src={svg}
                                                 alt="Upload Icon"
                                                 className="h-10 w-10"
                                             />

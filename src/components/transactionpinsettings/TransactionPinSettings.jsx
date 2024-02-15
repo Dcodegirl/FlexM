@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "../../utils/axiosInstance";
 import { useCustomToast } from "../toast/useCustomToast";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { GET_USER_INFO } from "../../utils/constants";
 
 
 
@@ -25,7 +26,7 @@ const TransactionPinSettings = ({ title }) => {
       useEffect(() => {
         // Make API call to fetch user information
         axios
-          .get("/agent/userinfo")
+          .get(GET_USER_INFO)
           .then((response) => {
            
     
