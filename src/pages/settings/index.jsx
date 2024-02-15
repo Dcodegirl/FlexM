@@ -8,7 +8,6 @@ import settings from '../../assets/images/download.png'
 
 const Settings = () => {
   const {step}= useParams();
-  console.log(step);
 
   return (
     <div className='m-0'>

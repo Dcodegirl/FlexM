@@ -63,7 +63,6 @@ const BusinessDetails = ({
             setLGA(res.data.data);
           }
         } catch (e) {
-          // console.log(e)
         }
       })();
     }
@@ -98,7 +97,6 @@ const BusinessDetails = ({
       agentData.business_address;
 
     if (hasNoErrors) {
-      // console.log(agentData);
       // setStatus("file");
 
       createAgent(agentData);

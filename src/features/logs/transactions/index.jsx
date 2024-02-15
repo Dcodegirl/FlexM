@@ -15,9 +15,7 @@
 //             const response = await TransactionData(selectedPeriod, agentId);
 //             const dataa = response.data;
 //             setTransactions(dataa);
-//             console.log('the data for trabnaction: ', dataa)
 //         } catch (error) {
-//             console.error('Error fetching transaction data:', error);
 //         } finally {
 //             setLoading(false);
 //         }
@@ -29,7 +27,6 @@
 
 //     const handlePeriodSelect = (e) => {
 //         const selectedPeriod = e.target.value;
-//         console.log(`Selected Period: ${selectedPeriod}`);
 //         setSelectedPeriod(selectedPeriod);
 //     };
 //     // const formatDate = (createdAt) => {
@@ -226,7 +223,6 @@ export const TransactionLog = ({
                     setTransactions(transactions);
                 }
             } catch (e) {
-                // console.log(e)
             } finally {
                 setLoading(false);
                 setPageChangeLoading(false);

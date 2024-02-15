@@ -28,7 +28,6 @@ export const Betting = ({ changeCurrentPage, displayModal }) => {
           setBettingProviders(res.data.data);
         }
       } catch (e) {
-        console.log(e);
       } finally {
         setLoading(false);
       }

@@ -86,7 +86,6 @@ const BvnVerificationPopup = ({isVisible, closeModal}) => {
     
             // Handle the response as needed
             const responseData = response.data;
-            console.log('API Response:', responseData);
     
             setUserId(responseData.data.user_id);
             setFirstname(responseData.data.first_name);
@@ -101,10 +100,8 @@ const BvnVerificationPopup = ({isVisible, closeModal}) => {
             showToast('BVN verification successful!', 'success');
 
             closeModal()
-            console.log(closeModal)
         
           }  catch (error) {
-            console.error("Error saving changes:", error);
              const {status, data}= error.response
             if (status === 400 || status === 404 || status === 422) {
               // Bad Request (400)
@@ -148,7 +145,6 @@ const BvnVerificationPopup = ({isVisible, closeModal}) => {
           }
           closeModal()
         } catch (error) {
-          console.error('API Error:', error);
           showToast('An unexpected error occurred. Please try again.', 'error' );
         } finally {
           setLoading(false);

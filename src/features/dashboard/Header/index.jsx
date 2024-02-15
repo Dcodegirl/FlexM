@@ -38,7 +38,6 @@ const Header = ({
   bank,
   image,
 }) => {
-  console.log("Current user state:", user);
   const [toggleUser, setToggleUser] = useState(false);
   const name = user ? `${user.first_name} ${user.last_name}` : "User";
   const walletId = user ? user.walletNo : "N/A";
@@ -73,10 +72,8 @@ const Header = ({
   // const get_user = async() => {
   //     try {
   //         const {data} = await axiosInstance.get(`/agent/userinfo`);
-  //         console.log(data.data.image);
   //         setUserInfo(data.data.image)
   //     }catch(err) {
-  //         console.log(err)
   //     }
   // }
 
@@ -404,7 +401,6 @@ const mapDispatchToProps = (dispatch) => {
       localStorage.removeItem("guarantor");
       localStorage.removeItem("utility");
       localStorage.removeItem("nin");
-    console.log("hey local storage");
       dispatch(startLogout());
     
       return;

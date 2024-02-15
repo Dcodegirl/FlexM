@@ -77,7 +77,6 @@ const Contact = ({ nextStep }) => {
   
         // Handle the response as needed
         const responseData = response.data;
-        console.log('API Response:', responseData);
   
         showToast('Contact Info Passed successfully and otp sent!', 'success');
         setPhoneNum(phoneNumber)

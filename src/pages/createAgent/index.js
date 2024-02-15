@@ -35,7 +35,6 @@ const CreateAgent = ({ history }) => {
                     );
                 setState(state);
             } catch (e) {
-                console.log(e)
             } finally {
                 setLoading(false);
             }

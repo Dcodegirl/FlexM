@@ -99,7 +99,6 @@ const BiodataSettings = ({ title }) => {
       setGuarantorSelect(null); // Clear the selected file
     } else {
       setGuarantorSelect(file);
-      console.log(file);
       setGuarantorFileName(file.name);
     }
   };
@@ -135,7 +134,6 @@ const BiodataSettings = ({ title }) => {
         setSelectedState(secondParameter);
       }
     } catch (error) {
-      console.error("Error fetching countries:", error);
     }
   };
 
@@ -157,10 +155,8 @@ const BiodataSettings = ({ title }) => {
         let allMyDoc = response?.data?.data?.agent.documents.map((d, index) => {
           let newLength = response?.data?.data?.agent.documents.length;
           let getImgName = d.image.split("/");
-          console.log(newLength);
-          console.log(getImgName);
+         
           getImgName = getImgName[getImgName.length - 1];
-          console.log(getImgName);
           if (d?.type == "guarantor") {
             // setAllDoc({
             //   ...alldoc,
@@ -176,7 +172,6 @@ const BiodataSettings = ({ title }) => {
             setNinFileName(getImgName);
           }
         });
-        console.log("documents", allMyDoc);
         setCurrentAddressPayload(response.data.data.agent.current_address);
         setSelectedCountry(response.data.data.agent.country_id || "");
         if (response.data.data.agent.country_id) {
@@ -188,10 +183,8 @@ const BiodataSettings = ({ title }) => {
         // setSelectedState(response.data.data.agent.state_id || '');
       })
       .catch((error) => {
-        console.error("Error fetching user information:", error);
       });
   }, []);
-  console.log(alldoc);
   const handleUserBioData = async () => {
     setLoading(true);
 
@@ -204,7 +197,6 @@ const BiodataSettings = ({ title }) => {
       setLoading(false);
       return;
     } else if (guarantorSelect && guarantorSelect.size > 3 * 1024 * 1024) {
-      console.error("Guarantor file size exceeds 3MB");
       // Display an error toast notification
       showToast("Document image size should not exceed 3MB", "error");
       setLoading(false);
@@ -236,7 +228,6 @@ const BiodataSettings = ({ title }) => {
           showToast("Biodata updated successfully!", "success");
         }
       } catch (error) {
-        console.error("Error saving changes:", error);
         const { status, data } = error.response;
         if (status === 400 || status === 404 || status === 422) {
           // Bad Request (400)
@@ -283,7 +274,6 @@ const BiodataSettings = ({ title }) => {
         const response = await axios.get(GET_ALL_COUNTRIES);
         setCountries(response.data.data);
       } catch (error) {
-        console.error("Error fetching countries:", error);
       }
     };
 

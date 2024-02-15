@@ -117,7 +117,6 @@ function Document({ nextStep }) {
         },
       });
 
-      console.log("BioData submitted successfully:", response.data);
       showToast("BioData submitted successfully", "success")
       setSuccessModalOpen(true);
     } catch (error) {

@@ -115,7 +115,6 @@ const PersonalDetails = () => {
 
       // Handle the response as needed
       const responseData = response.data;
-      console.log('API Response:', responseData);
 
       showToast("Agent Invite sent successfully", 'success');
       resetForm();
@@ -152,9 +151,7 @@ const PersonalDetails = () => {
   //   try {
   //     // Make a request to the route that will now trigger a simulated 401 error
   //     const response = await axios.get('/api/data');
-  //     console.log('Simulated Error Response:', response);
   //   } catch (error) {
-  //     console.error('Simulated Error:', error);
   //     // Your middleware should handle the 401 error here
   //   }
   // };

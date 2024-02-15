@@ -16,8 +16,6 @@ const SettingsForm = () => {
   const location = useLocation();
   const history = useHistory();
 
-  console.log(currentStep);
-
   useEffect(() => {
     if(step) {
       setCurrentStep(step);

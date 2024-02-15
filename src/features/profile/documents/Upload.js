@@ -102,7 +102,6 @@ class Uploader extends Component {
                     }
                 })
                 .catch((err) => {
-                    console.log(err.response, err);
                 });
         } else {
             return this.setState({

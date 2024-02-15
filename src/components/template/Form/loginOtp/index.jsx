@@ -111,7 +111,7 @@ function Contact() {
           <div className='text-deep-green font-bold text-center'>
             <p className='text-2xl'>Verify your OTP</p>
             <p className='text-gray-500 text-xl font-thin w-[360px]'>
-              We sent OTP to the number attached to your OTP {phoneNum}
+              We sent OTP to the number attached to your account {phoneNum}
             </p>
           </div>
           <div className='w-[350px] mt-6 flex items-center justify-center'>
@@ -148,6 +148,7 @@ function Contact() {
               )}
             </p>
           </div>
+          
           <div className='flex justify-center mt-2'>
             <button
               className={`bg-color1 border rounded-lg h-14 w-full text-white mx-auto ${

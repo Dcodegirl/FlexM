@@ -35,7 +35,6 @@ const ContactDetail = () => {
       });
       const [docUploadPayload, setDocUploadPayload] = useState("");
 
-
       const handleTogglePasswordVisibility = () => {
         setShowPassword(!showPassword);
       };
@@ -47,10 +46,6 @@ const ContactDetail = () => {
         const file = event.target.files[0];
         setNewImage(true);
         setSelectedImage(file);
-      
-        console.log(file)
-        console.log(selectedImage);
-        
       };
 
     
@@ -90,7 +85,7 @@ const ContactDetail = () => {
           contactUpdate.append('new_password', payload.password.new_password);
           contactUpdate.append('confirm_password', payload.password.new_password);
       
-          console.log(contactUpdate);
+        
       
           // Send a request to update the user profile
           await axios.post(CONTACT_DETAILS, contactUpdate);
@@ -172,8 +167,7 @@ const ContactDetail = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.post(CONTACT_DETAILS);
-        const userProfileData = response.data; // Adjust this based on your API response structure
-        console.log(response.data);
+        const userProfileData = response.data; 
 
         // setEmail(userProfileData.email || '');
         // setPassword(userProfileData.password || '');

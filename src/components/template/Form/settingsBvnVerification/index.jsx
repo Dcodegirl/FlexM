@@ -41,7 +41,6 @@ function BvnVerifi() {
 
       // Handle the response as needed
       const responseData = response.data;
-      console.log('API Response:', responseData);
       updateBvnPhoneNum(responseData.data)
       addToast('BVN validation successful!', {
         appearance: 'success',

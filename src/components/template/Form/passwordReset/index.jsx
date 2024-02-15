@@ -73,13 +73,10 @@ const handleTokenChange=(event)=>{
         if (isPasswordValid && isSpecialCharacterValid) {
             try {
                 // Assuming the API request is successful, navigate to otpVerification
-                console.log(payload)
                 const response = await axios.post(RESET_PASSWORD, payload);
                 
-                console.log(response.data)
                 history.push('/passwordSet');
             } catch (error) {
-                console.error("Error saving changes:", error);
                  const {status, data}= error.response
                 if (status === 400 || status === 404 || status === 422) {
                   // Bad Request (400)

@@ -47,7 +47,6 @@ function Login() {
       };
 
       const response = await axios.post(apiUrl, requestBody);
-      console.log('logged in successfully and otp sent:', response.data);
 
       showToast('Contact Info Passed successfully and otp sent!', 'success');
       history.push('/otpVerification');

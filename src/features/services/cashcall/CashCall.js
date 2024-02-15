@@ -307,7 +307,6 @@ export const CashCall = ({
         }
       } catch (e) {
         setVerificationLoading(false);
-        // console.log(e.response);
       }
     })();
   };
@@ -339,7 +338,6 @@ export const CashCall = ({
         }
       } catch (e) {
         setVerificationLoading(false);
-        // console.log(e.response);
       }
     })();
   };

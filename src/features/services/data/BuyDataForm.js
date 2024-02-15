@@ -66,7 +66,6 @@ export const BuyDataForm = (props) => {
         e.preventDefault();
         const keys = Object.keys(state);
         const errors = validateFormData(state, keys);
-        console.log(keys)
         setValidationErrors(errors);
 
         delete errors.transaction_pin;

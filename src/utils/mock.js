@@ -15,7 +15,6 @@ mock.onGet('/api/data').reply(401);
 // Perform a request to trigger the middleware
 axiosInstance.get('/api/data')
   .then(response => {
-    console.log('Success:', response);
   })
   .catch(error => {
     console.log('Error:', error);

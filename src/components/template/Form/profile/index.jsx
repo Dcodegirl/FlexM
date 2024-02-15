@@ -40,8 +40,7 @@ const [username, setUsername] = useState('');
         // Check if the passwords match
         if (password === confirmPassword) {
             // Passwords match, you can proceed with form submission or other actions
-            console.log('Username:', username);
-            console.log('Password:', password);
+           
         } else {
             // Passwords don't match, display an error or handle it as needed
             setPasswordMatch(false);

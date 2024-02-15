@@ -27,7 +27,6 @@ export const RechargeCableForm = ({ agentUuid }) => {
 
         if (res && !isCancelled) setHistory(history);
       } catch (e) {
-        // console.log(e);
       } finally {
         setHistory([]);
         setLoading(false);

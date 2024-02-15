@@ -97,7 +97,6 @@ const ViewAgent = () => {
                 (transaction) =>
                     transaction.businessName.toLowerCase().includes(searchBusinessName.toLowerCase())
             );
-            console.log(filteredTransactions);
 
             //setNoResults(filteredTransactions.length === 0); // Set noResults state based on filtered transactions
             if (filteredTransactions.length == 0) {
@@ -111,9 +110,7 @@ const ViewAgent = () => {
         }
 
         setSearchBusinessName(e.target.value);
-        console.log(e.target.value);
         if (e.key === 'Enter') {
-            console.log(e.key);
 
         }
         // fetchData();

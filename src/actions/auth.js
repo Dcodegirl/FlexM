@@ -34,7 +34,6 @@ export const startLoginUser = (payload) => (dispatch) => {
     return axios
         .post(LOGIN_API, payload)
         .then((res) => {
-            // console.log("API Response:", res?.data?.data.agent.virtual_account_number);
             const user = res?.data?.data.user;
             const token = res?.data?.data.token;
             const walletBalance = res?.data?.data.wallet.current_bal;

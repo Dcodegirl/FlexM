@@ -17,7 +17,6 @@ export const ActivityLog = ({ changeCurrentPage }) => {
   //     setLoading(false);
   //   })
   //   .catch((err) => {
-  //     console.log(err);
   //   })
   // }, [])
 

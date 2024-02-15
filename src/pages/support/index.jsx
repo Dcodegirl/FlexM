@@ -41,7 +41,6 @@ const Support = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         // Add your form submission logic here
-        console.log('Form submitted!');
         // You can add additional logic, such as redirecting the user or handling the form data.
     };
 

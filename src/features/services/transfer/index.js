@@ -96,7 +96,6 @@ export const FundsTransfer = ({ changeCurrentPage, hasSetPin }) => {
                 setComponentToRender('completed');
                 EventEmitter.dispatch('refresh-wallet-balance', {});
             } catch (err) {
-                console.log(err)
                 if(err.response === undefined){
                     showToast("You cannot transfer below the transfer limit", 'error'); 
                     setLoading(false)
