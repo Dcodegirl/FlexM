@@ -22,7 +22,6 @@ const handleConfirmClick = async () => {
     // Check if the response status is successful
     if (response.status === 201) {
       // Handle the response as needed
-      console.log("API Response:", response.data);
       addToast("Terminal assigned successfully", {
         appearance: 'success',
         autoDismiss: true,
@@ -79,7 +78,6 @@ const handleApiError = (error) => {
 };
 
 
-  console.log('selected transaction info: ', agentName)
   return (
     <div
       className={`${

@@ -25,18 +25,18 @@ export const BuyInsurance = ({ changeCurrentPage }) => {
   const [amount, setAmount] = useState("");
   const [total, setTotal] = useState("");
 
-  const handleOnSubmit = () => {
-    console.log({
-      name,
-      plan,
-      phoneNumber,
-      amount,
-      type,
-      file,
-      month,
-      year,
-    });
-  };
+  // const handleOnSubmit = () => {
+  //   console.log({
+  //     name,
+  //     plan,
+  //     phoneNumber,
+  //     amount,
+  //     type,
+  //     file,
+  //     month,
+  //     year,
+  //   });
+  // };
 
   const handleSetFile = (file) => {
     setFile(file);

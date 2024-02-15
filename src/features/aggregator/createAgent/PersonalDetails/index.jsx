@@ -113,7 +113,6 @@ const PersonalDetails = () => {
 
       // Handle the response as needed
       const responseData = response.data;
-      console.log('API Response:', responseData);
 
       addToast("Agent Invite sent successfully", { appearance: 'success', autoDismiss: true, 
       autoDismissTimeout: 3000});

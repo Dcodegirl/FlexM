@@ -76,7 +76,6 @@ const Contact = ({ nextStep }) => {
   
         // Handle the response as needed
         const responseData = response.data;
-        console.log('API Response:', responseData);
   
         addToast('Contact Info Passed successfully and otp sent!', { appearance: 'success', autoDismiss: true,
         autoDismissTimeout: 3000, });

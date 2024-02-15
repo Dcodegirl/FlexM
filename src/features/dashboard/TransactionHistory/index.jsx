@@ -27,7 +27,6 @@ const Tranx = () => {
 
     const handlePeriodSelect = (e) => {
         const selectedPeriod = e.target.value;
-        console.log(`Selected Period: ${selectedPeriod}`);
         setSelectedPeriod(selectedPeriod);
     };
 

@@ -85,8 +85,6 @@ const Balance = ({}) => {
   );
   
 
-  
-console.log('user info array context', userInfoArray)
   return (
     <>
     <div>

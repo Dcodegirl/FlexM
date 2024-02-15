@@ -13,7 +13,6 @@ function ForgotPass() {
 
         try {
             const response = await axios.post("/user/pass", { email: email });
-            console.log(response);
 
             // Check the API response and perform necessary actions
             if (response.status === 201) {

@@ -118,7 +118,6 @@ function Document({ nextStep }) {
                 },
             });
 
-            console.log('BioData submitted successfully:', response.data);
             setSuccessModalOpen(true);
         } catch (error) {
     console.error("Error saving changes:", error);

@@ -31,7 +31,6 @@ export const startLoginUser = (payload, history) => async (dispatch) => {
     const { data } = response;
     const token = data.data.token;
     sessionStorage.setItem('token', token);
-    // console.log(token)
 
 
     // Extract necessary data from the response

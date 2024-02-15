@@ -83,7 +83,6 @@ const BvnVerificationPopup = ({isVisible}) => {
     
             // Handle the response as needed
             const responseData = response.data;
-            console.log('API Response:', responseData);
     
             setUserId(responseData.data.user_id);
             setFirstname(responseData.data.first_name);

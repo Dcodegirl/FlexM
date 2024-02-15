@@ -56,7 +56,7 @@ const InsurancePurchaseForm = (props) => {
             }
           }
 
-          console.log(hasError);
+          // console.log(hasError);
 
           if (!hasError) {
             props.handleSetPage("summary");

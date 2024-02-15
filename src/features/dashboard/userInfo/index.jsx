@@ -19,7 +19,6 @@ const UserInfo = () => {
     axios.get('/agent/userinfo')
       .then(response => {
         setUserData(response.data.data);
-        console.log('user info:', "user info from user info api: ", response.data.data)
       })
       .catch(error => {
         console.error('Error fetching user information:', error);
@@ -35,7 +34,6 @@ const UserInfo = () => {
   const isKYCVerified = userData?.image || userData.agent.documents.length < 3;
   const isAggregatorVerified = (userData.agent.bvn_status === "1") && (userData.agent.status === "1" || userData.agent.status === 'Active');
   const isAggregatorActive = userData.agent.status == null || userData.agent.status == 0;
-  console.log('is verified: ', isAggregatorVerified, userData.agent.bvn_status, userData.agent.status)
   const currentHour = currentDate.getHours();
   const isAfter4PM = currentHour >= 16;
   return (

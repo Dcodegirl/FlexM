@@ -74,7 +74,6 @@ export const AgentTransactionData = async (searchValue) => {
       state: agent.state || ''
     }));
 
-    console.log(agentTransactionData);
     return agentTransactionData;
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -107,7 +106,6 @@ export const SingleAgentTransactionData  = async (agentId, transactionType, star
       status: agent.transaction_status || ''
     }));
 
-    console.log(agentTransactionData);
     return agentTransactionData;
   } catch (error) {
     console.error('Error fetching data:', error);
