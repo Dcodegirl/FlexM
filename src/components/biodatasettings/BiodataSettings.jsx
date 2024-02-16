@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { useToasts } from "react-toast-notifications";
 import axios from "../../utils/axiosInstance";
 import svg from "../../assets/images/Upload.svg";
 import { useCustomToast } from "../toast/useCustomToast";
